@@ -219,7 +219,7 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
             <CardHeader className="pb-4">
               <div className="space-y-2">
                 <h3 className={cn(cardTitleVariants({ variant }), "font-semibold text-left")}>{plan.title}</h3>
-                <p className={cn(cardDescriptionVariants({ variant }), "w-full md:w-2/3 text-left text-muted-foreground")}>{plan.description}</p>
+                <p className={cn(cardDescriptionVariants({ variant }), "w-full text-left text-muted-foreground")}>{plan.description}</p>
               </div>
               <div className="space-y-1 text-left">
                 {isAnnually ? (

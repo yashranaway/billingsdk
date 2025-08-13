@@ -7,7 +7,7 @@ export function PricingTableOneDemo() {
         title="Pricing"
         description="Choose the plan that's right for you"
         onPlanSelect={(planId) => console.log('Selected plan:', planId)}
-        variant="medium"
+        variant="small"
         />
         </>
 }

@@ -10,7 +10,8 @@ export function PricingTableThreeDemo() {
             plans={plans}
             onPlanSelect={(planId) => console.log('Selected plan:', planId)}
             className={"w-full max-w-4xl mx-auto mt-10"}
-            variant="medium"
+            variant="small"
+            showFooter={false}
         />
     );
 }
