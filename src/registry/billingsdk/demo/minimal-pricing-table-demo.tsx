@@ -3,14 +3,13 @@
 import { MinimalPricingTable, Plan } from '@/components/billingsdk/minimal-pricing-table';
 import { Square, Bell, Type, Database } from 'lucide-react';
 
-export default function PricingTableDemoMinimal({ className }: { className?: string }) {
+export default function MinimalPricingTableDemo({ className }: { className?: string }) {
     const plans: Plan[] = [
         {
             id: 'starter',
             title: 'Starter',
             description: 'For developers testing out Liveblocks locally.',
             price: 'Free',
-            mau: '50 MAU',
             features: [
                 {
                     name: 'Presence',
@@ -46,7 +45,6 @@ export default function PricingTableDemoMinimal({ className }: { className?: str
             title: 'Pro',
             description: 'For companies adding collaboration in production.',
             price: '$720/month',
-            mau: '1,000 MAU',
             badge: 'Most popular',
             highlight: 'pro',
             features: [
@@ -95,7 +93,6 @@ export default function PricingTableDemoMinimal({ className }: { className?: str
             title: 'Enterprise',
             description: 'For organizations that need more support and compliance features.',
             price: 'Custom',
-            mau: 'Up to 100M MAU',
             features: [
                 {
                     name: 'Presence',

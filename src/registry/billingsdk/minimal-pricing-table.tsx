@@ -12,7 +12,6 @@ export interface Plan {
   title: string
   description: string
   price: string
-  mau: string
   badge?: string
   features: {
     name: string
@@ -43,31 +42,34 @@ interface PricingTableProps {
 
 export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanSelect, showFooter, footerTitle, footerSubtitle, footerButtonText, onFooterButtonClick }: PricingTableProps) {
   return (
-    <div className={cn("mt-10 max-w-7xl mx-auto border-1 rounded-md border-zinc-200 dark:border-zinc-800", className)}>
-      <div className="grid grid-cols-1 md:grid-cols-3">
+    <div className={cn("mt-10 max-w-7xl mx-auto", className)}>
+      <div className={cn(
+        "grid",
+        plans.length === 1 && "grid-cols-1 max-w-md mx-auto",
+        plans.length === 2 && "grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto",
+        plans.length === 3 && "grid-cols-1 md:grid-cols-3",
+        plans.length === 4 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
+        plans.length >= 5 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      )}>
         {plans.map((plan) => (
           <Card key={plan.id} className={cn(
-            "border-none text-zinc-900 dark:text-white flex flex-col rounded-none relative transition-all duration-200",
+            "border-none text-card-foreground flex flex-col rounded-none relative transition-all duration-200",
             plan.highlight === 'pro' 
-              ? "bg-zinc-50 dark:bg-zinc-900 -mt-4 shadow-lg" 
-              : "bg-white dark:bg-zinc-950"
+              ? "bg-muted/30 -mt-8 shadow-lg z-10 border-t rounded-md border-border" 
+              : "bg-card"
           )}>
             {plan.badge && (
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-white px-3 py-1 text-xs">
+              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-secondary text-secondary-foreground px-3 py-1 text-xs">
                 {plan.badge}
               </Badge>
             )}
             <CardHeader className="pb-4">
               <div className="space-y-2">
                 <h3 className="text-xl font-semibold text-left">{plan.title}</h3>
-                <p className="text-sm w-2/3 text-left text-zinc-600 dark:text-zinc-400">{plan.description}</p>
+                <p className="text-sm w-2/3 text-left text-muted-foreground">{plan.description}</p>
               </div>
               <div className="space-y-1">
                 <div className="text-4xl font-bold text-left">{plan.price}</div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-zinc-600 dark:text-zinc-400">{plan.mau}</span>
-                  <Info className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-                </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 flex-1 flex flex-col">
@@ -75,19 +77,18 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
                 {plan.features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
                     {feature.included ? (
-                      <div className="w-2 h-2 bg-green-500 rounded-sm"></div>
+                      <div className="w-2 h-2 bg-primary rounded-sm"></div>
                     ) : (
-                      <div className={cn("w-4 h-4", feature.iconColor || "text-zinc-500")}>
+                      <div className={cn("w-4 h-4", feature.iconColor || "text-muted-foreground")}>
                         {feature.icon}
                       </div>
                     )}
                     <span className="text-sm">{feature.name}</span>
-                    {/* <Info className="w-4 h-4 text-zinc-400 dark:text-zinc-500" /> */}
                     {feature.included ? (
-                      <span className="ml-auto text-sm text-zinc-600 dark:text-zinc-400">Included</span>
+                      <span className="ml-auto text-sm text-muted-foreground">Included</span>
                     ) : (
                       <>
-                        <span className="ml-auto text-sm text-zinc-600 dark:text-zinc-400">
+                        <span className="ml-auto text-sm text-muted-foreground">
                           {feature.price || 'Custom'}
                         </span>
                         {feature.toggleable && (
@@ -109,8 +110,8 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
                 className={cn(
                   "w-full mt-auto",
                   plan.highlight === 'pro' 
-                    ? "bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-100 dark:text-black" 
-                    : "bg-zinc-200 hover:bg-zinc-300 text-zinc-900 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-white"
+                    ? "bg-primary hover:bg-primary/90 text-primary-foreground" 
+                    : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                 )}
                 variant={plan.buttonVariant}
                 onClick={() => onPlanSelect?.(plan.id)}
@@ -118,12 +119,12 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
                 {plan.buttonText}
               </Button>
 
-              <div className="space-y-3 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+              <div className="space-y-3 pt-4 border-t border-border">
                 {plan.benefits.map((benefit, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-green-500" />
-                    <span className="text-sm text-zinc-600 dark:text-zinc-400">{benefit}</span>
-                    {index < 2 && <Info className="w-4 h-4 text-zinc-500 dark:text-zinc-600" />}
+                    <Check className="w-4 h-4 text-primary" />
+                    <span className="text-sm text-muted-foreground">{benefit}</span>
+                    {index < 2 && <Info className="w-4 h-4 text-muted-foreground" />}
                   </div>
                 ))}
               </div>
@@ -134,13 +135,17 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
 
       {/* Footer Section */}
       {showFooter !== false && (
-        <div className="flex items-center justify-between bg-zinc-50 dark:bg-zinc-950 p-6 border-t border-zinc-200 dark:border-zinc-800">
+        <div className={cn(
+          "flex items-center justify-between bg-muted/50 p-6 border-t border-border",
+          plans.length === 1 && "max-w-md mx-auto",
+          plans.length === 2 && "max-w-4xl mx-auto"
+        )}>
           <div>
-            <p className="text-lg font-medium text-zinc-900 dark:text-white text-left">{footerTitle || "Pre-negotiated discounts are available to"}</p>
-            <p className="text-lg font-medium text-zinc-900 dark:text-white text-left">{footerSubtitle || "early-stage startups and nonprofits."}</p>
+            <p className="text-lg font-medium text-card-foreground text-left">{footerTitle || "Pre-negotiated discounts are available to"}</p>
+            <p className="text-lg font-medium text-card-foreground text-left">{footerSubtitle || "early-stage startups and nonprofits."}</p>
           </div>
           <Button 
-            className="bg-zinc-200 hover:bg-zinc-300 text-zinc-900 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-white px-6"
+            className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-6"
             onClick={onFooterButtonClick}
           >
             {footerButtonText || "Apply now"}
