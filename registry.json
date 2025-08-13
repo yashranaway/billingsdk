@@ -15,6 +15,34 @@
                     "target": "components/billingsdk/hello-world.tsx"
                 }
             ]
+        },
+        {
+            "name": "minimal-pricing-table",
+            "type": "registry:block",
+            "title": "Minimal Pricing Table",
+            "description": "A minimal pricing table component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/minimal-pricing-table.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/minimal-pricing-table.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/minimal-pricing-table-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/minimal-pricing-table-demo.tsx"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "switch",
+                "utils"
+            ]
         }
     ]
 }
