@@ -20,8 +20,8 @@ export const plans: Plan[] = [
         id: 'free',
         title: 'Free',
         description: 'For personal use',
-        monthlyPrice: '0',
-        yearlyPrice: '0',
+        monthlyPrice: '$0',
+        yearlyPrice: '$0',
         buttonText: 'Get Started',
         features: [{
             name: 'Limited access',
@@ -41,8 +41,8 @@ export const plans: Plan[] = [
         id: 'pro',
         title: 'Pro',
         description: 'For personal use',
-        monthlyPrice: '10',
-        yearlyPrice: '100',
+        monthlyPrice: '$10',
+        yearlyPrice: '$100',
         buttonText: 'Purchase',
         features: [{
             name: 'Everything in Free',
@@ -61,8 +61,8 @@ export const plans: Plan[] = [
         id: 'enterprise',
         title: 'Enterprise',
         description: 'For enterprise use',
-        monthlyPrice: '100',
-        yearlyPrice: '1000',
+        monthlyPrice: '$100',
+        yearlyPrice: '$1000',
         buttonText: 'Purchase',
         features: [{
             name: 'Everything in Pro',
