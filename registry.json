@@ -4,6 +4,19 @@
     "homepage": "https://billingsdk.com",
     "items": [
         {
+            "name": "index",
+            "type": "registry:lib",
+            "title": "BillingSDK Constants",
+            "description": "Constants and types for BillingSDK components",
+            "files": [
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ]
+        },
+        {
             "name": "hello-world",
             "type": "registry:block",
             "title": "Hello World Component",
@@ -14,6 +27,108 @@
                     "type": "registry:component",
                     "target": "components/billingsdk/hello-world.tsx"
                 }
+            ]
+        },
+        {
+            "name": "minimal-pricing-table",
+            "type": "registry:block",
+            "title": "Minimal Pricing Table",
+            "description": "A minimal pricing table component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/minimal-pricing-table.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/minimal-pricing-table.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/minimal-pricing-table-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/minimal-pricing-table-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "radio-group",
+                "label",
+                "utils"
+            ]
+        },
+        {
+            "name": "pricing-table-one",
+            "type": "registry:block",
+            "title": "Pricing Table One",
+            "description": "A pricing table component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/pricing-table-one.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/pricing-table-one.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/pricing-table-one-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/pricing-table-one-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "switch",
+                "radio-group",
+                "label",
+                "separator",
+                "utils"
+            ]
+        }, 
+        {
+            "name": "pricing-table-two",
+            "type": "registry:block",
+            "title": "Pricing Table Two",
+            "description": "A pricing table component with a feature table",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/pricing-table-two.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/pricing-table-two.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/pricing-table-two-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/pricing-table-two-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "table",
+                "switch",
+                "utils"
             ]
         }
     ]
