@@ -12,70 +12,120 @@ export interface Plan {
         name: string
         icon: string
         iconColor?: string
-    }[]
+    }[],
+    benefits?: string[]
 }
+
 
 export const plans: Plan[] = [
     {
-        id: 'free',
-        title: 'Free',
-        description: 'For personal use',
+        id: 'starter',
+        title: 'Starter',
+        description: 'For developers testing out Liveblocks locally.',
         monthlyPrice: '$0',
         yearlyPrice: '$0',
-        buttonText: 'Get Started',
-        features: [{
-            name: 'Limited access',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }, {
-            name: 'Windows, Linux, Mac support',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }, {
-            name: '24/7 Support',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }]
+        buttonText: 'Start today for free',
+        features: [
+            {
+                name: 'Presence',
+                icon: "check",
+                iconColor: 'text-green-500'
+            },
+            {
+                name: 'Comments',
+                icon: "check",
+                iconColor: 'text-orange-500'
+            },
+            {
+                name: 'Notifications',
+                icon: "check",
+                iconColor: 'text-teal-500'
+            },
+            {
+                name: 'Text Editor',
+                icon: "check",
+                iconColor: 'text-blue-500'
+            },
+            {
+                name: 'Sync Datastore',
+                icon: "check",
+                iconColor: 'text-zinc-500'
+            }
+        ],
+        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Community support']
     },
     {
         id: 'pro',
         title: 'Pro',
-        description: 'For personal use',
+        description: 'For companies adding collaboration in production.',
         monthlyPrice: '$10',
         yearlyPrice: '$100',
-        buttonText: 'Purchase',
-        features: [{
-            name: 'Everything in Free',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }, {
-            name: 'Unlimited access',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }, {
-            name: 'Windows, Linux, Mac support',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }]
-    }, {
+        buttonText: 'Sign up',
+        badge: 'Most popular',
+        highlight: true,
+        features: [
+            {
+                name: 'Presence',
+                icon: "check",
+                iconColor: 'text-green-500'
+            },
+            {
+                name: 'Comments',
+                icon: "check",
+                iconColor: 'text-orange-500'
+            },
+            {
+                name: 'Notifications',
+                icon: "check",
+                iconColor: 'text-teal-500'
+            },
+            {
+                name: 'Text Editor',
+                icon: "check",
+                iconColor: 'text-blue-500'
+            },
+            {
+                name: 'Sync Datastore',
+                icon: "check",
+                iconColor: 'text-zinc-500'
+            }
+        ],
+        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Email support']
+    },
+    {
         id: 'enterprise',
         title: 'Enterprise',
-        description: 'For enterprise use',
-        monthlyPrice: '$100',
-        yearlyPrice: '$1000',
-        buttonText: 'Purchase',
-        features: [{
-            name: 'Everything in Pro',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }, {
-            name: 'Unlimited access',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }, {
-            name: 'Windows, Linux, Mac support',
-            icon: "check",
-            iconColor: 'text-green-500'
-        }]  
+        description: 'For organizations that need more support and compliance features.',
+        monthlyPrice: 'Custom',
+        yearlyPrice: 'Custom',
+        buttonText: 'Contact sales',
+        features: [
+            {
+                name: 'Presence',
+                icon: "check",
+                iconColor: 'text-green-500'
+            },
+            {
+                name: 'Comments',
+                icon: "check",
+                iconColor: 'text-orange-500'
+            },
+            {
+                name: 'Notifications',
+                icon: "check",
+                iconColor: 'text-teal-500'
+            },
+            {
+                name: 'Text Editor',
+                icon: "check",
+                iconColor: 'text-blue-500'
+            },
+            {
+                name: 'Sync Datastore',
+                icon: "check",
+                iconColor: 'text-zinc-500'
+            }
+        ],
+        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Priority support']
     }
-]
+];

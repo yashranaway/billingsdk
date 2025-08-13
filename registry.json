@@ -58,7 +58,8 @@
                 "button",
                 "card",
                 "badge",
-                "switch",
+                "radio-group",
+                "label",
                 "utils"
             ]
         },

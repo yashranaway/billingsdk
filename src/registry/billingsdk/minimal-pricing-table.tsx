@@ -3,30 +3,12 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
 import { Check, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-export interface Plan {
-  id: string
-  title: string
-  description: string
-  price: string
-  badge?: string
-  features: {
-    name: string
-    icon: React.ReactNode
-    iconColor?: string
-    included: boolean
-    price?: string
-    toggleable?: boolean
-    defaultChecked?: boolean
-  }[]
-  highlight?: string
-  benefits: string[]
-  buttonText: string
-  buttonVariant?: 'default' | 'secondary' | 'outline'
-}
+import { Plan } from "@/lib/const"
+import { useState } from "react"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 interface PricingTableProps {
   className?: string
@@ -41,8 +23,50 @@ interface PricingTableProps {
 }
 
 export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanSelect, showFooter, footerTitle, footerSubtitle, footerButtonText, onFooterButtonClick }: PricingTableProps) {
+  const [isAnnually, setIsAnnually] = useState(false);
+
   return (
     <div className={cn("mt-10 max-w-7xl mx-auto", className)}>
+      {/* Header Section with Toggle */}
+      <div className="flex flex-col justify-between gap-10 md:flex-row mb-8">
+        <div className="bg-muted flex h-11 w-fit shrink-0 items-center rounded-md p-1 text-lg">
+          <RadioGroup
+            defaultValue="monthly"
+            className="h-full grid-cols-2"
+            onValueChange={(value) => {
+              setIsAnnually(value === "annually");
+            }}
+          >
+            <div className='has-[button[data-state="checked"]]:bg-background h-full rounded-md transition-all'>
+              <RadioGroupItem
+                value="monthly"
+                id="monthly"
+                className="peer sr-only"
+              />
+              <Label
+                htmlFor="monthly"
+                className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-7 font-semibold"
+              >
+                Monthly
+              </Label>
+            </div>
+            <div className='has-[button[data-state="checked"]]:bg-background h-full rounded-md transition-all'>
+              <RadioGroupItem
+                value="annually"
+                id="annually"
+                className="peer sr-only"
+              />
+              <Label
+                htmlFor="annually"
+                className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-7 font-semibold"
+              >
+                Yearly
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+      </div>
+
       <div className={cn(
         "grid",
         plans.length === 1 && "grid-cols-1 max-w-md mx-auto",
@@ -54,7 +78,7 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
         {plans.map((plan) => (
           <Card key={plan.id} className={cn(
             "border-none text-card-foreground flex flex-col rounded-none relative transition-all duration-200",
-            plan.highlight === 'pro' 
+            plan.highlight === true
               ? "bg-muted/30 -mt-8 shadow-lg z-10 border-t rounded-md border-border" 
               : "bg-card"
           )}>
@@ -68,40 +92,33 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
                 <h3 className="text-xl font-semibold text-left">{plan.title}</h3>
                 <p className="text-sm w-2/3 text-left text-muted-foreground">{plan.description}</p>
               </div>
-              <div className="space-y-1">
-                <div className="text-4xl font-bold text-left">{plan.price}</div>
+              <div className="space-y-1 text-left">
+                {isAnnually ? (
+                  <>
+                    <span className="text-4xl font-medium text-left">{plan.yearlyPrice}</span>
+                    <p className="text-muted-foreground">Per year</p>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-4xl font-medium text-left">{plan.monthlyPrice}</span>
+                    <p className="text-muted-foreground">Per month</p>
+                  </>
+                )}
               </div>
             </CardHeader>
             <CardContent className="space-y-6 flex-1 flex flex-col">
               <div className="space-y-4 flex-1">
                 {plan.features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    {feature.included ? (
+                    {feature.icon === "check" ? (
                       <div className="w-2 h-2 bg-primary rounded-sm"></div>
                     ) : (
                       <div className={cn("w-4 h-4", feature.iconColor || "text-muted-foreground")}>
-                        {feature.icon}
+                        <Check className="w-4 h-4" />
                       </div>
                     )}
                     <span className="text-sm">{feature.name}</span>
-                    {feature.included ? (
-                      <span className="ml-auto text-sm text-muted-foreground">Included</span>
-                    ) : (
-                      <>
-                        <span className="ml-auto text-sm text-muted-foreground">
-                          {feature.price || 'Custom'}
-                        </span>
-                        {feature.toggleable && (
-                          <Switch 
-                            className="ml-2" 
-                            defaultChecked={feature.defaultChecked}
-                            onCheckedChange={(checked) => 
-                              onFeatureToggle?.(plan.id, feature.name, checked)
-                            }
-                          />
-                        )}
-                      </>
-                    )}
+                    <span className="ml-auto text-sm text-muted-foreground">Included</span>
                   </div>
                 ))}
               </div>
@@ -109,25 +126,26 @@ export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanS
               <Button 
                 className={cn(
                   "w-full mt-auto",
-                  plan.highlight === 'pro' 
+                  plan.highlight === true
                     ? "bg-primary hover:bg-primary/90 text-primary-foreground" 
                     : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                 )}
-                variant={plan.buttonVariant}
                 onClick={() => onPlanSelect?.(plan.id)}
               >
                 {plan.buttonText}
               </Button>
 
-              <div className="space-y-3 pt-4 border-t border-border">
-                {plan.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">{benefit}</span>
-                    {index < 2 && <Info className="w-4 h-4 text-muted-foreground" />}
-                  </div>
-                ))}
-              </div>
+              {plan.benefits && (
+                <div className="space-y-3 pt-4 border-t border-border">
+                  {plan.benefits.map((benefit, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
+                      <span className="text-sm text-muted-foreground">{benefit}</span>
+                      {index < 2 && <Info className="w-4 h-4 text-muted-foreground" />}
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
