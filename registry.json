@@ -4,6 +4,19 @@
     "homepage": "https://billingsdk.com",
     "items": [
         {
+            "name": "index",
+            "type": "registry:lib",
+            "title": "BillingSDK Constants",
+            "description": "Constants and types for BillingSDK components",
+            "files": [
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ]
+        },
+        {
             "name": "hello-world",
             "type": "registry:block",
             "title": "Hello World Component",
