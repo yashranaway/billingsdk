@@ -98,6 +98,38 @@
                 "separator",
                 "utils"
             ]
+        }, 
+        {
+            "name": "pricing-table-two",
+            "type": "registry:block",
+            "title": "Pricing Table Two",
+            "description": "A pricing table component with a feature table",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/pricing-table-two.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/pricing-table-two.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/pricing-table-two-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/pricing-table-two-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "table",
+                "switch",
+                "utils"
+            ]
         }
     ]
 }
