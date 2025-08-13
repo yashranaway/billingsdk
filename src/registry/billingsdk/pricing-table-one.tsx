@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { plans } from "@/lib/const";
+import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 
-export default function PricingTableOne({ className }: { className?: string }) {
+export default function PricingTableOne({ className, plans }: { className?: string, plans: Plan[] }) {
   const [isAnnually, setIsAnnually] = useState(false);
 
   return (
