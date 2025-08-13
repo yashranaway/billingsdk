@@ -13,7 +13,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 interface PricingTableProps {
   className?: string
   plans: Plan[]
-  onFeatureToggle?: (planId: string, feature: string, enabled: boolean) => void
   onPlanSelect?: (planId: string) => void
   showFooter?: boolean
   footerTitle?: string
@@ -22,7 +21,7 @@ interface PricingTableProps {
   onFooterButtonClick?: () => void
 }
 
-export function MinimalPricingTable({ className, plans, onFeatureToggle, onPlanSelect, showFooter, footerTitle, footerSubtitle, footerButtonText, onFooterButtonClick }: PricingTableProps) {
+export function MinimalPricingTable({ className, plans, onPlanSelect, showFooter, footerTitle, footerSubtitle, footerButtonText, onFooterButtonClick }: PricingTableProps) {
   const [isAnnually, setIsAnnually] = useState(false);
 
   return (

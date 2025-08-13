@@ -11,7 +11,16 @@ import { Separator } from "@/components/ui/separator";
 import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 
-export default function PricingTableOne({ className, plans }: { className?: string, plans: Plan[] }) {
+
+interface PricingTableOneProps {
+  className?: string;
+  plans: Plan[];
+  title?: string;
+  description?: string;
+  onPlanSelect?: (planId: string) => void;
+}
+
+export default function PricingTableOne({ className, plans, title, description, onPlanSelect }: PricingTableOneProps) {
   const [isAnnually, setIsAnnually] = useState(false);
 
   return (
@@ -19,12 +28,11 @@ export default function PricingTableOne({ className, plans }: { className?: stri
       <div className="container">
         <div className="mx-auto flex max-w-7xl flex-col gap-6">
           <h2 className="text-pretty text-4xl font-bold lg:text-6xl text-left">
-            Pricing
+            {title || "Pricing"}
           </h2>
           <div className="flex flex-col justify-between gap-10 md:flex-row">
             <p className="text-muted-foreground max-w-3xl lg:text-xl text-left">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat
-              odio, expedita neque ipsum pariatur suscipit!
+              {description || "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat odio, expedita neque ipsum pariatur suscipit!"}
             </p>
             <div className="bg-muted flex h-11 w-fit shrink-0 items-center rounded-md p-1 text-lg">
               <RadioGroup
@@ -94,7 +102,7 @@ export default function PricingTableOne({ className, plans }: { className?: stri
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full">{plan.buttonText}</Button>
+                  <Button className="w-full" onClick={() => onPlanSelect?.(plan.id)}>{plan.buttonText}</Button>
                 </div>
               </div>
             ))}

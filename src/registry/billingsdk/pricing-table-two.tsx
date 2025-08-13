@@ -3,7 +3,7 @@
 import { Check, Minus } from "lucide-react";
 import { useState } from "react";
 
-import { Plan } from "@/registry/lib/const";
+import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import {
   Table,
@@ -16,7 +16,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
-export function PricingTableTwo({ className, plans }: { className?: string, plans: Plan[] }) {
+interface PricingTableTwoProps {
+  className?: string;
+  plans: Plan[];
+  title?: string;
+  description?: string;
+  onPlanSelect?: (planId: string) => void;
+}
+
+export function PricingTableTwo({ className, plans, title, description, onPlanSelect }: PricingTableTwoProps) {
   const [isAnnually, setIsAnnually] = useState(false);
 
   // Use all plans from const.ts
@@ -26,9 +34,9 @@ export function PricingTableTwo({ className, plans }: { className?: string, plan
     <section className={cn("py-32", className)}>
       <div className="container max-w-5xl">
         <div className="flex flex-col items-center gap-4 text-center">
-          <h2 className="mb-2 text-3xl font-semibold lg:text-5xl">We offer 3 plans</h2>
+          <h2 className="mb-2 text-3xl font-semibold lg:text-5xl">{title || "We offer 3 plans"}</h2>
           <p className="text-muted-foreground lg:text-lg">
-            Lorem ipsum dolor sit amet consectetur adipisicing.
+            {description || "Lorem ipsum dolor sit amet consectetur adipisicing."}
           </p>
         </div>
         
@@ -103,6 +111,7 @@ export function PricingTableTwo({ className, plans }: { className?: string, plan
                     plan.highlight && "shadow-lg"
                   )}
                   variant={plan.highlight ? "default" : "secondary"}
+                onClick={() => onPlanSelect?.(plan.id)}
                 >
                   {plan.buttonText}
                 </Button>
