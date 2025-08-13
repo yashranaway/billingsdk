@@ -24,7 +24,7 @@
     },
     {
       "path": "src/registry/billingsdk/demo/minimal-pricing-table-demo.tsx",
-      "content": "'use client'\n\nimport { MinimalPricingTable } from '@/components/billingsdk/minimal-pricing-table';\nimport { plans } from '@/lib/const';\n\nexport default function MinimalPricingTableDemo({ className }: { className?: string }) {\n\n    return (\n        <MinimalPricingTable \n            plans={plans}\n            onPlanSelect={(planId) => console.log('Selected plan:', planId)}\n            className={className}\n        />\n    );\n}\n",
+      "content": "'use client'\n\nimport { MinimalPricingTable } from '@/components/billingsdk/minimal-pricing-table';\nimport { plans } from '@/lib/const';\n\nexport function MinimalPricingTableDemo() {\n\n    return (\n        <MinimalPricingTable \n            plans={plans}\n            onPlanSelect={(planId) => console.log('Selected plan:', planId)}\n            className={\"w-full max-w-7xl mx-auto mt-10\"}\n        />\n    );\n}\n",
       "type": "registry:component",
       "target": "components/minimal-pricing-table-demo.tsx"
     },

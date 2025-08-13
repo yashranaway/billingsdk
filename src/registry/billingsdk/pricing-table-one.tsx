@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import { useState } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,85 @@ import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 
 
-interface PricingTableOneProps {
+const sectionVariants = cva("py-32", {
+  variants: {
+    variant: {
+      small: "py-12",
+      medium: "py-20",
+      large: "py-32",
+    },
+  },
+  defaultVariants: {
+    variant: "medium",
+  },
+});
+
+const titleVariants = cva("text-pretty text-left font-bold text-4xl lg:text-6xl", {
+  variants: {
+    variant: {
+      small: "text-3xl lg:text-4xl",
+      medium: "text-4xl lg:text-5xl",
+      large: "text-4xl lg:text-6xl",
+    },
+  },
+  defaultVariants: {
+    variant: "large",
+  },
+});
+
+const descriptionVariants = cva("text-muted-foreground max-w-3xl text-left lg:text-xl", {
+  variants: {
+    variant: {
+      small: "text-base lg:text-lg",
+      medium: "text-lg lg:text-xl",
+      large: "lg:text-xl",
+    },
+  },
+  defaultVariants: {
+    variant: "large",
+  },
+});
+
+const cardVariants = cva("flex w-full flex-col rounded-lg border text-left p-6", {
+  variants: {
+    variant: {
+      small: "p-4",
+      medium: "p-5",
+      large: "p-6",
+    },
+  },
+  defaultVariants: {
+    variant: "large",
+  },
+});
+
+const priceTextVariants = cva("font-medium text-4xl", {
+  variants: {
+    variant: {
+      small: "text-3xl",
+      medium: "text-4xl",
+      large: "text-4xl",
+    },
+  },
+  defaultVariants: {
+    variant: "large",
+  },
+});
+
+const featureIconVariants = cva("size-4", {
+  variants: {
+    variant: {
+      small: "size-3",
+      medium: "size-4",
+      large: "size-4",
+    },
+  },
+  defaultVariants: {
+    variant: "large",
+  },
+});
+
+interface PricingTableOneProps extends VariantProps<typeof sectionVariants> {
   className?: string;
   plans: Plan[];
   title?: string;
@@ -20,18 +99,18 @@ interface PricingTableOneProps {
   onPlanSelect?: (planId: string) => void;
 }
 
-export default function PricingTableOne({ className, plans, title, description, onPlanSelect }: PricingTableOneProps) {
+export function PricingTableOne({ className, plans, title, description, onPlanSelect, variant }: PricingTableOneProps) {
   const [isAnnually, setIsAnnually] = useState(false);
 
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn(sectionVariants({ variant }), className)}>
       <div className="container">
         <div className="mx-auto flex max-w-7xl flex-col gap-6">
-          <h2 className="text-pretty text-4xl font-bold lg:text-6xl text-left">
+          <h2 className={cn(titleVariants({ variant }))}>
             {title || "Pricing"}
           </h2>
           <div className="flex flex-col justify-between gap-10 md:flex-row">
-            <p className="text-muted-foreground max-w-3xl lg:text-xl text-left">
+            <p className={cn(descriptionVariants({ variant }))}>
               {description || "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat odio, expedita neque ipsum pariatur suscipit!"}
             </p>
             <div className="bg-muted flex h-11 w-fit shrink-0 items-center rounded-md p-1 text-lg">
@@ -76,19 +155,19 @@ export default function PricingTableOne({ className, plans, title, description, 
               <div
                 key={plan.id}
                 className={cn(
-                  "flex w-full flex-col rounded-lg border p-6 text-left",
+                  cardVariants({ variant }),
                   plan.highlight && "bg-muted"
                 )}
               >
                 <Badge className="mb-8 block w-fit">{plan.title}</Badge>
                 {isAnnually ? (
                   <>
-                    <span className="text-4xl font-medium">{plan.yearlyPrice}</span>
+                    <span className={cn(priceTextVariants({ variant }))}>{plan.yearlyPrice}</span>
                     <p className="text-muted-foreground">Per year</p>
                   </>
                 ) : (
                   <>
-                    <span className="text-4xl font-medium">{plan.monthlyPrice}</span>
+                    <span className={cn(priceTextVariants({ variant }))}>{plan.monthlyPrice}</span>
                     <p className="text-muted-foreground">Per month</p>
                   </>
                 )}
@@ -97,7 +176,7 @@ export default function PricingTableOne({ className, plans, title, description, 
                   <ul className="text-muted-foreground space-y-4">
                     {plan.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-center gap-2">
-                        <Check className="size-4" />
+                        <Check className={cn(featureIconVariants({ variant }))} />
                         <span>{feature.name}</span>
                       </li>
                     ))}

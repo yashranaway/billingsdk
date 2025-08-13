@@ -1,6 +1,8 @@
-// import HelloWorld from '@/components/billingsdk/hello-world';
-// import MinimalPricingTableDemo from '@/components/minimal-pricing-table-demo';
-// import PricingTableOne from '@/components/billingsdk/pricing-table-one';
+"use client"
+
+import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
+import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
+import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -18,8 +20,9 @@ export default function HomePage() {
         and see the documentation.
       </p>
 
-      {/* <MinimalPricingTableDemo className="w-full my-20" /> */}
-      {/* <PricingTableOne className="w-full max-w-7xl mx-auto mt-10" /> */}
+      <PricingTableOneDemo />
+      <PricingTableTwoDemo />
+      <PricingTableThreeDemo />
 
     </main>
   );
