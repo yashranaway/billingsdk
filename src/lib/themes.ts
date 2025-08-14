@@ -245,39 +245,21 @@ export const themes: Theme[] = [
   }
 ];
 
-export function applyTheme(theme: Theme, isDark?: boolean) {
-  const root = document.documentElement;
-  
-  // If isDark is not provided, detect it from the DOM
-  const darkMode = isDark !== undefined ? isDark : root.classList.contains('dark');
-  
-  const vars = darkMode ? theme.cssVars.dark : theme.cssVars.light;
+export function applyScopedTheme(element: HTMLElement, theme: Theme, isDark: boolean) {
+  const vars = isDark ? theme.cssVars.dark : theme.cssVars.light;
   
   Object.entries(vars).forEach(([key, value]) => {
-    root.style.setProperty(key, value);
+    element.style.setProperty(key, value);
   });
 }
 
-export function observeDarkModeChanges(callback: (isDark: boolean) => void) {
-  if (typeof window === 'undefined') return;
+export function getThemeStyles(theme: Theme, isDark: boolean): React.CSSProperties {
+  const vars = isDark ? theme.cssVars.dark : theme.cssVars.light;
   
-  const root = document.documentElement;
-  
-  // Create a MutationObserver to watch for class changes on the html element
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        const isDark = root.classList.contains('dark');
-        callback(isDark);
-      }
-    });
+  const styles: Record<string, string> = {};
+  Object.entries(vars).forEach(([key, value]) => {
+    styles[key] = value;
   });
   
-  // Start observing
-  observer.observe(root, {
-    attributes: true,
-    attributeFilter: ['class']
-  });
-  
-  return () => observer.disconnect();
+  return styles as React.CSSProperties;
 }
