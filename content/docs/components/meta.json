@@ -1,5 +1,9 @@
 {
   "title": "Components",
   "description": "UI Components and examples",
-  "order": 1
+  "order": 1,
+  "pages": [
+    "pricing-table",
+    "cancel-subscription"
+  ]
 }

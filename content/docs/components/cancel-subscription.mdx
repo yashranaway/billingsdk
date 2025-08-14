@@ -1,0 +1,110 @@
+---
+title: Cancel Subscription
+description: A comprehensive dialog component for handling subscription cancellations
+---
+
+import { PreviewComponents } from '@/components/preview/preview-components';
+import { CancelSubscriptionDemo } from '@/components/cancel-subscription-demo';
+
+## Overview
+
+The Cancel Subscription Dialog component provides a comprehensive and user-friendly interface for handling subscription cancellations. It features a two-step confirmation process, loading states, error handling, and full customization options.
+
+```bash
+npx shadcn@latest add cancel-subscription
+```
+
+## Preview
+
+<PreviewComponents>
+  <CancelSubscriptionDemo />
+</PreviewComponents>
+
+## Features
+
+- **Two-step confirmation process** - Prevents accidental cancellations
+- **Loading states** - Shows progress during async operations
+- **Error handling** - Displays user-friendly error messages
+- **Keyboard shortcuts** - ESC key support for closing
+- **Responsive design** - Adapts to different screen sizes
+- **Image support** - Optional left panel with background image
+- **Full customization** - All text and behaviors can be customized
+- **Shadcn theming** - Fully compatible with your design system
+
+## Usage
+
+### Basic Usage
+
+```tsx
+import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription";
+import { plans } from "@/lib/const";
+
+<CancelSubscriptionDialog
+  title="We're sorry to see you go..."
+  description="Before you cancel, let us know what we could do better."
+  plan={plans[1]}
+  onCancel={async (planId) => {
+    // Handle cancellation
+    await cancelSubscription(planId);
+  }}
+/>
+```
+
+### Advanced Usage with All Props
+
+```tsx
+<CancelSubscriptionDialog
+  title="We're sorry to see you go..."
+  description="Before you cancel, let us know what we could do better to keep you as a valued customer."
+  plan={plans[1]}
+  triggerButtonText="Cancel Subscription"
+  leftPanelImageUrl="https://example.com/image.jpg"
+  warningTitle="You will lose access to your account"
+  warningText="If you cancel your subscription, you will lose access to your account and all your data will be deleted."
+  keepButtonText="Keep My Pro Plan"
+  continueButtonText="Continue with Cancellation"
+  finalTitle="Final Step - Confirm Cancellation"
+  finalSubtitle="This action will immediately cancel your subscription"
+  finalWarningText="You'll lose access to all Pro features and your data will be permanently deleted after 30 days."
+  goBackButtonText="Wait, Go Back"
+  confirmButtonText="Yes, Cancel My Subscription"
+  onCancel={async (planId) => {
+    console.log('Cancelling subscription for plan:', planId);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    alert('Subscription cancelled successfully!');
+  }}
+  onKeepSubscription={async (planId) => {
+    console.log('Keeping subscription for plan:', planId);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    alert('Great! Your subscription remains active.');
+  }}
+  onDialogClose={() => {
+    console.log('Dialog closed');
+  }}
+  className="max-w-4xl"
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `title` | `string` | ✅ | Main dialog title |
+| `description` | `string` | ✅ | Dialog description text |
+| `plan` | `Plan` | ✅ | Plan object containing subscription details |
+| `onCancel` | `(planId: string) => Promise<void> \| void` | ✅ | Callback when subscription is cancelled |
+| `triggerButtonText` | `string` | ❌ | Text for the trigger button (default: "Cancel Subscription") |
+| `leftPanelImageUrl` | `string` | ❌ | Background image URL for left panel |
+| `warningTitle` | `string` | ❌ | Title for warning section |
+| `warningText` | `string` | ❌ | Warning message text |
+| `keepButtonText` | `string` | ❌ | Text for keep subscription button |
+| `continueButtonText` | `string` | ❌ | Text for continue cancellation button |
+| `finalTitle` | `string` | ❌ | Title for final confirmation step |
+| `finalSubtitle` | `string` | ❌ | Subtitle for final confirmation step |
+| `finalWarningText` | `string` | ❌ | Final warning message |
+| `goBackButtonText` | `string` | ❌ | Text for go back button |
+| `confirmButtonText` | `string` | ❌ | Text for final confirm button |
+| `onKeepSubscription` | `(planId: string) => Promise<void> \| void` | ❌ | Callback when user keeps subscription |
+| `onDialogClose` | `() => void` | ❌ | Callback when dialog is closed |
+| `className` | `string` | ❌ | Additional CSS classes |
+

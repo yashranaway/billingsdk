@@ -132,7 +132,7 @@ export function CancelSubscriptionDialog({
             <DialogTrigger asChild>
                 <Button className="mx-auto" variant="outline">{triggerButtonText || "Cancel Subscription"}</Button>
             </DialogTrigger>
-            <DialogContent className={cn("sm:max-w-[800px] flex flex-col md:flex-row p-0 overflow-hidden", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)}>
+            <DialogContent className={cn("sm:max-w-[1000px] flex flex-col md:flex-row p-0 overflow-hidden", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)}>
                 <DialogTitle className="sr-only">{title}</DialogTitle>
                 <DialogClose
                     className="absolute right-4 top-4 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
@@ -142,7 +142,7 @@ export function CancelSubscriptionDialog({
                     <span className="sr-only">Close</span>
                 </DialogClose>
                 {leftPanelImageUrl && (
-                    <div className="w-full md:w-1/2 min-h-[400px] relative hidden md:block">
+                    <div className="w-full md:w-1/2 min-h-[500px] relative hidden md:block">
                         <img src={leftPanelImageUrl} alt="Cancel Subscription" className="absolute inset-0 w-full h-full object-cover brightness-30 contrast-125" />
                         <div className="absolute inset-0 bg-gradient-to-l dark:from-background  via-transparent to-transparent"></div>
                     </div>
