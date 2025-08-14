@@ -141,14 +141,14 @@
             "description": "A cancel subscription component",
             "files": [
                 {
-                    "path": "src/registry/billingsdk/cancel-subscription.tsx",
+                    "path": "src/registry/billingsdk/cancel-subscription-dialog.tsx",
                     "type": "registry:component",
-                    "target": "components/billingsdk/cancel-subscription.tsx"
+                    "target": "components/billingsdk/cancel-subscription-dialog.tsx"
                 },
                 {
-                    "path": "src/registry/billingsdk/demo/cancel-subscription-demo.tsx",
+                    "path": "src/registry/billingsdk/demo/cancel-subscription-dialog-demo.tsx",
                     "type": "registry:component",
-                    "target": "components/cancel-subscription-demo.tsx"
+                    "target": "components/cancel-subscription-dialog-demo.tsx"
                 },
                 {
                     "path": "src/registry/lib/const.ts",

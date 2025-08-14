@@ -1,9 +1,9 @@
 "use client";
 
-import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription";
+import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription-dialog";
 import { plans } from "@/lib/const";
 
-export function CancelSubscriptionDemo() {
+export function CancelSubscriptionDialogDemo() {
     return(
 
       <div className="flex flex-col gap-4">
