@@ -3,7 +3,6 @@ title: Theming
 description: Customize your components by modifying CSS variables in global.css
 ---
 
-
 ## How to Change Themes
 
 To change the theme of your components, simply modify the CSS variables in your `global.css` file. The current theme uses these variables:
@@ -243,24 +242,636 @@ To change the theme of your components, simply modify the CSS variables in your 
 }
 ```
 
-## Color Format
+### Cyberpunk Theme
 
-We use OKLCH color format:
-- **L (Lightness)**: 0-1 (0 = black, 1 = white)
-- **C (Chroma)**: 0-0.4+ (saturation level)
-- **H (Hue)**: 0-360 (color wheel degrees)
+**Fonts**: Orbitron (futuristic sci-fi style) + JetBrains Mono  
+**Style**: Dark neon colors with sharp edges and minimal radius
 
-Examples:
-- Blue: `oklch(0.6 0.25 253)`
-- Green: `oklch(0.5 0.2 142)`
-- Orange: `oklch(0.6 0.2 42)`
-- Red: `oklch(0.55 0.25 12)`
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
-## Key Variables
+/* Apply fonts */
+body {
+  font-family: 'Orbitron', monospace;
+}
 
-- `--primary`: Main brand color
-- `--secondary`: Secondary elements
-- `--accent`: Highlighted elements
-- `--muted`: Subtle backgrounds
-- `--border`: Border colors
-- `--ring`: Focus rings
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --radius: 0.125rem;
+  --background: oklch(0.05 0.02 270);
+  --foreground: oklch(0.9 0.15 320);
+  --card: oklch(0.08 0.03 270);
+  --card-foreground: oklch(0.85 0.12 320);
+  --popover: oklch(0.08 0.03 270);
+  --popover-foreground: oklch(0.85 0.12 320);
+  --primary: oklch(0.7 0.3 320);
+  --primary-foreground: oklch(0.05 0.02 270);
+  --secondary: oklch(0.15 0.05 270);
+  --secondary-foreground: oklch(0.8 0.15 180);
+  --muted: oklch(0.12 0.04 270);
+  --muted-foreground: oklch(0.6 0.08 270);
+  --accent: oklch(0.6 0.25 180);
+  --accent-foreground: oklch(0.05 0.02 270);
+  --destructive: oklch(0.65 0.3 15);
+  --border: oklch(0.2 0.06 270);
+  --input: oklch(0.15 0.05 270);
+  --ring: oklch(0.7 0.3 320);
+}
+
+.dark {
+  --background: oklch(0.02 0.01 270);
+  --foreground: oklch(0.95 0.2 320);
+  --card: oklch(0.05 0.02 270);
+  --card-foreground: oklch(0.9 0.15 320);
+  --popover: oklch(0.05 0.02 270);
+  --popover-foreground: oklch(0.9 0.15 320);
+  --primary: oklch(0.8 0.35 320);
+  --primary-foreground: oklch(0.02 0.01 270);
+  --secondary: oklch(0.1 0.03 270);
+  --secondary-foreground: oklch(0.85 0.2 180);
+  --muted: oklch(0.08 0.02 270);
+  --muted-foreground: oklch(0.65 0.1 270);
+  --accent: oklch(0.7 0.3 180);
+  --accent-foreground: oklch(0.02 0.01 270);
+  --destructive: oklch(0.7 0.35 15);
+  --border: oklch(0.15 0.04 270);
+  --input: oklch(0.1 0.03 270);
+  --ring: oklch(0.8 0.35 320);
+}
+```
+
+### Elegant Theme
+
+**Fonts**: Playfair Display (sophisticated serif) + Crimson Text + JetBrains Mono  
+**Style**: Warm refined tones with elegant typography and rounded corners
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Playfair Display', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+p, span {
+  font-family: 'Crimson Text', serif;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.98 0.005 60);
+  --foreground: oklch(0.15 0.02 30);
+  --card: oklch(0.99 0.003 60);
+  --card-foreground: oklch(0.15 0.02 30);
+  --popover: oklch(0.99 0.003 60);
+  --popover-foreground: oklch(0.15 0.02 30);
+  --primary: oklch(0.3 0.08 30);
+  --primary-foreground: oklch(0.98 0.005 60);
+  --secondary: oklch(0.92 0.01 60);
+  --secondary-foreground: oklch(0.25 0.05 30);
+  --muted: oklch(0.94 0.008 60);
+  --muted-foreground: oklch(0.45 0.03 30);
+  --accent: oklch(0.88 0.02 45);
+  --accent-foreground: oklch(0.2 0.04 30);
+  --destructive: oklch(0.5 0.15 15);
+  --border: oklch(0.88 0.015 60);
+  --input: oklch(0.9 0.012 60);
+  --ring: oklch(0.35 0.1 30);
+}
+
+.dark {
+  --background: oklch(0.08 0.01 30);
+  --foreground: oklch(0.95 0.008 60);
+  --card: oklch(0.12 0.015 30);
+  --card-foreground: oklch(0.92 0.006 60);
+  --popover: oklch(0.12 0.015 30);
+  --popover-foreground: oklch(0.92 0.006 60);
+  --primary: oklch(0.85 0.02 60);
+  --primary-foreground: oklch(0.1 0.012 30);
+  --secondary: oklch(0.18 0.02 30);
+  --secondary-foreground: oklch(0.88 0.008 60);
+  --muted: oklch(0.15 0.018 30);
+  --muted-foreground: oklch(0.65 0.005 60);
+  --accent: oklch(0.25 0.03 45);
+  --accent-foreground: oklch(0.9 0.006 60);
+  --destructive: oklch(0.65 0.18 15);
+  --border: oklch(0.2 0.025 30);
+  --input: oklch(0.16 0.02 30);
+  --ring: oklch(0.8 0.015 60);
+}
+```
+
+### Retro Theme
+
+**Fonts**: Fredoka (playful rounded) + Space Grotesk + JetBrains Mono  
+**Style**: Warm vintage colors with fun typography and large rounded corners
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Fredoka', cursive;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fredoka', cursive;
+}
+
+p, span {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.96 0.02 50);
+  --foreground: oklch(0.2 0.05 20);
+  --card: oklch(0.98 0.015 50);
+  --card-foreground: oklch(0.2 0.05 20);
+  --popover: oklch(0.98 0.015 50);
+  --popover-foreground: oklch(0.2 0.05 20);
+  --primary: oklch(0.6 0.2 25);
+  --primary-foreground: oklch(0.98 0.015 50);
+  --secondary: oklch(0.85 0.08 40);
+  --secondary-foreground: oklch(0.25 0.06 20);
+  --muted: oklch(0.9 0.04 45);
+  --muted-foreground: oklch(0.5 0.04 25);
+  --accent: oklch(0.75 0.15 60);
+  --accent-foreground: oklch(0.2 0.05 20);
+  --destructive: oklch(0.55 0.18 15);
+  --border: oklch(0.82 0.06 45);
+  --input: oklch(0.85 0.05 45);
+  --ring: oklch(0.6 0.2 25);
+}
+
+.dark {
+  --background: oklch(0.12 0.03 20);
+  --foreground: oklch(0.92 0.02 50);
+  --card: oklch(0.16 0.04 20);
+  --card-foreground: oklch(0.9 0.02 50);
+  --popover: oklch(0.16 0.04 20);
+  --popover-foreground: oklch(0.9 0.02 50);
+  --primary: oklch(0.7 0.22 25);
+  --primary-foreground: oklch(0.12 0.03 20);
+  --secondary: oklch(0.22 0.05 20);
+  --secondary-foreground: oklch(0.85 0.06 40);
+  --muted: oklch(0.18 0.04 20);
+  --muted-foreground: oklch(0.65 0.03 40);
+  --accent: oklch(0.35 0.1 60);
+  --accent-foreground: oklch(0.9 0.02 50);
+  --destructive: oklch(0.65 0.2 15);
+  --border: oklch(0.25 0.05 20);
+  --input: oklch(0.2 0.04 20);
+  --ring: oklch(0.7 0.22 25);
+}
+```
+
+### Minimal Theme
+
+**Fonts**: System fonts (native OS fonts for ultimate performance)  
+**Style**: Pure black and white with no rounded corners - brutalist design
+
+```css title="src/app/global.css"
+/* No font imports needed - uses system fonts */
+
+/* Apply fonts */
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+code, pre {
+  font-family: ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0 0 0);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0 0 0);
+  --primary: oklch(0 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0 0 0);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.4 0 0);
+  --accent: oklch(0.92 0 0);
+  --accent-foreground: oklch(0 0 0);
+  --destructive: oklch(0 0 0);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.95 0 0);
+  --ring: oklch(0 0 0);
+}
+
+.dark {
+  --background: oklch(0 0 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.03 0 0);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0 0 0);
+  --popover-foreground: oklch(1 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.1 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.08 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.15 0 0);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.8 0 0);
+  --border: oklch(0.2 0 0);
+  --input: oklch(0.1 0 0);
+  --ring: oklch(1 0 0);
+}
+```
+
+### Neon Theme
+
+**Fonts**: Space Grotesk (modern geometric) + JetBrains Mono  
+**Style**: Vibrant neon colors with electric purple/cyan accents
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.08 0.01 270);
+  --foreground: oklch(0.95 0.15 300);
+  --card: oklch(0.12 0.02 270);
+  --card-foreground: oklch(0.9 0.12 300);
+  --popover: oklch(0.12 0.02 270);
+  --popover-foreground: oklch(0.9 0.12 300);
+  --primary: oklch(0.75 0.35 300);
+  --primary-foreground: oklch(0.08 0.01 270);
+  --secondary: oklch(0.18 0.03 180);
+  --secondary-foreground: oklch(0.85 0.2 180);
+  --muted: oklch(0.15 0.02 270);
+  --muted-foreground: oklch(0.65 0.08 300);
+  --accent: oklch(0.7 0.3 180);
+  --accent-foreground: oklch(0.08 0.01 270);
+  --destructive: oklch(0.7 0.35 15);
+  --border: oklch(0.25 0.05 270);
+  --input: oklch(0.2 0.03 270);
+  --ring: oklch(0.75 0.35 300);
+}
+
+.dark {
+  --background: oklch(0.04 0.005 270);
+  --foreground: oklch(0.98 0.2 300);
+  --card: oklch(0.08 0.01 270);
+  --card-foreground: oklch(0.95 0.15 300);
+  --popover: oklch(0.08 0.01 270);
+  --popover-foreground: oklch(0.95 0.15 300);
+  --primary: oklch(0.8 0.4 300);
+  --primary-foreground: oklch(0.04 0.005 270);
+  --secondary: oklch(0.12 0.02 180);
+  --secondary-foreground: oklch(0.9 0.25 180);
+  --muted: oklch(0.1 0.01 270);
+  --muted-foreground: oklch(0.7 0.1 300);
+  --accent: oklch(0.75 0.35 180);
+  --accent-foreground: oklch(0.04 0.005 270);
+  --destructive: oklch(0.75 0.4 15);
+  --border: oklch(0.2 0.03 270);
+  --input: oklch(0.15 0.02 270);
+  --ring: oklch(0.8 0.4 300);
+}
+```
+
+### Sunset Theme
+
+**Fonts**: Inter + Fira Code (clean and professional)  
+**Style**: Warm orange/red gradients like a sunset
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+code, pre {
+  font-family: 'Fira Code', monospace;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.97 0.02 35);
+  --foreground: oklch(0.2 0.05 15);
+  --card: oklch(0.99 0.01 35);
+  --card-foreground: oklch(0.2 0.05 15);
+  --popover: oklch(0.99 0.01 35);
+  --popover-foreground: oklch(0.2 0.05 15);
+  --primary: oklch(0.65 0.25 25);
+  --primary-foreground: oklch(0.99 0.01 35);
+  --secondary: oklch(0.85 0.08 45);
+  --secondary-foreground: oklch(0.25 0.06 15);
+  --muted: oklch(0.92 0.03 40);
+  --muted-foreground: oklch(0.5 0.04 20);
+  --accent: oklch(0.7 0.2 50);
+  --accent-foreground: oklch(0.2 0.05 15);
+  --destructive: oklch(0.6 0.2 15);
+  --border: oklch(0.88 0.05 40);
+  --input: oklch(0.9 0.04 40);
+  --ring: oklch(0.65 0.25 25);
+}
+
+.dark {
+  --background: oklch(0.15 0.03 15);
+  --foreground: oklch(0.92 0.02 35);
+  --card: oklch(0.18 0.04 15);
+  --card-foreground: oklch(0.9 0.02 35);
+  --popover: oklch(0.18 0.04 15);
+  --popover-foreground: oklch(0.9 0.02 35);
+  --primary: oklch(0.75 0.3 25);
+  --primary-foreground: oklch(0.15 0.03 15);
+  --secondary: oklch(0.25 0.05 15);
+  --secondary-foreground: oklch(0.8 0.06 45);
+  --muted: oklch(0.2 0.04 15);
+  --muted-foreground: oklch(0.65 0.03 35);
+  --accent: oklch(0.4 0.15 50);
+  --accent-foreground: oklch(0.9 0.02 35);
+  --destructive: oklch(0.7 0.25 15);
+  --border: oklch(0.3 0.06 15);
+  --input: oklch(0.22 0.04 15);
+  --ring: oklch(0.75 0.3 25);
+}
+```
+
+### Ocean Theme
+
+**Fonts**: Poppins + Source Code Pro (friendly and readable)  
+**Style**: Deep blue tones with aquatic feel
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Source+Code+Pro:wght@300;400;500;600;700&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+code, pre {
+  font-family: 'Source Code Pro', monospace;
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.98 0.01 220);
+  --foreground: oklch(0.18 0.02 200);
+  --card: oklch(0.99 0.005 220);
+  --card-foreground: oklch(0.18 0.02 200);
+  --popover: oklch(0.99 0.005 220);
+  --popover-foreground: oklch(0.18 0.02 200);
+  --primary: oklch(0.55 0.2 210);
+  --primary-foreground: oklch(0.99 0.005 220);
+  --secondary: oklch(0.92 0.02 220);
+  --secondary-foreground: oklch(0.25 0.03 200);
+  --muted: oklch(0.94 0.015 220);
+  --muted-foreground: oklch(0.45 0.02 200);
+  --accent: oklch(0.85 0.05 190);
+  --accent-foreground: oklch(0.2 0.02 200);
+  --destructive: oklch(0.55 0.18 15);
+  --border: oklch(0.88 0.02 220);
+  --input: oklch(0.9 0.015 220);
+  --ring: oklch(0.55 0.2 210);
+}
+
+.dark {
+  --background: oklch(0.1 0.02 200);
+  --foreground: oklch(0.95 0.01 220);
+  --card: oklch(0.14 0.025 200);
+  --card-foreground: oklch(0.92 0.01 220);
+  --popover: oklch(0.14 0.025 200);
+  --popover-foreground: oklch(0.92 0.01 220);
+  --primary: oklch(0.7 0.25 210);
+  --primary-foreground: oklch(0.1 0.02 200);
+  --secondary: oklch(0.2 0.03 200);
+  --secondary-foreground: oklch(0.85 0.02 220);
+  --muted: oklch(0.16 0.025 200);
+  --muted-foreground: oklch(0.65 0.01 220);
+  --accent: oklch(0.3 0.08 190);
+  --accent-foreground: oklch(0.9 0.01 220);
+  --destructive: oklch(0.65 0.2 15);
+  --border: oklch(0.25 0.04 200);
+  --input: oklch(0.18 0.03 200);
+  --ring: oklch(0.7 0.25 210);
+}
+```
+
+### Forest Theme
+
+**Fonts**: Merriweather (classic serif) + Roboto Mono  
+**Style**: Natural green tones with earthy feel
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Roboto+Mono:wght@300;400;500;600;700&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Merriweather', serif;
+}
+
+code, pre {
+  font-family: 'Roboto Mono', monospace;
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.97 0.01 120);
+  --foreground: oklch(0.2 0.03 90);
+  --card: oklch(0.98 0.008 120);
+  --card-foreground: oklch(0.2 0.03 90);
+  --popover: oklch(0.98 0.008 120);
+  --popover-foreground: oklch(0.2 0.03 90);
+  --primary: oklch(0.4 0.15 130);
+  --primary-foreground: oklch(0.98 0.008 120);
+  --secondary: oklch(0.9 0.02 110);
+  --secondary-foreground: oklch(0.25 0.04 90);
+  --muted: oklch(0.93 0.015 120);
+  --muted-foreground: oklch(0.5 0.02 100);
+  --accent: oklch(0.82 0.06 140);
+  --accent-foreground: oklch(0.2 0.03 90);
+  --destructive: oklch(0.55 0.18 15);
+  --border: oklch(0.85 0.03 120);
+  --input: oklch(0.88 0.025 120);
+  --ring: oklch(0.4 0.15 130);
+}
+
+.dark {
+  --background: oklch(0.12 0.02 90);
+  --foreground: oklch(0.92 0.01 120);
+  --card: oklch(0.16 0.025 90);
+  --card-foreground: oklch(0.9 0.01 120);
+  --popover: oklch(0.16 0.025 90);
+  --popover-foreground: oklch(0.9 0.01 120);
+  --primary: oklch(0.65 0.2 130);
+  --primary-foreground: oklch(0.12 0.02 90);
+  --secondary: oklch(0.22 0.03 90);
+  --secondary-foreground: oklch(0.85 0.02 110);
+  --muted: oklch(0.18 0.025 90);
+  --muted-foreground: oklch(0.65 0.01 120);
+  --accent: oklch(0.35 0.1 140);
+  --accent-foreground: oklch(0.9 0.01 120);
+  --destructive: oklch(0.65 0.2 15);
+  --border: oklch(0.28 0.04 90);
+  --input: oklch(0.2 0.03 90);
+  --ring: oklch(0.65 0.2 130);
+}
+```
+### Lavender Theme
+
+**Fonts**: Nunito (soft and rounded) + Cascadia Code  
+**Style**: Soft purple/pink with gentle gradients
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'Nunito', sans-serif;
+}
+
+code, pre {
+  font-family: 'Cascadia Code', monospace;
+}
+
+:root {
+  --radius: 0.875rem;
+  --background: oklch(0.98 0.01 280);
+  --foreground: oklch(0.2 0.02 260);
+  --card: oklch(0.99 0.008 280);
+  --card-foreground: oklch(0.2 0.02 260);
+  --popover: oklch(0.99 0.008 280);
+  --popover-foreground: oklch(0.2 0.02 260);
+  --primary: oklch(0.6 0.18 280);
+  --primary-foreground: oklch(0.99 0.008 280);
+  --secondary: oklch(0.92 0.02 290);
+  --secondary-foreground: oklch(0.25 0.03 260);
+  --muted: oklch(0.94 0.015 280);
+  --muted-foreground: oklch(0.5 0.02 270);
+  --accent: oklch(0.85 0.05 300);
+  --accent-foreground: oklch(0.2 0.02 260);
+  --destructive: oklch(0.55 0.18 15);
+  --border: oklch(0.88 0.02 280);
+  --input: oklch(0.9 0.015 280);
+  --ring: oklch(0.6 0.18 280);
+}
+
+.dark {
+  --background: oklch(0.1 0.015 260);
+  --foreground: oklch(0.95 0.01 280);
+  --card: oklch(0.14 0.02 260);
+  --card-foreground: oklch(0.92 0.01 280);
+  --popover: oklch(0.14 0.02 260);
+  --popover-foreground: oklch(0.92 0.01 280);
+  --primary: oklch(0.75 0.22 280);
+  --primary-foreground: oklch(0.1 0.015 260);
+  --secondary: oklch(0.2 0.025 260);
+  --secondary-foreground: oklch(0.85 0.02 290);
+  --muted: oklch(0.16 0.02 260);
+  --muted-foreground: oklch(0.65 0.01 280);
+  --accent: oklch(0.3 0.08 300);
+  --accent-foreground: oklch(0.9 0.01 280);
+  --destructive: oklch(0.65 0.2 15);
+  --border: oklch(0.25 0.03 260);
+  --input: oklch(0.18 0.025 260);
+  --ring: oklch(0.75 0.22 280);
+}
+```
+
+### Midnight Theme
+
+**Fonts**: IBM Plex Sans/Mono (technical and clean)  
+**Style**: Deep navy with subtle blue accents
+
+```css title="src/app/global.css"
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+
+/* Apply fonts */
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+code, pre {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+:root {
+  --radius: 0.375rem;
+  --background: oklch(0.95 0.005 240);
+  --foreground: oklch(0.15 0.01 220);
+  --card: oklch(0.97 0.003 240);
+  --card-foreground: oklch(0.15 0.01 220);
+  --popover: oklch(0.97 0.003 240);
+  --popover-foreground: oklch(0.15 0.01 220);
+  --primary: oklch(0.25 0.05 240);
+  --primary-foreground: oklch(0.97 0.003 240);
+  --secondary: oklch(0.88 0.01 240);
+  --secondary-foreground: oklch(0.2 0.015 220);
+  --muted: oklch(0.9 0.008 240);
+  --muted-foreground: oklch(0.45 0.008 230);
+  --accent: oklch(0.82 0.02 250);
+  --accent-foreground: oklch(0.15 0.01 220);
+  --destructive: oklch(0.5 0.15 15);
+  --border: oklch(0.85 0.01 240);
+  --input: oklch(0.87 0.008 240);
+  --ring: oklch(0.25 0.05 240);
+}
+
+.dark {
+  --background: oklch(0.08 0.008 220);
+  --foreground: oklch(0.95 0.005 240);
+  --card: oklch(0.12 0.01 220);
+  --card-foreground: oklch(0.92 0.005 240);
+  --popover: oklch(0.12 0.01 220);
+  --popover-foreground: oklch(0.92 0.005 240);
+  --primary: oklch(0.8 0.08 240);
+  --primary-foreground: oklch(0.08 0.008 220);
+  --secondary: oklch(0.18 0.015 220);
+  --secondary-foreground: oklch(0.85 0.01 240);
+  --muted: oklch(0.15 0.012 220);
+  --muted-foreground: oklch(0.65 0.005 240);
+  --accent: oklch(0.25 0.03 250);
+  --accent-foreground: oklch(0.9 0.005 240);
+  --destructive: oklch(0.65 0.18 15);
+  --border: oklch(0.22 0.02 220);
+  --input: oklch(0.16 0.012 220);
+  --ring: oklch(0.8 0.08 240);
+}
+```
