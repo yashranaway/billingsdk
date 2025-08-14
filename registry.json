@@ -30,41 +30,6 @@
             ]
         },
         {
-            "name": "pricing-table-three",
-            "type": "registry:block",
-            "title": "Pricing Table Three",
-            "description": "A pricing table component with a feature table",
-            "files": [
-                {
-                    "path": "src/registry/billingsdk/pricing-table-three.tsx",
-                    "type": "registry:component",
-                    "target": "components/billingsdk/pricing-table-three.tsx"
-                },
-                {
-                    "path": "src/registry/billingsdk/demo/pricing-table-three-demo.tsx",
-                    "type": "registry:component",
-                    "target": "components/pricing-table-three-demo.tsx"
-                },
-                {
-                    "path": "src/registry/lib/const.ts",
-                    "type": "registry:lib",
-                    "target": "src/lib/const.ts"
-                }
-            ],
-            "dependencies": [
-                "lucide-react",
-                "class-variance-authority"
-            ],
-            "registryDependencies": [
-                "button",
-                "card",
-                "badge",
-                "radio-group",
-                "label",
-                "utils"
-            ]
-        },
-        {
             "name": "pricing-table-one",
             "type": "registry:block",
             "title": "Pricing Table One",
@@ -100,7 +65,7 @@
                 "separator",
                 "utils"
             ]
-        }, 
+        },
         {
             "name": "pricing-table-two",
             "type": "registry:block",
@@ -131,6 +96,73 @@
                 "button",
                 "table",
                 "switch",
+                "utils"
+            ]
+        },
+        {
+            "name": "pricing-table-three",
+            "type": "registry:block",
+            "title": "Pricing Table Three",
+            "description": "A pricing table component with a feature table",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/pricing-table-three.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/pricing-table-three.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/pricing-table-three-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/pricing-table-three-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "class-variance-authority"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "radio-group",
+                "label",
+                "utils"
+            ]
+        },
+        {
+            "name": "cancel-subscription",
+            "type": "registry:block",
+            "title": "Cancel Subscription",
+            "description": "A cancel subscription component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/cancel-subscription.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/cancel-subscription.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/cancel-subscription-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/cancel-subscription-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "badge",
+                "dialog",
                 "utils"
             ]
         }
