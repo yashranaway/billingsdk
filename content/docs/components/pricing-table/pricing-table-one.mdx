@@ -10,6 +10,12 @@ import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
 
 The Pricing Table One component provides a clean and modern design for displaying pricing plans.
 
+```bash
+npx shadcn@latest add pricing-table-one
+```
+
+## Preview
+
 
 <PreviewComponents>
   <PricingTableOneDemo />
@@ -34,7 +40,7 @@ import { plans } from "@/lib/const";
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `plans` | `Plan[]` | Array of pricing plans |
+| `plans` | `Plan[]` | Array of pricing plans (see [Plan interface](/docs/interfaces#plan-interface)) |
 | `title` | `string` | Main title for the pricing section |
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |

@@ -1,0 +1,101 @@
+---
+title: Interfaces
+description: Interfaces for the components
+---
+
+## Plan Interface
+
+The `Plan` interface is used to define the structure of a pricing plan and is shared across all the `PricingTable` components.
+
+```tsx
+interface Plan {
+    id: string
+    title: string
+    description: string
+    highlight?: boolean
+    type?: 'monthly' | 'yearly'
+    monthlyPrice: string
+    yearlyPrice: string
+    buttonText: string
+    badge?: string
+    features: {
+        name: string
+        icon: string
+        iconColor?: string
+    }[],
+    benefits?: string[]
+}
+```
+
+Whenever you add a new `PricingTable` component, a file `/lib/const.ts` will be created with the `plans` array.
+
+A sample of the `/lib/const.ts` file is:
+
+```ts
+// lib/const.ts
+export interface Plan {
+    id: string
+    title: string
+    description: string
+    highlight?: boolean
+    type?: 'monthly' | 'yearly'
+    monthlyPrice: string
+    yearlyPrice: string
+    buttonText: string
+    badge?: string
+    features: {
+        name: string
+        icon: string
+        iconColor?: string
+    }[],
+    benefits?: string[]
+}
+
+
+export const plans: Plan[] = [{
+        id: 'starter',
+        title: 'Starter',
+        description: 'For developers testing out Liveblocks locally.',
+        monthlyPrice: '$0',
+        yearlyPrice: '$0',
+        buttonText: 'Start today for free',
+        features: [{
+                name: 'Presence',
+                icon: "check",
+                iconColor: 'text-green-500'
+            },{
+                name: 'Comments',
+                icon: "check",
+                iconColor: 'text-orange-500'
+            },{
+                name: 'Notifications',
+                icon: "check",
+                iconColor: 'text-teal-500'
+            }],
+        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Community support']
+    },{
+        id: 'pro',
+        title: 'Pro',
+        description: 'For companies adding collaboration in production.',
+        monthlyPrice: '$10',
+        yearlyPrice: '$100',
+        buttonText: 'Sign up',
+        badge: 'Most popular',
+        highlight: true,
+        features: [{
+                name: 'Presence',
+                icon: "check",
+                iconColor: 'text-green-500'
+            },{
+                name: 'Comments',
+                icon: "check",
+                iconColor: 'text-orange-500'
+            },{
+                name: 'Notifications',
+                icon: "check",
+                iconColor: 'text-teal-500'
+            }],
+        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Email support']
+    }];
+
+```

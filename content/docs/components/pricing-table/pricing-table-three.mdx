@@ -10,6 +10,10 @@ import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 
 The Pricing Table Three component provides a third design option for pricing displays.
 
+```bash
+npx shadcn@latest add pricing-table-three
+```
+
 ## Preview
 
 <PreviewComponents>
@@ -29,3 +33,12 @@ import { plans } from "@/lib/const";
   onPlanSelect={(planId) => console.log('Selected plan:', planId)}
 />
 ```
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `plans` | `Plan[]` | Array of pricing plans (see [Plan interface](/docs/interfaces#plan-interface)) |
+| `title` | `string` | Main title for the pricing section |
+| `description` | `string` | Subtitle description |
+| `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |

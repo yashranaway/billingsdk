@@ -10,6 +10,11 @@ import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 
 The Pricing Table Two component offers an alternative design approach for pricing displays.
 
+```bash
+npx shadcn@latest add pricing-table-two
+```
+
+
 ## Preview
 
 <PreviewComponents>
@@ -29,3 +34,12 @@ import { plans } from "@/lib/const";
   onPlanSelect={(planId) => console.log('Selected plan:', planId)}
 />
 ```
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `plans` | `Plan[]` | Array of pricing plans (see [Plan interface](/docs/interfaces#plan-interface)) |
+| `title` | `string` | Main title for the pricing section |
+| `description` | `string` | Subtitle description |
+| `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
