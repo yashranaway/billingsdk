@@ -1,24 +1,39 @@
 ---
 title: Pricing Table Three
-description: Third pricing table variant with unique styling
+description: The Pricing Table Three component provides a third design option for pricing displays. You can use this component to display your pricing plans in a third way.  
 ---
 
-import { PreviewComponents } from '@/components/preview/preview-components';
-import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <PricingTableThreeDemo />
+    </PreviewComponents>
+  </Tab>
 
-## Overview
+  <Tab value="Code" className="mt-3">
+    <include cwd lang="tsx" meta='title="src/components/billingsdk/pricing-table-three.tsx"'>src/components/billingsdk/pricing-table-three.tsx</include>
+  </Tab>  
+</Tabs>
 
-The Pricing Table Three component provides a third design option for pricing displays.
+## Installation
 
-```bash
-npx shadcn@latest add pricing-table-three
-```
-
-## Preview
-
-<PreviewComponents>
-  <PricingTableThreeDemo />
-</PreviewComponents>
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add pricing-table-three
+    ``` 
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add pricing-table-three
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add pricing-table-three
+    ```
+  </Tab>
+</Tabs>
 
 ## Usage
 
@@ -43,3 +58,7 @@ import { plans } from "@/lib/const";
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
 | `variant` | `"small" \| "medium" \|  "large"` | Size variant of the pricing table |
+
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/pricing-table-three-demo.tsx"'>src/components/pricing-table-three-demo.tsx</include>

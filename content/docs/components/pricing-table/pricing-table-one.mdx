@@ -1,25 +1,42 @@
 ---
 title: Pricing Table One
-description: A clean and modern pricing table component
+description: The Pricing Table One component provides a clean and modern design for displaying pricing plans. You can use this component to display your pricing plans in a clean and modern way.
 ---
 
-import { PreviewComponents } from '@/components/preview/preview-components';
-import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <PricingTableOneDemo />
+    </PreviewComponents>
+  </Tab>
 
-## Overview
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/pricing-table-one.tsx"'>src/components/billingsdk/pricing-table-one.tsx</include>
 
-The Pricing Table One component provides a clean and modern design for displaying pricing plans.
+  </Tab>
+</Tabs>
 
-```bash
-npx shadcn@latest add pricing-table-one
-```
+## Installation
 
-## Preview
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add pricing-table-one
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add pricing-table-one
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add pricing-table-one
+    ```
+  </Tab>
+</Tabs>
 
 
-<PreviewComponents>
-  <PricingTableOneDemo />
-</PreviewComponents>
 
 ## Usage
 
@@ -45,3 +62,7 @@ import { plans } from "@/lib/const";
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
 | `variant` | `"small" \| "medium" \|  "large"` | Size variant of the pricing table |
+
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/pricing-table-one-demo.tsx"'>src/components/pricing-table-one-demo.tsx</include>
