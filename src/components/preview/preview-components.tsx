@@ -35,14 +35,14 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
               onClick={() => setActiveTab('preview')}
             >
               <FileText className="h-4 w-4" />
-              Preview
+              <span className="hidden md:block">Preview</span>
             </Button>
             <Button
               variant={activeTab === 'code' ? 'outline' : 'ghost'}
               onClick={() => setActiveTab('code')}
             >
               <Code className="h-4 w-4" />
-              Code
+              <span className="hidden md:block">Code</span>
             </Button>
           </div>
           
@@ -53,7 +53,7 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
               size={"sm"}
               aria-label="Open in V0"
             >
-              Open in
+              <span className="hidden md:block">Open in</span>
               <svg 
                 viewBox="0 0 40 20" 
                 fill="none" 
