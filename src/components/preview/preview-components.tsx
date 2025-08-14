@@ -26,7 +26,7 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
       className={cn("not-prose bg-background", className)} 
       style={themeStyles}
     >
-      <CardHeader className="pb-0" style={themes[0].cssVars.dark}>
+      <CardHeader className="pb-0" style={previewDarkMode ? themes[0].cssVars.dark : themes[0].cssVars.light}>
         {/* Tab Buttons */}
         <div className="flex gap-2 justify-between">
           <div className="flex gap-2">

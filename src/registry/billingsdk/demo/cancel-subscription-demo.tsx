@@ -1,3 +1,5 @@
+"use client";
+
 import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription";
 import { plans } from "@/lib/const";
 
