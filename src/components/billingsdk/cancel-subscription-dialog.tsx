@@ -142,9 +142,10 @@ export function CancelSubscriptionDialog({
                     <span className="sr-only">Close</span>
                 </DialogClose>
                 {leftPanelImageUrl && (
-                    <div className="w-full md:w-1/2 min-h-[500px] relative hidden md:block">
-                        <img src={leftPanelImageUrl} alt="Cancel Subscription" className="absolute inset-0 w-full h-full object-cover brightness-30 contrast-125" />
-                        <div className="absolute inset-0 bg-gradient-to-l dark:from-background  via-transparent to-transparent"></div>
+                    <div className="w-full md:w-1/2 min-h-[500px] relative hidden md:block overflow-hidden">
+                        <img src={leftPanelImageUrl} alt="Cancel Subscription" className="absolute inset-0 w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/30 to-background/90 dark:block hidden"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/20 dark:block hidden"></div>
                     </div>
                 )}
                 <div className={cn("py-6 px-4 flex flex-col gap-4", leftPanelImageUrl ? "w-full md:w-1/2" : "w-full")}>

@@ -135,10 +135,10 @@
             ]
         },
         {
-            "name": "cancel-subscription",
+            "name": "cancel-subscription-dialog",
             "type": "registry:block",
-            "title": "Cancel Subscription",
-            "description": "A cancel subscription component",
+            "title": "Cancel Subscription Dialog",
+            "description": "A cancel subscription dialog component",
             "files": [
                 {
                     "path": "src/registry/billingsdk/cancel-subscription-dialog.tsx",
@@ -163,6 +163,38 @@
                 "button",
                 "badge",
                 "dialog",
+                "utils"
+            ]
+        },
+        {
+            "name": "cancel-subscription-card",
+            "type": "registry:block",
+            "title": "Cancel Subscription Card",
+            "description": "A cancel subscription card component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/cancel-subscription-card.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/cancel-subscription-card.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/cancel-subscription-card-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/cancel-subscription-card-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "badge",
+                "card",
                 "utils"
             ]
         }
