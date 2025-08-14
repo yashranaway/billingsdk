@@ -1,25 +1,41 @@
 ---
 title: Pricing Table Two
-description: Alternative pricing table design with different layout
+description: The Pricing Table Two component offers an alternative design approach for pricing displays. You can use this component to display your pricing plans in an alternative way.
+
 ---
 
-import { PreviewComponents } from '@/components/preview/preview-components';
-import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <PricingTableTwoDemo />
+    </PreviewComponents>
+  </Tab>
 
-## Overview
+  <Tab value="Code" className="mt-3">
+    <include cwd lang="tsx" meta='title="src/components/billingsdk/pricing-table-two.tsx"'>src/components/billingsdk/pricing-table-two.tsx</include>
+  </Tab>
+</Tabs>
 
-The Pricing Table Two component offers an alternative design approach for pricing displays.
+## Installation
 
-```bash
-npx shadcn@latest add pricing-table-two
-```
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add pricing-table-two
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add pricing-table-two
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add pricing-table-two
+    ```
+  </Tab>
+</Tabs>
 
-
-## Preview
-
-<PreviewComponents>
-  <PricingTableTwoDemo />
-</PreviewComponents>
 
 ## Usage
 
@@ -44,3 +60,6 @@ import { plans } from "@/lib/const";
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
 | `variant` | `"small" \| "medium" \|  "large"` | Size variant of the pricing table |
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/pricing-table-two-demo.tsx"'>src/components/pricing-table-two-demo.tsx</include>

@@ -1,38 +1,42 @@
 ---
 title: Cancel Subscription Card
-description: A comprehensive card component for handling subscription cancellations
+description: The Cancel Subscription Card component provides a comprehensive and user-friendly interface for handling subscription cancellations. It features a two-step confirmation process, loading states, error handling, and full customization options.
 ---
 
-import { PreviewComponents } from '@/components/preview/preview-components';
-import { CancelSubscriptionCardDemo } from '@/components/cancel-subscription-card-demo';
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <CancelSubscriptionCardDemo />
+    </PreviewComponents>
+  </Tab>
 
-## Overview
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/cancel-subscription-card.tsx"'>src/components/billingsdk/cancel-subscription-card.tsx</include>
 
-The Cancel Subscription Card component provides a comprehensive and user-friendly interface for handling subscription cancellations. It features a two-step confirmation process, loading states, error handling, and full customization options.
+  </Tab>
+</Tabs>
 
-```bash
-npx shadcn@latest add cancel-subscription
-```
+## Installation
 
-## Preview
-
-<PreviewComponents>
-  <CancelSubscriptionCardDemo />
-</PreviewComponents>
-
-## Features
-
-- **Two-step confirmation process** - Prevents accidental cancellations
-- **Loading states** - Shows progress during async operations
-- **Error handling** - Displays user-friendly error messages
-- **Responsive design** - Adapts to different screen sizes
-- **Image support** - Optional left panel with background image
-- **Full customization** - All text and behaviors can be customized
-- **Shadcn theming** - Fully compatible with your design system
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add cancel-subscription-card
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add cancel-subscription-card
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add cancel-subscription-card
+    ```
+  </Tab>
+</Tabs>
 
 ## Usage
-
-### Basic Usage
 
 ```tsx
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card";
@@ -46,37 +50,6 @@ import { plans } from "@/lib/const";
     // Handle cancellation
     await cancelSubscription(planId);
   }}
-/>
-```
-
-### Advanced Usage with All Props
-
-```tsx
-<CancelSubscriptionCard
-  title="We're sorry to see you go..."
-  description="Before you cancel, let us know what we could do better to keep you as a valued customer."
-  plan={plans[1]}
-  leftPanelImageUrl="https://example.com/image.jpg"
-  warningTitle="You will lose access to your account"
-  warningText="If you cancel your subscription, you will lose access to your account and all your data will be deleted."
-  keepButtonText="Keep My Pro Plan"
-  continueButtonText="Continue with Cancellation"
-  finalTitle="Final Step - Confirm Cancellation"
-  finalSubtitle="This action will immediately cancel your subscription"
-  finalWarningText="You'll lose access to all Pro features and your data will be permanently deleted after 30 days."
-  goBackButtonText="Wait, Go Back"
-  confirmButtonText="Yes, Cancel My Subscription"
-  onCancel={async (planId) => {
-    console.log('Cancelling subscription for plan:', planId);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    alert('Subscription cancelled successfully!');
-  }}
-  onKeepSubscription={async (planId) => {
-    console.log('Keeping subscription for plan:', planId);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    alert('Great! Your subscription remains active.');
-  }}
-  className="max-w-4xl"
 />
 ```
 
@@ -101,3 +74,6 @@ import { plans } from "@/lib/const";
 | `onKeepSubscription` | `(planId: string) => Promise<void> \| void` | ❌ | Callback when user keeps subscription |
 | `className` | `string` | ❌ | Additional CSS classes |
 
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/cancel-subscription-card-demo.tsx"'>src/components/cancel-subscription-card-demo.tsx</include>

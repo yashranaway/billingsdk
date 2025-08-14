@@ -3,8 +3,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { FileText, Code, Palette, Check, Sun, Moon, ExternalLink } from "lucide-react";
+import { Palette, Check, Sun, Moon } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { getThemeStyles } from "@/lib/themes";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -15,10 +14,7 @@ interface PreviewComponentsProps {
 }
 
 export function PreviewComponents({ className, children }: PreviewComponentsProps) {
-  const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const { currentTheme, setTheme, themes, previewDarkMode, setPreviewDarkMode } = useTheme();
-
-  // Get the theme styles for the current theme and dark mode state
   const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
 
   return (
@@ -27,27 +23,8 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
       style={themeStyles}
     >
       <CardHeader className="pb-0" style={previewDarkMode ? themes[0].cssVars.dark : themes[0].cssVars.light}>
-        {/* Tab Buttons */}
-        <div className="flex gap-2 justify-between">
+        <div className="flex gap-2 justify-end">
           <div className="flex gap-2">
-            <Button
-              variant={activeTab === 'preview' ? 'outline' : 'ghost'}
-              onClick={() => setActiveTab('preview')}
-            >
-              <FileText className="h-4 w-4" />
-              <span className="hidden md:block">Preview</span>
-            </Button>
-            <Button
-              variant={activeTab === 'code' ? 'outline' : 'ghost'}
-              onClick={() => setActiveTab('code')}
-            >
-              <Code className="h-4 w-4" />
-              <span className="hidden md:block">Code</span>
-            </Button>
-          </div>
-          
-          <div className="flex gap-1">
-            {/* Open in V0 */}
             <Button
               onClick={() => window.open('https://v0.app', '_blank')}
               size={"sm"}
@@ -71,7 +48,6 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
               </svg>
             </Button>
             
-            {/* Dark/Light Mode Toggle */}
             <Button 
               variant="ghost" 
               size="sm"
@@ -85,7 +61,6 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
               <span className="sr-only">Toggle preview dark mode</span>
             </Button>
             
-            {/* Theme Switcher */}
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <Button variant="ghost" size="sm">
@@ -128,16 +103,8 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
         </div>
       </CardHeader>
 
-      <CardContent>
-        {activeTab === 'preview' ? (
-          <div>{children}</div>
-        ) : (
-          <div className="bg-muted p-4 rounded-md">
-            <pre className="text-sm text-muted-foreground">
-              <code>{`// Code view coming soon...`}</code>
-            </pre>
-          </div>
-        )}
+      <CardContent className="flex flex-col gap-4 w-full h-full">
+        {children}
       </CardContent>
     </Card>
   );
