@@ -9,7 +9,7 @@ export function PricingTableThreeDemo() {
         <PricingTableThree 
             plans={plans}
             onPlanSelect={(planId) => console.log('Selected plan:', planId)}
-            className={"w-full max-w-4xl mx-auto mt-10"}
+            className={"w-full max-w-4xl mx-auto"}
             variant="small"
             showFooter={false}
         />

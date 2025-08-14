@@ -1,0 +1,31 @@
+---
+title: Pricing Table Two
+description: Alternative pricing table design with different layout
+---
+
+import { PreviewComponents } from '@/components/preview/preview-components';
+import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
+
+## Overview
+
+The Pricing Table Two component offers an alternative design approach for pricing displays.
+
+## Preview
+
+<PreviewComponents>
+  <PricingTableTwoDemo />
+</PreviewComponents>
+
+## Usage
+
+```tsx
+import { PricingTableTwo } from "@/components/billingsdk/pricing-table-two";
+import { plans } from "@/lib/const";
+
+<PricingTableTwo 
+  plans={plans}
+  title="Choose Your Plan"
+  description="Select the perfect plan for your needs"
+  onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+/>
+```

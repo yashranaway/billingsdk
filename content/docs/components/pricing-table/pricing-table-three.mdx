@@ -1,0 +1,31 @@
+---
+title: Pricing Table Three
+description: Third pricing table variant with unique styling
+---
+
+import { PreviewComponents } from '@/components/preview/preview-components';
+import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
+
+## Overview
+
+The Pricing Table Three component provides a third design option for pricing displays.
+
+## Preview
+
+<PreviewComponents>
+  <PricingTableThreeDemo />
+</PreviewComponents>
+
+## Usage
+
+```tsx
+import { PricingTableThree } from "@/components/billingsdk/pricing-table-three";
+import { plans } from "@/lib/const";
+
+<PricingTableThree 
+  plans={plans}
+  title="Pricing Plans"
+  description="Find the right plan for your business"
+  onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+/>
+```

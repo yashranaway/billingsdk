@@ -27,7 +27,7 @@
     },
     {
       "path": "src/registry/billingsdk/demo/pricing-table-one-demo.tsx",
-      "content": "import { PricingTableOne } from \"@/components/billingsdk/pricing-table-one\"\nimport { plans } from \"@/lib/const\"\n\nexport function PricingTableOneDemo() {\n    return <>\n        <PricingTableOne className=\"w-full max-w-4xl mx-auto\" plans={plans}\n        title=\"Pricing\"\n        description=\"Choose the plan that's right for you\"\n        onPlanSelect={(planId) => console.log('Selected plan:', planId)}\n        variant=\"small\"\n        />\n        </>\n}",
+      "content": "\"use client\"\n\nimport { PricingTableOne } from \"@/components/billingsdk/pricing-table-one\"\nimport { plans } from \"@/lib/const\"\n\nexport function PricingTableOneDemo() {\n    return <>\n        <PricingTableOne plans={plans}\n        title=\"Pricing\"\n        description=\"Choose the plan that's right for you\"\n        onPlanSelect={(planId) => console.log('Selected plan:', planId)}\n        variant=\"small\"\n        />\n        </>\n}",
       "type": "registry:component",
       "target": "components/pricing-table-one-demo.tsx"
     },

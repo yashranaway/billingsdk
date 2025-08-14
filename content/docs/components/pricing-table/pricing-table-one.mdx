@@ -1,0 +1,41 @@
+---
+title: Pricing Table One
+description: A clean and modern pricing table component
+---
+
+import { PreviewComponents } from '@/components/preview/preview-components';
+import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
+
+## Overview
+
+The Pricing Table One component provides a clean and modern design for displaying pricing plans.
+
+
+<PreviewComponents>
+  <PricingTableOneDemo />
+</PreviewComponents>
+
+## Usage
+
+```tsx
+import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
+import { plans } from "@/lib/const";
+
+<PricingTableOne 
+  plans={plans}
+  title="Pricing"
+  description="Choose the plan that's right for you"
+  onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+  variant="small"
+/>
+```
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `plans` | `Plan[]` | Array of pricing plans |
+| `title` | `string` | Main title for the pricing section |
+| `description` | `string` | Subtitle description |
+| `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
+| `variant` | `"small" \| "large"` | Size variant of the pricing table |
