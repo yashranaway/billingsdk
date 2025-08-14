@@ -1,10 +1,24 @@
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
+import * as TabsComponents from 'fumadocs-ui/components/tabs';
+import { PreviewComponents } from '@/components/preview/preview-components';
+import { CancelSubscriptionCardDemo } from '@/components/cancel-subscription-card-demo';
+import { CancelSubscriptionDialogDemo } from '@/components/cancel-subscription-dialog-demo';
+import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
+import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
+import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
     ...components,
+    ...TabsComponents,
+    PreviewComponents,
+    PricingTableOneDemo,
+    PricingTableTwoDemo,
+    PricingTableThreeDemo,
+    CancelSubscriptionCardDemo,
+    CancelSubscriptionDialogDemo,
   };
 }
