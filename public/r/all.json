@@ -10,6 +10,8 @@
     "http://localhost:3000/r/pricing-table-three.json",
     "http://localhost:3000/r/cancel-subscription-dialog.json",
     "http://localhost:3000/r/cancel-subscription-card.json",
+    "http://localhost:3000/r/update-plan-dialog.json",
+    "http://localhost:3000/r/update-plan-card.json",
     "http://localhost:3000/r/subscription-management.json"
   ],
   "files": []

@@ -1,23 +1,22 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Calendar, CreditCard, Settings } from "lucide-react"
-import { CurrentPlan, Plan } from "@/lib/const"
+import { Calendar, CreditCard } from "lucide-react"
+import { CurrentPlan } from "@/lib/const"
 import { cn } from "@/lib/utils"
 import { CancelSubscriptionDialog, CancelSubscriptionDialogProps } from "@/components/billingsdk/cancel-subscription-dialog"
+import { UpdatePlanDialog, UpdatePlanDialogProps } from "@/components/billingsdk/update-plan-dialog"
 
 interface SubscriptionManagementProps {
     className?: string
     currentPlan: CurrentPlan
-    allPlans: Plan[]
-    onUpdatePlan: (planId: string) => void
     cancelSubscription: CancelSubscriptionDialogProps
+    updatePlan: UpdatePlanDialogProps
 }
 
-export function SubscriptionManagement({ className, currentPlan, allPlans, onUpdatePlan, cancelSubscription }: SubscriptionManagementProps) {
+export function SubscriptionManagement({ className, currentPlan, cancelSubscription, updatePlan }: SubscriptionManagementProps) {
 
     return (<div className={cn("text-left w-full", className)}>
         <Card className="shadow-lg">
@@ -78,13 +77,11 @@ export function SubscriptionManagement({ className, currentPlan, allPlans, onUpd
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3">
-                    <Button 
-                        className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow duration-200 text-sm sm:text-base" 
-                        onClick={() => onUpdatePlan(currentPlan.plan.id)}
-                    >
-                        <Settings className="h-3 w-3 sm:h-4 sm:w-4" />
-                        Update Plan
-                    </Button>
+                    <UpdatePlanDialog
+                        className="mx-0"
+                        {...updatePlan}
+                    />
+
                     <CancelSubscriptionDialog
                         className="mx-0"
                         {...cancelSubscription}

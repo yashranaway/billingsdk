@@ -28,6 +28,8 @@
                 "http://localhost:3000/r/pricing-table-three.json",
                 "http://localhost:3000/r/cancel-subscription-dialog.json",
                 "http://localhost:3000/r/cancel-subscription-card.json",
+                "http://localhost:3000/r/update-plan-dialog.json",
+                "http://localhost:3000/r/update-plan-card.json",
                 "http://localhost:3000/r/subscription-management.json"
             ]
         },
@@ -214,6 +216,78 @@
             ]
         },
         {
+            "name": "update-plan-dialog",
+            "type": "registry:block",
+            "title": "Update Plan Dialog",
+            "description": "A update plan dialog component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/update-plan-dialog.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/update-plan-dialog.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/update-plan-dialog-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/update-plan-dialog-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "motion"
+            ],
+            "registryDependencies": [
+                "button",
+                "badge",
+                "radio-group",
+                "toggle",
+                "label",
+                "dialog",
+                "utils"
+            ]
+        },
+        {
+            "name": "update-plan-card",
+            "type": "registry:block",
+            "title": "Update Plan Card",
+            "description": "A update plan card component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/update-plan-card.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/update-plan-card.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/update-plan-card-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/update-plan-card-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "motion"
+            ],
+            "registryDependencies": [
+                "button",
+                "badge",
+                "radio-group",
+                "toggle",
+                "label",
+                "card",
+                "utils"
+            ]
+        },
+        {
             "name": "subscription-management",
             "type": "registry:block",
             "title": "Subscription Management",
@@ -244,7 +318,8 @@
                 "badge",
                 "separator",
                 "utils",
-                "http://localhost:3000/r/cancel-subscription-dialog.json"
+                "http://localhost:3000/r/cancel-subscription-dialog.json",
+                "http://localhost:3000/r/update-plan-dialog.json"
             ]
         }
     ]

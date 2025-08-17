@@ -1,19 +1,14 @@
 'use client'
 
-import { CurrentPlan, plans } from '@/lib/const';
 import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
+// import { UpdatePlanDialog } from '@/components/update-plan-dialog';
+import UpdatePlanDialogDemo from '@/components/update-plan-dialog-demo';
+import { plans } from '@/lib/const';
 
 export default function HomePage() {
-  const currentPlan: CurrentPlan = {
-    plan: plans[1],
-    type: 'monthly',
-    price: '$121',
-    nextBillingDate: 'January 15, 2025',
-    paymentMethod: 'Credit Card',
-    status: 'active'
-  }
+
   return (
-    <main className="flex flex-1 flex-col justify-center text-center p-4">
+    <main className="flex flex-1 flex-col justify-center text-center p-4 w-full">
       {/* <p className="text-fd-muted-foreground">
         You can open{' '}
         <Link
@@ -24,7 +19,9 @@ export default function HomePage() {
         </Link>{' '}
         and see the documentation.
       </p> */}
-      <SubscriptionManagementDemo />
+
+      <SubscriptionManagementDemo
+      />
     </main>
   );
 }

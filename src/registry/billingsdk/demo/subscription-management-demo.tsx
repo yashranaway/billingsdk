@@ -17,8 +17,12 @@ export function SubscriptionManagementDemo() {
             <SubscriptionManagement
                 className="max-w-2xl mx-auto"
                 currentPlan={currentPlan}
-                allPlans={plans}
-                onUpdatePlan={(planId) => { console.log('update plan', planId) }}
+                updatePlan={{
+                    currentPlan: currentPlan.plan,
+                    plans: plans,
+                    onPlanChange: (planId) => { console.log('update plan', planId) },
+                    triggerText: 'Update Plan'
+                }}
                 cancelSubscription={{
                     title: 'Cancel Subscription',
                     description: 'Are you sure you want to cancel your subscription?',
