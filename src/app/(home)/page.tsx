@@ -13,7 +13,7 @@ export default function HomePage() {
     status: 'active'
   }
   return (
-    <main className="flex flex-1 flex-col justify-center text-center">
+    <main className="flex flex-1 flex-col justify-center text-center p-4">
       {/* <p className="text-fd-muted-foreground">
         You can open{' '}
         <Link
