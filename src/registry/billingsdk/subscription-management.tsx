@@ -36,7 +36,7 @@ export function SubscriptionManagement({ className, currentPlan, allPlans, onUpd
                         <div className="flex items-center gap-2">
                             <h3 className="text-lg font-semibold">{currentPlan.plan.title} Plan</h3>
                             <div className="flex items-center gap-2">
-                                <Badge variant="secondary">
+                                <Badge variant={currentPlan.status === "active" ? "default" : "outline"}>
                                     {currentPlan.type === `monthly` ? `${currentPlan.plan.monthlyPrice}/month` : currentPlan.type === `yearly` ? `${currentPlan.plan.yearlyPrice}/year` : `${currentPlan.price}`}
                                 </Badge>
                                 <Badge variant="outline">

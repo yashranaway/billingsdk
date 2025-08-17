@@ -3,7 +3,7 @@
 import { SubscriptionManagement } from '@/components/billingsdk/current-subscription';
 import { CurrentPlan, plans } from '@/lib/const';
 
-export function CurrentSubscriptionDemo() {
+export function SubscriptionManagementDemo() {
     const currentPlan: CurrentPlan = {
         plan: plans[1],
         type: 'monthly',

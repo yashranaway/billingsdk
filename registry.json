@@ -199,20 +199,20 @@
             ]
         },
         {
-            "name": "current-subscription",
+            "name": "subscription-management",
             "type": "registry:block",
-            "title": "Current Subscription",
-            "description": "A current subscription component",
+            "title": "Subscription Management",
+            "description": "A subscription management component",
             "files": [
                 {
-                    "path": "src/registry/billingsdk/current-subscription.tsx",
+                    "path": "src/registry/billingsdk/subscription-management.tsx",
                     "type": "registry:component",
-                    "target": "components/billingsdk/current-subscription.tsx"
+                    "target": "components/billingsdk/subscription-management.tsx"
                 },
                 {
-                    "path": "src/registry/billingsdk/demo/current-subscription-demo.tsx",
+                    "path": "src/registry/billingsdk/demo/subscription-management-demo.tsx",
                     "type": "registry:component",
-                    "target": "components/current-subscription-demo.tsx"
+                    "target": "components/subscription-management-demo.tsx"
                 },
                 {
                     "path": "src/registry/lib/const.ts",
