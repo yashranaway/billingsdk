@@ -1,7 +1,7 @@
 'use client'
 
 import { CurrentPlan, plans } from '@/lib/const';
-import { CurrentSubscriptionDemo } from '@/components/current-subscription-demo';
+import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
 
 export default function HomePage() {
   const currentPlan: CurrentPlan = {
@@ -24,7 +24,7 @@ export default function HomePage() {
         </Link>{' '}
         and see the documentation.
       </p> */}
-      <CurrentSubscriptionDemo />
+      <SubscriptionManagementDemo />
     </main>
   );
 }

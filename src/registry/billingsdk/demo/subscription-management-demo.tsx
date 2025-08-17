@@ -1,6 +1,6 @@
 'use client'
 
-import { SubscriptionManagement } from '@/components/billingsdk/current-subscription';
+import { SubscriptionManagement } from '@/components/billingsdk/subscription-management';
 import { CurrentPlan, plans } from '@/lib/const';
 
 export function SubscriptionManagementDemo() {
