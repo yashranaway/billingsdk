@@ -197,6 +197,40 @@
                 "card",
                 "utils"
             ]
+        },
+        {
+            "name": "current-subscription",
+            "type": "registry:block",
+            "title": "Current Subscription",
+            "description": "A current subscription component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/current-subscription.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/current-subscription.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/current-subscription-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/current-subscription-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/const.ts",
+                    "type": "registry:lib",
+                    "target": "src/lib/const.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "separator",
+                "utils",
+                "http://localhost:3000/r/cancel-subscription-dialog.json"
+            ]
         }
     ]
 }

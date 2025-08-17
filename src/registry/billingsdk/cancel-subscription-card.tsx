@@ -8,7 +8,7 @@ import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { Circle } from "lucide-react";
 
-interface CancelSubscriptionCardProps {
+export interface CancelSubscriptionCardProps {
     title: string;
     description: string;
     plan: Plan;
@@ -147,7 +147,6 @@ export function CancelSubscriptionCard({
                 {!showConfirmation ? (
                     <div className="flex flex-col sm:flex-row gap-3 mt-auto">
                         <Button
-                            variant="outline"
                             className="flex-1"
                             onClick={handleKeepSubscription}
                             disabled={isLoading}

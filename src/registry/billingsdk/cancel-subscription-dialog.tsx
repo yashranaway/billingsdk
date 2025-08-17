@@ -14,7 +14,7 @@ import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { X, Circle } from "lucide-react";
 
-interface CancelSubscriptionDialogProps {
+export interface CancelSubscriptionDialogProps {
     title: string;
     description: string;
     plan: Plan;
@@ -130,7 +130,7 @@ export function CancelSubscriptionDialog({
             }
         }}>
             <DialogTrigger asChild>
-                <Button className="mx-auto" variant="outline">{triggerButtonText || "Cancel Subscription"}</Button>
+                <Button variant="outline">{triggerButtonText || "Cancel Subscription"}</Button>
             </DialogTrigger>
             <DialogContent className={cn("sm:max-w-[1000px] flex flex-col md:flex-row p-0 overflow-hidden", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)}>
                 <DialogTitle className="sr-only">{title}</DialogTitle>
@@ -201,7 +201,6 @@ export function CancelSubscriptionDialog({
                     {!showConfirmation ? (
                         <div className="flex flex-col sm:flex-row gap-3 mt-auto">
                             <Button
-                                variant="outline"
                                 className="flex-1"
                                 onClick={handleKeepSubscription}
                                 disabled={isLoading}

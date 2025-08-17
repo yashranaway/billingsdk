@@ -16,6 +16,14 @@ export interface Plan {
     benefits?: string[]
 }
 
+export interface CurrentPlan {
+    plan: Plan
+    type: 'monthly' | 'yearly' | 'custom'
+    price?: string
+    nextBillingDate: string
+    paymentMethod: string
+    status: 'active' | 'inactive' | 'past_due' | 'cancelled'
+}
 
 export const plans: Plan[] = [
     {

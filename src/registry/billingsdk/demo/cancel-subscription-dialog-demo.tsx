@@ -24,6 +24,11 @@ export function CancelSubscriptionDialogDemo() {
         confirmButtonText="Yes, Cancel My Subscription"
         onCancel={async (planId) => {
           console.log('Cancelling subscription for plan:', planId);
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(void 0);
+            }, 1000);
+          });
         }}
         onKeepSubscription={async (planId) => {
           console.log('Keeping subscription for plan:', planId);
