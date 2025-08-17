@@ -1,15 +1,12 @@
 'use client'
 
-import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
-// import { UpdatePlanDialog } from '@/components/update-plan-dialog';
-import UpdatePlanDialogDemo from '@/components/update-plan-dialog-demo';
-import { plans } from '@/lib/const';
+import Link from "next/link"
 
 export default function HomePage() {
 
   return (
     <main className="flex flex-1 flex-col justify-center text-center p-4 w-full">
-      {/* <p className="text-fd-muted-foreground">
+      <p className="text-fd-muted-foreground">
         You can open{' '}
         <Link
           href="/docs"
@@ -18,10 +15,8 @@ export default function HomePage() {
           /docs
         </Link>{' '}
         and see the documentation.
-      </p> */}
+      </p>
 
-      <SubscriptionManagementDemo
-      />
     </main>
   );
 }
