@@ -14,7 +14,8 @@
     "http://localhost:3000/r/update-plan-card.json",
     "http://localhost:3000/r/subscription-management.json",
     "http://localhost:3000/r/usage-meter-linear.json",
-    "http://localhost:3000/r/usage-meter-circle.json"
+    "http://localhost:3000/r/usage-meter-circle.json",
+    "http://localhost:3000/r/banner.json"
   ],
   "files": []
 }
