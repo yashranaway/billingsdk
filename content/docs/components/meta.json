@@ -7,6 +7,7 @@
     "manage-subscription",
     "update-plan",
     "cancel-subscription",
-    "usage-meter"
+    "usage-meter",
+    "banner"
   ]
 }

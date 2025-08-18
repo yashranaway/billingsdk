@@ -21,7 +21,7 @@
     },
     {
       "path": "src/registry/billingsdk/demo/banner-demo.tsx",
-      "content": "import { Banner } from \"@/components/billingsdk/banner\"\nimport { Rocket } from \"lucide-react\"\n\nexport default function FreeTrialBannerDemo() {\n    return (\n        <div className=\"w-full h-full flex flex-col gap-4\">\n            <Banner\n                title=\"🎉 Start your free trial today!\"\n                description=\"Get 30 days free access to all premium features\"\n                buttonText=\"Start Free Trial\"\n                buttonIcon={<Rocket />}\n                buttonLink=\"https://example.com/signup\"\n                variant=\"default\" // default, minimal, popup\n            />\n        </div>\n\n    )\n}\n",
+      "content": "import { Banner } from \"@/components/billingsdk/banner\"\nimport { Rocket } from \"lucide-react\"\n\nexport default function FreeTrialBannerDemo() {\n    return (\n        <div className=\"w-full h-full flex flex-col gap-4 min-h-[500px] justify-center items-center border rounded-lg\">\n            <Banner\n                title=\"🎉 Start your free trial today!\"\n                description=\"Get 30 days free access to all premium features\"\n                buttonText=\"Start Free Trial\"\n                buttonIcon={<Rocket />}\n                buttonLink=\"https://example.com/signup\"\n                variant=\"default\" // default, minimal, popup\n            />\n        </div>\n\n    )\n}\n",
       "type": "registry:component",
       "target": "components/banner-demo.tsx"
     }
