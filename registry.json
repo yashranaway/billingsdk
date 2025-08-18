@@ -321,6 +321,61 @@
                 "http://localhost:3000/r/cancel-subscription-dialog.json",
                 "http://localhost:3000/r/update-plan-dialog.json"
             ]
-        }
+        },
+        {
+            "name": "usage-meter-linear",
+            "type": "registry:block",
+            "title": "Usage Meter Linear",
+            "description": "A usage meter linear component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/usage-meter.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/usage-meter.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/usage-meter-linear-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/usage-meter-linear-demo.tsx"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "motion"
+            ],
+            "registryDependencies": [
+                "card",
+                "badge",
+                "utils"
+            ]
+        },
+        {
+            "name": "usage-meter-circle",
+            "type": "registry:block",
+            "title": "Usage Meter Circle",
+            "description": "A usage meter circle component",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/usage-meter.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/usage-meter.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/usage-meter-circle-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/usage-meter-circle-demo.tsx"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "motion"
+            ],
+            "registryDependencies": [
+                "card",
+                "badge",
+                "utils"
+            ]
+        }       
+        
     ]
 }
