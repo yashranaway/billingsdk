@@ -65,11 +65,11 @@ export function UsageMeter({
         const circumference = radius * 2 * Math.PI
 
         return (
-            <Card className={cn("text-left mx-auto min-w-sm max-w-sm", className)}>
+            <Card className={cn("text-left mx-auto w-full max-w-sm", className)}>
                 <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-                        <span className="text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                        <CardTitle className="text-sm font-medium flex-1 min-w-0 truncate">{title}</CardTitle>
+                        <span className="text-xs text-muted-foreground shrink-0">
                             {remaining.toLocaleString()} / {limit.toLocaleString()} left
                         </span>
                     </div>
@@ -141,11 +141,11 @@ export function UsageMeter({
     const config = sizeConfig[size]
 
     return (
-        <Card className={cn("text-left max-w-sm min-w-sm mx-auto", className)}>
+        <Card className={cn("text-left mx-auto w-full max-w-sm", className)}>
             <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-medium">{title}</CardTitle>
-                    <motion.span className="text-xs text-muted-foreground">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <CardTitle className="text-sm font-medium flex-1 min-w-0 truncate">{title}</CardTitle>
+                    <motion.span className="text-xs text-muted-foreground shrink-0">
                         {display}
                     </motion.span>
                 </div>
@@ -167,8 +167,8 @@ export function UsageMeter({
                         transition={{ duration: 0.4, ease: "easeOut" }}
                     />
                 </div>
-                <div className="flex items-center justify-between">
-                    <span className={cn("text-muted-foreground", config.text)}>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className={cn("text-muted-foreground flex-1 min-w-0 truncate", config.text)}>
                         {remaining.toLocaleString()} / {limit.toLocaleString()} left
                     </span>
                     {getStatus()}

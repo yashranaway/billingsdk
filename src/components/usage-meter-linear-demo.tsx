@@ -5,7 +5,7 @@ import { UsageMeter } from "@/components/billingsdk/usage-meter";
 export default function UsageMeterLinearDemo() {
 
   return (
-    <div className="flex flex-col gap-4 max-w-lg mx-auto">
+    <div className="flex flex-col gap-4 max-w-lg mx-auto w-full">
       <UsageMeter 
       usage={75} 
       limit={100} 
