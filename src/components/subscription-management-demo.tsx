@@ -28,6 +28,8 @@ export function SubscriptionManagementDemo() {
                     description: 'Are you sure you want to cancel your subscription?',
                     leftPanelImageUrl: 'https://img.freepik.com/free-vector/abstract-paper-cut-shape-wave-background_474888-4649.jpg?semt=ais_hybrid&w=740&q=80',
                     plan: currentPlan.plan,
+                    warningTitle: 'You will lose access to your account',
+                    warningText: 'If you cancel your subscription, you will lose access to your account and all your data will be deleted.',
                     onCancel: async (planId) => {
                         console.log('cancel subscription', planId)
                         return new Promise((resolve) => {

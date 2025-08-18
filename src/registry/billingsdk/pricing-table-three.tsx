@@ -208,7 +208,7 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
           <Card key={plan.id} className={cn(
             "border rounded-xl md:border-none md:rounded-none text-card-foreground flex flex-col relative transition-all duration-200 shadow-sm md:shadow-none",
             plan.highlight === true
-              ? "bg-muted/30 md:-mt-8 shadow-lg z-10 md:border-t md:rounded-md border-border" 
+              ? "bg-muted/30 md:-mt-8 shadow-lg z-10 md:border-t md:rounded-md border-border"
               : "bg-card"
           )}>
             {plan.badge && (
@@ -242,7 +242,7 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
                     {feature.icon === "check" ? (
                       <div className="w-2 h-2 bg-primary rounded-sm"></div>
                     ) : (
-                      <div className={cn(featureIconVariants({ variant }), feature.iconColor || "text-muted-foreground") }>
+                      <div className={cn(featureIconVariants({ variant }), feature.iconColor || "text-muted-foreground")}>
                         <Check className={cn(featureIconVariants({ variant }))} />
                       </div>
                     )}
@@ -252,11 +252,11 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
                 ))}
               </div>
 
-              <Button 
+              <Button
                 className={cn(
                   "w-full mt-auto",
                   plan.highlight === true
-                    ? "bg-primary hover:bg-primary/90 text-primary-foreground" 
+                    ? "gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 transition duration-300 ease-[cubic-bezier(0.4,0.36,0,1)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay"
                     : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                 )}
                 onClick={() => onPlanSelect?.(plan.id)}
@@ -291,7 +291,7 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
             <p className={cn(footerTextVariants({ variant }))}>{footerTitle || "Pre-negotiated discounts are available to"}</p>
             <p className={cn(footerTextVariants({ variant }))}>{footerSubtitle || "early-stage startups and nonprofits."}</p>
           </div>
-          <Button 
+          <Button
             className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-6"
             onClick={onFooterButtonClick}
           >
