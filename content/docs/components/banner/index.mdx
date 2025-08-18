@@ -1,0 +1,132 @@
+---
+title: Top Banner
+description: The Top Banner component displays a banner at the top of the page.
+---
+
+<Tabs items={['Preview', 'Usage Code', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <BannerDemo />
+    </PreviewComponents>
+  </Tab>
+
+<Tab value="Usage Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/banner-demo.tsx"'>src/components/banner-demo.tsx</include>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/banner.tsx"'>src/components/billingsdk/banner.tsx</include>
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add banner
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add banner
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add banner
+    ```
+  </Tab>
+</Tabs>
+
+## Minimal Banner
+
+<Tabs items={['Preview', 'Usage Code', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <BannerDemoTwo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Usage Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/banner-demo-two.tsx"'>src/components/banner-demo-two.tsx</include>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/banner.tsx"'>src/components/billingsdk/banner.tsx</include>
+  </Tab>
+
+</Tabs>
+
+## Popup Banner
+
+<Tabs items={['Preview', 'Usage Code', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <BannerDemoThree />
+    </PreviewComponents>
+  </Tab>
+
+
+  <Tab value="Usage Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/banner-demo-three.tsx"'>src/components/banner-demo-three.tsx</include>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/banner.tsx"'>src/components/billingsdk/banner.tsx</include>
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { Banner } from "@/components/billingsdk/banner";
+```
+
+
+```tsx
+// Default Banner
+<Banner
+  title="🎉 Start your free trial today!"
+  description="Get 30 days free access to all premium features"
+  buttonText="Start Free Trial"
+  buttonIcon={<Rocket />}
+  buttonLink="https://example.com/signup"
+  variant="default" // default, minimal, popup
+/>
+```
+
+```tsx
+// Minimal Banner
+<Banner
+  title="🎉 Start your free trial today!"
+  description="Get 30 days free access to all premium features"
+  variant="minimal" // default, minimal, popup
+/>
+```
+
+```tsx
+// Popup Banner
+<Banner
+  title="🎉 Start your free trial today!"
+  description="Get 30 days free access to all premium features"
+  variant="popup" // default, minimal, popup
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `className` | `string` | ❌ | Additional CSS classes for styling |
+| `title` | `string` | ✅ | The title of the banner |
+| `description` | `string` | ❌ | The description of the banner |
+| `buttonText` | `string` | ❌ | The text of the button |
+| `buttonIcon` | `React.ReactNode` | ❌ | The icon of the button |
+| `buttonLink` | `string` | ❌ | The link of the button |
+| `variant` | `"default" | "minimal" | "popup"` | ✅ | The variant of the banner |
+| `autoDismiss` | `number` | ❌ | The time in milliseconds to auto dismiss the banner |
+| `onDismiss` | `() => void` | ❌ | The function to call when the banner is dismissed |
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/banner-demo.tsx"'>src/components/banner-demo.tsx</include>
