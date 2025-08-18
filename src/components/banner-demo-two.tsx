@@ -1,7 +1,7 @@
 import { Banner } from "@/components/billingsdk/banner"
 import { Rocket } from "lucide-react"
 
-export default function FreeTrialBannerDemo() {
+export default function FreeTrialBannerDemoTwo() {
     return (
         <div className="w-full h-full flex flex-col gap-4 min-h-[500px] justify-center items-center border rounded-lg">
             <Banner
@@ -10,7 +10,7 @@ export default function FreeTrialBannerDemo() {
                 buttonText="Start Free Trial"
                 buttonIcon={<Rocket />}
                 buttonLink="https://example.com/signup"
-                variant="default" // default, minimal, popup
+                variant="minimal" // default, minimal, popup
             />
         </div>
 
