@@ -4,6 +4,8 @@
   "order": 1,
   "pages": [
     "pricing-table",
+    "manage-subscription",
+    "update-plan",
     "cancel-subscription"
   ]
 }

@@ -3,7 +3,7 @@
 import { UpdatePlanCard } from '@/components/billingsdk/update-plan-card';
 import { plans } from '@/lib/const';
 
-export default function UpdatePlanCardDemo() {
+export function UpdatePlanCardDemo() {
 
     return (
         <main className="flex flex-1 flex-col justify-center text-center w-full">

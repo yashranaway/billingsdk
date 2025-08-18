@@ -7,6 +7,9 @@ import { CancelSubscriptionDialogDemo } from '@/components/cancel-subscription-d
 import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
 import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
+import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
+import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
+import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -20,5 +23,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PricingTableThreeDemo,
     CancelSubscriptionCardDemo,
     CancelSubscriptionDialogDemo,
+    SubscriptionManagementDemo,
+    UpdatePlanDialogDemo,
+    UpdatePlanCardDemo,
   };
 }

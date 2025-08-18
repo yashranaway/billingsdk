@@ -1,0 +1,107 @@
+---
+title: Manage Subscription
+description: The Manage Subscription component provides a comprehensive interface for users to view and manage their current subscription details, including plan information, billing details, and actions to update or cancel their subscription.
+---
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <SubscriptionManagementDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/subscription-management.tsx"'>src/components/billingsdk/subscription-management.tsx</include>
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add subscription-management
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add subscription-management
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add subscription-management
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { SubscriptionManagement } from "@/components/billingsdk/subscription-management";
+import { CurrentPlan, plans } from "@/lib/const";
+
+const currentPlan: CurrentPlan = {
+  plan: plans[1],
+  type: 'monthly',
+  price: '$121',
+  nextBillingDate: 'January 15, 2025',
+  paymentMethod: 'Credit Card',
+  status: 'active'
+};
+
+<SubscriptionManagement
+  className="max-w-2xl mx-auto"
+  currentPlan={currentPlan}
+  updatePlan={{
+    currentPlan: currentPlan.plan,
+    plans: plans,
+    onPlanChange: (planId) => { console.log('update plan', planId) },
+    triggerText: 'Update Plan'
+  }}
+  cancelSubscription={{
+    title: 'Cancel Subscription',
+    description: 'Are you sure you want to cancel your subscription?',
+    plan: currentPlan.plan,
+    onCancel: async (planId) => {
+      // Handle cancellation
+      await cancelSubscription(planId);
+    },
+  }}
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `className` | `string` | ❌ | Additional CSS classes for styling |
+| `currentPlan` | `CurrentPlan` | ✅ | Object containing current subscription details |
+| `cancelSubscription` | `CancelSubscriptionDialogProps` | ✅ | Props for the cancel subscription dialog |
+| `updatePlan` | `UpdatePlanDialogProps` | ✅ | Props for the update plan dialog |
+
+## CurrentPlan Interface
+
+```tsx
+interface CurrentPlan {
+  plan: Plan;
+  type: 'monthly' | 'yearly' | 'custom';
+  price: string;
+  nextBillingDate: string;
+  paymentMethod: string;
+  status: 'active' | 'inactive' | 'cancelled' | 'past_due';
+}
+```
+
+## Features
+
+- **Current Plan Display**: Shows plan title, pricing, and status
+- **Billing Information**: Displays next billing date and payment method
+- **Plan Features**: Lists all features included in the current plan
+- **Action Buttons**: Integrated update plan and cancel subscription dialogs
+- **Responsive Design**: Adapts to different screen sizes
+- **Status Indicators**: Visual badges for plan status and billing cycle
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/subscription-management-demo.tsx"'>src/components/subscription-management-demo.tsx</include>

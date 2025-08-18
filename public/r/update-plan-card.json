@@ -26,7 +26,7 @@
     },
     {
       "path": "src/registry/billingsdk/demo/update-plan-card-demo.tsx",
-      "content": "'use client'\n\nimport { UpdatePlanCard } from '@/components/billingsdk/update-plan-card';\nimport { plans } from '@/lib/const';\n\nexport default function UpdatePlanCardDemo() {\n\n    return (\n        <main className=\"flex flex-1 flex-col justify-center text-center w-full\">\n            <UpdatePlanCard\n                currentPlan={plans[0]}\n                plans={plans}\n                onPlanChange={(planId) => {\n                    console.log(\"Upgrade plan to\", planId)\n                }}\n            />\n        </main>\n    );\n}\n",
+      "content": "'use client'\n\nimport { UpdatePlanCard } from '@/components/billingsdk/update-plan-card';\nimport { plans } from '@/lib/const';\n\nexport function UpdatePlanCardDemo() {\n\n    return (\n        <main className=\"flex flex-1 flex-col justify-center text-center w-full\">\n            <UpdatePlanCard\n                currentPlan={plans[0]}\n                plans={plans}\n                onPlanChange={(planId) => {\n                    console.log(\"Upgrade plan to\", planId)\n                }}\n            />\n        </main>\n    );\n}\n",
       "type": "registry:component",
       "target": "components/update-plan-card-demo.tsx"
     },

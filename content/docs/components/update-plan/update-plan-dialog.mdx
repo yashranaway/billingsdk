@@ -1,0 +1,97 @@
+---
+title: Update Plan Dialog
+description: The Update Plan Dialog component provides an interactive interface for users to upgrade or change their subscription plan. It features plan comparison, monthly/yearly toggle, and smooth animations for a seamless user experience.
+---
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <UpdatePlanDialogDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/update-plan-dialog.tsx"'>src/components/billingsdk/update-plan-dialog.tsx</include>
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add update-plan-dialog
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add update-plan-dialog
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add update-plan-dialog
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { UpdatePlanDialog } from "@/components/billingsdk/update-plan-dialog";
+import { plans } from "@/lib/const";
+
+<UpdatePlanDialog
+  currentPlan={plans[0]}
+  plans={plans}
+  triggerText="Upgrade Plan"
+  onPlanChange={(planId) => {
+    // Handle plan change
+    console.log('Plan changed to:', planId);
+  }}
+  title="Choose Your Plan"
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `currentPlan` | `Plan` | ✅ | The user's current plan object |
+| `plans` | `Plan[]` | ✅ | Array of available plans to choose from |
+| `triggerText` | `string` | ✅ | Text displayed on the trigger button |
+| `onPlanChange` | `(planId: string) => void` | ✅ | Callback function when a plan is selected |
+| `className` | `string` | ❌ | Additional CSS classes for styling |
+| `title` | `string` | ❌ | Custom title for the dialog (default: "Upgrade Plan") |
+
+## Features
+
+- **Plan Comparison**: Side-by-side comparison of available plans
+- **Monthly/Yearly Toggle**: Switch between billing cycles with visual feedback
+- **Interactive Selection**: Radio button selection with hover effects
+- **Smooth Animations**: Motion animations for plan transitions
+- **Responsive Design**: Adapts to different screen sizes
+- **Visual Feedback**: Highlighted selection with gradients and shadows
+- **Feature Display**: Shows plan features with clean formatting
+
+## Plan Selection Flow
+
+1. User clicks the trigger button to open the dialog
+2. Dialog displays all available plans with current plan highlighted
+3. User can toggle between monthly and yearly billing
+4. User selects a new plan by clicking on it
+5. Selection is visually highlighted with animations
+6. User can confirm the selection or close the dialog
+
+## Styling
+
+The component uses a modern design with:
+- Gradient backgrounds for selected plans
+- Smooth hover transitions
+- Consistent spacing and typography
+- Shadow effects for depth
+- Primary color accents for selection states
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/update-plan-dialog-demo.tsx"'>src/components/update-plan-dialog-demo.tsx</include>

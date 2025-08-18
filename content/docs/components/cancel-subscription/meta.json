@@ -1,5 +1,9 @@
 {
-    "title": "Cancel Subscription",
-    "description": "Cancel subscription components and examples"
-  }
+  "title": "Cancel Subscription",
+  "description": "Cancel subscription components and examples",
+  "pages": [
+    "cancel-subscription-dialog",
+    "cancel-subscription-card"
+  ]
+}
   

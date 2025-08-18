@@ -1,0 +1,95 @@
+---
+title: Update Plan Card
+description: The Update Plan Card component provides a compact, card-based interface for users to upgrade or change their subscription plan. It's perfect for embedding in dashboards or sidebars where space is limited.
+---
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <UpdatePlanCardDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/billingsdk/update-plan-card.tsx"'>src/components/billingsdk/update-plan-card.tsx</include>
+
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add update-plan-card
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add update-plan-card
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add update-plan-card
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card";
+import { plans } from "@/lib/const";
+
+<UpdatePlanCard
+  currentPlan={plans[0]}
+  plans={plans}
+  onPlanChange={(planId) => {
+    // Handle plan change
+    console.log('Plan changed to:', planId);
+  }}
+  title="Upgrade Your Plan"
+/>
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `currentPlan` | `Plan` | ✅ | The user's current plan object |
+| `plans` | `Plan[]` | ✅ | Array of available plans to choose from |
+| `onPlanChange` | `(planId: string) => void` | ✅ | Callback function when a plan is selected |
+| `className` | `string` | ❌ | Additional CSS classes for styling |
+| `title` | `string` | ❌ | Custom title for the card (default: "Upgrade Plan") |
+
+## Features
+
+- **Compact Design**: Card-based layout perfect for limited spaces
+- **Plan Comparison**: Visual comparison of available plans
+- **Monthly/Yearly Toggle**: Switch between billing cycles
+- **Interactive Selection**: Radio button selection with hover effects
+- **Smooth Animations**: Motion animations for plan transitions
+- **Responsive Layout**: Adapts to different screen sizes
+- **Feature Display**: Shows plan features in a clean format
+
+## Use Cases
+
+- **Dashboard Widgets**: Embed in user dashboards
+- **Sidebar Components**: Display in navigation sidebars
+- **Profile Pages**: Show in user profile sections
+- **Settings Panels**: Include in account settings
+- **Modal Content**: Use as content in larger modals
+
+## Design Features
+
+The component features:
+- Clean card design with shadows
+- Gradient backgrounds for selected plans
+- Smooth hover transitions
+- Consistent spacing and typography
+- Primary color accents for selection states
+- Responsive grid layout
+
+## Example
+<include cwd lang="tsx" meta='title="src/components/update-plan-card-demo.tsx"'>src/components/update-plan-card-demo.tsx</include>

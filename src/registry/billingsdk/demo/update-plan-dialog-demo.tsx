@@ -3,7 +3,7 @@
 import { UpdatePlanDialog } from '@/components/billingsdk/update-plan-dialog';
 import { plans } from '@/lib/const';
 
-export default function UpdatePlanDialogDemo() {
+export function UpdatePlanDialogDemo() {
 
   return (
     <div className="flex flex-1 flex-col justify-center text-center p-4 w-full mx-auto">
