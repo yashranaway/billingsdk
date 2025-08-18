@@ -6,6 +6,7 @@
     "pricing-table",
     "manage-subscription",
     "update-plan",
-    "cancel-subscription"
+    "cancel-subscription",
+    "usage-meter"
   ]
 }
