@@ -1,13 +1,12 @@
 'use client'
 
-import UsageMeterLinearDemo from "@/components/usage-meter-liner-demo";
-import UsageMeterCircleDemo from "@/components/usage-meter-circle-demo";
+import Link from "next/link";
 
 export default function HomePage() {
 
   return (
     <main className="flex flex-1 flex-col justify-center text-center w-full">
-      {/* <p className="text-fd-muted-foreground">
+      <p className="text-fd-muted-foreground">
         You can open{' '}
         <Link
           href="/docs"
@@ -16,9 +15,7 @@ export default function HomePage() {
           /docs
         </Link>{' '}
         and see the documentation.
-      </p> */}
-      <UsageMeterLinearDemo />
-      <UsageMeterCircleDemo />
+      </p>
 
     </main>
   );

@@ -10,6 +10,8 @@ import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
 import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
 import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
+import UsageMeterLinearDemo from '@/components/usage-meter-linear-demo';
+import UsageMeterCircleDemo from '@/components/usage-meter-circle-demo';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -26,5 +28,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     SubscriptionManagementDemo,
     UpdatePlanDialogDemo,
     UpdatePlanCardDemo,
+    UsageMeterLinearDemo,
+    UsageMeterCircleDemo,
   };
 }
