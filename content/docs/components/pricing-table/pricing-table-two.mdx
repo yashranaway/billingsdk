@@ -4,6 +4,8 @@ description: The Pricing Table Two component offers an alternative design approa
 
 ---
 
+## Classic Theme
+
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
     <PreviewComponents>
@@ -15,6 +17,22 @@ description: The Pricing Table Two component offers an alternative design approa
     <include cwd lang="tsx" meta='title="src/components/pricing-table-two-demo.tsx"'>src/components/pricing-table-two-demo.tsx</include>
   </Tab>
 </Tabs>
+
+## Minimal Theme
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <PricingTableTwoMinimalDemo />
+    </PreviewComponents>
+  </Tab>
+
+
+  <Tab value="Code" className="mt-3">
+    <include cwd lang="tsx" meta='title="src/components/pricing-table-two-minimal-demo.tsx"'>src/components/pricing-table-two-minimal-demo.tsx</include>
+  </Tab>
+</Tabs>
+
 
 ## Installation
 
@@ -50,6 +68,8 @@ import { plans } from "@/lib/const";
   title="Choose Your Plan"
   description="Select the perfect plan for your needs"
   onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+  size="small" // small, medium, large
+  theme="classic" // minimal or classic
 />
 ```
 

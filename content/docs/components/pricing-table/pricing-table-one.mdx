@@ -3,6 +3,8 @@ title: Pricing Table One
 description: The Pricing Table One component provides a clean and modern design for displaying pricing plans. You can use this component to display your pricing plans in a clean and modern way.
 ---
 
+## Classic Theme
+
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
     <PreviewComponents>
@@ -12,7 +14,21 @@ description: The Pricing Table One component provides a clean and modern design 
 
   <Tab value="Code" className="mt-3">
   <include cwd lang="tsx" meta='title="src/components/pricing-table-one-demo.tsx"'>src/components/pricing-table-one-demo.tsx</include>
+  </Tab>
 
+</Tabs>
+
+## Minimal Theme
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <PricingTableOneMinimalDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+    <include cwd lang="tsx" meta='title="src/components/pricing-table-one-minimal-demo.tsx"'>src/components/pricing-table-one-minimal-demo.tsx</include>
   </Tab>
 </Tabs>
 
@@ -49,7 +65,8 @@ import { plans } from "@/lib/const";
   title="Pricing"
   description="Choose the plan that's right for you"
   onPlanSelect={(planId) => console.log('Selected plan:', planId)}
-  variant="small"
+  size="small" // small, medium, large
+  theme="classic" // minimal or classic
 />
 ```
 
@@ -61,7 +78,8 @@ import { plans } from "@/lib/const";
 | `title` | `string` | Main title for the pricing section |
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
-| `variant` | `"small" \| "medium" \|  "large"` | Size variant of the pricing table |
+| `size` | `"small" \| "medium" \|  "large"` | Size variant of the pricing table |
+| `theme` | `"minimal" \| "classic"` | Theme variant of the pricing table |
 
 
 ## Theming
