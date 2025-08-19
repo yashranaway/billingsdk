@@ -4,6 +4,7 @@ export interface Plan {
     description: string
     highlight?: boolean
     type?: 'monthly' | 'yearly'
+    currency?: string
     monthlyPrice: string
     yearlyPrice: string
     buttonText: string
@@ -30,8 +31,9 @@ export const plans: Plan[] = [
         id: 'starter',
         title: 'Starter',
         description: 'For developers testing out Liveblocks locally.',
-        monthlyPrice: '$0',
-        yearlyPrice: '$0',
+        currency: '$',
+        monthlyPrice: '0',
+        yearlyPrice: '0',
         buttonText: 'Start today for free',
         features: [
             {
@@ -66,8 +68,9 @@ export const plans: Plan[] = [
         id: 'pro',
         title: 'Pro',
         description: 'For companies adding collaboration in production.',
-        monthlyPrice: '$10',
-        yearlyPrice: '$100',
+        currency: '$',
+        monthlyPrice: '20',
+        yearlyPrice: '199',
         buttonText: 'Sign up',
         badge: 'Most popular',
         highlight: true,
@@ -104,6 +107,7 @@ export const plans: Plan[] = [
         id: 'enterprise',
         title: 'Enterprise',
         description: 'For organizations that need more support and compliance features.',
+        currency: '$',
         monthlyPrice: 'Custom',
         yearlyPrice: 'Custom',
         buttonText: 'Contact sales',

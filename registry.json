@@ -73,7 +73,8 @@
             ],
             "dependencies": [
                 "lucide-react",
-                "class-variance-authority"
+                "class-variance-authority",
+                "motion"
             ],
             "registryDependencies": [
                 "button",
@@ -110,7 +111,8 @@
             ],
             "dependencies": [
                 "lucide-react",
-                "class-variance-authority"
+                "class-variance-authority",
+                "motion"
             ],
             "registryDependencies": [
                 "button",
@@ -143,7 +145,8 @@
             ],
             "dependencies": [
                 "lucide-react",
-                "class-variance-authority"
+                "class-variance-authority",
+                "motion"
             ],
             "registryDependencies": [
                 "button",

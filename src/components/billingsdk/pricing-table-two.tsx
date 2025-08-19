@@ -3,6 +3,7 @@
 import { Check, Minus } from "lucide-react";
 import { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion, AnimatePresence } from "motion/react";
 
 import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
@@ -200,21 +201,50 @@ interface PricingTableTwoProps extends VariantProps<typeof sectionVariants> {
 export function PricingTableTwo({ className, plans, title, description, onPlanSelect, variant }: PricingTableTwoProps) {
   const [isAnnually, setIsAnnually] = useState(false);
 
-  // Use all plans from const.ts
-  const filteredPlans: Plan[] = plans;
+  function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
+    const monthly = parseFloat(monthlyPrice);
+    const yearly = parseFloat(yearlyPrice);
+
+    if (
+      monthlyPrice.toLowerCase() === "custom" ||
+      yearlyPrice.toLowerCase() === "custom" ||
+      isNaN(monthly) ||
+      isNaN(yearly) ||
+      monthly === 0
+    ) {
+      return 0;
+    }
+
+    const discount = ((monthly * 12 - yearly) / (monthly * 12)) * 100;
+    return Math.round(discount);
+  }
+
+  const yearlyPriceDiscount = plans.length
+    ? Math.max(
+      ...plans.map((plan) =>
+        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+      )
+    )
+    : 0;
 
   return (
     <section className={cn(sectionVariants({ variant }), className)}>
       <div className="container max-w-5xl">
-        <div className="flex flex-col items-center gap-4 text-center">
+        <motion.div
+          className="flex flex-col items-center gap-4 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <h2 className={cn(titleVariants({ variant }))}>{title || "We offer 3 plans"}</h2>
           <p className={cn(descriptionVariants({ variant }))}>
             {description || "Lorem ipsum dolor sit amet consectetur adipisicing."}
           </p>
-        </div>
-        
+        </motion.div>
+
         {/* Monthly/Yearly Toggle */}
-        <div className={cn(toggleWrapperVariants({ variant }))}> 
+        <div className={cn(toggleWrapperVariants({ variant }))}>
           <span className={cn(
             toggleLabelVariants({ variant }),
             !isAnnually ? "text-foreground" : "text-muted-foreground"
@@ -233,29 +263,42 @@ export function PricingTableTwo({ className, plans, title, description, onPlanSe
             Yearly
           </span>
         </div>
-        
+        <div className="flex justify-center">
+          {yearlyPriceDiscount > 0 && (
+            <motion.span
+              className="text-xs mt-2 text-muted-foreground"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Save upto {yearlyPriceDiscount}% with yearly plan
+            </motion.span>
+          )}
+        </div>
+
         <div className={cn(
           plansWrapperVariants({ variant }),
           "gap-4 md:gap-0",
-          filteredPlans.length === 1 && "flex-col max-w-md mx-auto",
-          filteredPlans.length === 2 && "flex-col md:flex-row max-w-4xl mx-auto",
-          filteredPlans.length >= 3 && "flex-col lg:flex-row max-w-7xl mx-auto"
+          plans.length === 1 && "flex-col max-w-md mx-auto",
+          plans.length === 2 && "flex-col md:flex-row max-w-4xl mx-auto",
+          plans.length >= 3 && "flex-col lg:flex-row max-w-7xl mx-auto"
         )}>
-          {filteredPlans.map((plan: Plan, index: number) => (
-            <div
+          {plans.map((plan: Plan, index: number) => (
+            <motion.div
               key={plan.id}
               className={cn(
                 cardVariants({ variant }),
-                // First card: rounded left corners
                 index === 0 && "md:rounded-l-xl md:border-r-0",
-                // Last card: rounded right corners
-                index === filteredPlans.length - 1 && "md:rounded-r-xl md:border-l-0",
-                // Middle cards: no rounded corners, no left border
-                index > 0 && index < filteredPlans.length - 1 && "md:border-l-0 md:border-r-0",
-                // Single card: all corners rounded
-                filteredPlans.length === 1 && "rounded-xl",
+                index === plans.length - 1 && "md:rounded-r-xl md:border-l-0",
+                index > 0 && index < plans.length - 1 && "md:border-l-0 md:border-r-0",
+                plans.length === 1 && "rounded-xl",
                 plan.highlight && "bg-muted/30 shadow-lg"
               )}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.15 }}
             >
               <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6">
                 <div className="flex items-center gap-2">
@@ -263,43 +306,78 @@ export function PricingTableTwo({ className, plans, title, description, onPlanSe
                 </div>
                 <p className="text-muted-foreground text-left">{plan.description}</p>
               </div>
-              
+
               <div className="px-6">
-                {isAnnually ? (
-                  <>
-                    <span className={cn(priceTextVariants({ variant }))}>{plan.yearlyPrice}</span>
-                    <p className={cn(priceSubTextVariants({ variant }))}>per year</p>
-                  </>
-                ) : (
-                  <>
-                    <span className={cn(priceTextVariants({ variant }))}>{plan.monthlyPrice}</span>
-                    <p className={cn(priceSubTextVariants({ variant }))}>per month</p>
-                  </>
-                )}
+                <AnimatePresence mode="wait">
+                  {isAnnually ? (
+                    <motion.div
+                      key="yearly"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span className={cn(priceTextVariants({ variant }))}>
+                        {parseFloat(plan.yearlyPrice) >= 0 && (
+                          <>{plan.currency}</>
+                        )}
+                        {plan.yearlyPrice}
+                        {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice) > 0 && (
+                          <span className="text-xs ml-2 underline">
+                            {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)}% off
+                          </span>
+                        )}
+                      </span>
+                      <p className={cn(priceSubTextVariants({ variant }))}>per year</p>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="monthly"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span className={cn(priceTextVariants({ variant }))}>
+                        {parseFloat(plan.monthlyPrice) >= 0 && (
+                          <>{plan.currency}</>
+                        )}
+                        {plan.monthlyPrice}
+                      </span>
+                      <p className={cn(priceSubTextVariants({ variant }))}>per month</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              
+
               <div className="flex items-center px-6">
-                <Button 
+                <Button
                   className={cn(
-                    "w-full",
-                    plan.highlight && "gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 transition duration-300 ease-[cubic-bezier(0.4,0.36,0,1)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay" 
+                    "w-full hover:cursor-pointer",
+                    plan.highlight && "gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 transition duration-300 ease-[cubic-bezier(0.4,0.36,0,1)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay"
                   )}
                   variant={plan.highlight ? "default" : "secondary"}
-                onClick={() => onPlanSelect?.(plan.id)}
+                  onClick={() => onPlanSelect?.(plan.id)}
                 >
                   {plan.buttonText}
                 </Button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-        
-        <div className={cn(tableWrapperVariants({ variant }))}>
+
+        <motion.div
+          className={cn(tableWrapperVariants({ variant }))}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className={firstColWidthVariants({ variant })}></TableHead>
-                {filteredPlans.map((plan: Plan) => (
+                {plans.map((plan: Plan) => (
                   <TableHead key={plan.id} className="text-center font-bold text-primary">
                     {plan.title}
                   </TableHead>
@@ -307,10 +385,9 @@ export function PricingTableTwo({ className, plans, title, description, onPlanSe
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* Get all unique features from all plans */}
               {(() => {
                 const allFeatures = new Set<string>();
-                filteredPlans.forEach(plan => {
+                plans.forEach(plan => {
                   plan.features.forEach(feature => {
                     allFeatures.add(feature.name);
                   });
@@ -318,7 +395,7 @@ export function PricingTableTwo({ className, plans, title, description, onPlanSe
                 return Array.from(allFeatures).map((featureName, featureIndex) => (
                   <TableRow key={featureIndex}>
                     <TableCell className="font-medium text-left">{featureName}</TableCell>
-                    {filteredPlans.map((plan: Plan) => {
+                    {plans.map((plan: Plan) => {
                       const feature = plan.features.find(f => f.name === featureName);
                       return (
                         <TableCell key={plan.id} className="text-left">
@@ -339,10 +416,9 @@ export function PricingTableTwo({ className, plans, title, description, onPlanSe
                   </TableRow>
                 ));
               })()}
-              
             </TableBody>
           </Table>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
