@@ -11,7 +11,7 @@ description: The Cancel Subscription Card component provides a comprehensive and
   </Tab>
 
   <Tab value="Code" className="mt-3">
-  <include cwd lang="tsx" meta='title="src/components/billingsdk/cancel-subscription-card.tsx"'>src/components/billingsdk/cancel-subscription-card.tsx</include>
+  <include cwd lang="tsx" meta='title="src/components/cancel-subscription-card-demo.tsx"'>src/components/cancel-subscription-card-demo.tsx</include>
 
   </Tab>
 </Tabs>
@@ -41,7 +41,9 @@ description: The Cancel Subscription Card component provides a comprehensive and
 ```tsx
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card";
 import { plans } from "@/lib/const";
+```
 
+```tsx
 <CancelSubscriptionCard
   title="We're sorry to see you go..."
   description="Before you cancel, let us know what we could do better."
@@ -59,7 +61,7 @@ import { plans } from "@/lib/const";
 |------|------|----------|-------------|
 | `title` | `string` | ✅ | Main card title |
 | `description` | `string` | ✅ | Card description text |
-| `plan` | `Plan` | ✅ | Plan object containing subscription details |
+| `plan` | `Plan` | ✅ | Plan object containing subscription details. The `plans` array in the `lib/const.ts` file. |
 | `onCancel` | `(planId: string) => Promise<void> \| void` | ✅ | Callback when subscription is cancelled |
 | `leftPanelImageUrl` | `string` | ❌ | Background image URL for left panel |
 | `warningTitle` | `string` | ❌ | Title for warning section |
@@ -73,6 +75,10 @@ import { plans } from "@/lib/const";
 | `confirmButtonText` | `string` | ❌ | Text for final confirm button |
 | `onKeepSubscription` | `(planId: string) => Promise<void> \| void` | ❌ | Callback when user keeps subscription |
 | `className` | `string` | ❌ | Additional CSS classes |
+
+## Theming
+
+The cancel subscription card component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 
 ## Example

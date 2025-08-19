@@ -11,7 +11,7 @@ description: The Cancel Subscription Dialog component provides a comprehensive a
   </Tab>
 
   <Tab value="Code" className="mt-3">
-  <include cwd lang="tsx" meta='title="src/components/billingsdk/cancel-subscription-dialog.tsx"'>src/components/billingsdk/cancel-subscription-dialog.tsx</include>
+  <include cwd lang="tsx" meta='title="src/components/cancel-subscription-dialog-demo.tsx"'>src/components/cancel-subscription-dialog-demo.tsx</include>
 
   </Tab>
 </Tabs>
@@ -41,7 +41,9 @@ description: The Cancel Subscription Dialog component provides a comprehensive a
 ```tsx
 import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription-dialog";
 import { plans } from "@/lib/const";
+```
 
+```tsx
 <CancelSubscriptionDialog
   title="We're sorry to see you go..."
   description="Before you cancel, let us know what we could do better."
@@ -59,7 +61,7 @@ import { plans } from "@/lib/const";
 |------|------|----------|-------------|
 | `title` | `string` | ✅ | Main dialog title |
 | `description` | `string` | ✅ | Dialog description text |
-| `plan` | `Plan` | ✅ | Plan object containing subscription details |
+| `plan` | `Plan` | ✅ | Plan object containing subscription details. The `plans` array in the `lib/const.ts` file. |
 | `onCancel` | `(planId: string) => Promise<void> \| void` | ✅ | Callback when subscription is cancelled |
 | `triggerButtonText` | `string` | ❌ | Text for the trigger button (default: "Cancel Subscription") |
 | `leftPanelImageUrl` | `string` | ❌ | Background image URL for left panel |
@@ -75,6 +77,10 @@ import { plans } from "@/lib/const";
 | `onKeepSubscription` | `(planId: string) => Promise<void> \| void` | ❌ | Callback when user keeps subscription |
 | `onDialogClose` | `() => void` | ❌ | Callback when dialog is closed |
 | `className` | `string` | ❌ | Additional CSS classes |
+
+## Theming
+
+The cancel subscription dialog component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 
 ## Example

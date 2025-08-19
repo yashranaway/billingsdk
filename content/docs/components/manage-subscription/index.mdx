@@ -11,7 +11,7 @@ description: The Manage Subscription component provides a comprehensive interfac
   </Tab>
 
   <Tab value="Code" className="mt-3">
-  <include cwd lang="tsx" meta='title="src/components/billingsdk/subscription-management.tsx"'>src/components/billingsdk/subscription-management.tsx</include>
+  <include cwd lang="tsx" meta='title="src/components/subscription-management-demo.tsx"'>src/components/subscription-management-demo.tsx</include>
 
   </Tab>
 </Tabs>
@@ -41,7 +41,9 @@ description: The Manage Subscription component provides a comprehensive interfac
 ```tsx
 import { SubscriptionManagement } from "@/components/billingsdk/subscription-management";
 import { CurrentPlan, plans } from "@/lib/const";
+```
 
+```tsx
 const currentPlan: CurrentPlan = {
   plan: plans[1],
   type: 'monthly',
@@ -50,7 +52,9 @@ const currentPlan: CurrentPlan = {
   paymentMethod: 'Credit Card',
   status: 'active'
 };
+```
 
+```tsx
 <SubscriptionManagement
   className="max-w-2xl mx-auto"
   currentPlan={currentPlan}
@@ -93,6 +97,10 @@ interface CurrentPlan {
   status: 'active' | 'inactive' | 'cancelled' | 'past_due';
 }
 ```
+
+## Theming
+
+The subscription management component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 ## Example
 <include cwd lang="tsx" meta='title="src/components/subscription-management-demo.tsx"'>src/components/subscription-management-demo.tsx</include>

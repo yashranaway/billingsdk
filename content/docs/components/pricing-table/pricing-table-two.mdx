@@ -12,7 +12,7 @@ description: The Pricing Table Two component offers an alternative design approa
   </Tab>
 
   <Tab value="Code" className="mt-3">
-    <include cwd lang="tsx" meta='title="src/components/billingsdk/pricing-table-two.tsx"'>src/components/billingsdk/pricing-table-two.tsx</include>
+    <include cwd lang="tsx" meta='title="src/components/pricing-table-two-demo.tsx"'>src/components/pricing-table-two-demo.tsx</include>
   </Tab>
 </Tabs>
 
@@ -42,7 +42,9 @@ description: The Pricing Table Two component offers an alternative design approa
 ```tsx
 import { PricingTableTwo } from "@/components/billingsdk/pricing-table-two";
 import { plans } from "@/lib/const";
+```
 
+```tsx
 <PricingTableTwo 
   plans={plans}
   title="Choose Your Plan"
@@ -60,6 +62,12 @@ import { plans } from "@/lib/const";
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
 | `variant` | `"small" \| "medium" \|  "large"` | Size variant of the pricing table |
+
+## Theming
+
+The pricing table component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
+
+
 
 ## Example
 <include cwd lang="tsx" meta='title="src/components/pricing-table-two-demo.tsx"'>src/components/pricing-table-two-demo.tsx</include>

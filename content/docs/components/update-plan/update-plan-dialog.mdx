@@ -11,7 +11,7 @@ description: The Update Plan Dialog component provides an interactive interface 
   </Tab>
 
   <Tab value="Code" className="mt-3">
-  <include cwd lang="tsx" meta='title="src/components/billingsdk/update-plan-dialog.tsx"'>src/components/billingsdk/update-plan-dialog.tsx</include>
+  <include cwd lang="tsx" meta='title="src/components/update-plan-dialog-demo.tsx"'>src/components/update-plan-dialog-demo.tsx</include>
 
   </Tab>
 </Tabs>
@@ -41,7 +41,9 @@ description: The Update Plan Dialog component provides an interactive interface 
 ```tsx
 import { UpdatePlanDialog } from "@/components/billingsdk/update-plan-dialog";
 import { plans } from "@/lib/const";
+```
 
+```tsx
 <UpdatePlanDialog
   currentPlan={plans[0]}
   plans={plans}
@@ -64,6 +66,10 @@ import { plans } from "@/lib/const";
 | `onPlanChange` | `(planId: string) => void` | ✅ | Callback function when a plan is selected |
 | `className` | `string` | ❌ | Additional CSS classes for styling |
 | `title` | `string` | ❌ | Custom title for the dialog (default: "Upgrade Plan") |
+
+## Theming
+
+The update plan dialog component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 ## Example
 <include cwd lang="tsx" meta='title="src/components/update-plan-dialog-demo.tsx"'>src/components/update-plan-dialog-demo.tsx</include>
