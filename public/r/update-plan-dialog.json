@@ -26,7 +26,7 @@
     },
     {
       "path": "src/registry/billingsdk/demo/update-plan-dialog-demo.tsx",
-      "content": "'use client'\n\nimport { UpdatePlanDialog } from '@/components/billingsdk/update-plan-dialog';\nimport { plans } from '@/lib/const';\n\nexport function UpdatePlanDialogDemo() {\n\n  return (\n    <div className=\"flex flex-1 flex-col justify-center text-center p-4 w-full mx-auto\">\n      <UpdatePlanDialog\n        currentPlan={plans[1]}\n        plans={plans}\n        onPlanChange={(planId) => {\n          console.log(planId)\n        }}\n        triggerText=\"Update Plan\"\n      />\n    </div>\n  );\n}\n",
+      "content": "'use client'\n\nimport { UpdatePlanDialog } from '@/components/billingsdk/update-plan-dialog';\nimport { plans } from '@/lib/const';\n\nexport function UpdatePlanDialogDemo() {\n\n  return (\n    <div className=\"flex flex-1 flex-col justify-center text-center p-4 mx-auto min-h-[300px]\">\n      <UpdatePlanDialog\n        currentPlan={plans[1]}\n        plans={plans}\n        onPlanChange={(planId) => {\n          console.log(planId)\n        }}\n        triggerText=\"Update Plan\"\n      />\n    </div>\n  );\n}\n",
       "type": "registry:component",
       "target": "components/update-plan-dialog-demo.tsx"
     },
