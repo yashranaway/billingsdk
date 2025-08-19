@@ -13,8 +13,8 @@
     "badge",
     "separator",
     "utils",
-    "http://localhost:3000/r/cancel-subscription-dialog.json",
-    "http://localhost:3000/r/update-plan-dialog.json"
+    "https://billingsdk.vercel.app/r/cancel-subscription-dialog.json",
+    "https://billingsdk.vercel.app/r/update-plan-dialog.json"
   ],
   "files": [
     {

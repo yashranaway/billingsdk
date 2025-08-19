@@ -23,17 +23,17 @@
             "description": "All components in the BillingSDK",
             "files": [],
             "registryDependencies": [
-                "http://localhost:3000/r/pricing-table-one.json",
-                "http://localhost:3000/r/pricing-table-two.json",
-                "http://localhost:3000/r/pricing-table-three.json",
-                "http://localhost:3000/r/cancel-subscription-dialog.json",
-                "http://localhost:3000/r/cancel-subscription-card.json",
-                "http://localhost:3000/r/update-plan-dialog.json",
-                "http://localhost:3000/r/update-plan-card.json",
-                "http://localhost:3000/r/subscription-management.json",
-                "http://localhost:3000/r/usage-meter-linear.json",
-                "http://localhost:3000/r/usage-meter-circle.json",
-                "http://localhost:3000/r/banner.json"
+                "https://billingsdk.vercel.app/r/pricing-table-one.json",
+                "https://billingsdk.vercel.app/r/pricing-table-two.json",
+                "https://billingsdk.vercel.app/r/pricing-table-three.json",
+                "https://billingsdk.vercel.app/r/cancel-subscription-dialog.json",
+                "https://billingsdk.vercel.app/r/cancel-subscription-card.json",
+                "https://billingsdk.vercel.app/r/update-plan-dialog.json",
+                "https://billingsdk.vercel.app/r/update-plan-card.json",
+                "https://billingsdk.vercel.app/r/subscription-management.json",
+                "https://billingsdk.vercel.app/r/usage-meter-linear.json",
+                "https://billingsdk.vercel.app/r/usage-meter-circle.json",
+                "https://billingsdk.vercel.app/r/banner.json"
             ]
         },
         {
@@ -321,8 +321,8 @@
                 "badge",
                 "separator",
                 "utils",
-                "http://localhost:3000/r/cancel-subscription-dialog.json",
-                "http://localhost:3000/r/update-plan-dialog.json"
+                "https://billingsdk.vercel.app/r/cancel-subscription-dialog.json",
+                "https://billingsdk.vercel.app/r/update-plan-dialog.json"
             ]
         },
         {
