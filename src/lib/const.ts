@@ -13,8 +13,7 @@ export interface Plan {
         name: string
         icon: string
         iconColor?: string
-    }[],
-    benefits?: string[]
+    }[]
 }
 
 export interface CurrentPlan {
@@ -62,7 +61,6 @@ export const plans: Plan[] = [
                 iconColor: 'text-zinc-500'
             }
         ],
-        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Community support']
     },
     {
         id: 'pro',
@@ -101,7 +99,6 @@ export const plans: Plan[] = [
                 iconColor: 'text-zinc-500'
             }
         ],
-        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Email support']
     },
     {
         id: 'enterprise',
@@ -138,6 +135,5 @@ export const plans: Plan[] = [
                 iconColor: 'text-zinc-500'
             }
         ],
-        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Priority support']
     }
 ];
