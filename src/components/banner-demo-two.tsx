@@ -1,18 +1,31 @@
 import { Banner } from "@/components/billingsdk/banner"
-import { Rocket } from "lucide-react"
 
-export default function FreeTrialBannerDemoTwo() {
+export default function FreeTrialBannerDemo() {
     return (
-        <div className="w-full h-full flex flex-col gap-4 min-h-[500px] justify-center items-center border rounded-lg">
+        <div className="w-full h-full flex flex-col gap-6 min-h-[500px] border rounded-lg overflow-hidden bg-background-secondary border-2">
             <Banner
-                title="🎉 Start your free trial today!"
-                description="Get 30 days free access to all premium features"
-                buttonText="Start Free Trial"
-                buttonIcon={<Rocket />}
-                buttonLink="https://example.com/signup"
+                title="🎉 Explore your next destination today!"
+                description="Discover the best places to visit in the world"
                 variant="minimal" // default, minimal, popup
             />
-        </div>
 
+            {/* minimal hero example */}
+            <section className="flex flex-col items-center justify-center text-center gap-4 py-16">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground-secondary">
+                    Discover the best places to visit in the world
+                </h1>
+                <div className="flex flex-col gap-2">
+
+                    <p className="text-muted-foreground max-w-md">
+                        Explore the best places to visit in the world
+                    </p>
+                    <a
+                        className="underline underline-offset-4 hover:text-primary transition"
+                    >
+                        Get Started →
+                    </a>
+                </div>
+            </section>
+        </div>
     )
 }

@@ -6,7 +6,7 @@ import { plans } from "@/lib/const";
 export function CancelSubscriptionDialogDemo() {
     return(
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-1 flex-col justify-center text-center p-4 mx-auto min-h-[300px]">
       <CancelSubscriptionDialog
         title="We're sorry to see you go..."
         description={`Before you cancel, we hope you'll consider upgrading to a ${plans[1].title} plan again.`}
