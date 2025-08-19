@@ -11,7 +11,7 @@ description: The Update Plan Card component provides a compact, card-based inter
   </Tab>
 
   <Tab value="Code" className="mt-3">
-  <include cwd lang="tsx" meta='title="src/components/billingsdk/update-plan-card.tsx"'>src/components/billingsdk/update-plan-card.tsx</include>
+  <include cwd lang="tsx" meta='title="src/components/update-plan-card-demo.tsx"'>src/components/update-plan-card-demo.tsx</include>
 
   </Tab>
 </Tabs>
@@ -41,7 +41,9 @@ description: The Update Plan Card component provides a compact, card-based inter
 ```tsx
 import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card";
 import { plans } from "@/lib/const";
+```
 
+```tsx
 <UpdatePlanCard
   currentPlan={plans[0]}
   plans={plans}
@@ -62,6 +64,10 @@ import { plans } from "@/lib/const";
 | `onPlanChange` | `(planId: string) => void` | ✅ | Callback function when a plan is selected |
 | `className` | `string` | ❌ | Additional CSS classes for styling |
 | `title` | `string` | ❌ | Custom title for the card (default: "Upgrade Plan") |
+
+## Theming
+
+The update plan card component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 
 ## Example

@@ -52,11 +52,11 @@ export function Banner({
           container:
             "sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60",
           wrapper:
-            "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-2 gap-2 sm:gap-4 max-w-2xl",
-          content: "flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2 w-full",
+            "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-center px-3 sm:px-4 py-2 gap-2 sm:gap-4 max-w-2xl",
+          content: "flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2",
           title: "text-sm font-medium text-card-foreground leading-tight",
           description: "text-xs text-muted-foreground sm:ml-2",
-          actions: "flex items-center gap-2 self-end sm:self-auto pr-8",
+          actions: "flex items-center gap-2 self-end sm:self-auto",
         }
       case "popup":
         return {

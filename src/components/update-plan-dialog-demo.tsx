@@ -6,7 +6,7 @@ import { plans } from '@/lib/const';
 export function UpdatePlanDialogDemo() {
 
   return (
-    <div className="flex flex-1 flex-col justify-center text-center p-4 w-full mx-auto">
+    <div className="flex flex-1 flex-col justify-center text-center p-4 mx-auto min-h-[300px]">
       <UpdatePlanDialog
         currentPlan={plans[1]}
         plans={plans}
