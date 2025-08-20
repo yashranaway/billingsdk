@@ -70,6 +70,23 @@ You can change the variant of the banner to `default`, `minimal`, or `popup`.
 
 </Tabs>
 
+## Gradient Banner
+
+The banner component supports animated gradient backgrounds with custom colors. The gradient automatically adapts to both light and dark themes.
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <BannerGradientDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+  <include cwd lang="tsx" meta='title="src/components/banner-gradient-demo.tsx"'>src/components/banner-gradient-demo.tsx</include>
+  </Tab>
+
+</Tabs>
+
 
 
 ## Usage
@@ -109,6 +126,23 @@ import { Banner } from "@/components/billingsdk/banner";
 />
 ```
 
+```tsx
+// Gradient Banner
+<Banner
+  title="🌈 Experience the magic of gradients!"
+  description="Beautiful animated gradient background with custom colors"
+  buttonText="Learn More"
+  buttonLink="https://example.com/gradients"
+  variant="default"
+  gradientColors={[
+    "rgba(0,149,255,0.56)",
+    "rgba(231,77,255,0.77)",
+    "rgba(255,0,0,0.73)",
+    "rgba(131,255,166,0.66)"
+  ]}
+/>
+```
+
 ## Props
 
 | Prop | Type | Required | Description |
@@ -122,6 +156,22 @@ import { Banner } from "@/components/billingsdk/banner";
 | `variant` | `"default" | "minimal" | "popup"` | ✅ | The variant of the banner |
 | `autoDismiss` | `number` | ❌ | The time in milliseconds to auto dismiss the banner |
 | `onDismiss` | `() => void` | ❌ | The function to call when the banner is dismissed |
+| `gradientColors` | `string[]` | ❌ | Array of color strings for animated gradient background |
+
+## Gradient Colors
+
+The `gradientColors` prop accepts an array of color strings (preferably in rgba format with alpha transparency). The gradient creates a smooth animated background effect that moves from left to right.
+
+### Features:
+- **Theme-aware**: Automatically adapts text colors and filter effects for light/dark themes
+- **Smooth animation**: 30-second linear animation that loops infinitely
+- **Customizable**: Works with any number of colors (optimal with 4 colors)
+- **Subtle transitions**: Gentle fade-in/out animations (0.15s duration)
+
+### Color Guidelines:
+- Use rgba colors with alpha values between 0.5-0.8 for best results
+- Colors are automatically filtered for optimal contrast in both themes
+- The gradient animation uses a 70-degree angle for a diagonal effect
 
 ## Example
 <include cwd lang="tsx" meta='title="src/components/banner-demo.tsx"'>src/components/banner-demo.tsx</include>

@@ -18,6 +18,7 @@ interface BannerProps {
   className?: string
   autoDismiss?: number // in ms
   onDismiss?: () => void
+  gradientColors?: string[]
 }
 
 export function Banner({
@@ -30,6 +31,7 @@ export function Banner({
   className,
   autoDismiss,
   onDismiss,
+  gradientColors,
 }: BannerProps) {
   const [isVisible, setIsVisible] = useState(true)
 
@@ -46,44 +48,95 @@ export function Banner({
   }
 
   const getVariantStyles = () => {
+    const hasGradient = gradientColors && gradientColors.length > 0
+
     switch (variant) {
       case "minimal":
         return {
-          container:
-            "sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60",
+          container: hasGradient
+            ? "sticky top-0 z-50 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-card/60"
+            : "sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60",
           wrapper:
             "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-center px-3 sm:px-4 py-2 gap-2 sm:gap-4 max-w-2xl",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2",
-          title: "text-sm font-medium text-card-foreground leading-tight",
-          description: "text-xs text-muted-foreground sm:ml-2",
+          title: hasGradient
+            ? "text-sm font-medium text-black dark:text-white leading-tight"
+            : "text-sm font-medium text-card-foreground leading-tight",
+          description: hasGradient
+            ? "text-xs text-gray-700/80 dark:text-white/80 sm:ml-2"
+            : "text-xs text-muted-foreground sm:ml-2",
           actions: "flex items-center gap-2 self-end sm:self-auto",
         }
       case "popup":
         return {
-          container:
-            "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto bg-popover border border-border rounded-lg shadow-lg",
+          container: hasGradient
+            ? "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto border border-border rounded-lg shadow-lg"
+            : "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto bg-popover border border-border rounded-lg shadow-lg",
           wrapper:
             "relative flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-3 gap-3 sm:gap-4",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-2 flex-1",
-          title: "text-sm font-medium text-popover-foreground leading-snug",
-          description: "text-xs text-muted-foreground",
+          title: hasGradient
+            ? "text-sm font-medium text-gray-900 dark:text-white leading-snug"
+            : "text-sm font-medium text-popover-foreground leading-snug",
+          description: hasGradient
+            ? "text-xs text-gray-700/80 dark:text-white/80"
+            : "text-xs text-muted-foreground",
           actions: "flex items-center gap-2 self-end sm:self-auto flex-shrink-0 pr-8",
         }
       default:
         return {
-          container:
-            "sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground shadow-sm text-left",
+          container: hasGradient
+            ? "sticky top-0 z-50 w-full border-b text-primary-foreground shadow-sm text-left"
+            : "sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground shadow-sm text-left",
           wrapper:
             "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full",
-          title: "text-sm font-medium text-primary-foreground leading-tight",
-          description: "text-xs text-primary-foreground/80",
+          title: hasGradient
+            ? "text-sm font-medium text-gray-900 dark:text-white leading-tight"
+            : "text-sm font-medium text-primary-foreground leading-tight",
+          description: hasGradient
+            ? "text-xs text-gray-700/80 dark:text-white/80"
+            : "text-xs text-primary-foreground/80",
           actions: "flex items-center gap-2 self-end sm:self-auto pr-8",
         }
     }
   }
 
   const styles = getVariantStyles()
+
+  const getGradientBackground = () => {
+    if (!gradientColors || gradientColors.length === 0) return null
+
+    // Use the exact gradient from the example or custom colors with proper spacing
+    let gradientStops
+    if (gradientColors.length === 4) {
+      // Match the original example exactly
+      gradientStops = `${gradientColors[0]} 0%, ${gradientColors[1]} 12.5%, ${gradientColors[2]} 25%, ${gradientColors[3]} 37.5%, ${gradientColors[0]} 50%`
+    } else {
+      // For other numbers of colors, use equal spacing
+      gradientStops = gradientColors.map((color, index) => {
+        const percentage = (index / gradientColors.length) * 100
+        return `${color} ${percentage}%`
+      }).join(', ')
+    }
+
+    // Use consistent filter for better visibility
+    const filterValue = 'saturate(1.8) brightness(1.2)'
+
+    return (
+      <div
+        className="absolute inset-0 z-[-1]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, white, transparent), radial-gradient(circle at top center, white, transparent)',
+          maskComposite: 'intersect',
+          animation: 'fd-moving-banner 30s linear infinite',
+          backgroundImage: `repeating-linear-gradient(70deg, ${gradientStops})`,
+          backgroundSize: '200% 100%',
+          filter: filterValue
+        }}
+      />
+    )
+  }
 
   const getAnimationProps = () => {
     switch (variant) {
@@ -107,9 +160,10 @@ export function Banner({
       {isVisible && (
         <motion.div
           {...getAnimationProps()}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
           className={cn(styles.container, className)}
         >
+          {getGradientBackground()}
           <div className={styles.wrapper}>
             {/* Content */}
             <div className={styles.content}>
@@ -141,9 +195,11 @@ export function Banner({
               onClick={handleDismiss}
               className={cn(
                 "absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8",
-                variant === "default" && "hover:bg-primary-foreground/20 text-primary-foreground",
-                variant === "popup" && "hover:bg-accent text-popover-foreground",
-                variant === "minimal" && "hover:bg-accent text-card-foreground",
+                gradientColors && gradientColors.length > 0
+                  ? "hover:bg-gray-900/10 dark:hover:bg-white/20 text-gray-900 dark:text-white"
+                  : variant === "default" && "hover:bg-primary-foreground/20 text-primary-foreground",
+                variant === "popup" && !gradientColors && "hover:bg-accent text-popover-foreground",
+                variant === "minimal" && !gradientColors && "hover:bg-accent text-card-foreground",
               )}
             >
               <X className="h-4 w-4" />
@@ -154,4 +210,23 @@ export function Banner({
       )}
     </AnimatePresence>
   )
+}
+
+// Add CSS keyframes for the moving banner animation
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style')
+  styleSheet.textContent = `
+    @keyframes fd-moving-banner {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  `
+  document.head.appendChild(styleSheet)
 }
