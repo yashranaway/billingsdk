@@ -1,7 +1,7 @@
 "use client";
 
 import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription-dialog";
-import { plans } from "@/lib/const";
+import { plans } from "@/lib/billing-sdk-const";
 
 export function CancelSubscriptionDialogDemo() {
     return(

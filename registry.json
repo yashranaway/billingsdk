@@ -10,9 +10,9 @@
             "description": "Constants and types for BillingSDK components",
             "files": [
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ]
         },
@@ -66,9 +66,9 @@
                     "target": "components/pricing-table-one-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -104,9 +104,9 @@
                     "target": "components/pricing-table-two-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -138,9 +138,9 @@
                     "target": "components/pricing-table-three-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -174,9 +174,9 @@
                     "target": "components/cancel-subscription-dialog-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -206,9 +206,9 @@
                     "target": "components/cancel-subscription-card-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -238,9 +238,9 @@
                     "target": "components/update-plan-dialog-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -274,9 +274,9 @@
                     "target": "components/update-plan-card-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -310,9 +310,9 @@
                     "target": "components/subscription-management-demo.tsx"
                 },
                 {
-                    "path": "src/registry/lib/const.ts",
+                    "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/const.ts"
+                    "target": "src/lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
