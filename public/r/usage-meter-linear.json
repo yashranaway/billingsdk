@@ -22,7 +22,7 @@
     },
     {
       "path": "src/registry/billingsdk/demo/usage-meter-linear-demo.tsx",
-      "content": "'use client'\n\nimport { UsageMeter } from \"@/components/billingsdk/usage-meter\";\n\nexport default function UsageMeterLinearDemo() {\n\n  return (\n    <div className=\"flex flex-col gap-4 max-w-lg mx-auto w-full\">\n      <UsageMeter \n      usage={75} \n      limit={100} \n      title=\"Usage\" \n      description=\"Lorem ipsum dolor sit amet\" \n      variant=\"linear\" \n      size=\"md\" \n      className=\"mx-auto\" />\n    </div>\n\n  );\n}\n",
+      "content": "'use client'\n\nimport { UsageMeter } from \"@/components/billingsdk/usage-meter\";\n\nexport default function UsageMeterLinearDemo() {\n\n  return (\n    <div className=\"flex flex-col gap-4 mx-auto w-full\">\n      <UsageMeter\n        usage={[{\n          name: \"Claude Sonnet 4\",\n          usage: 75,\n          limit: 100\n        }, {\n          name: \"ChatGPT 5\",\n          usage: 12,\n          limit: 100\n        }, {\n          name: \"Grok 3\",\n          usage: 57,\n          limit: 100\n        }, {\n          name: \"Gemini 2.5\",\n          usage: 95,\n          limit: 100\n        }]}\n        title=\"LLM Usage\"\n        description=\"Your usage of the LLM models\"\n        variant=\"linear\"\n        size=\"md\"\n        className=\"mx-auto\" />\n    </div>\n\n  );\n}\n",
       "type": "registry:component",
       "target": "components/usage-meter-linear-demo.tsx"
     }
