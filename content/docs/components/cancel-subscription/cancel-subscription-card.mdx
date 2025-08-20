@@ -40,7 +40,7 @@ description: The Cancel Subscription Card component provides a comprehensive and
 
 ```tsx
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card";
-import { plans } from "@/lib/const";
+import { plans } from "@/lib/billing-sdk-const";
 ```
 
 ```tsx
@@ -61,7 +61,7 @@ import { plans } from "@/lib/const";
 |------|------|----------|-------------|
 | `title` | `string` | ✅ | Main card title |
 | `description` | `string` | ✅ | Card description text |
-| `plan` | `Plan` | ✅ | Plan object containing subscription details. The `plans` array in the `lib/const.ts` file. |
+| `plan` | `Plan` | ✅ | Plan object containing subscription details. The `plans` array in the `lib/billing-sdk-const.ts` file. |
 | `onCancel` | `(planId: string) => Promise<void> \| void` | ✅ | Callback when subscription is cancelled |
 | `leftPanelImageUrl` | `string` | ❌ | Background image URL for left panel |
 | `warningTitle` | `string` | ❌ | Title for warning section |
