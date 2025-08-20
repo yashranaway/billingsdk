@@ -1,7 +1,8 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, Zap } from "lucide-react";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { Badge } from "@/components/ui/badge";
@@ -12,84 +13,172 @@ import { Separator } from "@/components/ui/separator";
 import { Plan } from "@/lib/const";
 import { cn } from "@/lib/utils";
 
-
 const sectionVariants = cva("py-32", {
   variants: {
-    variant: {
+    size: {
       small: "py-12",
       medium: "py-20",
       large: "py-32",
     },
+    theme: {
+      minimal: "",
+      classic: "bg-gradient-to-b from-background to-muted/20 relative overflow-hidden",
+    },
   },
   defaultVariants: {
-    variant: "medium",
+    size: "medium",
+    theme: "minimal",
   },
 });
 
-const titleVariants = cva("text-pretty text-left font-bold text-4xl lg:text-6xl", {
+const titleVariants = cva("text-pretty text-left font-bold", {
   variants: {
-    variant: {
+    size: {
       small: "text-3xl lg:text-4xl",
       medium: "text-4xl lg:text-5xl",
       large: "text-4xl lg:text-6xl",
     },
+    theme: {
+      minimal: "",
+      classic: "text-center bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+    },
   },
   defaultVariants: {
-    variant: "large",
+    size: "large",
+    theme: "minimal",
   },
 });
 
-const descriptionVariants = cva("text-muted-foreground max-w-3xl text-left lg:text-xl", {
+const descriptionVariants = cva("text-muted-foreground max-w-3xl", {
   variants: {
-    variant: {
+    size: {
       small: "text-base lg:text-lg",
       medium: "text-lg lg:text-xl",
       large: "lg:text-xl",
     },
-  },
-  defaultVariants: {
-    variant: "large",
-  },
-});
-
-const cardVariants = cva("flex w-full flex-col rounded-lg border text-left p-6", {
-  variants: {
-    variant: {
-      small: "p-4",
-      medium: "p-5",
-      large: "p-6",
+    theme: {
+      minimal: "text-left",
+      classic: "text-center mx-auto",
     },
   },
   defaultVariants: {
-    variant: "large",
+    size: "large",
+    theme: "minimal",
   },
 });
 
-const priceTextVariants = cva("font-medium text-4xl", {
+const cardVariants = cva(
+  "flex w-full flex-col rounded-lg border text-left h-full transition-all duration-300",
+  {
+    variants: {
+      size: {
+        small: "p-4",
+        medium: "p-5",
+        large: "p-6",
+      },
+      theme: {
+        minimal: "",
+        classic: "hover:shadow-xl backdrop-blur-sm bg-card/50 border-border/50",
+      },
+      highlight: {
+        true: "",
+        false: "",
+      },
+    },
+    compoundVariants: [
+      {
+        theme: "classic",
+        highlight: true,
+        className: "ring-2 ring-primary/20 border-primary/30 bg-gradient-to-b from-primary/5 to-transparent relative overflow-hidden",
+      },
+      {
+        theme: "minimal",
+        highlight: true,
+        className: "bg-muted",
+      },
+    ],
+    defaultVariants: {
+      size: "large",
+      theme: "minimal",
+      highlight: false,
+    },
+  }
+);
+
+const priceTextVariants = cva("font-medium", {
   variants: {
-    variant: {
+    size: {
       small: "text-3xl",
       medium: "text-4xl",
       large: "text-4xl",
     },
+    theme: {
+      minimal: "",
+      classic: "text-5xl font-extrabold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+    },
   },
   defaultVariants: {
-    variant: "large",
+    size: "large",
+    theme: "minimal",
   },
 });
 
-const featureIconVariants = cva("size-4", {
+const featureIconVariants = cva("", {
   variants: {
-    variant: {
+    size: {
       small: "size-3",
       medium: "size-4",
       large: "size-4",
     },
+    theme: {
+      minimal: "text-primary",
+      classic: "text-emerald-500",
+    },
   },
   defaultVariants: {
-    variant: "large",
+    size: "large",
+    theme: "minimal",
   },
 });
+
+const highlightBadgeVariants = cva("mb-8 block w-fit", {
+  variants: {
+    theme: {
+      minimal: "",
+      classic: "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg",
+    },
+  },
+  defaultVariants: {
+    theme: "minimal",
+  },
+});
+
+const toggleVariants = cva("flex h-11 w-fit shrink-0 items-center rounded-md p-1 text-lg", {
+  variants: {
+    theme: {
+      minimal: "bg-muted",
+      classic: "bg-muted/50 backdrop-blur-sm border border-border/50 shadow-lg",
+    },
+  },
+  defaultVariants: {
+    theme: "minimal",
+  },
+});
+
+const buttonVariants = cva(
+  "gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transition-all duration-300",
+  {
+    variants: {
+      theme: {
+        minimal: "shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay hover:cursor-pointer",
+        classic: "relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold py-3 px-6 rounded-lg hover:shadow-xl active:scale-95 border border-primary/20",
+      },
+    },
+    defaultVariants: {
+      theme: "minimal",
+    },
+  }
+);
 
 interface PricingTableOneProps extends VariantProps<typeof sectionVariants> {
   className?: string;
@@ -99,21 +188,70 @@ interface PricingTableOneProps extends VariantProps<typeof sectionVariants> {
   onPlanSelect?: (planId: string) => void;
 }
 
-export function PricingTableOne({ className, plans, title, description, onPlanSelect, variant }: PricingTableOneProps) {
+export function PricingTableOne({ 
+  className, 
+  plans, 
+  title, 
+  description, 
+  onPlanSelect, 
+  size,
+  theme = "minimal" 
+}: PricingTableOneProps) {
   const [isAnnually, setIsAnnually] = useState(false);
 
+  function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
+    const monthly = parseFloat(monthlyPrice);
+    const yearly = parseFloat(yearlyPrice);
+
+    if (
+      monthlyPrice.toLowerCase() === "custom" ||
+      yearlyPrice.toLowerCase() === "custom" ||
+      isNaN(monthly) ||
+      isNaN(yearly) ||
+      monthly === 0
+    ) {
+      return 0;
+    }
+
+    const discount = ((monthly * 12 - yearly) / (monthly * 12)) * 100;
+    return Math.round(discount);
+  }
+
+  const yearlyPriceDiscount = plans.length
+    ? Math.max(
+      ...plans.map((plan) =>
+        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+      )
+    )
+    : 0;
+
   return (
-    <section className={cn(sectionVariants({ variant }), className)}>
-      <div className="container">
+    <section className={cn(sectionVariants({ size, theme }), className)}>
+      {/* Classic theme background elements */}
+      {theme === "classic" && (
+        <>
+          <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-secondary/5 rounded-full blur-2xl" />
+        </>
+      )}
+      
+      <div className="container relative">
         <div className="mx-auto flex max-w-7xl flex-col gap-6">
-          <h2 className={cn(titleVariants({ variant }))}>
-            {title || "Pricing"}
-          </h2>
-          <div className="flex flex-col justify-between gap-10 md:flex-row">
-            <p className={cn(descriptionVariants({ variant }))}>
-              {description || "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat odio, expedita neque ipsum pariatur suscipit!"}
+          <div className={cn("flex flex-col gap-4", theme === "classic" && "text-center")}>
+            <h2 className={cn(titleVariants({ size, theme }))}>
+              {title || "Pricing"}
+            </h2>
+          </div>
+
+          <div className={cn(
+            "flex flex-col justify-between gap-10",
+            theme === "classic" ? "md:flex-col md:items-center" : "md:flex-row"
+          )}>
+            <p className={cn(descriptionVariants({ size, theme }))}>
+              {description || "Transparent pricing with no hidden fees. Upgrade or downgrade anytime."}
             </p>
-            <div className="bg-muted flex h-11 w-fit shrink-0 items-center rounded-md p-1 text-lg">
+            <div className={cn(toggleVariants({ theme }), theme === "classic" && "mx-auto")}>
               <RadioGroup
                 defaultValue="monthly"
                 className="h-full grid-cols-2"
@@ -129,7 +267,7 @@ export function PricingTableOne({ className, plans, title, description, onPlanSe
                   />
                   <Label
                     htmlFor="monthly"
-                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-7 font-semibold"
+                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-7 font-semibold transition-all hover:text-foreground"
                   >
                     Monthly
                   </Label>
@@ -142,53 +280,140 @@ export function PricingTableOne({ className, plans, title, description, onPlanSe
                   />
                   <Label
                     htmlFor="annually"
-                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-7 font-semibold"
+                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-7 font-semibold transition-all hover:text-foreground"
                   >
                     Yearly
+                    {yearlyPriceDiscount > 0 && (
+                      <span className="ml-1 rounded bg-primary/10 px-2 py-0.5 text-xs text-primary border border-primary/20 font-medium">
+                        Save {yearlyPriceDiscount}%
+                      </span>
+                    )}
                   </Label>
                 </div>
               </RadioGroup>
             </div>
           </div>
-          <div className="flex w-full flex-col items-stretch gap-6 md:flex-row">
+
+          <div className="flex w-full flex-col items-stretch gap-6 md:flex-row md:items-stretch">
             {plans.map((plan, index) => (
-              <div
+              <motion.div
                 key={plan.id}
+                layout
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
                 className={cn(
-                  cardVariants({ variant }),
-                  plan.highlight && "bg-muted"
+                  cardVariants({ 
+                    size, 
+                    theme, 
+                    highlight: plan.highlight 
+                  })
                 )}
               >
-                <Badge className="mb-8 block w-fit">{plan.title}</Badge>
-                {isAnnually ? (
+                {/* Classic theme highlight effect */}
+                {theme === "classic" && plan.highlight && (
                   <>
-                    <span className={cn(priceTextVariants({ variant }))}>{plan.yearlyPrice}</span>
-                    <p className="text-muted-foreground">Per year</p>
-                  </>
-                ) : (
-                  <>
-                    <span className={cn(priceTextVariants({ variant }))}>{plan.monthlyPrice}</span>
-                    <p className="text-muted-foreground">Per month</p>
+                    <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+                    <div className="absolute top-4 right-4">
+                      <Badge className={highlightBadgeVariants({ theme })}>
+                        Most Popular
+                      </Badge>
+                    </div>
                   </>
                 )}
-                <Separator className="my-6" />
-                <div className="flex h-full flex-col justify-between gap-20">
+                
+                <Badge className={cn(
+                  theme === "classic" && !plan.highlight 
+                    ? "bg-muted text-muted-foreground border-border/50 mb-8" 
+                    : highlightBadgeVariants({ theme })
+                )}>
+                  {plan.title}
+                </Badge>
+                
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={isAnnually ? "year" : "month"}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {isAnnually ? (
+                      <>
+                        <span className={cn("my-auto", priceTextVariants({ size, theme }))}>
+                          {parseFloat(plan.yearlyPrice) >= 0 && (
+                            <>
+                              {plan.currency}
+                            </>
+                          )}
+                          {plan.yearlyPrice}
+                          {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice) > 0 && (
+                            <span className={cn(
+                              "text-xs ml-2",
+                              theme === "classic" ? "text-emerald-500 font-semibold" : "underline"
+                            )}>
+                              {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)}% off
+                            </span>
+                          )}
+                        </span>
+                        <p className="text-muted-foreground">per year</p>
+                      </>
+                    ) : (
+                      <>
+                        <span className={cn(priceTextVariants({ size, theme }))}>
+                          {parseFloat(plan.monthlyPrice) >= 0 && (
+                            <>
+                              {plan.currency}
+                            </>
+                          )}
+                          {plan.monthlyPrice}
+                        </span>
+                        <p className="text-muted-foreground">per month</p>
+                      </>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
+                <Separator className={cn(
+                  "my-6",
+                  theme === "classic" && "bg-gradient-to-r from-transparent via-border to-transparent"
+                )} />
+                
+                <div className="flex h-full flex-col justify-between gap-10">
                   <ul className="text-muted-foreground space-y-4">
                     {plan.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center gap-2">
-                        <Check className={cn(featureIconVariants({ variant }))} />
-                        <span>{feature.name}</span>
-                      </li>
+                      <motion.li 
+                        key={featureIndex} 
+                        className="flex items-center gap-3"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
+                      >
+                        <Check className={cn(featureIconVariants({ size, theme }))} />
+                        <span className={cn(
+                          theme === "classic" && "text-foreground/90"
+                        )}>
+                          {feature.name}
+                        </span>
+                      </motion.li>
                     ))}
                   </ul>
-                  <Button 
-                    className="gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 transition duration-300 ease-[cubic-bezier(0.4,0.36,0,1)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay" 
+
+                  <Button
+                    className={buttonVariants({ theme })}
                     onClick={() => onPlanSelect?.(plan.id)}
+                    aria-label={`Select ${plan.title} plan`}
                   >
+                    {theme === "classic" && plan.highlight && (
+                      <Zap className="w-4 h-4 mr-1" />
+                    )}
                     {plan.buttonText}
+                    {theme === "classic" && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
+                    )}
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

@@ -250,37 +250,49 @@ export const themes: Theme[] = [
     }
   },
   {
-    name: "cyberpunk",
-    label: "Cyberpunk",
-    fonts: {
-      primary: "'Orbitron', monospace",
-      secondary: "'JetBrains Mono', monospace",
-      mono: "'JetBrains Mono', monospace",
-      fontUrl: "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+    "name": "cyberpunk",
+    "label": "Cyberpunk",
+    "fonts": {
+      "primary": "'Orbitron', monospace",
+      "secondary": "'JetBrains Mono', monospace",
+      "mono": "'JetBrains Mono', monospace",
+      "fontUrl": "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap"
     },
-    cssVars: {
-      light: {
-        "--background": "oklch(0.05 0.02 270)",
-        "--foreground": "oklch(0.9 0.15 320)",
-        "--card": "oklch(0.08 0.03 270)",
-        "--card-foreground": "oklch(0.85 0.12 320)",
-        "--popover": "oklch(0.08 0.03 270)",
-        "--popover-foreground": "oklch(0.85 0.12 320)",
-        "--primary": "oklch(0.7 0.3 320)",
-        "--primary-foreground": "oklch(0.05 0.02 270)",
-        "--secondary": "oklch(0.15 0.05 270)",
-        "--secondary-foreground": "oklch(0.8 0.15 180)",
-        "--muted": "oklch(0.12 0.04 270)",
-        "--muted-foreground": "oklch(0.6 0.08 270)",
-        "--accent": "oklch(0.6 0.25 180)",
-        "--accent-foreground": "oklch(0.05 0.02 270)",
-        "--destructive": "oklch(0.65 0.3 15)",
-        "--border": "oklch(0.2 0.06 270)",
-        "--input": "oklch(0.15 0.05 270)",
-        "--ring": "oklch(0.7 0.3 320)",
-        "--radius": "0.125rem"
+    "cssVars": {
+      "light": {
+        /* Core surface colours — high-key, almost white */
+        "--background": "oklch(0.96 0.01 260)",
+        "--foreground": "oklch(0.22 0.03 280)",
+  
+        /* Cards & popovers — subtle glass-morph tint */
+        "--card": "oklch(0.98 0.02 260 / 0.8)",
+        "--card-foreground": "oklch(0.25 0.04 280)",
+        "--popover": "oklch(0.98 0.02 260 / 0.9)",
+        "--popover-foreground": "oklch(0.25 0.04 280)",
+  
+        /* Neon magentas & cyans */
+        "--primary": "oklch(0.75 0.32 325)",
+        "--primary-foreground": "oklch(0.98 0.01 260)",
+        "--secondary": "oklch(0.92 0.1 190)",
+        "--secondary-foreground": "oklch(0.2 0.05 260)",
+  
+        /* Muted greys with a cool hue */
+        "--muted": "oklch(0.9 0.02 260)",
+        "--muted-foreground": "oklch(0.55 0.03 260)",
+  
+        /* Accent — electric cyan */
+        "--accent": "oklch(0.7 0.28 190)",
+        "--accent-foreground": "oklch(0.98 0.01 260)",
+  
+        /* Destructive — hot red */
+        "--destructive": "oklch(0.7 0.3 25)",
+        "--border": "oklch(0.85 0.05 260)",
+        "--input": "oklch(0.94 0.02 260)",
+        "--ring": "oklch(0.75 0.32 325)",
+        "--radius": "0.25rem"
       },
-      dark: {
+      "dark": {
+        /* unchanged – already solid */
         "--background": "oklch(0.02 0.01 270)",
         "--foreground": "oklch(0.95 0.2 320)",
         "--card": "oklch(0.05 0.02 270)",

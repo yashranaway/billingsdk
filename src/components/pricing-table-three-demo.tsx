@@ -11,7 +11,10 @@ export function PricingTableThreeDemo() {
             onPlanSelect={(planId) => console.log('Selected plan:', planId)}
             className={"w-full max-w-4xl mx-auto"}
             variant="small"
-            showFooter={false}
+            showFooter={true}
+            footerText="Pre-negotiated discounts are available to early-stage startups and nonprofits."
+            footerButtonText="Apply now"
+            onFooterButtonClick={() => console.log('Footer button clicked')}
         />
     );
 }

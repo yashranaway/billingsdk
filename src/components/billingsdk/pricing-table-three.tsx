@@ -3,13 +3,14 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Check, Info } from "lucide-react"
+import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Plan } from "@/lib/const"
 import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cva, type VariantProps } from "class-variance-authority"
+import { AnimatePresence, motion } from "framer-motion"
 
 const sectionVariants = cva("mt-10 max-w-7xl mx-auto", {
   variants: {
@@ -121,7 +122,7 @@ const footerWrapperVariants = cva(
   }
 )
 
-const footerTextVariants = cva("text-lg font-medium text-card-foreground text-left", {
+const footerTextVariants = cva("text-lg font-medium text-card-foreground text-left w-full my-auto", {
   variants: {
     variant: {
       small: "text-base",
@@ -139,19 +140,44 @@ interface PricingTableProps extends VariantProps<typeof sectionVariants> {
   plans: Plan[]
   onPlanSelect?: (planId: string) => void
   showFooter?: boolean
-  footerTitle?: string
-  footerSubtitle?: string
+  footerText?: string
   footerButtonText?: string
   onFooterButtonClick?: () => void
 }
 
-export function PricingTableThree({ className, plans, onPlanSelect, showFooter, footerTitle, footerSubtitle, footerButtonText, onFooterButtonClick, variant }: PricingTableProps) {
+export function PricingTableThree({ className, plans, onPlanSelect, showFooter, footerText, footerButtonText, onFooterButtonClick, variant }: PricingTableProps) {
   const [isAnnually, setIsAnnually] = useState(false);
+
+  function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
+    const monthly = parseFloat(monthlyPrice);
+    const yearly = parseFloat(yearlyPrice);
+
+    if (
+      monthlyPrice.toLowerCase() === "custom" ||
+      yearlyPrice.toLowerCase() === "custom" ||
+      isNaN(monthly) ||
+      isNaN(yearly) ||
+      monthly === 0
+    ) {
+      return 0;
+    }
+
+    const discount = ((monthly * 12 - yearly) / (monthly * 12)) * 100;
+    return Math.round(discount);
+  }
+
+  const yearlyPriceDiscount = plans.length
+    ? Math.max(
+      ...plans.map((plan) =>
+        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+      )
+    )
+    : 0;
 
   return (
     <div className={cn(sectionVariants({ variant }), className)}>
       {/* Header Section with Toggle */}
-      <div className="flex flex-col justify-between gap-10 md:flex-row mb-8">
+      <div className="flex flex-col justify-between md:gap-10 gap-4 md:flex-row mb-8 items-center md:items-start">
         <div className={cn(toggleContainerVariants({ variant }))}>
           <RadioGroup
             defaultValue="monthly"
@@ -194,6 +220,13 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
             </div>
           </RadioGroup>
         </div>
+        <div className="flex justify-center">
+          {yearlyPriceDiscount > 0 && (
+            <span className="text-xs mt-2 text-muted-foreground">
+              Save upto {yearlyPriceDiscount}% with yearly plan
+            </span>
+          )}
+        </div>
       </div>
 
       <div className={cn(
@@ -222,17 +255,50 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
                 <p className={cn(cardDescriptionVariants({ variant }), "w-full text-left text-muted-foreground")}>{plan.description}</p>
               </div>
               <div className="space-y-1 text-left">
-                {isAnnually ? (
-                  <>
-                    <span className={cn(priceTextVariants({ variant }), "text-left")}>{plan.yearlyPrice}</span>
-                    <p className="text-muted-foreground">Per year</p>
-                  </>
-                ) : (
-                  <>
-                    <span className={cn(priceTextVariants({ variant }), "text-left")}>{plan.monthlyPrice}</span>
-                    <p className="text-muted-foreground">Per month</p>
-                  </>
-                )}
+                <AnimatePresence mode="wait">
+                  {isAnnually ? (
+                    <motion.div
+                      key="yearly"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span className={cn(priceTextVariants({ variant }), "text-left")}>
+                        {parseFloat(plan.yearlyPrice) >= 0 && (
+                          <>
+                            {plan.currency}
+                          </>
+                        )}
+                        {plan.yearlyPrice}
+                        {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice) > 0 && (
+                          <span className="text-xs ml-2 underline">
+                            {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)}% off
+                          </span>
+                        )}
+                      </span>
+                      <p className="text-muted-foreground">Per year</p>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="monthly"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <span className={cn(priceTextVariants({ variant }), "text-left")}>
+                        {parseFloat(plan.monthlyPrice) >= 0 && (
+                          <>
+                            {plan.currency}
+                          </>
+                        )}
+                        {plan.monthlyPrice}
+                      </span>
+                      <p className="text-muted-foreground">Per month</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </CardHeader>
             <CardContent className="space-y-6 flex-1 flex flex-col">
@@ -254,7 +320,7 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
 
               <Button
                 className={cn(
-                  "w-full mt-auto",
+                  "w-full mt-auto hover:cursor-pointer",
                   plan.highlight === true
                     ? "gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow hover:bg-primary/90 h-9 py-2 group bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex w-full items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 transition duration-300 ease-[cubic-bezier(0.4,0.36,0,1)] before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay"
                     : "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
@@ -263,18 +329,6 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
               >
                 {plan.buttonText}
               </Button>
-
-              {plan.benefits && (
-                <div className="space-y-3 pt-4 border-t border-border">
-                  {plan.benefits.map((benefit, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-primary" />
-                      <span className="text-sm text-muted-foreground">{benefit}</span>
-                      {index < 2 && <Info className="w-4 h-4 text-muted-foreground" />}
-                    </div>
-                  ))}
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
@@ -287,16 +341,16 @@ export function PricingTableThree({ className, plans, onPlanSelect, showFooter, 
           plans.length === 1 && "max-w-md mx-auto",
           plans.length === 2 && "max-w-4xl mx-auto"
         )}>
-          <div>
-            <p className={cn(footerTextVariants({ variant }))}>{footerTitle || "Pre-negotiated discounts are available to"}</p>
-            <p className={cn(footerTextVariants({ variant }))}>{footerSubtitle || "early-stage startups and nonprofits."}</p>
+          <div className="flex flex-col md:flex-row gap-4 justify-between w-full">
+
+              <p className={cn(footerTextVariants({ variant }))}>{footerText || "Pre-negotiated discounts are available to early-stage startups and nonprofits."}</p>
+            <Button
+              className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-6"
+              onClick={onFooterButtonClick}
+            >
+              {footerButtonText || "Apply now"}
+            </Button>
           </div>
-          <Button
-            className="bg-secondary hover:bg-secondary/80 text-secondary-foreground px-6"
-            onClick={onFooterButtonClick}
-          >
-            {footerButtonText || "Apply now"}
-          </Button>
         </div>
       )}
     </div>

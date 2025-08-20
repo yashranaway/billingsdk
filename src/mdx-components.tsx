@@ -5,6 +5,8 @@ import { PreviewComponents } from '@/components/preview/preview-components';
 import { CancelSubscriptionCardDemo } from '@/components/cancel-subscription-card-demo';
 import { CancelSubscriptionDialogDemo } from '@/components/cancel-subscription-dialog-demo';
 import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
+import { PricingTableOneMinimalDemo } from '@/components/pricing-table-one-minimal-demo';
+import { PricingTableTwoMinimalDemo } from '@/components/pricing-table-two-minimal-demo';
 import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
@@ -24,7 +26,9 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ...TabsComponents,
     PreviewComponents,
     PricingTableOneDemo,
+    PricingTableOneMinimalDemo,
     PricingTableTwoDemo,
+    PricingTableTwoMinimalDemo,
     PricingTableThreeDemo,
     CancelSubscriptionCardDemo,
     CancelSubscriptionDialogDemo,

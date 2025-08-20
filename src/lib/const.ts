@@ -4,6 +4,7 @@ export interface Plan {
     description: string
     highlight?: boolean
     type?: 'monthly' | 'yearly'
+    currency?: string
     monthlyPrice: string
     yearlyPrice: string
     buttonText: string
@@ -12,8 +13,7 @@ export interface Plan {
         name: string
         icon: string
         iconColor?: string
-    }[],
-    benefits?: string[]
+    }[]
 }
 
 export interface CurrentPlan {
@@ -30,8 +30,9 @@ export const plans: Plan[] = [
         id: 'starter',
         title: 'Starter',
         description: 'For developers testing out Liveblocks locally.',
-        monthlyPrice: '$0',
-        yearlyPrice: '$0',
+        currency: '$',
+        monthlyPrice: '0',
+        yearlyPrice: '0',
         buttonText: 'Start today for free',
         features: [
             {
@@ -60,14 +61,14 @@ export const plans: Plan[] = [
                 iconColor: 'text-zinc-500'
             }
         ],
-        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Community support']
     },
     {
         id: 'pro',
         title: 'Pro',
         description: 'For companies adding collaboration in production.',
-        monthlyPrice: '$10',
-        yearlyPrice: '$100',
+        currency: '$',
+        monthlyPrice: '20',
+        yearlyPrice: '199',
         buttonText: 'Sign up',
         badge: 'Most popular',
         highlight: true,
@@ -98,12 +99,12 @@ export const plans: Plan[] = [
                 iconColor: 'text-zinc-500'
             }
         ],
-        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Email support']
     },
     {
         id: 'enterprise',
         title: 'Enterprise',
         description: 'For organizations that need more support and compliance features.',
+        currency: '$',
         monthlyPrice: 'Custom',
         yearlyPrice: 'Custom',
         buttonText: 'Contact sales',
@@ -134,6 +135,5 @@ export const plans: Plan[] = [
                 iconColor: 'text-zinc-500'
             }
         ],
-        benefits: ['WebSocket infrastructure', 'Pre-built components', 'Priority support']
     }
 ];

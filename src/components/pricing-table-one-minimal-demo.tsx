@@ -3,14 +3,14 @@
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one"
 import { plans } from "@/lib/const"
 
-export function PricingTableOneDemo() {
+export function PricingTableOneMinimalDemo() {
     return <>
         <PricingTableOne plans={plans}
             title="Pricing"
             description="Choose the plan that's right for you"
             onPlanSelect={(planId) => console.log('Selected plan:', planId)}
             size="small" // small, medium, large
-            theme="classic" // minimal or classic
+            theme="minimal" // minimal or classic
         />
     </>
 }
