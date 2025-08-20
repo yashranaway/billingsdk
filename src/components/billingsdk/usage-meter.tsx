@@ -12,9 +12,14 @@ import { Badge } from "@/components/ui/badge"
 import { motion, useSpring, useMotionValue, useTransform } from "motion/react"
 import { useEffect } from "react"
 
-interface UsageMeterProps {
+export interface Usage {
+    name: string
     usage: number
     limit: number
+}
+
+interface UsageMeterProps {
+    usage: Usage[]
     className?: string
     variant?: "linear" | "circle"
     size?: "sm" | "md" | "lg"
@@ -24,40 +29,25 @@ interface UsageMeterProps {
 
 export function UsageMeter({
     usage,
-    limit,
     className,
     variant = "linear",
     size = "md",
     title,
     description,
 }: UsageMeterProps) {
-    const percentage = Math.min((usage / limit) * 100, 100)
-    const remaining = Math.max(limit - usage, 0)
+    if (!usage?.length) return null
 
-    // Smooth count-up animation for percentage
-    const motionValue = useMotionValue(0)
-    const springValue = useSpring(motionValue, { stiffness: 100, damping: 20 })
-    const display = useTransform(springValue, (latest) => `${Math.round(latest)}%`)
-
-    useEffect(() => {
-        motionValue.set(percentage)
-    }, [percentage, motionValue])
-
-    const getStatus = () => {
-        if (percentage >= 90) {
-            return <Badge variant="destructive">Critical</Badge>
-        }
-        if (percentage >= 75) {
-            return <Badge variant="secondary">High</Badge>
-        }
+    const getStatus = (percentage: number) => {
+        if (percentage >= 90) return <Badge variant="destructive">Critical</Badge>
+        if (percentage >= 75) return <Badge variant="secondary">High</Badge>
         return null
     }
 
     if (variant === "circle") {
         const sizeConfig = {
-            sm: { circle: 80, stroke: 6, text: "text-base", label: "text-xs" },
-            md: { circle: 120, stroke: 8, text: "text-xl", label: "text-sm" },
-            lg: { circle: 160, stroke: 10, text: "text-2xl", label: "text-base" },
+            sm: { circle: 100, stroke: 6, text: "text-lg", label: "text-xs" },
+            md: { circle: 140, stroke: 10, text: "text-xl", label: "text-sm" },
+            lg: { circle: 180, stroke: 12, text: "text-2xl", label: "text-base" },
         }
 
         const config = sizeConfig[size]
@@ -65,73 +55,85 @@ export function UsageMeter({
         const circumference = radius * 2 * Math.PI
 
         return (
-            <Card className={cn("text-left mx-auto w-full max-w-sm", className)}>
-                <CardHeader className="pb-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                        <CardTitle className="text-sm font-medium flex-1 min-w-0 truncate">{title}</CardTitle>
-                        <span className="text-xs text-muted-foreground shrink-0">
-                            {remaining.toLocaleString()} / {limit.toLocaleString()} left
-                        </span>
-                    </div>
-                    {description && (
-                        <CardDescription className="text-xs text-muted-foreground">
-                            {description}
-                        </CardDescription>
-                    )}
-                </CardHeader>
-                <CardContent className="space-y-3">
-                    <div className="flex justify-center">
-                        <div className="relative">
-                            <svg
-                                width={config.circle}
-                                height={config.circle}
-                                className="transform -rotate-90"
+            <Card className={cn("w-auto", className)}>
+                {(title || description) && (
+                    <CardHeader className="space-y-1">
+                        {title && (
+                            <CardTitle className="text-base font-medium leading-tight truncate">
+                                {title}
+                            </CardTitle>
+                        )}
+                        {description && (
+                            <CardDescription className="text-sm text-muted-foreground">
+                                {description}
+                            </CardDescription>
+                        )}
+                    </CardHeader>
+
+                )}
+                <CardContent
+                    className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"}
+                >
+                    {usage.map((item, i) => {
+                        const percentage = Math.min((item.usage / item.limit) * 100, 100)
+                        const remaining = Math.max(item.limit - item.usage, 0)
+
+                        const motionValue = useMotionValue(0)
+                        const springValue = useSpring(motionValue, { stiffness: 100, damping: 20 })
+                        const display = useTransform(springValue, (latest) => `${Math.round(latest)}%`)
+
+                        useEffect(() => {
+                            motionValue.set(percentage)
+                        }, [percentage, motionValue])
+
+                        return (
+                            <div
+                                key={item.name || i}
+                                className="space-y-3 p-4 bg-muted/20 rounded-xl flex flex-col items-center text-center"
                             >
-                                {/* background ring */}
-                                <circle
-                                    cx={config.circle / 2}
-                                    cy={config.circle / 2}
-                                    r={radius}
-                                    stroke="currentColor"
-                                    strokeWidth={config.stroke}
-                                    fill="transparent"
-                                    className="text-muted"
-                                />
-
-                                {/* animated progress ring */}
-                                <motion.circle
-                                    cx={config.circle / 2}
-                                    cy={config.circle / 2}
-                                    r={radius}
-                                    stroke="currentColor"
-                                    strokeWidth={config.stroke}
-                                    fill="transparent"
-                                    strokeDasharray={circumference}
-                                    strokeLinecap="round"
-                                    className="text-primary"
-                                    initial={{ strokeDashoffset: circumference }}
-                                    animate={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
-                                    transition={{ duration: 0.4, ease: "easeOut" }}
-                                />
-
-                            </svg>
-                            <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                <motion.span
-                                    className={cn("font-bold text-foreground", config.text)}
-                                >
-                                    {display}
-                                </motion.span>
-                                <span className="text-xs text-muted-foreground">used</span>
+                                <span className="text-sm font-medium truncate w-full">{item.name}</span>
+                                <div className="relative">
+                                    <svg width={config.circle} height={config.circle} className="-rotate-90">
+                                        <circle
+                                            cx={config.circle / 2}
+                                            cy={config.circle / 2}
+                                            r={radius}
+                                            strokeWidth={config.stroke}
+                                            className="text-muted stroke-current"
+                                            fill="transparent"
+                                        />
+                                        <motion.circle
+                                            cx={config.circle / 2}
+                                            cy={config.circle / 2}
+                                            r={radius}
+                                            strokeWidth={config.stroke}
+                                            fill="transparent"
+                                            strokeDasharray={circumference}
+                                            strokeLinecap="round"
+                                            className="text-primary stroke-current"
+                                            initial={{ strokeDashoffset: circumference }}
+                                            animate={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
+                                            transition={{ duration: 0.5, ease: "easeOut" }}
+                                        />
+                                    </svg>
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                        <motion.span className={cn("font-semibold", config.text)}>{display}</motion.span>
+                                        <span className={cn("text-muted-foreground", config.label)}>used</span>
+                                    </div>
+                                </div>
+                                <span className="text-xs text-muted-foreground">
+                                    {remaining.toLocaleString()} / {item.limit.toLocaleString()} left
+                                </span>
+                                {getStatus(percentage)}
                             </div>
-                        </div>
-                    </div>
-                    <div className="flex justify-center">{getStatus()}</div>
+                        )
+                    })}
                 </CardContent>
             </Card>
         )
     }
 
-    // linear variant
+    // Linear variant
     const sizeConfig = {
         sm: { bar: "h-2", text: "text-xs" },
         md: { bar: "h-3", text: "text-sm" },
@@ -141,38 +143,60 @@ export function UsageMeter({
     const config = sizeConfig[size]
 
     return (
-        <Card className={cn("text-left mx-auto w-full max-w-sm", className)}>
-            <CardHeader className="pb-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <CardTitle className="text-sm font-medium flex-1 min-w-0 truncate">{title}</CardTitle>
-                    <motion.span className="text-xs text-muted-foreground shrink-0">
-                        {display}
-                    </motion.span>
-                </div>
-                {description && (
-                    <CardDescription className="text-xs text-muted-foreground">
-                        {description}
-                    </CardDescription>
-                )}
-            </CardHeader>
-            <CardContent className="space-y-3">
-                <div className={cn("w-full bg-muted rounded-full overflow-hidden", config.bar)}>
-                    <motion.div
-                        className={cn(
-                            "rounded-full bg-gradient-to-r from-primary to-primary/80",
-                            config.bar
-                        )}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${percentage}%` }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                    />
-                </div>
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className={cn("text-muted-foreground flex-1 min-w-0 truncate", config.text)}>
-                        {remaining.toLocaleString()} / {limit.toLocaleString()} left
-                    </span>
-                    {getStatus()}
-                </div>
+        <Card className={cn("w-full max-w-md", className)}>
+            {(title || description) && (
+                <CardHeader className="space-y-1">
+                    {title && (
+                        <CardTitle className="text-base font-medium leading-tight truncate">
+                            {title}
+                        </CardTitle>
+                    )}
+                    {description && (
+                        <CardDescription className="text-sm text-muted-foreground">
+                            {description}
+                        </CardDescription>
+                    )}
+                </CardHeader>
+
+            )}
+            <CardContent
+                className={"grid grid-cols-1 gap-4"}
+            >
+                {usage.map((item, i) => {
+                    const percentage = Math.min((item.usage / item.limit) * 100, 100)
+                    const remaining = Math.max(item.limit - item.usage, 0)
+
+                    const motionValue = useMotionValue(0)
+                    const springValue = useSpring(motionValue, { stiffness: 100, damping: 20 })
+                    const display = useTransform(springValue, (latest) => `${Math.round(latest)}%`)
+
+                    useEffect(() => {
+                        motionValue.set(percentage)
+                    }, [percentage, motionValue])
+
+                    return (
+                        <div key={item.name || i} className="space-y-2 p-4 bg-muted/20 rounded-xl">
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium truncate">{item.name}</span>
+                                <motion.span className="text-xs text-muted-foreground">{display}</motion.span>
+                            </div>
+                            <div className={cn("w-full bg-muted rounded-full overflow-hidden", config.bar)}>
+                                <motion.div
+                                    className={cn("bg-gradient-to-r from-primary to-primary/70 rounded-full", config.bar)}
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${percentage}%` }}
+                                    transition={{ duration: 0.5, ease: "easeOut" }}
+                                />
+                            </div>
+                            <div className="flex items-center justify-between text-xs text-muted-foreground">
+                                <span>
+                                    {remaining.toLocaleString()} / {item.limit.toLocaleString()} left
+                                </span>
+                                {getStatus(percentage)}
+                            </div>
+                        </div>
+                    )
+                })}
             </CardContent>
         </Card>
     )
