@@ -8,6 +8,7 @@ import {
 import { notFound } from 'next/navigation';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { getMDXComponents } from '@/mdx-components';
+import { LLMCopyButton, ViewOptions } from '@/components/page-actions';
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -26,8 +27,15 @@ export default async function Page(props: {
         includeSeparator: true,
       }}
     >
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+      <DocsTitle className="mt-2">{page.data.title}</DocsTitle>
+      <DocsDescription className="mb-5">{page.data.description}</DocsDescription>
+      <div className="flex flex-row gap-2 items-center border-b pb-6 mb-5">
+        <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
+        <ViewOptions
+          markdownUrl={`${page.url}.mdx`}
+          githubUrl={`https://github.com/dodopayments/billingsdk/tree/main/content/docs/${page.path}`}
+        />
+      </div>
       <DocsBody>
         <MDXContent
           components={getMDXComponents({
