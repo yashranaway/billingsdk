@@ -168,7 +168,11 @@ export function CancelSubscriptionDialog({
                                     <span className="text-sm text-muted-foreground">Current subscription</span>
                                 </div>
                                 <Badge variant="secondary">
-                                    {plan.monthlyPrice}/monthly
+                                    {
+                                        parseFloat(plan.monthlyPrice) >= 0 ?
+                                            `${plan.currency}${plan.monthlyPrice}/monthly` :
+                                            `${plan.monthlyPrice}/monthly`
+                                    }
                                 </Badge>
                             </div>
                             <div className="flex flex-col gap-2">
