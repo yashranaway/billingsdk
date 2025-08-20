@@ -26,7 +26,7 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
     const [isOpen, setIsOpen] = useState(false);
 
     const getCurrentPrice = (plan: Plan) =>
-        isYearly ? plan.yearlyPrice : plan.monthlyPrice
+        isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`
 
     const handlePlanChange = (planId: string) => {
         setSelectedPlan(planId)
@@ -115,7 +115,11 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
                                         </div>
                                         <div className="text-right flex-shrink-0">
                                             <div className="text-xl font-semibold">
-                                                {getCurrentPrice(plan)}
+                                                {
+                                                    parseFloat(getCurrentPrice(plan)) >= 0 ?
+                                                        `${plan.currency}${getCurrentPrice(plan)}` :
+                                                        getCurrentPrice(plan)
+                                                }
                                             </div>
                                             <div className="text-xs text-muted-foreground">
                                                 /{isYearly ? "year" : "month"}
