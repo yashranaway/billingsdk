@@ -8,7 +8,7 @@ import {
 import { notFound } from 'next/navigation';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { getMDXComponents } from '@/mdx-components';
-import { LLMCopyButton, ViewOptions } from '@/components/page-actions';
+import { CombinedAIButton } from '@/components/page-actions';
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -27,11 +27,18 @@ export default async function Page(props: {
         includeSeparator: true,
       }}
     >
-      <DocsTitle className="mt-2">{page.data.title}</DocsTitle>
+      <DocsTitle className="mt-2 flex flex-row justify-between">
+        {page.data.title}
+        <div className="hidden md:block">
+          <CombinedAIButton
+            markdownUrl={`${page.url}.mdx`}
+            githubUrl={`https://github.com/dodopayments/billingsdk/tree/main/content/docs/${page.path}`}
+          />
+        </div>
+      </DocsTitle>
       <DocsDescription className="mb-5">{page.data.description}</DocsDescription>
-      <div className="flex flex-row gap-2 items-center border-b pb-6 mb-5">
-        <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
-        <ViewOptions
+      <div className="flex flex-row gap-2 items-center border-b pb-6 mb-5 md:hidden">
+        <CombinedAIButton
           markdownUrl={`${page.url}.mdx`}
           githubUrl={`https://github.com/dodopayments/billingsdk/tree/main/content/docs/${page.path}`}
         />
