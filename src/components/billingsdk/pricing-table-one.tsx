@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -195,9 +195,10 @@ export function PricingTableOne({
   description, 
   onPlanSelect, 
   size,
-  theme = "minimal" 
+  theme = "minimal"
 }: PricingTableOneProps) {
   const [isAnnually, setIsAnnually] = useState(false);
+  const uniqueId = useId(); // Generate unique ID automatically
 
   function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
     const monthly = parseFloat(monthlyPrice);
@@ -262,11 +263,11 @@ export function PricingTableOne({
                 <div className='has-[button[data-state="checked"]]:bg-background h-full rounded-md transition-all'>
                   <RadioGroupItem
                     value="monthly"
-                    id="monthly"
+                    id={`${uniqueId}-monthly`}
                     className="peer sr-only"
                   />
                   <Label
-                    htmlFor="monthly"
+                    htmlFor={`${uniqueId}-monthly`}
                     className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-7 font-semibold transition-all hover:text-foreground"
                   >
                     Monthly
@@ -275,11 +276,11 @@ export function PricingTableOne({
                 <div className='has-[button[data-state="checked"]]:bg-background h-full rounded-md transition-all'>
                   <RadioGroupItem
                     value="annually"
-                    id="annually"
+                    id={`${uniqueId}-annually`}
                     className="peer sr-only"
                   />
                   <Label
-                    htmlFor="annually"
+                    htmlFor={`${uniqueId}-annually`}
                     className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-7 font-semibold transition-all hover:text-foreground"
                   >
                     Yearly
@@ -299,8 +300,8 @@ export function PricingTableOne({
               <motion.div
                 key={plan.id}
                 layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className={cn(
                   cardVariants({ 

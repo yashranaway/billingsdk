@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
 
 const sectionVariants = cva("py-32", {
   variants: {
@@ -342,8 +341,8 @@ export function PricingTableTwo({
             "flex flex-col items-center gap-4",
             theme === "classic" ? "text-center" : ""
           )}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
@@ -415,23 +414,11 @@ export function PricingTableTwo({
                 index > 0 && index < plans.length - 1 && "md:border-l-0 md:border-r-0",
                 plans.length === 1 && "rounded-xl"
               )}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.15 }}
             >
-              {/* Classic theme highlight effects */}
-              {theme === "classic" && plan.highlight && (
-                <>
-                  <div className="absolute -top-px left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg">
-                      Most Popular
-                    </Badge>
-                  </div>
-                </>
-              )}
-
               <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6">
                 <div className="flex items-center gap-2 justify-center">
                   <div className={cn(
