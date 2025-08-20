@@ -1,7 +1,7 @@
 "use client"
 
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one"
-import { plans } from "@/lib/const"
+import { plans } from "@/lib/billing-sdk-const"
 
 export function PricingTableOneMinimalDemo() {
     return <>

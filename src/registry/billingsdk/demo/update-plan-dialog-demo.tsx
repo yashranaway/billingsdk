@@ -1,7 +1,7 @@
 'use client'
 
 import { UpdatePlanDialog } from '@/components/billingsdk/update-plan-dialog';
-import { plans } from '@/lib/const';
+import { plans } from '@/lib/billing-sdk-const';
 
 export function UpdatePlanDialogDemo() {
 

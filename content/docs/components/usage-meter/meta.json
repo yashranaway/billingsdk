@@ -1,9 +1,0 @@
-{
-    "title": "Usage Meter",
-    "description": "Usage meter components and examples",
-    "pages": [
-      "usage-meter-linear",
-      "usage-meter-circle"
-    ]
-  }
-  
