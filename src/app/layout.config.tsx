@@ -11,7 +11,7 @@ export const baseOptions: BaseLayoutProps = {
   nav: {
     title: (
       <>
-        <svg
+        {/* <svg
           className="w-5 h-5"
           viewBox="0 0 75 75"
           fill="currentColor"
@@ -32,7 +32,7 @@ export const baseOptions: BaseLayoutProps = {
             fill="#f4f4ee"
             stroke="#f4f4ee"
           ></path>
-        </svg>
+        </svg> */}
         Billing SDK
       </>
     ),

@@ -25,7 +25,7 @@ function ComponentPanel(props: HTMLProps<HTMLDivElement>) {
     <div
       {...props}
       className={cn(
-        "duration-700 animate-in fade-in text-sm prose max-w-none",
+        "duration-700 animate-in fade-in text-sm max-w-none",
         props.className
       )}
     >
@@ -36,7 +36,7 @@ function ComponentPanel(props: HTMLProps<HTMLDivElement>) {
 
 function Components() {
   return (
-    <div className="relative overflow-hidden border-x border-t p-2">
+    <div className="relative w-full overflow-hidden border-x border-t p-2">
       <ComponentsShowcase />
     </div>
   );
@@ -98,7 +98,13 @@ function ComponentsShowcase() {
               description="Get 30 days free access to all premium features"
               buttonText="Start Free Trial"
               buttonLink="https://example.com/signup"
-              variant="default" // default, minimal, popup
+              gradientColors={[
+                "rgba(0,149,255,0.56)",
+                "rgba(231,77,255,0.77)",
+                "rgba(255,0,0,0.73)",
+                "rgba(131,255,166,0.66)",
+              ]}
+              variant="minimal" // default, minimal, popup
             />
           </ComponentPanel>
         ) : null}
@@ -137,7 +143,7 @@ function ComponentsShowcase() {
 
         {active === "Plan Updates" ? (
           <ComponentPanel>
-            <div className="mt-4">
+            <div className="mt-4 w-full">
               <UpdatePlanCardDemo />
             </div>
           </ComponentPanel>
@@ -145,7 +151,7 @@ function ComponentsShowcase() {
 
         {active === "Cancellation Flow" ? (
           <ComponentPanel>
-            <div className="mx-auto flex items-center justify-center w-full">
+            <div className=" flex items-center justify-center w-full">
               <CancelSubscriptionCard
                 title="We're sorry to see you go..."
                 description={`Before you cancel, we hope you'll consider upgrading to a ${plans[1].title} plan again.`}
