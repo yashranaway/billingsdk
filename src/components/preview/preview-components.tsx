@@ -18,7 +18,6 @@ export function PreviewComponents({ className, children, registryName }: Preview
   const { currentTheme, setTheme, themes, previewDarkMode, setPreviewDarkMode } = useTheme();
   const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
   const registryUrl = `${window.location.origin}/r/${registryName}.json`;
-  console.log(registryUrl);
 
   return (
     <Card 
