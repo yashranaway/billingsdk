@@ -12,28 +12,18 @@ import { CancelSubscriptionCard } from "@/registry/billingsdk/cancel-subscriptio
 import Features from "@/components/landing/Features";
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
 import { CodeSection } from "@/components/landing/code-section";
+import { Footer } from "@/components/landing/footer";
+import { PreviewComponents } from "@/components/preview/preview-components";
 
 export default function HomePage() {
   return (
-    <main className="max-w-6xl bg-background 2xl:max-w-[1400px] mx-auto border-x flex flex-col items-end border-t border-border mb-12">
+    <main className="max-w-6xl bg-background 2xl:max-w-[1400px] mx-auto border-x flex flex-col items-end border-t border-border">
       <Hero />
       <Features />
       <Components />
       <CodeSection />
+      <Footer />
     </main>
-  );
-}
-function ComponentPanel(props: HTMLProps<HTMLDivElement>) {
-  return (
-    <div
-      {...props}
-      className={cn(
-        "duration-700 animate-in fade-in text-sm max-w-none w-full",
-        props.className
-      )}
-    >
-      {props.children}
-    </div>
   );
 }
 
@@ -81,10 +71,11 @@ function ComponentsShowcase() {
         ))}
       </div>
 
-      <div className="flex flex-col p-4 border border-fd-primary/10 bg-background rounded-lg shadow-lg w-full items-center justify-center">
+      <div className="flex flex-col border border-fd-primary/10 bg-background rounded-lg shadow-lg w-full items-center justify-center">
         {active === "Pricing" ? (
-          <ComponentPanel>
+          <PreviewComponents className="duration-700 animate-in fade-in text-sm max-w-none w-full border-none h-full my-auto">
             <PricingTableOne
+              className="w-full"
               plans={plans}
               title="Pricing"
               description="Choose the plan that's right for you"
@@ -92,11 +83,11 @@ function ComponentsShowcase() {
               size="small" // small, medium, large
               theme="classic" // minimal or classic
             />
-          </ComponentPanel>
+          </PreviewComponents>
         ) : null}
 
         {active === "Banner Notifications" ? (
-          <ComponentPanel>
+          <PreviewComponents className="duration-700 animate-in fade-in text-sm max-w-none w-full border-none h-full my-auto">
             <Banner
               title="🎉 Start your free trial today!"
               description="Get 30 days free access to all premium features"
@@ -110,11 +101,11 @@ function ComponentsShowcase() {
               ]}
               variant="default" // default, minimal, popup
             />
-          </ComponentPanel>
+          </PreviewComponents>
         ) : null}
 
         {active === "Usage Meters" ? (
-          <ComponentPanel>
+          <PreviewComponents className="duration-700 animate-in fade-in text-sm max-w-none w-full border-none h-full my-auto">
             <UsageMeter
               usage={[
                 {
@@ -134,27 +125,27 @@ function ComponentsShowcase() {
               size="md"
               className="mx-auto"
             />
-          </ComponentPanel>
+          </PreviewComponents>
         ) : null}
 
         {active === "Subscription Management" ? (
-          <ComponentPanel>
+          <PreviewComponents className="duration-700 animate-in fade-in text-sm max-w-none w-full border-none h-full">
             <div className="mt-4">
               <SubscriptionManagementDemo />
             </div>
-          </ComponentPanel>
+          </PreviewComponents>
         ) : null}
 
         {active === "Plan Updates" ? (
-          <ComponentPanel>
+          <PreviewComponents className="duration-700 animate-in fade-in text-sm max-w-none w-full border-none h-full">
             <div className="mt-4 w-full">
               <UpdatePlanCardDemo />
             </div>
-          </ComponentPanel>
+          </PreviewComponents>
         ) : null}
 
         {active === "Cancellation Flow" ? (
-          <ComponentPanel>
+          <PreviewComponents className="duration-700 animate-in fade-in text-sm max-w-none w-full border-none h-full">
             <div className=" flex items-center justify-center w-full">
               <CancelSubscriptionCard
                 title="We're sorry to see you go..."
@@ -184,7 +175,7 @@ function ComponentsShowcase() {
                 className="max-w-4xl"
               />
             </div>
-          </ComponentPanel>
+          </PreviewComponents>
         ) : null}
       </div>
     </div>

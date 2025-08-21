@@ -27,6 +27,7 @@ export function PreviewComponents({ className, children, registryName }: Preview
       <CardHeader className="pb-0" style={previewDarkMode ? themes[0].cssVars.dark : themes[0].cssVars.light}>
         <div className="flex gap-2 justify-end">
           <div className="flex gap-2">
+            {registryName && (
             <Button
               onClick={() => window.open(`https://v0.dev/chat/api/open?url=${registryUrl}`, '_blank')}
               size={"sm"}
@@ -49,7 +50,7 @@ export function PreviewComponents({ className, children, registryName }: Preview
                 />
               </svg>
             </Button>
-            
+            )}
             <Button 
               variant="ghost" 
               size="sm"
@@ -105,7 +106,7 @@ export function PreviewComponents({ className, children, registryName }: Preview
         </div>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4 w-full h-full">
+      <CardContent className="flex flex-col gap-4 w-full h-full justify-center items-center">
         {children}
       </CardContent>
     </Card>
