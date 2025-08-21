@@ -1,13 +1,50 @@
 ---
-title: Hello World
-description: Your first document
+title: Introduction
+description: A comprehensive collection of modern billing and subscription management components built with React, TypeScript, and Tailwind CSS.
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import { Cards, Card } from 'fumadocs-ui/components/card'
+import { Callout } from 'fumadocs-ui/components/callout'
 
-## What is Next?
+Billing SDK is a **comprehensive collection** of modern billing and subscription management components built with React, TypeScript, and Tailwind CSS, designed to be fast, flexible, and composes seamlessly into your Next.js applications.
+
+<Callout title="Built on shadcn/ui">
+  All components are built on top of shadcn/ui primitives for consistent design and seamless integration with your existing projects.
+</Callout>
+
+## Components Overview
+
+Billing SDK has different parts:
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
+  <Card title="Pricing Tables">
+    Beautiful pricing table designs with multiple themes and size variants, perfect for conversion-optimized landing pages.
+  </Card>
+
+  <Card title="Subscription Management">
+    Complete interfaces for managing subscriptions, plan upgrades, billing details, and user account information.
+  </Card>
+
+  <Card title="Usage Monitoring">
+    Linear and circular usage meters with animated progress indicators to display quota consumption and limits.
+  </Card>
+
+  <Card title="Cancellation Flow">
+    User-friendly cancellation experiences with retention features and two-step confirmation processes.
+  </Card>
 </Cards>
+
+### Key Features
+
+- 🎨 **Multiple Themes** - Support for classic, minimal, and custom themes
+- 📱 **Responsive Design** - Works seamlessly across all device sizes
+- ⚡ **Easy Integration** - Single command installation with shadcn/ui
+- 🔧 **Fully Customizable** - Modify colors, fonts, and styling through CSS variables
+- 🛡️ **TypeScript Ready** - Built with TypeScript for better development experience
+
+### Terminology
+
+**Plan Interface:** The core data structure that defines pricing plans with features, pricing tiers, and billing information used across all components.
+
+Although not required, some basic knowledge of React and TypeScript would be useful for further customizations.
+

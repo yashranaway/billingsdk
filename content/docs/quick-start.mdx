@@ -1,0 +1,117 @@
+---
+title: Quick Start
+description: Get up and running with Billing SDK in minutes
+---
+
+
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs'
+import { Callout } from 'fumadocs-ui/components/callout'
+
+## Installation
+
+A minimum version of Node.js 18 required. Install any component with a single command:
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Tab value="npm">
+    ```bash
+    npx shadcn@latest add https://billingsdk.vercel.app/r/<component-name>.json
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add https://billingsdk.vercel.app/r/<component-name>.json
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add https://billingsdk.vercel.app/r/<component-name>.json
+    ```
+  </Tab>
+
+  <Tab value="bun">
+    ```bash
+    npx shadcn@latest add https://billingsdk.vercel.app/r/<component-name>.json
+    ```
+  </Tab>
+</Tabs>
+
+This will automatically install the component and its dependencies into your project.
+
+<Callout title="From Existing Project?">
+  All components are designed to integrate seamlessly with existing Next.js and React applications.
+</Callout>
+
+## Your First Component
+
+Create your first billing component setup.
+
+```tsx title="lib/billing-sdk-const.ts"
+export const plans = [{
+  id: 'starter',
+  title: 'Starter',
+  description: 'Perfect for getting started',
+  monthlyPrice: '$0',
+  yearlyPrice: '$0',
+  buttonText: 'Get Started',
+  features: [
+    { name: 'Basic features', icon: 'check' }
+  ]
+}]
+```
+
+Use the component in your application and see it in action.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Tab value="npm">
+    ```bash
+    npm run dev
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm run dev
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    yarn dev
+    ```
+  </Tab>
+
+  <Tab value="bun">
+    ```bash
+    bun run dev
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Examples
+
+### Install a Pricing Table
+
+```bash
+npx shadcn@latest add https://billingsdk.vercel.app/r/pricing-table-one.json
+```
+
+### Use in Your App
+
+```tsx
+import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
+import { plans } from "@/lib/billing-sdk-const";
+
+export default function PricingPage() {
+  return (
+    <PricingTableOne 
+      plans={plans}
+      title="Choose Your Plan"
+      description="Select the perfect plan for your needs"
+      onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+    />
+  );
+}
+```
+
