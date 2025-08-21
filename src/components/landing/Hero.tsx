@@ -7,7 +7,7 @@ import "./hero.css";
 
 export default function Hero() {
   return (
-    <section className="max-h-[30rem] bg-[radial-gradient(131.66%_109.77%_at_50%_97.75%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] border-dashed relative w-full flex md:items-center md:justify-center antialiased overflow-hidden md:min-h-[30rem]">
+    <section className="max-h-[30rem] bg-[radial-gradient(131.66%_109.77%_at_50%_97.75%,transparent_37.41%,rgba(74,0,224,0.44)_69.27%,rgba(0,234,255,0.5)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_97.75%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] border-dashed relative w-full flex md:items-center md:justify-center antialiased overflow-hidden md:min-h-[30rem]">
       <div className="overflow-hidden px-2 bg-transparent dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem] md:w-10/12 mx-auto">
         <div className="mx-auto grid lg:max-w-8xl xl:max-w-full grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-2 lg:grid-cols-2 lg:px-8 lg:py-4 xl:gap-x-16 xl:px-0">
           <div className="relative z-10 text-left mt-0 sm:mt-2 md:mt-8 lg:mt-0 md:text-center lg:text-left">
@@ -70,7 +70,7 @@ const HeroCircles = () => {
       {/* Center content */}
       <div className="hero__center absolute inset-0 flex items-center justify-center">
         <div className="flex items-center gap-3">
-          <div className="text-white font-semibold text-lg animate-pulse-slow">
+          <div className="text-foreground font-semibold text-lg animate-pulse-slow">
             billing sdk
           </div>
 
@@ -84,11 +84,11 @@ const HeroCircles = () => {
               fillRule="evenodd"
               clipRule="evenodd"
               d="M7.5036 2.46533V6.49634L11.5346 6.49634V7.50409L7.5036 7.50409L7.5036 11.5351H6.49585L6.49585 7.50409H2.46484V6.49634H6.49585V2.46533H7.5036Z"
-              className="fill-white"
+              className="fill-foreground dark:fill-white"
             />
           </svg>
 
-          <div className="text-white font-semibold text-lg animate-pulse-slow">
+          <div className="text-foreground font-semibold text-lg animate-pulse-slow">
             shadcn
           </div>
         </div>

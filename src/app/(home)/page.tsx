@@ -13,7 +13,7 @@ import Features from "@/components/landing/Features";
 
 export default function HomePage() {
   return (
-    <main className="max-w-6xl bg-black 2xl:max-w-[1400px] mx-auto border-x border-base-900  flex flex-col items-end border-t border-base-900">
+    <main className="max-w-6xl bg-background 2xl:max-w-[1400px] mx-auto border-x border-border  flex flex-col items-end border-t border-border">
       <Hero />
       <Features />
       <Components />
