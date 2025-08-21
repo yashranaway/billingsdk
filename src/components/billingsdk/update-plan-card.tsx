@@ -31,7 +31,7 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
     }
 
     return (
-        <Card className={cn("max-w-xl mx-auto text-left overflow-hidden shadow-lg", className)}>
+        <Card className={cn("max-w-xl mx-auto text-left overflow-hidden shadow-lg w-full", className)}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-base font-semibold">
                     {title || "Upgrade Plan"}

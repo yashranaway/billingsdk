@@ -86,7 +86,7 @@ export function CancelSubscriptionCard({
     };
 
     return (
-        <Card className={cn("sm:max-w-[1000px] flex flex-col md:flex-row p-0 overflow-hidden", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)}>
+        <Card className={cn("sm:max-w-[1000px] flex flex-col md:flex-row p-0 overflow-hidden w-full", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)}>
             {leftPanelImageUrl && (
                 <div className="w-full md:w-1/2 min-h-[500px] relative hidden md:block overflow-hidden">
                     <img src={leftPanelImageUrl} alt="Cancel Subscription" className="absolute inset-0 w-full h-full object-cover" />
