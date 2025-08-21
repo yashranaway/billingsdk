@@ -10,13 +10,16 @@ import { Banner } from "@/components/billingsdk/banner";
 import { UsageMeter } from "@/components/billingsdk/usage-meter";
 import { CancelSubscriptionCard } from "@/registry/billingsdk/cancel-subscription-card";
 import Features from "@/components/landing/Features";
+import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
+import { CodeSection } from "@/components/landing/code-section";
 
 export default function HomePage() {
   return (
-    <main className="max-w-6xl bg-background 2xl:max-w-[1400px] mx-auto border-x border-border  flex flex-col items-end border-t border-border">
+    <main className="max-w-6xl bg-background 2xl:max-w-[1400px] mx-auto border-x flex flex-col items-end border-t border-border mb-12">
       <Hero />
       <Features />
       <Components />
+      <CodeSection />
     </main>
   );
 }
@@ -25,7 +28,7 @@ function ComponentPanel(props: HTMLProps<HTMLDivElement>) {
     <div
       {...props}
       className={cn(
-        "duration-700 animate-in fade-in text-sm max-w-none",
+        "duration-700 animate-in fade-in text-sm max-w-none w-full",
         props.className
       )}
     >
@@ -43,8 +46,9 @@ function Components() {
 }
 
 function ComponentsShowcase() {
-  const [active, setActive] = useState("Subscription Management");
+  const [active, setActive] = useState("Pricing");
   const components = [
+    "Pricing",
     "Subscription Management",
     "Banner Notifications",
     "Usage Meters",
@@ -55,7 +59,7 @@ function ComponentsShowcase() {
   return (
     <div
       id="components-showcase"
-      className="flex flex-col-reverse gap-3 md:flex-row md:min-h-[500px]"
+      className="flex flex-col-reverse gap-3 md:flex-row md:min-h-[800px] my-auto"
     >
       <div className="flex flex-col">
         {components.map((item, i) => (
@@ -77,8 +81,8 @@ function ComponentsShowcase() {
         ))}
       </div>
 
-      <div className="flex-1 p-4 border border-fd-primary/10 bg-fd-card/40 rounded-lg shadow-lg">
-        {/* {active === 0 ? (
+      <div className="flex flex-col p-4 border border-fd-primary/10 bg-background rounded-lg shadow-lg w-full items-center justify-center">
+        {active === "Pricing" ? (
           <ComponentPanel>
             <PricingTableOne
               plans={plans}
@@ -89,7 +93,7 @@ function ComponentsShowcase() {
               theme="classic" // minimal or classic
             />
           </ComponentPanel>
-        ) : null} */}
+        ) : null}
 
         {active === "Banner Notifications" ? (
           <ComponentPanel>
@@ -104,7 +108,7 @@ function ComponentsShowcase() {
                 "rgba(255,0,0,0.73)",
                 "rgba(131,255,166,0.66)",
               ]}
-              variant="minimal" // default, minimal, popup
+              variant="default" // default, minimal, popup
             />
           </ComponentPanel>
         ) : null}
