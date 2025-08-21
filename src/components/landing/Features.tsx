@@ -102,7 +102,7 @@ export default function Features() {
           ))}
         </div>
 
-        <div className="relative col-span-3 border-t-[1.2px] border-l-[1.2px] md:border-b-[1.2px] dark:border-b-0  h-full py-20">
+        {/* <div className="relative col-span-3 border-t-[1.2px] border-l-[1.2px] md:border-b-[1.2px] dark:border-b-0  h-full py-20">
           <div className="w-full h-full p-16 pt-10 md:px-10 2xl:px-16">
             <div className="flex flex-col items-center justify-center w-full h-full gap-3">
               <div className="flex items-center gap-2">
@@ -129,11 +129,11 @@ export default function Features() {
               </div>
               <div className="flex items-center gap-2">
                 {/* <GithubStat stars={stars} /> */}
-              </div>
+              {/* </div>
               <Ripple />
-            </div>
-          </div>
-        </div>
+            </div> */}
+          {/* </div> */}
+        {/* </div> */}
       </div>
     </div>
   );

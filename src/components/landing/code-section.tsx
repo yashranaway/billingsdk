@@ -9,81 +9,170 @@ interface Code {
   language: string;
 }
 
-const features: Code[] = [
-  {
-    title: "Pricing Component",
-    description: "Pricing component with classic theme",
-    code: `"use client"
+const features: Code[] = [{
+  title: "Single Config for all..",
+  description: "All components are configured with a single config object. No need to pass props to each component.",
+  code: `export interface Plan {
+    id: string
+    title: string
+    description: string
+    highlight?: boolean
+    type?: 'monthly' | 'yearly'
+    currency?: string
+    monthlyPrice: string
+    yearlyPrice: string
+    buttonText: string
+    badge?: string
+    features: {
+        name: string
+        icon: string
+        iconColor?: string
+    }[]
+}
+
+export interface CurrentPlan {
+    plan: Plan
+    type: 'monthly' | 'yearly' | 'custom'
+    price?: string
+    nextBillingDate: string
+    paymentMethod: string
+    status: 'active' | 'inactive' | 'past_due' | 'cancelled'
+}
+
+export const plans: Plan[] = [{
+        id: 'pro',
+        title: 'Starter',
+        description: 'For developers testing out Liveblocks locally.',
+        currency: '$',
+        monthlyPrice: '0',
+        yearlyPrice: '0',
+        buttonText: 'Start today for free',
+        features: [{
+                name: 'Presence',
+                icon: "check",
+                iconColor: 'text-green-500'
+            },
+            {
+                name: 'Comments',
+                icon: "check",
+                iconColor: 'text-orange-500'
+            }],
+    },{
+        id: 'pro',
+        title: 'Pro',
+        description: 'For companies adding collaboration in production.',
+        currency: '$',
+        monthlyPrice: '20',
+        yearlyPrice: '199',
+        buttonText: 'Sign up',
+        badge: 'Most popular',
+        highlight: true,
+        features: [{
+                name: 'Notifications',
+                icon: "check",
+                iconColor: 'text-teal-500'
+            },
+            {
+                name: 'Text Editor',
+                icon: "check",
+                iconColor: 'text-blue-500'
+            },
+            {
+                name: 'Sync Datastore',
+                icon: "check",
+                iconColor: 'text-zinc-500'
+            }],
+    }]
+];
+`,
+  language: "ts",
+},
+
+{
+  title: "Drop-in Pricing Table",
+  description: "Just 5 lines of code. Seriously. That's it!",
+  code: `"use client"
 
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one"
 import { plans } from "@/lib/billing-sdk-const"
 
-export function PricingTableOneDemo() {
-    return <>
-        <PricingTableOne plans={plans}
-        title="Pricing"
-        description="Choose the plan that's right for you"
-        onPlanSelect={(planId) => console.log('Selected plan:', planId)}
-        size="medium" // small, medium, large
-        theme="classic" // minimal or classic
-        />
-        </>
+export default function App() {
+  return (
+    <PricingTableOne
+      plans={plans}
+      onPlanSelect={(planId) => console.log(planId)}
+    />
+  )
 }`,
-    language: "typescript",
-  },
-  {
-    title: "Pricing Component",
-    description: "Pricing component with classic theme",
-    code: `"use client"
+  language: "tsx",
+},
+{
+  title: "Cancel Flow? Easy Peasy!",
+  description: "Complete cancellation flow with confirmation - just pass a plan!",
+  code: `"use client"
 
-import { PricingTableOne } from "@/components/billingsdk/pricing-table-one"
+import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card"
 import { plans } from "@/lib/billing-sdk-const"
 
-export function PricingTableOneDemo() {
-    return <>
-        <PricingTableOne plans={plans}
-        title="Pricing"
-        description="Choose the plan that's right for you"
-        onPlanSelect={(planId) => console.log('Selected plan:', planId)}
-        size="medium" // small, medium, large
-        theme="classic" // minimal or classic
-        />
-        </>
+export default function App() {
+  return (
+    <CancelSubscriptionCard
+      plan={plans[0]}
+      onCancel={(planId) => console.log('Cancelled:', planId)}
+    />
+  )
 }`,
-    language: "typescript",
-  },
+  language: "tsx",
+},
+{
+  title: "Plan Upgrades in Seconds",
+  description: "Beautiful plan upgrade interface - copy, paste, done!",
+  code: `"use client"
 
+import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card"
+import { plans } from "@/lib/billing-sdk-const"
+
+export default function App() {
+  return (
+    <UpdatePlanCard
+      currentPlan={plans[0]}
+      plans={plans}
+      onPlanChange={(planId) => console.log('Upgraded to:', planId)}
+    />
+  )
+}`,
+  language: "tsx",
+},
 ];
 
 export function CodeSection() {
   return (
-    <div className="grid grid-cols-1 md:divide-x divide-accent-900 list-none md:grid-cols-2 border-none border-border h-full w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-accent-900 list-none border-none border-border w-full auto-rows-fr">
       {features.map((feature, index) => (
         <div
           key={index}
-          className="h-160 bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,rgba(74,0,224,0.44)_69.27%,rgba(0,234,255,0.5)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] border-t border-card p-8 pt-24 pb-0 relative overflow-hidden"
+          className="min-h-160 bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,rgba(74,0,224,0.44)_69.27%,rgba(0,234,255,0.5)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] border-t border-card p-8 pt-24 pb-0 relative"
         >
           <div className="text-center">
-            <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-zinc-800 dark:text-zinc-300 font-display">
+            <h2 className="text-3xl sm:text-3xl md:text-4xl font-medium text-zinc-800 dark:text-zinc-300 font-display">
               {feature.title}
             </h2>
-            <p className="text-base mt-4 text-muted-foreground text-balance">
+            <p className="text-sm mt-4 text-muted-foreground max-w-md mx-auto tracking-tight">
               {feature.description}
             </p>
           </div>
 
-          <div className="shadow-lg border border-border mt-12 relative h-full">
+          <div className="shadow-lg border-x border-t border-border absolute bottom-0 left-0 right-0 mx-8 mt-8 h-96 overflow-hidden">
             {/* Window chrome */}
             <div className="py-2 px-4 border-b border-border bg-transparent border-l-foreground">
               <div className="flex items-center gap-1">
                 <div className="size-2 outline rounded-full outline-border"></div>
-                <div className="size-2 outline rounded-full outline-muted-foreground"></div>
                 <div className="size-2 outline rounded-full outline-accent"></div>
               </div>
             </div>
 
             {/* Code block */}
-            <CustomCodeBlock code={feature.code} language={feature.language} />
+            <CustomCodeBlock code={feature.code} language={feature.language} maxHeight="400px" />
           </div>
         </div>
       ))}

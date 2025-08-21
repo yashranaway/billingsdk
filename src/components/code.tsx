@@ -219,7 +219,7 @@ export function CustomCodeBlock({
         </div>
       )}
 
-      <div className="bg-background/95 overflow-hidden h-full">
+      <div className="bg-background/95 overflow-hidden h-full hide-scrollbars">
         <SyntaxHighlighter
           language={language}
           style={currentStyle}
@@ -230,12 +230,14 @@ export function CustomCodeBlock({
           borderRadius: 0,
           ...(maxHeight !== 'none' && { maxHeight }),
           overflowY: 'auto',
-          overflowX: 'hidden',
+          overflowX: 'auto',
           fontSize: '0.75rem',
           lineHeight: '1.5',
           whiteSpace: 'pre-wrap',
           wordWrap: 'break-word',
           overflowWrap: 'anywhere',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
         }}
         >
           {code}
