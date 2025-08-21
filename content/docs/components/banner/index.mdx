@@ -153,20 +153,14 @@ import { Banner } from "@/components/billingsdk/banner";
 | `buttonText` | `string` | ❌ | The text of the button |
 | `buttonIcon` | `React.ReactNode` | ❌ | The icon of the button |
 | `buttonLink` | `string` | ❌ | The link of the button |
-| `variant` | `"default" | "minimal" | "popup"` | ✅ | The variant of the banner |
+| `variant` | `"default" \| "minimal" \| "popup"` | ✅ | The variant of the banner |
 | `autoDismiss` | `number` | ❌ | The time in milliseconds to auto dismiss the banner |
 | `onDismiss` | `() => void` | ❌ | The function to call when the banner is dismissed |
 | `gradientColors` | `string[]` | ❌ | Array of color strings for animated gradient background |
 
 ## Gradient Colors
 
-The `gradientColors` prop accepts an array of color strings (preferably in rgba format with alpha transparency). The gradient creates a smooth animated background effect that moves from left to right.
-
-### Features:
-- **Theme-aware**: Automatically adapts text colors and filter effects for light/dark themes
-- **Smooth animation**: 30-second linear animation that loops infinitely
-- **Customizable**: Works with any number of colors (optimal with 4 colors)
-- **Subtle transitions**: Gentle fade-in/out animations (0.15s duration)
+The `gradientColors` prop accepts an array of color strings (preferably in rgba format with alpha transparency). The gradient creates a smooth animated background effect.
 
 ### Color Guidelines:
 - Use rgba colors with alpha values between 0.5-0.8 for best results

@@ -752,6 +752,7 @@ code, pre {
   --ring: oklch(0.65 0.2 130);
 }
 ```
+
 ### Lavender Theme
 
 **Fonts**: Nunito (soft and rounded) + Cascadia Code  
@@ -875,3 +876,76 @@ code, pre {
   --ring: oklch(0.8 0.08 240);
 }
 ```
+
+
+## Common Issues & Troubleshooting Section
+
+### 1. CSS Import Order Error
+
+**Error:** `@import rules must precede all rules aside from @charset and @layer statements`
+
+**Problem:** Font imports placed after other CSS rules.
+
+**Solution:** Always place ALL `@import` statements at the very beginning of your CSS file:
+
+```css
+/* ✅ CORRECT - All imports at the top */
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/vitepress.css';
+@import 'fumadocs-ui/css/preset.css';
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=...');
+
+/* Then your other CSS rules */
+@custom-variant dark (&:is(.dark *));
+@theme inline { /* ... */ }
+```
+
+```css
+/* ❌ WRONG - Import after other rules */
+@theme inline { /* ... */ }
+@import url('https://fonts.googleapis.com/css2?family=...'); /* This will fail */
+```
+
+### 2. Unknown Utility Class Errors
+
+**Error:** `Cannot apply unknown utility class 'border-border'`
+
+**Problem:** Using custom utilities without proper Tailwind configuration.
+
+**Solutions:**
+
+**Option A: Remove problematic utilities (Quick Fix)**
+```css
+@layer base {
+  * {
+    @apply outline-ring/50; /* Remove border-border */
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+```
+
+**Option B: Configure Tailwind for custom utilities**
+Add to your `tailwind.config.js`:
+```js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        // Add other custom colors as needed
+      }
+    }
+  }
+}
+```
+
+## Additional Resources
+- [ShadCN Theming](https://ui.shadcn.com/docs/theming)
+- [CSS @import MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/@import)
+- [Tailwind CSS Custom Colors](https://tailwindcss.com/docs/customizing-colors)
