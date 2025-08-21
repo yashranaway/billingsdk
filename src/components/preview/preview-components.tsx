@@ -11,11 +11,13 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 interface PreviewComponentsProps {  
   className?: string;
   children?: React.ReactNode;
+  registryName?: string;
 }
 
-export function PreviewComponents({ className, children }: PreviewComponentsProps) {
+export function PreviewComponents({ className, children, registryName }: PreviewComponentsProps) {
   const { currentTheme, setTheme, themes, previewDarkMode, setPreviewDarkMode } = useTheme();
   const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
+  const registryUrl = `${window.location.origin}/r/${registryName}.json`;
 
   return (
     <Card 
@@ -26,7 +28,7 @@ export function PreviewComponents({ className, children }: PreviewComponentsProp
         <div className="flex gap-2 justify-end">
           <div className="flex gap-2">
             <Button
-              onClick={() => window.open('https://v0.app', '_blank')}
+              onClick={() => window.open(`https://v0.dev/chat/api/open?url=${registryUrl}`, '_blank')}
               size={"sm"}
               aria-label="Open in V0"
             >
