@@ -120,3 +120,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide scrollbars while maintaining scroll functionality */
+.hide-scrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* Hide scrollbars for SyntaxHighlighter specifically */
+pre[class*="language-"] {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+pre[class*="language-"]::-webkit-scrollbar {
+  display: none !important;
+}

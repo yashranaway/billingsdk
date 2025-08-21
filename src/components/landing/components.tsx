@@ -11,12 +11,12 @@ import { CancelSubscriptionCard } from "@/registry/billingsdk/cancel-subscriptio
 
 export function ComponentsSection() {
     return (
-        <div className="border-t border-card md:p-8 py-24 my-12 relative overflow-hidden w-full">
+        <div className="border-t border-card md:px-8 py-24 my-12 relative overflow-hidden w-full">
             <div className="text-center">
-                <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-zinc-800 dark:text-zinc-300">
+                <h2 className="text-3xl sm:text-3xl md:text-4xl font-medium text-zinc-800 dark:text-zinc-300">
                     Try our components
                 </h2>
-                <p className="text-base mt-4 text-muted-foreground text-balance">
+                <p className="text-sm mt-4 text-muted-foreground max-w-2xl mx-auto tracking-tight">
                     Try our components in action and see how they work.
                 </p>
             </div>
@@ -139,7 +139,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Banner Notifications" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background md:min-h-[700px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
                             <Banner
                                 title="🎉 Start your free trial today!"
                                 description="Get 30 days free access to all premium features"
@@ -157,7 +157,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Usage Meters" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background md:min-h-[700px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
                             <UsageMeter
                                 usage={[{
                                         name: "Claude Sonnet 4",
@@ -183,7 +183,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Subscription Management" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[700px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
                             <div className="mt-4">
                                 <SubscriptionManagementDemo />
                             </div>
@@ -191,7 +191,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Plan Updates" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[700px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
                             <div className="mt-4 w-full">
                                 <UpdatePlanCardDemo />
                             </div>
@@ -199,7 +199,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Cancellation Flow" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[700px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
                             <div className=" flex items-center justify-center w-full">
                                 <CancelSubscriptionCard
                                     title="We're sorry to see you go..."
