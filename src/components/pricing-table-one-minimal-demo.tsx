@@ -11,6 +11,7 @@ export function PricingTableOneMinimalDemo() {
             onPlanSelect={(planId) => console.log('Selected plan:', planId)}
             size="small" // small, medium, large
             theme="minimal" // minimal or classic
+            className="w-full"
         />
     </>
 }
