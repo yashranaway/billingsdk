@@ -32,6 +32,7 @@ export const metadata: Metadata = {
     "pricing tables",
     "usage meters",
     "React components",
+    "nextjs components",
     "TypeScript",
     "Tailwind CSS",
     "shadcn/ui",
