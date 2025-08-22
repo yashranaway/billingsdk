@@ -67,11 +67,11 @@ const features = [
 
 export default function Features() {
   return (
-    <div className="flex flex-col my-24 mt-32 items-center justify-center">
+    <div className="flex flex-col my-24 mt-32 items-center justify-center max-w-7xl mx-auto">
       <h2 className="text-3xl sm:text-3xl font-display md:text-4xl font-medium text-primary animate-in fade-in slide-in-from-bottom-4 duration-1000">
         Why choose BillingSDK?
       </h2>
-      <p className="text-sm mt-4 text-muted-foreground mb-12 max-w-2xl mx-auto tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+      <p className="text-sm mt-4 text-muted-foreground mb-12 max-w-xl mx-auto tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
         Beautiful, customizable billing components that save you development time and effort.
       </p>
 

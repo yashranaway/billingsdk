@@ -12,7 +12,7 @@ import { CancelSubscriptionCard } from "@/registry/billingsdk/cancel-subscriptio
 
 export function ComponentsSection() {
     return (
-        <div className="md:px-8 py-12 relative overflow-hidden w-full">
+        <div className="md:px-8 py-12 relative overflow-hidden w-full max-w-7xl mx-auto">
             <div className="text-center">
                 <h2 className="text-3xl sm:text-3xl font-display md:text-4xl font-medium text-primary">
                     Try our components
@@ -93,27 +93,35 @@ function ComponentsShowcase() {
     return (
         <div id="components-showcase"
             className="flex flex-col gap-3 my-auto w-full mt-5">
-            <div className="flex flex-row w-full justify-center">
-                {components.map((item, i) => (
-                    <button
-                        key={item}
-                        type="button"
-                        className={cn(
-                            "transition-colors text-nowrap px-2 py-1 text-start text-xs font-medium underline-offset-2",
-                            isTransitioning
-                                ? "cursor-not-allowed opacity-60"
-                                : "cursor-pointer",
-                            item === active
-                                ? "underline decoration-1 underline-offset-2 decoration-fd-primary"
-                                : "hover:text-fd-accent-foreground/60 text-muted-foreground/60"
-                        )}
-                        onClick={() => {
-                            handleComponentClick(item);
-                        }}
-                    >
-                        {item}
-                    </button>
-                ))}
+            <div className="relative flex flex-row w-full overflow-x-auto scrollbar-hide justify-start sm:justify-center">
+                {/* Left fade gradient - only visible on mobile */}
+                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none z-10 sm:hidden" />
+
+                {/* Right fade gradient - only visible on mobile */}
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none z-10 sm:hidden" />
+
+                <div className="flex flex-row gap-2 sm:gap-4 px-4 sm:px-0 min-w-max">
+                    {components.map((item, i) => (
+                        <button
+                            key={item}
+                            type="button"
+                            className={cn(
+                                "transition-colors text-nowrap px-3 sm:px-2 py-2 sm:py-1 text-center text-sm sm:text-xs font-medium underline-offset-2 flex-shrink-0",
+                                isTransitioning
+                                    ? "cursor-not-allowed opacity-60"
+                                    : "cursor-pointer",
+                                item === active
+                                    ? "underline decoration-1 underline-offset-2 decoration-fd-primary"
+                                    : "hover:text-fd-accent-foreground/60 text-muted-foreground/60"
+                            )}
+                            onClick={() => {
+                                handleComponentClick(item);
+                            }}
+                        >
+                            {item}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             <div
@@ -126,7 +134,7 @@ function ComponentsShowcase() {
                     isTransitioning ? "opacity-0 transform scale-98" : "opacity-100 transform scale-100"
                 )}>
                     {active === "Pricing" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in max-w-none w-full h-full border-none  bg-background md:min-h-[900px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in max-w-none w-full h-full border-none  bg-background min-h-[500px] md:min-h-[900px] px-0">
                             <PricingTableOne
                                 className="w-full"
                                 plans={plans}
@@ -140,7 +148,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Banner Notifications" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background min-h-[500px] md:min-h-[900px] px-0">
                             <Banner
                                 title="🎉 Start your free trial today!"
                                 description="Get 30 days free access to all premium features"
@@ -158,21 +166,21 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Usage Meters" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none rounded-lg border-fd-primary/10 bg-background min-h-[500px] md:min-h-[900px] px-0">
                             <UsageMeter
                                 usage={[{
-                                        name: "Claude Sonnet 4",
-                                        usage: 75,
-                                        limit: 100,
-                                    },{
-                                        name: "ChatGPT 5",
-                                        usage: 12,
-                                        limit: 100,
-                                    },{
-                                        name: "Grok 3",
-                                        usage: 95,
-                                        limit: 100,
-                                    }
+                                    name: "Claude Sonnet 4",
+                                    usage: 75,
+                                    limit: 100,
+                                }, {
+                                    name: "ChatGPT 5",
+                                    usage: 12,
+                                    limit: 100,
+                                }, {
+                                    name: "Grok 3",
+                                    usage: 95,
+                                    limit: 100,
+                                }
                                 ]}
                                 title="LLM Usage"
                                 description="Your usage of the LLM models"
@@ -184,7 +192,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Subscription Management" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background min-h-[500px] md:min-h-[900px] px-0">
                             <div className="mt-4">
                                 <SubscriptionManagementDemo />
                             </div>
@@ -192,7 +200,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Plan Updates" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background min-h-[500px] md:min-h-[900px] px-0">
                             <div className="mt-4 w-full">
                                 <UpdatePlanCardDemo />
                             </div>
@@ -200,7 +208,7 @@ function ComponentsShowcase() {
                     ) : null}
 
                     {active === "Cancellation Flow" ? (
-                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background md:min-h-[900px] px-0">
+                        <PreviewComponents className="duration-300 animate-in fade-in text-sm max-w-none w-full border-none border rounded-lg border-fd-primary/10 bg-background min-h-[500px] m d:min-h-[900px] px-0">
                             <div className=" flex items-center justify-center w-full">
                                 <CancelSubscriptionCard
                                     title="We're sorry to see you go..."
