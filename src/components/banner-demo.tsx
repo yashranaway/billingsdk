@@ -2,7 +2,7 @@ import { Banner } from "@/components/billingsdk/banner"
 
 export default function FreeTrialBannerDemo() {
     return (
-        <div className="w-full h-full flex flex-col gap-6 min-h-[500px] border rounded-lg overflow-hidden bg-background-secondary">
+        <div className="w-full h-full flex flex-col gap-6 min-h-[500px] border rounded-lg overflow-hidden bg-background-secondary border-2">
             <Banner
                 title="🎉 Start your free trial today!"
                 description="Get 30 days free access to all premium features"

@@ -10,7 +10,7 @@ import { useState } from "react"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cva, type VariantProps } from "class-variance-authority"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion } from "motion/react"
 
 const sectionVariants = cva("mt-10 max-w-7xl mx-auto", {
   variants: {

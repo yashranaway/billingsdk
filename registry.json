@@ -12,7 +12,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ]
         },
@@ -68,7 +68,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -106,7 +106,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -140,7 +140,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -176,7 +176,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -208,7 +208,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -240,7 +240,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -276,7 +276,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [
@@ -312,7 +312,7 @@
                 {
                     "path": "src/registry/lib/billing-sdk-const.ts",
                     "type": "registry:lib",
-                    "target": "src/lib/billing-sdk-const.ts"
+                    "target": "lib/billing-sdk-const.ts"
                 }
             ],
             "dependencies": [

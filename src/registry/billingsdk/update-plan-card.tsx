@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Toggle } from "@/components/ui/toggle"
 import { Label } from "@/components/ui/label"
-import { Plan } from "@/lib/billing-sdk-const"
+import { type Plan } from "@/lib/billing-sdk-const"
 import { cn } from "@/lib/utils"
 
 export interface UpdatePlanCardProps {
@@ -31,7 +31,7 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
     }
 
     return (
-        <Card className={cn("max-w-xl mx-auto text-left overflow-hidden shadow-lg", className)}>
+        <Card className={cn("max-w-xl mx-auto text-left overflow-hidden shadow-lg w-full", className)}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-base font-semibold">
                     {title || "Upgrade Plan"}
