@@ -6,6 +6,23 @@ import Link from "next/link";
 import { Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+
+export const Logo = () => {
+  return (
+    <div className="flex items-center justify-center gap-2 mr-8">
+    <Image
+      src="/logo/logo-dodo.svg"
+      alt="Billing SDK"
+      width={28}
+      height={28}
+    />
+    <span className="text-3xl font-display">/</span>
+      <Image src="/logo/Logo.svg" alt="Billing SDK" width={120} height={120} />
+
+  </div>
+  );
+};
+
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -35,18 +52,7 @@ const NavBar = () => {
             }`
           )}
         >
-        {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mr-8">
-          <Image
-            src="/logo/logo-dodo.svg"
-            alt="Billing SDK"
-            width={24}
-            height={24}
-          />
-          <span className="text-lg font-display">/</span>
-            <Image src="/logo/Logo.svg" alt="Billing SDK" width={100} height={100} />
-
-        </div>
+        <Logo />
 
         {/* Join Beta Button */}
         <div className="flex items-center gap-2">
