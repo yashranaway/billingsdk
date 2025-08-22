@@ -13,8 +13,8 @@
     "badge",
     "separator",
     "utils",
-    "https://billingsdk.vercel.app/r/cancel-subscription-dialog.json",
-    "https://billingsdk.vercel.app/r/update-plan-dialog.json"
+    "https://billingsdk.com/r/cancel-subscription-dialog.json",
+    "https://billingsdk.com/r/update-plan-dialog.json"
   ],
   "files": [
     {

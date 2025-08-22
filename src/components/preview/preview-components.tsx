@@ -17,7 +17,7 @@ interface PreviewComponentsProps {
 export function PreviewComponents({ className, children, registryName }: PreviewComponentsProps) {
   const { currentTheme, setTheme, themes, previewDarkMode, setPreviewDarkMode } = useTheme();
   const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
-  const registryUrl = `https://billingsdk.vercel.app/r/${registryName}.json`;
+  const registryUrl = `https://billingsdk.com/r/${registryName}.json`;
 
   return (
     <Card 
