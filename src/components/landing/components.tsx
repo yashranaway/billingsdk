@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { PreviewComponents } from "@/components/preview/preview-components";
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
-import { plans } from "@/lib/billing-sdk-const";
+import { plans } from "@/lib/billingsdk-config";
 import { Banner } from "@/components/billingsdk/banner";
 import { UsageMeter } from "@/components/billingsdk/usage-meter";
 import { SubscriptionManagementDemo } from "@/components/subscription-management-demo";

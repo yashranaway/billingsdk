@@ -7,7 +7,7 @@ const Hero = () => {
         description: "Beautiful plan upgrade interface - copy, paste, done!",
         code: `
   import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card"
-  import { plans } from "@/lib/billing-sdk-const"
+  import { plans } from "@/lib/billingsdk-config"
 
   export default function App() {
     return (

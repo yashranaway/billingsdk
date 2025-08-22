@@ -47,7 +47,7 @@ This will automatically install the component and its dependencies into your pro
 
 Create your first billing component setup.
 
-```tsx title="lib/billing-sdk-const.ts"
+```tsx title="lib/billingsdk-config.ts"
 // no need to manually add this file. already added whenever you install a component.
 export const plans = [{
   id: 'starter',
@@ -102,7 +102,7 @@ npx shadcn@latest add https://billingsdk.vercel.app/r/pricing-table-one.json
 
 ```tsx
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
-import { plans } from "@/lib/billing-sdk-const";
+import { plans } from "@/lib/billingsdk-config";
 
 export default function PricingPage() {
   return (

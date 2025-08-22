@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Zap } from "lucide-react";
-import { useEffect, useState, useId } from "react";
+import { useState, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { Plan } from "@/lib/billing-sdk-const";
+import { type Plan } from "@/lib/billing-sdk-const";
 import { cn } from "@/lib/utils";
 
 const sectionVariants = cva("py-32", {

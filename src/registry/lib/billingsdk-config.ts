@@ -1,63 +1,3 @@
----
-title: TypeScript Interfaces
-description: Complete TypeScript definitions for all Billing SDK components and data structures
----
-
-## Plan Interface
-
-The `Plan` interface is used to define the structure of a pricing plan and is shared across all the `PricingTable` components.
-
-```tsx
-interface Plan {
-    id: string
-    title: string
-    description: string
-    highlight?: boolean
-    type?: 'monthly' | 'yearly'
-    currency?: string
-    monthlyPrice: string
-    yearlyPrice: string
-    buttonText: string
-    badge?: string
-    features: {
-        name: string
-        icon: string
-        iconColor?: string
-    }[],
-    benefits?: string[]
-}
-```
-
-Whenever you add a new component which uses the `Plan` interface, a file `/lib/billingsdk-config.ts` will be created with the `plans` array.
-
-## CurrentPlan Interface
-
-The `CurrentPlan` interface is used to define the structure of a user's current subscription plan and billing information. It combines plan details with subscription-specific data.
-
-```tsx
-interface CurrentPlan {
-    plan: Plan
-    type: 'monthly' | 'yearly' | 'custom'
-    price?: string
-    nextBillingDate: string
-    paymentMethod: string
-    status: 'active' | 'inactive' | 'past_due' | 'cancelled'
-}
-```
-
-### Properties
-
-- **plan**: The complete `Plan` object containing plan details
-- **type**: The billing cycle type (`monthly`, `yearly`, or `custom`)
-- **price**: Optional current price (useful for custom pricing)
-- **nextBillingDate**: The date when the next billing cycle starts
-- **paymentMethod**: The payment method used for the subscription
-- **status**: The current status of the subscription plan
-
-A sample of the `/lib/billingsdk-config.ts` file is:
-
-```ts
-// lib/billingsdk-config.ts
 export interface Plan {
     id: string
     title: string
@@ -197,4 +137,3 @@ export const plans: Plan[] = [
         ],
     }
 ];
-```

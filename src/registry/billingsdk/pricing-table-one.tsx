@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { type Plan } from "@/lib/billing-sdk-const";
+import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 
 const sectionVariants = cva("py-32", {

@@ -27,6 +27,7 @@ import Hero from "@/components/landing_v2/Hero";
 import { ComponentsSection } from "@/components/landing/components";
 import Features from "@/components/landing/Features";
 import { Footer } from "@/components/landing/footer";
+import { CodeSection } from "@/components/landing/code-section";
 
 const Page = () => {
   return (
@@ -34,6 +35,7 @@ const Page = () => {
       <Hero />
       <Features />
       <ComponentsSection />
+      <CodeSection />
       <Footer />
       <Footer2 />
     </main>

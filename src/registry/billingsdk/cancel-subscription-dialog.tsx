@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { type Plan } from "@/lib/billing-sdk-const";
+import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 import { X, Circle } from "lucide-react";
 

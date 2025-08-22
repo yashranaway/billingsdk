@@ -94,7 +94,7 @@ export const plans: Plan[] = [{
   code: `"use client"
 
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one"
-import { plans } from "@/lib/billing-sdk-const"
+import { plans } from "@/lib/billingsdk-config"
 
 export default function App() {
   return (
@@ -112,7 +112,7 @@ export default function App() {
   code: `"use client"
 
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card"
-import { plans } from "@/lib/billing-sdk-const"
+import { plans } from "@/lib/billingsdk-config"
 
 export default function App() {
   return (
@@ -130,7 +130,7 @@ export default function App() {
   code: `"use client"
 
 import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card"
-import { plans } from "@/lib/billing-sdk-const"
+import { plans } from "@/lib/billingsdk-config"
 
 export default function App() {
   return (
@@ -147,7 +147,7 @@ export default function App() {
 
 export function CodeSection() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-accent-900 list-none border-none border-border w-full auto-rows-fr">
+    <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-accent-900 list-none border-none border-border w-full auto-rows-fr max-w-7xl mx-auto">
       {features.map((feature, index) => (
         <div
           key={index}

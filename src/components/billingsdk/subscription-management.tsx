@@ -3,11 +3,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Calendar, CreditCard, Sparkles } from "lucide-react"
+import { Calendar, CreditCard } from "lucide-react"
 import { CurrentPlan } from "@/lib/billing-sdk-const"
 import { cn } from "@/lib/utils"
-import { CancelSubscriptionDialog, CancelSubscriptionDialogProps } from "@/components/billingsdk/cancel-subscription-dialog"
-import { UpdatePlanDialog, UpdatePlanDialogProps } from "@/components/billingsdk/update-plan-dialog"
+import { CancelSubscriptionDialog, type CancelSubscriptionDialogProps } from "@/components/billingsdk/cancel-subscription-dialog"
+import { UpdatePlanDialog, type UpdatePlanDialogProps } from "@/components/billingsdk/update-plan-dialog"
 
 interface SubscriptionManagementProps {
     className?: string
