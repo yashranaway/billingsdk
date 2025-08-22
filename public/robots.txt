@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://billingsdk.com/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow important pages
+Allow: /docs/
+Allow: /components/
+Allow: /examples/
+
+# Crawl delay (optional)
+Crawl-delay: 1
