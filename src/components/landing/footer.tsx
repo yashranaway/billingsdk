@@ -3,14 +3,14 @@ import Link from "next/link";
 
 export function Footer() {
     return (
-        <footer className="bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,rgba(74,0,224,0.44)_69.27%,rgba(0,234,255,0.5)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] w-full h-full mt-10">
+        <footer className="bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,rgba(74,0,224,0.44)_69.27%,rgba(0,234,255,0.5)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] w-full h-full mt-20">
             <div className="flex flex-col items-center justify-center h-full my-12 space-t-10">
                 <div className="relative flex flex-col items-center justify-center">
-                    <p className="text-zinc-800 dark:text-zinc-300 mt-3 tracking-tight text-2xl md:text-3xl">
+                    <p className="text-zinc-800 dark:text-zinc-300 mt-3 tracking-tight text-2xl md:text-3xl text-center md:text-left">
                         Ready to use billing components and blocks for your next
                         project.
                     </p>
-                    <p className="text-sm pt-2 text-muted-foreground">
+                    <p className="text-sm pt-2 text-muted-foreground text-center md:text-left">
                         150+ free Billing components and blocks built with React,
                         Typescript, Tailwind CSS, and Motion. Perfect companion for
                         shadcn/ui.

@@ -151,7 +151,7 @@ export function CodeSection() {
       {features.map((feature, index) => (
         <div
           key={index}
-          className="min-h-160 bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,rgba(74,0,224,0.44)_69.27%,rgba(0,234,255,0.5)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_2.25%,transparent_37.41%,#4a00e070_69.27%,#00eaff_100%)] border-t border-card p-8 pt-24 pb-0 relative"
+          className="min-h-160 bg-[radial-gradient(131.66%_109.77%_at_50%_97.75%,transparent_50%,rgba(74,0,224,0.25)_75%,rgba(0,234,255,0.3)_100%)] dark:bg-[radial-gradient(131.66%_109.77%_at_50%_97.75%,transparent_50%,#4a00e040_75%,#00eaff60_100%)] border-t border-card p-8 pt-24 pb-0 relative"
         >
           <div className="text-center">
             <h2 className="text-3xl sm:text-3xl md:text-4xl font-medium text-zinc-800 dark:text-zinc-300 font-display">
@@ -179,7 +179,5 @@ export function CodeSection() {
     </div>
   );
 }
-
-
 
 

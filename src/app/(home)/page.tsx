@@ -5,6 +5,7 @@ import Features from "@/components/landing/Features";
 import { CodeSection } from "@/components/landing/code-section";
 import { Footer } from "@/components/landing/footer";
 import { ComponentsSection } from "@/components/landing/components";
+import { Footer2 } from "@/components/landing/footer2";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <ComponentsSection />
       <CodeSection />
       <Footer />
+      <Footer2 />
     </main>
   );
 }
