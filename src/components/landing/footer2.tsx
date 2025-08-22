@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { Github, Twitter, Mail, Heart, ExternalLink } from "lucide-react";
+import { Github, Heart } from "lucide-react";
+import { BsTwitterX } from "react-icons/bs";
 
 export function Footer2() {
     return (
@@ -19,7 +19,7 @@ export function Footer2() {
                             <p className="text-sm text-muted-foreground mb-4">
                                 Open-source React components for modern billing and subscription management.
                             </p>
-                            <div className="flex space-x-2">
+                            <div className="flex">
                                 <Button variant="ghost" size="sm" asChild>
                                     <Link href="https://github.com/dodopayments/billingsdk" target="_blank" rel="noopener noreferrer">
                                         <Github className="h-4 w-4" />
@@ -30,6 +30,11 @@ export function Footer2() {
                                         <img src="/logo/logo-dodo.svg" alt="Dodo Payments" className="h-4 w-4" />
                                     </Link>
                                 </Button>
+                                <Button variant="ghost" size="sm" asChild>
+                                    <Link href="https://x.com/dodopayments" target="_blank" rel="noopener noreferrer">
+                                        <BsTwitterX className="h-4 w-4" />
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
 
@@ -37,17 +42,17 @@ export function Footer2() {
                             <h4 className="font-semibold text-foreground mb-4">Components</h4>
                             <ul className="space-y-3 text-sm">
                                 <li>
-                                    <Link href="/docs/components/pricing-table" className="text-muted-foreground hover:text-foreground transition-colors">
+                                    <Link href="/docs/components/pricing-table/pricing-table-one" className="text-muted-foreground hover:text-foreground transition-colors">
                                         Pricing Tables
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/docs/components/usage-meter" className="text-muted-foreground hover:text-foreground transition-colors">
+                                    <Link href="/docs/components/usage-meter/usage-meter-linear" className="text-muted-foreground hover:text-foreground transition-colors">
                                         Usage Meters
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/docs/components/subscription-management" className="text-muted-foreground hover:text-foreground transition-colors">
+                                    <Link href="/docs/components/manage-subscription" className="text-muted-foreground hover:text-foreground transition-colors">
                                         Subscription Mgmt
                                     </Link>
                                 </li>
