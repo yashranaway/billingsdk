@@ -7,8 +7,7 @@
 
 @theme inline {
   --font-body: var(--font-inter);
-  --font-heading: var(--font-darker-grotesque);
-  --font-display: var(--font-instrument-sans);
+  --font-display: var(--font-darker-grotesque);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
