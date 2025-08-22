@@ -27,7 +27,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="bg-[url('/landing/hero-bg.jpg')] rounded-lg bg-cover bg-center">
+    <div className="bg-[url('/landing/hero-bg.webp')] rounded-lg bg-cover bg-center">
       {/* Content */}
       <motion.div
         className="relative z-10 pt-[calc(70vh/3)] px-6"
@@ -50,7 +50,7 @@ const Hero = () => {
               
               {/* Fully Open Source annotation inside h1 */}
               <motion.div
-                className="hidden md:block absolute top-[100px] -right-[145px]"
+                className="hidden lg:block absolute top-[100px] -right-[145px]"
                 variants={{
                   hidden: { opacity: 0, y: -20 },
                   visible: { opacity: 1, y: 0 },
@@ -153,7 +153,7 @@ const Hero = () => {
                 
                 {/* Easy to Use Components annotation inside window chrome */}
                 <motion.div
-                  className="hidden md:block absolute -top-[30px] -left-[150px]"
+                  className="hidden lg:block absolute -top-[30px] -left-[150px]"
                   variants={{
                     hidden: { opacity: 0, x: -20 },
                     visible: { opacity: 1, x: 0 },
