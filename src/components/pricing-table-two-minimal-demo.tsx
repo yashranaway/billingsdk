@@ -1,6 +1,6 @@
 "use client"
 
-import { plans } from "@/lib/billing-sdk-const";
+import { plans } from "@/lib/billingsdk-config";
 import { PricingTableTwo } from "@/components/billingsdk/pricing-table-two";
 
 export function PricingTableTwoMinimalDemo() {

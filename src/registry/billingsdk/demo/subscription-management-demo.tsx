@@ -1,7 +1,7 @@
 'use client'
 
 import { SubscriptionManagement } from '@/components/billingsdk/subscription-management';
-import { type CurrentPlan, plans } from '@/lib/billing-sdk-const';
+import { type CurrentPlan, plans } from '@/lib/billingsdk-config';
 
 export function SubscriptionManagementDemo() {
     const currentPlan: CurrentPlan = {

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Toggle } from "@/components/ui/toggle"
 import { Label } from "@/components/ui/label"
-import { Plan } from "@/lib/billing-sdk-const"
+import { type Plan } from "@/lib/billing-sdk-const"
 import { cn } from "@/lib/utils"
 
 export interface UpdatePlanCardProps {
