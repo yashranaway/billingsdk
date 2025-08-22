@@ -11,7 +11,7 @@ export function Footer() {
                         project.
                     </p>
                     <p className="text-sm pt-2 text-muted-foreground text-center md:text-left">
-                        150+ free Billing components and blocks built with React,
+                        Free Billing components and blocks built with React,
                         Typescript, Tailwind CSS, and Motion. Perfect companion for
                         shadcn/ui.
                     </p>

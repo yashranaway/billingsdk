@@ -1,45 +1,108 @@
-# billingsdk
+# Billing SDK
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+A comprehensive collection of modern billing and subscription management components built with React, TypeScript, and Tailwind CSS. Perfect companion for shadcn/ui.
 
-Run development server:
+## Features
 
-```bash
-npm run dev
-# or
-pnpm dev
-# or 
-yarn dev
+- **Ready-to-use Components**: Comprehensive billing components and blocks
+- **Multiple Themes**: Classic, minimal, and custom theme support
+- **Responsive Design**: Works seamlessly across all device sizes
+- **TypeScript Ready**: Full type safety and better development experience
+- **Easy Integration**: Single command installation with shadcn/ui
+
+## Components
+
+- **Pricing Tables** - Beautiful pricing designs with multiple variants
+- **Subscription Management** - Complete subscription management interfaces
+- **Usage Meters** - Linear and circular progress indicators for quota tracking
+- **Banner Notifications** - Promotional banners and announcements
+- **Plan Updates** - Upgrade/downgrade plan interfaces
+- **Cancellation Flow** - User-friendly cancellation with retention features
+
+## Quick Example
+
+```tsx
+import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
+
+const plans = [
+  {
+    id: "starter",
+    title: "Starter",
+    price: 9,
+    period: "month",
+    features: ["100 requests", "Basic support", "1 project"],
+    popular: false
+  },
+  {
+    id: "pro",
+    title: "Pro",
+    price: 29,
+    period: "month",
+    features: ["Unlimited requests", "Priority support", "10 projects"],
+    popular: true
+  }
+];
+
+export default function App() {
+  return (
+    <PricingTableOne
+      plans={plans}
+      title="Choose your plan"
+      description="Select the plan that works best for you"
+      onPlanSelect={(planId) => {
+        console.log("Selected plan:", planId);
+        // Handle plan selection
+      }}
+      theme="classic"
+      size="medium"
+    />
+  );
+}
 ```
 
-Open http://localhost:3000 with your browser t o see the result.
+## Tech Stack
 
-## Explore 
+- React 19
+- TypeScript
+- Tailwind CSS
+- Next.js 15
+- shadcn/ui components
+- Motion (animations)
 
-In the project, you can see:
+## Quick Start
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `app/layout.config.tsx`: Shared options for layouts, optional but preferred to keep.
+1. Install dependencies:
+```bash
+npm install
+```
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
+2. Start development server:
+```bash
+npm run dev
+```
 
-### Fumadocs MDX
+3. Open [http://localhost:3000](http://localhost:3000)
 
-A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
+## Documentation
 
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
+Visit [http://localhost:3000/docs](http://localhost:3000/docs) for comprehensive documentation and component examples.
 
-## Learn More
+## Installation in Your Project
 
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
+Add Billing SDK components to your existing shadcn/ui project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs
+```bash
+npx shadcn@latest add https://billingsdk.com/r/[component-name].json
+```
+
+## Live Documentation
+
+Visit [https://billingsdk.com](https://billingsdk.com) for comprehensive documentation and interactive component examples.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, project structure, and contribution guidelines.
+
+## License
+
+GNU General Public License (GPL)

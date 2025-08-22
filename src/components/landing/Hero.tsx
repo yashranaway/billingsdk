@@ -17,7 +17,7 @@ export default function Hero() {
                 project.
               </p>
               <p className="text-sm pt-2 text-muted-foreground">
-                150+ free Billing components and blocks built with React,
+                Free Billing components and blocks built with React,
                 Typescript, Tailwind CSS, and Motion. Perfect companion for
                 shadcn/ui.
               </p>
