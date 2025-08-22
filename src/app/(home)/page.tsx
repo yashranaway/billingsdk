@@ -23,7 +23,7 @@
 
 import React from "react";
 import { Footer2 } from "@/components/landing/footer2";
-import Hero from "@/components/landing_v2/Hero";
+import Hero from "@/components/landing/Hero";
 import { ComponentsSection } from "@/components/landing/components";
 import Features from "@/components/landing/Features";
 import { Footer } from "@/components/landing/footer";
@@ -35,7 +35,7 @@ const Page = () => {
       <Hero />
       <Features />
       <ComponentsSection />
-      <CodeSection />
+      {/* <CodeSection /> */}
       <Footer />
       <Footer2 />
     </main>

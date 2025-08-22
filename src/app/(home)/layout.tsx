@@ -19,7 +19,7 @@
 // }
 
 import type { ReactNode } from "react";
-import NavBar from "@/components/landing_v2/NavBar";
+import NavBar from "@/components/landing/NavBar";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
