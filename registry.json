@@ -23,17 +23,17 @@
             "description": "All components in the BillingSDK",
             "files": [],
             "registryDependencies": [
-                "https://billingsdk.vercel.app/r/pricing-table-one.json",
-                "https://billingsdk.vercel.app/r/pricing-table-two.json",
-                "https://billingsdk.vercel.app/r/pricing-table-three.json",
-                "https://billingsdk.vercel.app/r/cancel-subscription-dialog.json",
-                "https://billingsdk.vercel.app/r/cancel-subscription-card.json",
-                "https://billingsdk.vercel.app/r/update-plan-dialog.json",
-                "https://billingsdk.vercel.app/r/update-plan-card.json",
-                "https://billingsdk.vercel.app/r/subscription-management.json",
-                "https://billingsdk.vercel.app/r/usage-meter-linear.json",
-                "https://billingsdk.vercel.app/r/usage-meter-circle.json",
-                "https://billingsdk.vercel.app/r/banner.json"
+                "https://billingsdk.com/r/pricing-table-one.json",
+                "https://billingsdk.com/r/pricing-table-two.json",
+                "https://billingsdk.com/r/pricing-table-three.json",
+                "https://billingsdk.com/r/cancel-subscription-dialog.json",
+                "https://billingsdk.com/r/cancel-subscription-card.json",
+                "https://billingsdk.com/r/update-plan-dialog.json",
+                "https://billingsdk.com/r/update-plan-card.json",
+                "https://billingsdk.com/r/subscription-management.json",
+                "https://billingsdk.com/r/usage-meter-linear.json",
+                "https://billingsdk.com/r/usage-meter-circle.json",
+                "https://billingsdk.com/r/banner.json"
             ]
         },
         {
@@ -324,8 +324,8 @@
                 "badge",
                 "separator",
                 "utils",
-                "https://billingsdk.vercel.app/r/cancel-subscription-dialog.json",
-                "https://billingsdk.vercel.app/r/update-plan-dialog.json"
+                "https://billingsdk.com/r/cancel-subscription-dialog.json",
+                "https://billingsdk.com/r/update-plan-dialog.json"
             ]
         },
         {
