@@ -16,9 +16,9 @@ import { cn } from "@/lib/utils";
 const sectionVariants = cva("py-32", {
   variants: {
     size: {
-      small: "py-12",
-      medium: "py-20",
-      large: "py-32",
+      small: "py-6 md:py-12",
+      medium: "py-10 md:py-20",
+      large: "py-16 md:py-32",
     },
     theme: {
       minimal: "",
@@ -40,7 +40,7 @@ const titleVariants = cva("text-pretty text-left font-bold", {
     },
     theme: {
       minimal: "",
-      classic: "text-center bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+      classic: "text-center bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent p-1",
     },
   },
   defaultVariants: {
@@ -237,7 +237,7 @@ export function PricingTableOne({
         </>
       )}
       
-      <div className="container relative">
+      <div className={cn("container relative", "p-0 md:p-[1rem]")}>
         <div className="mx-auto flex max-w-7xl flex-col gap-6">
           <div className={cn("flex flex-col gap-4", theme === "classic" && "text-center")}>
             <h2 className={cn(titleVariants({ size, theme }))}>
@@ -246,7 +246,7 @@ export function PricingTableOne({
           </div>
 
           <div className={cn(
-            "flex flex-col justify-between gap-10",
+            "flex flex-col justify-between gap-5 md:gap-10",
             theme === "classic" ? "md:flex-col md:items-center" : "md:flex-row"
           )}>
             <p className={cn(descriptionVariants({ size, theme }))}>
@@ -268,7 +268,7 @@ export function PricingTableOne({
                   />
                   <Label
                     htmlFor={`${uniqueId}-monthly`}
-                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-7 font-semibold transition-all hover:text-foreground"
+                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-2 md:px-7 font-semibold transition-all hover:text-foreground"
                   >
                     Monthly
                   </Label>
@@ -281,7 +281,7 @@ export function PricingTableOne({
                   />
                   <Label
                     htmlFor={`${uniqueId}-annually`}
-                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-7 font-semibold transition-all hover:text-foreground"
+                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-2 md:px-7 font-semibold transition-all hover:text-foreground"
                   >
                     Yearly
                     {yearlyPriceDiscount > 0 && (
