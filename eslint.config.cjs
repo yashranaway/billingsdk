@@ -1,7 +1,7 @@
-const js = require('@eslint/js');
 const tsParser = require('@typescript-eslint/parser');
 const tsPlugin = require('@typescript-eslint/eslint-plugin');
 const unusedImports = require('eslint-plugin-unused-imports');
+const nextConfig = require('eslint-config-next');
 
 /** @type {import('eslint').Linter.Config[]} */
 module.exports = [
@@ -15,7 +15,8 @@ module.exports = [
       '**/*.d.ts'
     ]
   },
-  js.configs.recommended,
+  // Next.js recommended configuration
+  ...nextConfig.configs.recommended,
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
@@ -31,9 +32,12 @@ module.exports = [
       'unused-imports': unusedImports
     },
     rules: {
+      // Console rules - allow warn and error
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      // Turn off base no-unused-vars in favor of TypeScript and unused-imports rules
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
+      // Unused imports handling
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'warn',
@@ -42,5 +46,3 @@ module.exports = [
     }
   }
 ];
-
-
