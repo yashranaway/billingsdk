@@ -63,7 +63,7 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
                 <div className="overflow-y-auto flex-1 min-h-0 space-y-3">
                     <RadioGroup value={selectedPlan} onValueChange={handlePlanChange}>
                         <AnimatePresence mode="wait">
-                            {plans.map((plan, index) => (
+                            {plans.map((plan) => (
                                 <motion.div
                                     key={plan.id}
                                     onClick={() => handlePlanChange(plan.id)}

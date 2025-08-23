@@ -57,7 +57,7 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
             <CardContent className="space-y-3">
                 <RadioGroup value={selectedPlan} onValueChange={handlePlanChange}>
                     <AnimatePresence mode="wait">
-                        {plans.map((plan, index) => (
+                        {plans.map((plan) => (
                             <motion.div
                                 key={plan.id}
                                 onClick={() => handlePlanChange(plan.id)}
