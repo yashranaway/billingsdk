@@ -1,25 +1,4 @@
-// "use client";
-
-// import Hero from "@/components/landing/Hero";
-// import Features from "@/components/landing/Features";
-// import { CodeSection } from "@/components/landing/code-section";
-// import { Footer } from "@/components/landing/footer";
-// import { ComponentsSection } from "@/components/landing/components";
-// import { Footer2 } from "@/components/landing/footer2";
-
-// export default function HomePage() {
-//   return (
-//     <main className="max-w-6xl bg-background 2xl:max-w-[1400px] mx-auto border-x flex flex-col items-end border-t border-border">
-//       <Hero />
-//       <Features />
-//       <ComponentsSection />
-//       <CodeSection />
-//       <Footer />
-//       <Footer2 />
-//     </main>
-//   );
-// }
-
+"use client"
 
 import React from "react";
 import { Footer2 } from "@/components/landing/footer2";
@@ -27,7 +6,7 @@ import Hero from "@/components/landing/Hero";
 import { ComponentsSection } from "@/components/landing/components";
 import Features from "@/components/landing/Features";
 import { Footer } from "@/components/landing/footer";
-import { CodeSection } from "@/components/landing/code-section";
+import { OpenSource } from "@/components/landing/opensource";
 
 const Page = () => {
   return (
@@ -35,7 +14,7 @@ const Page = () => {
       <Hero />
       <Features />
       <ComponentsSection />
-      {/* <CodeSection /> */}
+      <OpenSource />
       <Footer />
       <Footer2 />
     </main>
