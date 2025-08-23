@@ -85,7 +85,7 @@ npm run dev
 
 ## Documentation
 
-Visit [http://localhost:3000/docs](http://localhost:3000/docs) for comprehensive documentation and component examples.
+Visit [https://billingsdk.com/docs](https://billingsdk.com/docs) for comprehensive documentation and interactive component examples.
 
 ## Installation in Your Project
 
@@ -94,10 +94,6 @@ Add Billing SDK components to your existing shadcn/ui project:
 ```bash
 npx shadcn@latest add https://billingsdk.com/r/[component-name].json
 ```
-
-## Live Documentation
-
-Visit [https://billingsdk.com](https://billingsdk.com) for comprehensive documentation and interactive component examples.
 
 ## Contributing
 
