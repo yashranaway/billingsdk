@@ -4,10 +4,8 @@ import {
   Globe2Icon,
   CreditCardIcon,
   PlugZap2Icon,
-  Plus,
   TrendingUpIcon,
   ShieldCheckIcon,
-  BarChart3Icon,
   BellIcon,
 } from "lucide-react";
 

@@ -1,6 +1,5 @@
 import { Logo } from "@/components/landing/NavBar";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import Image from "next/image";
 
 /**
  * Shared layout configurations
