@@ -22,14 +22,13 @@ export function ComponentsSection() {
         <div className="md:px-8 py-12 relative overflow-hidden w-full max-w-7xl mx-auto">
             <div className="text-center">
                 <h2 className="text-3xl sm:text-3xl font-display md:text-4xl font-medium text-primary">
-                    Try our components
+                    Explore Interactive Billing Components
                 </h2>
                 <p className="text-sm mt-4 text-muted-foreground max-w-2xl mx-auto tracking-tight">
-                    Try our components in action and see how they work.
+                    Interact with real-time UI elements designed to streamline your billing workflows.
                 </p>
             </div>
             <ComponentsShowcase />
-
         </div>
     );
 }

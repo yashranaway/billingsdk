@@ -53,7 +53,7 @@ export function Footer2() {
                                 </li>
                                 <li>
                                     <Link href="/docs/components/manage-subscription" className="text-muted-foreground hover:text-foreground transition-colors">
-                                        Subscription Mgmt
+                                        Subscription Management
                                     </Link>
                                 </li>
                                 <li>
@@ -94,7 +94,7 @@ export function Footer2() {
                             <h4 className="font-semibold text-foreground mb-4">Community</h4>
                             <ul className="space-y-3 text-sm">
                                 <li>
-                                    <Link href="https://github.com/dodopayments/billingsdk" className="text-muted-foreground hover:text-foreground transition-colors">
+                                    <Link href="https://github.com/dodopayments/billingsdk/issues" className="text-muted-foreground hover:text-foreground transition-colors">
                                         GitHub Issues
                                     </Link>
                                 </li>
