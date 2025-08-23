@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${DarkerGrotesque.variable} ${inter.variable} ${kalam.variable}`}
+      className={`${DarkerGrotesque.variable} ${inter.variable} ${kalam.variable} dark`}
       suppressHydrationWarning
     >
       <head>
@@ -100,7 +100,13 @@ export default function Layout({ children }: { children: ReactNode }) {
       </head>
       <body className="flex flex-col min-h-screen font-body">
         <ThemeProvider>
-          <RootProvider>{children}</RootProvider>
+          <RootProvider
+          theme={{
+            enabled: false, // Disable theme switching
+            defaultTheme: 'dark',
+            storageKey: 'fumadocs-theme',
+          }}
+        >{children}</RootProvider>
         </ThemeProvider>
       </body>
     </html>
