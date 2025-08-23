@@ -1,25 +1,42 @@
-# Billing SDK
+## Billing SDK
 
-A comprehensive collection of modern billing and subscription management components built with React, TypeScript, and Tailwind CSS. Perfect companion for shadcn/ui.
+Modern, type-safe billing and subscription management components for React, built with TypeScript and Tailwind CSS. Designed to work seamlessly alongside shadcn/ui.
 
-## Features
+### Table of Contents
 
-- **Ready-to-use Components**: Comprehensive billing components and blocks
-- **Multiple Themes**: Classic, minimal, and custom theme support
-- **Responsive Design**: Works seamlessly across all device sizes
-- **TypeScript Ready**: Full type safety and better development experience
-- **Easy Integration**: Single command installation with shadcn/ui
+- [Overview](#overview)
+- [Features](#features)
+- [Components](#components)
+- [Quick Example](#quick-example)
+- [Tech Stack](#tech-stack)
+- [Quick Start](#quick-start)
+- [Installation in Your Project](#installation-in-your-project)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Components
+### Overview
 
-- **Pricing Tables** - Beautiful pricing designs with multiple variants
-- **Subscription Management** - Complete subscription management interfaces
-- **Usage Meters** - Linear and circular progress indicators for quota tracking
-- **Banner Notifications** - Promotional banners and announcements
-- **Plan Updates** - Upgrade/downgrade plan interfaces
-- **Cancellation Flow** - User-friendly cancellation with retention features
+Billing SDK provides production-ready UI building blocks for pricing, usage, and subscription workflows. Drop them into your app, wire up your data, and ship faster with consistent UX.
 
-## Quick Example
+### Features
+
+- **Ready-to-use components**: End-to-end billing and subscription building blocks
+- **Multiple themes**: Classic, Minimal, and custom theme tokens
+- **Responsive by default**: Optimized for mobile, tablet, and desktop
+- **TypeScript-first**: Strongly typed props for safe composition
+- **Easy integration**: One-command install via shadcn/ui registry
+
+### Components
+
+- **Pricing Tables**: Multiple variants for different use cases
+- **Subscription Management**: Manage plans, status, and details
+- **Usage Meters**: Linear and circular quota indicators
+- **Banner Notifications**: Announcements and promotional banners
+- **Plan Updates**: Upgrade/downgrade flows with clear affordances
+- **Cancellation Flow**: Guided cancellation with retention patterns
+
+### Quick Example
 
 ```tsx
 import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
@@ -31,7 +48,7 @@ const plans = [
     price: 9,
     period: "month",
     features: ["100 requests", "Basic support", "1 project"],
-    popular: false
+    popular: false,
   },
   {
     id: "pro",
@@ -39,8 +56,8 @@ const plans = [
     price: 29,
     period: "month",
     features: ["Unlimited requests", "Priority support", "10 projects"],
-    popular: true
-  }
+    popular: true,
+  },
 ];
 
 export default function App() {
@@ -51,7 +68,6 @@ export default function App() {
       description="Select the plan that works best for you"
       onPlanSelect={(planId) => {
         console.log("Selected plan:", planId);
-        // Handle plan selection
       }}
       theme="classic"
       size="medium"
@@ -60,34 +76,29 @@ export default function App() {
 }
 ```
 
-## Tech Stack
+### Tech Stack
 
-- React 19
-- TypeScript
-- Tailwind CSS
-- Next.js 15
-- shadcn/ui components
-- Motion (animations)
+- **Runtime**: React 19, Next.js 15
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI**: shadcn/ui
+- **Animation**: Motion
 
-## Quick Start
+### Quick Start
 
-1. Install dependencies:
+1. Install dependencies
 ```bash
 npm install
 ```
 
-2. Start development server:
+2. Start the development server
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000)
+3. Open `http://localhost:3000`
 
-## Documentation
-
-Visit [https://billingsdk.com/docs](https://billingsdk.com/docs) for comprehensive documentation and interactive component examples.
-
-## Installation in Your Project
+### Installation in Your Project
 
 Add Billing SDK components to your existing shadcn/ui project:
 
@@ -95,10 +106,16 @@ Add Billing SDK components to your existing shadcn/ui project:
 npx shadcn@latest add https://billingsdk.com/r/[component-name].json
 ```
 
-## Contributing
+### Documentation
+
+Explore docs, guides and interactive examples:
+
+[billingsdk.com/docs](https://billingsdk.com/docs)
+
+### Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, project structure, and contribution guidelines.
 
-## License
+### License
 
 GNU General Public License (GPL)
