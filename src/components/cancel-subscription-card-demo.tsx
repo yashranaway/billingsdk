@@ -1,7 +1,7 @@
 "use client";
 
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card";
-import { plans } from "@/lib/billing-sdk-const";
+import { plans } from "@/lib/billingsdk-config";
 
 export function CancelSubscriptionCardDemo() {
     return(

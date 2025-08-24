@@ -9,7 +9,7 @@ export function PricingTableOneDemo() {
             title="Pricing"
             description="Choose the plan that's right for you"
             onPlanSelect={(planId) => console.log('Selected plan:', planId)}
-            size="medium" // small, medium, large
+            size="small" // small, medium, large
             theme="classic" // minimal or classic
             className="w-full"
         />

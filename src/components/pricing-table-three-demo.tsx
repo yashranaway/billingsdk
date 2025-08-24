@@ -1,7 +1,7 @@
 'use client'
 
 import { PricingTableThree } from '@/components/billingsdk/pricing-table-three';
-import { plans } from '@/lib/billing-sdk-const';
+import { plans } from '@/lib/billingsdk-config';
 
 export function PricingTableThreeDemo() {
 

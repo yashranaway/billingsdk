@@ -5,7 +5,7 @@ import { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { type Plan } from "@/lib/billing-sdk-const";
+import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 import {
   Table,
