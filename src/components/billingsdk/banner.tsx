@@ -70,8 +70,8 @@ export function Banner({
       case "popup":
         return {
           container: hasGradient
-            ? "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto border border-border rounded-lg shadow-lg"
-            : "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto bg-popover border border-border rounded-lg shadow-lg",
+            ? "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto border border-border rounded-lg shadow-lg backdrop-blur"
+            : "fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-sm sm:max-w-md w-[90%] sm:w-auto bg-popover border border-border rounded-lg shadow-lg backdrop-blur",
           wrapper:
             "relative flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-3 gap-3 sm:gap-4",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-2 flex-1",
@@ -86,8 +86,8 @@ export function Banner({
       default:
         return {
           container: hasGradient
-            ? "sticky top-0 z-50 w-full border-b text-primary-foreground shadow-sm text-left"
-            : "sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground shadow-sm text-left",
+            ? "sticky top-0 z-50 w-full border-b text-primary-foreground shadow-sm text-left backdrop-blur"
+            : "sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground shadow-sm text-left backdrop-blur",
           wrapper:
             "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full",
