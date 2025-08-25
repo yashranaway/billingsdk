@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     siteName: "Billing SDK",
     images: [
       {
-        url: "/landing/og-image.jpg",
+        url: "/landing/og-image.png",
         width: 1200,
         height: 630,
         alt: "Billing SDK - Modern Billing & Monetization Components",
