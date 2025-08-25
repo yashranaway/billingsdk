@@ -25,6 +25,7 @@ interface UsageMeterProps {
     size?: "sm" | "md" | "lg"
     title?: string
     description?: string
+    progressColor?: "default" | "usage"
 }
 
 export function UsageMeter({
@@ -34,6 +35,7 @@ export function UsageMeter({
     size = "md",
     title,
     description,
+    progressColor = "default",
 }: UsageMeterProps) {
     if (!usage?.length) return null
 
@@ -41,6 +43,22 @@ export function UsageMeter({
         if (percentage >= 90) return <Badge variant="destructive">Critical</Badge>
         if (percentage >= 75) return <Badge variant="secondary">High</Badge>
         return null
+    }
+    const getUsageClasses = (percentage: number, variant: "circle" | "linear"): string[] => {
+        const thresholds = [
+            { min: 90, circle: "text-red-500", linear: ["from-red-500", "to-red-400"] },
+            { min: 75, circle: "text-yellow-500", linear: ["from-yellow-500", "to-yellow-400"] },
+            { min: 50, circle: "text-emerald-500", linear: ["from-emerald-500", "to-emerald-400"] },
+            { min: 25, circle: "text-blue-500", linear: ["from-blue-500", "to-blue-400"] },
+            { min: 0, circle: "text-gray-500", linear: ["from-gray-500", "to-gray-400"] },
+        ];
+        const match = thresholds.find(t => percentage >= t.min);
+
+        if (match) {
+            return variant === "circle" ? [match.circle] : match.linear;
+        }
+
+        return variant === "circle" ? ["text-gray-500"] : ["from-gray-500", "to-gray-400"];
     }
 
     if (variant === "circle") {
@@ -110,7 +128,7 @@ export function UsageMeter({
                                             fill="transparent"
                                             strokeDasharray={circumference}
                                             strokeLinecap="round"
-                                            className="text-primary stroke-current"
+                                            className={cn("stroke-current", progressColor === "usage" ? getUsageClasses(percentage, "circle") : "text-primary")}
                                             initial={{ strokeDashoffset: circumference }}
                                             animate={{ strokeDashoffset: circumference - (percentage / 100) * circumference }}
                                             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -182,7 +200,7 @@ export function UsageMeter({
                             </div>
                             <div className={cn("w-full bg-muted rounded-full overflow-hidden", config.bar)}>
                                 <motion.div
-                                    className={cn("bg-gradient-to-r from-primary to-primary/70 rounded-full", config.bar)}
+                                    className={cn("bg-gradient-to-r rounded-full", config.bar, progressColor === "usage" ? getUsageClasses(percentage, "linear") : "from-primary to-primary/70")}
                                     initial={{ width: 0 }}
                                     animate={{ width: `${percentage}%` }}
                                     transition={{ duration: 0.5, ease: "easeOut" }}

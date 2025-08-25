@@ -7,6 +7,7 @@ export default function UsageMeterCircleDemo() {
   return (
     <div className="flex flex-col gap-4 mx-auto w-full">
       <UsageMeter
+        progressColor="usage"
         usage={[{
           name: "Claude Sonnet 4",
           usage: 75,
