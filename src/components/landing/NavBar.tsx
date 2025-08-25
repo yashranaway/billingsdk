@@ -38,17 +38,15 @@ const NavBar = () => {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 flex justify-center",
-        isScrolled ? "py-0" : "p-4"
+        `fixed top-0 left-0 right-0 z-55 flex justify-center ${
+          isScrolled ? "py-0" : "p-5"} transition-all duration-300`
       )}
     >
       <div className="max-w-[1920px] mx-auto w-full">
         <div
           className={cn(
             `flex items-center w-full justify-between px-6 py-3 transition-all duration-300 ${
-              isScrolled
-                ? "bg-white/10 backdrop-blur-md border border-white/20 rounded-b-lg"
-                : ""
+              isScrolled && "bg-white/10 backdrop-blur-md border border-white/20 rounded-b-lg"
             }`
           )}
         >
