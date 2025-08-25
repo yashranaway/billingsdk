@@ -1,8 +1,13 @@
-## Billing SDK
+# Billing SDK
+[![GitHub stars](https://img.shields.io/github/stars/dodopayments/billingsdk?style=social)](https://github.com/dodopayments/billingsdk/stargazers)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/bYqAp4ayYh)
+[![Twitter Follow](https://img.shields.io/twitter/follow/dodopayments?label=Follow&style=social)](https://twitter.com/dodopayments)
+![License](https://img.shields.io/github/license/dodopayments/billingsdk)
+
 
 Modern, type-safe billing and subscription management components for React, built with TypeScript and Tailwind CSS. Designed to work seamlessly alongside shadcn/ui.
 
-### Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
@@ -13,13 +18,14 @@ Modern, type-safe billing and subscription management components for React, buil
 - [Installation in Your Project](#installation-in-your-project)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
+- [Contributors](#contributors)
 - [License](#license)
 
-### Overview
+## Overview
 
 Billing SDK provides production-ready UI building blocks for pricing, usage, and subscription workflows. Drop them into your app, wire up your data, and ship faster with consistent UX.
 
-### Features
+## Features
 
 - **Ready-to-use components**: End-to-end billing and subscription building blocks
 - **Multiple themes**: Classic, Minimal, and custom theme tokens
@@ -27,7 +33,7 @@ Billing SDK provides production-ready UI building blocks for pricing, usage, and
 - **TypeScript-first**: Strongly typed props for safe composition
 - **Easy integration**: One-command install via shadcn/ui registry
 
-### Components
+## Components
 
 - **Pricing Tables**: Multiple variants for different use cases
 - **Subscription Management**: Manage plans, status, and details
@@ -76,7 +82,7 @@ export default function App() {
 }
 ```
 
-### Tech Stack
+## Tech Stack
 
 - **Runtime**: React 19, Next.js 15
 - **Language**: TypeScript
@@ -84,7 +90,7 @@ export default function App() {
 - **UI**: shadcn/ui
 - **Animation**: Motion
 
-### Quick Start
+## Quick Start
 
 1. Install dependencies
 ```bash
@@ -106,16 +112,24 @@ Add Billing SDK components to your existing shadcn/ui project:
 npx shadcn@latest add https://billingsdk.com/r/[component-name].json
 ```
 
-### Documentation
+## Documentation
 
 Explore docs, guides and interactive examples:
 
 [billingsdk.com/docs](https://billingsdk.com/docs)
 
-### Contributing
+## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, project structure, and contribution guidelines.
 
-### License
+## Contributors
 
-GNU General Public License (GPL)
+Thanks to all our amazing contributors for their support and code!
+
+<a href="https://github.com/dodopayments/billingsdk/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dodopayments/billingsdk" />
+</a>
+
+## License
+
+This project is licensed under the GNU General Public License (GPL), which allows you to use, modify, and distribute the software freely, provided that any derivative works are also distributed under the same license.
