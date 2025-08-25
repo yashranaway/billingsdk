@@ -59,12 +59,8 @@ export function Banner({
           wrapper:
             "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-center px-3 sm:px-4 py-2 gap-2 sm:gap-4 max-w-2xl",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2",
-          title: hasGradient
-            ? "text-sm font-medium text-black dark:text-white leading-tight"
-            : "text-sm font-medium text-card-foreground leading-tight",
-          description: hasGradient
-            ? "text-xs text-gray-700/80 dark:text-white/80 sm:ml-2"
-            : "text-xs text-muted-foreground sm:ml-2",
+          title: "text-sm font-medium text-card-foreground leading-tight",
+          description: "text-xs text-muted-foreground sm:ml-2",
           actions: "flex items-center gap-2 self-end sm:self-auto",
         }
       case "popup":
@@ -75,12 +71,8 @@ export function Banner({
           wrapper:
             "relative flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-3 gap-3 sm:gap-4",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-2 flex-1",
-          title: hasGradient
-            ? "text-sm font-medium text-gray-900 dark:text-white leading-snug"
-            : "text-sm font-medium text-popover-foreground leading-snug",
-          description: hasGradient
-            ? "text-xs text-gray-700/80 dark:text-white/80"
-            : "text-xs text-muted-foreground",
+          title:"text-sm font-medium text-popover-foreground leading-snug",
+          description:"text-xs text-muted-foreground",
           actions: "flex items-center gap-2 self-end sm:self-auto flex-shrink-0 pr-8",
         }
       default:
@@ -92,10 +84,10 @@ export function Banner({
             "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
           content: "flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full",
           title: hasGradient
-            ? "text-sm font-medium text-gray-900 dark:text-white leading-tight"
+            ? "text-sm font-medium text-foreground leading-tight"
             : "text-sm font-medium text-primary-foreground leading-tight",
           description: hasGradient
-            ? "text-xs text-gray-700/80 dark:text-white/80"
+            ? "text-xs text-foreground/80"
             : "text-xs text-primary-foreground/80",
           actions: "flex items-center gap-2 self-end sm:self-auto pr-8",
         }
@@ -167,7 +159,7 @@ export function Banner({
           <div className={styles.wrapper}>
             {/* Content */}
             <div className={styles.content}>
-              <div className={variant === "minimal" ? "flex flex-row gap-2" : ""}>
+              <div className={variant === "minimal" ? "flex flex-col md:flex-row gap-0.5 md:gap-2" : ""}>
                 <p className={styles.title}>{title}</p>
                 {description && <p className={styles.description}>{description}</p>}
               </div>
@@ -196,7 +188,7 @@ export function Banner({
               className={cn(
                 "absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8",
                 gradientColors && gradientColors.length > 0
-                  ? "hover:bg-gray-900/10 dark:hover:bg-white/20 text-gray-900 dark:text-white"
+                  ? "hover:bg-foreground/20 text-foreground"
                   : variant === "default" && "hover:bg-primary-foreground/20 text-primary-foreground",
                 variant === "popup" && !gradientColors && "hover:bg-accent text-popover-foreground",
                 variant === "minimal" && !gradientColors && "hover:bg-accent text-card-foreground",

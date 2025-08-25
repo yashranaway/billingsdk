@@ -1,7 +1,7 @@
 'use client'
 
 import { UpdatePlanCard } from '@/components/billingsdk/update-plan-card';
-import { plans } from '@/lib/billing-sdk-const';
+import { plans } from '@/lib/billingsdk-config';
 
 export function UpdatePlanCardDemo() {
 

@@ -6,10 +6,12 @@ import { Badge } from "@/components/ui/badge"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Toggle } from "@/components/ui/toggle"
 import { Label } from "@/components/ui/label"
-import { type Plan } from "@/lib/billing-sdk-const"
+import { type Plan } from "@/lib/billingsdk-config"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useState } from "react"
+import { useTheme } from "@/contexts/theme-context"
+import { getThemeStyles } from "@/lib/themes"
 
 export interface UpdatePlanDialogProps {
     currentPlan: Plan
@@ -24,6 +26,8 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
     const [isYearly, setIsYearly] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
     const [isOpen, setIsOpen] = useState(false);
+    const { currentTheme, previewDarkMode } = useTheme();
+    const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
 
     const getCurrentPrice = (plan: Plan) =>
         isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`
@@ -37,7 +41,7 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
             <DialogTrigger asChild>
                 <Button>{triggerText || "Update Plan"}</Button>
             </DialogTrigger>
-            <DialogContent className={cn("space-y-3 max-h-[90vh] flex flex-col", className)}>
+            <DialogContent className={cn("space-y-3 max-h-[90vh] flex flex-col text-foreground", className)} style={themeStyles}>
                 <DialogHeader className="flex flex-row items-center justify-between py-2">
                     <DialogTitle className="text-base font-semibold">
                         {title || "Upgrade Plan"}
