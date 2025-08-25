@@ -13,6 +13,8 @@ import {
 import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 import { X, Circle } from "lucide-react";
+import { useTheme } from "@/contexts/theme-context";
+import { getThemeStyles } from "@/lib/themes";
 
 export interface CancelSubscriptionDialogProps {
     title: string;
@@ -59,6 +61,8 @@ export function CancelSubscriptionDialog({
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { currentTheme, previewDarkMode } = useTheme();
+    const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
 
     const handleContinueCancellation = () => {
         setShowConfirmation(true);
@@ -132,7 +136,7 @@ export function CancelSubscriptionDialog({
             <DialogTrigger asChild>
                 <Button variant="outline">{triggerButtonText || "Cancel Subscription"}</Button>
             </DialogTrigger>
-            <DialogContent className={cn("sm:max-w-[1000px] flex flex-col md:flex-row p-0 overflow-hidden", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)}>
+            <DialogContent className={cn("sm:max-w-[1000px] flex flex-col md:flex-row p-0 overflow-hidden text-foreground w-[95%] md:w-[100%]", leftPanelImageUrl ? "" : "sm:max-w-[500px]", className)} style={themeStyles}>
                 <DialogTitle className="sr-only">{title}</DialogTitle>
                 <DialogClose
                     className="absolute right-4 top-4 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
