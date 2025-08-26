@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { X, Circle } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { getThemeStyles } from "@/lib/themes";
+import Image from "next/image";
 
 export interface CancelSubscriptionDialogProps {
     title: string;
@@ -147,7 +148,7 @@ export function CancelSubscriptionDialog({
                 </DialogClose>
                 {leftPanelImageUrl && (
                     <div className="w-full md:w-1/2 min-h-[500px] relative hidden md:block overflow-hidden">
-                        <img src={leftPanelImageUrl} alt="Cancel Subscription" className="absolute inset-0 w-full h-full object-cover" />
+                        <Image src={leftPanelImageUrl} alt="Cancel Subscription" className="absolute inset-0 w-full h-full object-cover" fill sizes="(min-width: 768px) 50vw, 100vw" />
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/30 to-background/90 dark:block hidden"></div>
                         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/20 dark:block hidden"></div>
                     </div>
