@@ -1,18 +1,20 @@
 #!/usr/bin/env node
 
-import { argv } from "process";
+import { handleCommand } from "./commands/index.js";
 
-const [,, ...args] = argv;
+const args = process.argv.slice(2);
+const command = args[0];
+
+if (!command) {
+  console.log("Usage: billingsdk <command> [args]");
+  process.exit(1);
+}
 
 if (args.includes("--help") || args.length === 0) {
-  console.log("Usage: my-cli <command>");
+  console.log("Usage: billingsdk <command>");
   console.log("Commands:");
-  console.log("  greet <name>  - Greets the user");
+  console.log("  add <component>  - Adds a new component to the project");
   process.exit(0);
 }
 
-if (args[0] === "greet" && args[1]) {
-  console.log(`Hello, ${args[1]}!`);
-} else {
-  console.log("Unknown command. Try --help");
-}
+handleCommand(command, args);
