@@ -154,8 +154,11 @@ src/
       card.tsx
       cover.tsx
       dialog.tsx
+      form.tsx
+      input.tsx
       label.tsx
       radio-group.tsx
+      select.tsx
       separator.tsx
       sparkles.tsx
       switch.tsx
@@ -199,7 +202,7 @@ src/
         banner-demo.tsx
         cancel-subscription-card-demo.tsx
         cancel-subscription-dialog-demo.tsx
-        PaymentMethodManager-demo.tsx
+        payment-method-manager-demo.tsx
         pricing-table-one-demo.tsx
         pricing-table-three-demo.tsx
         pricing-table-two-demo.tsx
@@ -212,7 +215,7 @@ src/
       cancel-subscription-card.tsx
       cancel-subscription-dialog.tsx
       hello-world.tsx
-      PaymentMethodManager.tsx
+      payment-method-manager.tsx
       pricing-table-one.tsx
       pricing-table-three.tsx
       pricing-table-two.tsx
@@ -241,206 +244,6 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="content/docs/components/payment-method-manager/index.mdx">
----
-title: Payment Method Manager
----
-
-import dynamic from "next/dynamic"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-const PaymentMethodManagerDemo = dynamic(() => import("@/registry/billingsdk/demo/PaymentMethodManager-demo"), { ssr: false })
-
-The `PaymentMethodManager` component provides a complete UI for managing billing payment methods, including credit cards and ACH accounts. It supports adding, editing, removing, and setting a default payment method, with dialog-based forms and validation. Built with shadcn/ui and fully responsive, it is suitable for SaaS billing dashboards and subscription management.
-
-### Preview and Usage
-
-<Tabs defaultValue="preview" className="relative mr-auto w-full">
-  <TabsList className="relative justify-start rounded-none border-b bg-transparent p-0">
-    <TabsTrigger value="preview">Preview</TabsTrigger>
-    <TabsTrigger value="code">Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="preview">
-    <PaymentMethodManagerDemo />
-  </TabsContent>
-  <TabsContent value="code">
-    ```tsx
-    import { useState } from "react"
-    import PaymentMethodManager, { PaymentMethod } from "@/registry/billingsdk/PaymentMethodManager"
-
-    export default function PaymentMethodManagerDemo() {
-      const [methods, setMethods] = useState<PaymentMethod[]>([
-        { id: "pm1", type: "credit", last4: "4242", expiry: "12/25", isDefault: true },
-        { id: "pm2", type: "ach", last4: "0005", routing: "123456789", isDefault: false },
-      ])
-
-      const handleAdd = (method: PaymentMethod) => {
-        setMethods([...methods, method])
-      }
-      const handleEdit = (method: PaymentMethod) => {
-        setMethods(methods.map(m => m.id === method.id ? method : m))
-      }
-      const handleRemove = (id: string) => {
-        setMethods(methods.filter(m => m.id !== id))
-      }
-      const handleSetDefault = (id: string) => {
-        setMethods(methods.map(m => ({ ...m, isDefault: m.id === id })))
-      }
-
-      return (
-        <PaymentMethodManager
-          paymentMethods={methods}
-          onAdd={handleAdd}
-          onEdit={handleEdit}
-          onRemove={handleRemove}
-          onSetDefault={handleSetDefault}
-        />
-      )
-    }
-    ```
-  </TabsContent>
-</Tabs>
-## Installation
-
-```bash
-npx billingsdk add payment-method-manager
-```
-
-## Usage
-
-```tsx
-import PaymentMethodManager, { PaymentMethod } from "@/registry/billingsdk/PaymentMethodManager";
-
-const paymentMethods: PaymentMethod[] = [
-  { id: "pm1", type: "credit", last4: "1234", expiry: "12/25", isDefault: true },
-  { id: "pm2", type: "ach", last4: "5678", isDefault: false, routing: "123456789" },
-];
-
-<PaymentMethodManager
-  paymentMethods={paymentMethods}
-  onAdd={method => {/* add logic */}}
-  onEdit={method => {/* edit logic */}}
-  onRemove={id => {/* remove logic */}}
-  onSetDefault={id => {/* set default logic */}}
-/>
-
-The `PaymentMethodManager` component provides a complete UI for managing billing payment methods, including credit cards and ACH accounts. It supports adding, editing, removing, and setting a default payment method, with dialog-based forms and validation. Built with shadcn/ui and fully responsive, it is suitable for SaaS billing dashboards and subscription management.
-
-### Preview and Usage
-
-<Tabs defaultValue="preview" className="relative mr-auto w-full">
-  <TabsList className="relative justify-start rounded-none border-b bg-transparent p-0">
-    <TabsTrigger value="preview">Preview</TabsTrigger>
-    <TabsTrigger value="code">Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="preview">
-    <PaymentMethodManagerDemo />
-  </TabsContent>
-  <TabsContent value="code">
-    ```tsx
-    import { useState } from "react"
-    import PaymentMethodManager, { PaymentMethod } from "@/registry/billingsdk/PaymentMethodManager"
-
-    export default function PaymentMethodManagerDemo() {
-      const [methods, setMethods] = useState<PaymentMethod[]>([
-        { id: "pm1", type: "credit", last4: "4242", expiry: "12/25", isDefault: true },
-        { id: "pm2", type: "ach", last4: "0005", routing: "123456789", isDefault: false },
-      ])
-
-      const handleAdd = (method: PaymentMethod) => {
-        setMethods([...methods, method])
-      }
-      const handleEdit = (method: PaymentMethod) => {
-        setMethods(methods.map(m => m.id === method.id ? method : m))
-      }
-      const handleRemove = (id: string) => {
-        setMethods(methods.filter(m => m.id !== id))
-      }
-      const handleSetDefault = (id: string) => {
-        setMethods(methods.map(m => ({ ...m, isDefault: m.id === id })))
-      }
-
-      return (
-        <PaymentMethodManager
-          paymentMethods={methods}
-          onAdd={handleAdd}
-          onEdit={handleEdit}
-          onRemove={handleRemove}
-          onSetDefault={handleSetDefault}
-        />
-      )
-    }
-    ```
-  </TabsContent>
-</Tabs>
-## Installation
-
-```bash
-npx billingsdk add payment-method-manager
-```
-
-## Usage
-
-```tsx
-import PaymentMethodManager, { PaymentMethod } from "@/registry/billingsdk/PaymentMethodManager";
-
-const paymentMethods: PaymentMethod[] = [
-  { id: "pm1", type: "credit", last4: "1234", expiry: "12/25", isDefault: true },
-  { id: "pm2", type: "ach", last4: "5678", isDefault: false, routing: "123456789" },
-];
-
-<PaymentMethodManager
-  paymentMethods={paymentMethods}
-  onAdd={method => {/* add logic */}}
-  onEdit={method => {/* edit logic */}}
-  onRemove={id => {/* remove logic */}}
-  onSetDefault={id => {/* set default logic */}}
-/>
-```
-
-## Props
-
-| Prop           | Type                                      | Default | Description                                      |
-|----------------|-------------------------------------------|---------|--------------------------------------------------|
-| paymentMethods | PaymentMethod[]                           |         | Array of payment methods to display              |
-| onAdd          | (method: PaymentMethod) => void           |         | Callback when a new method is added              |
-| onEdit         | (method: PaymentMethod) => void           |         | Callback when a method is edited                 |
-| onRemove       | (id: string) => void                      |         | Callback when a method is removed                |
-| onSetDefault   | (id: string) => void                      |         | Callback to set a method as default              |
-| className      | string                                    |         | Optional CSS class for container                 |
-
-### PaymentMethod Type
-
-
----
-title: Payment Method Manager
----
-
-import dynamic from "next/dynamic"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-const PaymentMethodManagerDemo = dynamic(() => import("@/registry/billingsdk/demo/PaymentMethodManager-demo"), { ssr: false })
-<PaymentMethodManager
-  paymentMethods={paymentMethods}
-  onAdd={method => setMethods([...methods, method])}
-  onEdit={method => setMethods(methods.map(m => m.id === method.id ? method : m))}
-  onRemove={id => setMethods(methods.filter(m => m.id !== id))}
-  onSetDefault={id => setMethods(methods.map(m => ({ ...m, isDefault: m.id === id })))}
-/>
-```
-
-### ACH and Credit Card Example
-
-```tsx
-const paymentMethods: PaymentMethod[] = [
-  { id: "pm1", type: "credit", last4: "1234", expiry: "12/25", isDefault: true },
-  { id: "pm2", type: "ach", last4: "5678", isDefault: false, routing: "123456789" },
-];
-
-<PaymentMethodManager paymentMethods={paymentMethods} ... />
-```
-</file>
-
 <file path="public/r/hello-world.json">
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
@@ -455,17 +258,6 @@ const paymentMethods: PaymentMethod[] = [
       "type": "registry:component",
       "target": "components/billingsdk/hello-world.tsx"
     }
-  ]
-}
-</file>
-
-<file path="public/r/payment-method-manager.json">
-{
-  "name": "payment-method-manager",
-  "type": "registry:block",
-  "files": [
-    "src/registry/billingsdk/PaymentMethodManager.tsx",
-    "src/registry/billingsdk/demo/PaymentMethodManager-demo.tsx"
   ]
 }
 </file>
@@ -889,6 +681,200 @@ export {
 }
 </file>
 
+<file path="src/components/ui/form.tsx">
+"use client"
+
+import * as React from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
+import { Slot } from "@radix-ui/react-slot"
+import {
+  Controller,
+  FormProvider,
+  useFormContext,
+  useFormState,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form"
+
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+
+const Form = FormProvider
+
+type FormFieldContextValue<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = {
+  name: TName
+}
+
+const FormFieldContext = React.createContext<FormFieldContextValue>(
+  {} as FormFieldContextValue
+)
+
+const FormField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  ...props
+}: ControllerProps<TFieldValues, TName>) => {
+  return (
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <Controller {...props} />
+    </FormFieldContext.Provider>
+  )
+}
+
+const useFormField = () => {
+  const fieldContext = React.useContext(FormFieldContext)
+  const itemContext = React.useContext(FormItemContext)
+  const { getFieldState } = useFormContext()
+  const formState = useFormState({ name: fieldContext.name })
+  const fieldState = getFieldState(fieldContext.name, formState)
+
+  if (!fieldContext) {
+    throw new Error("useFormField should be used within <FormField>")
+  }
+
+  const { id } = itemContext
+
+  return {
+    id,
+    name: fieldContext.name,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState,
+  }
+}
+
+type FormItemContextValue = {
+  id: string
+}
+
+const FormItemContext = React.createContext<FormItemContextValue>(
+  {} as FormItemContextValue
+)
+
+function FormItem({ className, ...props }: React.ComponentProps<"div">) {
+  const id = React.useId()
+
+  return (
+    <FormItemContext.Provider value={{ id }}>
+      <div
+        data-slot="form-item"
+        className={cn("grid gap-2", className)}
+        {...props}
+      />
+    </FormItemContext.Provider>
+  )
+}
+
+function FormLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+  const { error, formItemId } = useFormField()
+
+  return (
+    <Label
+      data-slot="form-label"
+      data-error={!!error}
+      className={cn("data-[error=true]:text-destructive", className)}
+      htmlFor={formItemId}
+      {...props}
+    />
+  )
+}
+
+function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
+
+  return (
+    <Slot
+      data-slot="form-control"
+      id={formItemId}
+      aria-describedby={
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
+      }
+      aria-invalid={!!error}
+      {...props}
+    />
+  )
+}
+
+function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
+  const { formDescriptionId } = useFormField()
+
+  return (
+    <p
+      data-slot="form-description"
+      id={formDescriptionId}
+      className={cn("text-muted-foreground text-sm", className)}
+      {...props}
+    />
+  )
+}
+
+function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
+  const { error, formMessageId } = useFormField()
+  const body = error ? String(error?.message ?? "") : props.children
+
+  if (!body) {
+    return null
+  }
+
+  return (
+    <p
+      data-slot="form-message"
+      id={formMessageId}
+      className={cn("text-destructive text-sm", className)}
+      {...props}
+    >
+      {body}
+    </p>
+  )
+}
+
+export {
+  useFormField,
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  FormField,
+}
+</file>
+
+<file path="src/components/ui/input.tsx">
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <input
+      type={type}
+      data-slot="input"
+      className={cn(
+        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Input }
+</file>
+
 <file path="src/components/ui/label.tsx">
 "use client"
 
@@ -962,6 +948,194 @@ function RadioGroupItem({
 }
 
 export { RadioGroup, RadioGroupItem }
+</file>
+
+<file path="src/components/ui/select.tsx">
+"use client"
+
+import * as React from "react"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+function Select({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Root>) {
+  return <SelectPrimitive.Root data-slot="select" {...props} />
+}
+
+function SelectGroup({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Group>) {
+  return <SelectPrimitive.Group data-slot="select-group" {...props} />
+}
+
+function SelectValue({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Value>) {
+  return <SelectPrimitive.Value data-slot="select-value" {...props} />
+}
+
+function SelectTrigger({
+  className,
+  size = "default",
+  children,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
+  size?: "sm" | "default"
+}) {
+  return (
+    <SelectPrimitive.Trigger
+      data-slot="select-trigger"
+      data-size={size}
+      className={cn(
+        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <SelectPrimitive.Icon asChild>
+        <ChevronDownIcon className="size-4 opacity-50" />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  )
+}
+
+function SelectContent({
+  className,
+  children,
+  position = "popper",
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+  return (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        data-slot="select-content"
+        className={cn(
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
+          position === "popper" &&
+            "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+          className
+        )}
+        position={position}
+        {...props}
+      >
+        <SelectScrollUpButton />
+        <SelectPrimitive.Viewport
+          className={cn(
+            "p-1",
+            position === "popper" &&
+              "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)] scroll-my-1"
+          )}
+        >
+          {children}
+        </SelectPrimitive.Viewport>
+        <SelectScrollDownButton />
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  )
+}
+
+function SelectLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Label>) {
+  return (
+    <SelectPrimitive.Label
+      data-slot="select-label"
+      className={cn("text-muted-foreground px-2 py-1.5 text-xs", className)}
+      {...props}
+    />
+  )
+}
+
+function SelectItem({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Item>) {
+  return (
+    <SelectPrimitive.Item
+      data-slot="select-item"
+      className={cn(
+        "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        className
+      )}
+      {...props}
+    >
+      <span className="absolute right-2 flex size-3.5 items-center justify-center">
+        <SelectPrimitive.ItemIndicator>
+          <CheckIcon className="size-4" />
+        </SelectPrimitive.ItemIndicator>
+      </span>
+      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    </SelectPrimitive.Item>
+  )
+}
+
+function SelectSeparator({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Separator>) {
+  return (
+    <SelectPrimitive.Separator
+      data-slot="select-separator"
+      className={cn("bg-border pointer-events-none -mx-1 my-1 h-px", className)}
+      {...props}
+    />
+  )
+}
+
+function SelectScrollUpButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
+  return (
+    <SelectPrimitive.ScrollUpButton
+      data-slot="select-scroll-up-button"
+      className={cn(
+        "flex cursor-default items-center justify-center py-1",
+        className
+      )}
+      {...props}
+    >
+      <ChevronUpIcon className="size-4" />
+    </SelectPrimitive.ScrollUpButton>
+  )
+}
+
+function SelectScrollDownButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
+  return (
+    <SelectPrimitive.ScrollDownButton
+      data-slot="select-scroll-down-button"
+      className={cn(
+        "flex cursor-default items-center justify-center py-1",
+        className
+      )}
+      {...props}
+    >
+      <ChevronDownIcon className="size-4" />
+    </SelectPrimitive.ScrollDownButton>
+  )
+}
+
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+}
 </file>
 
 <file path="src/components/ui/separator.tsx">
@@ -2466,68 +2640,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 </file>
 
-<file path="src/registry/billingsdk/demo/PaymentMethodManager-demo.tsx">
-import React, { useState } from "react";
-import PaymentMethodManager, { PaymentMethod } from "../PaymentMethodManager";
-
-const initialMethods: PaymentMethod[] = [
-  {
-    id: "pm1",
-    type: "credit",
-    last4: "1234",
-    expiry: "12/25",
-    isDefault: true,
-  },
-  {
-    id: "pm2",
-    type: "ach",
-    last4: "5678",
-    expiry: undefined,
-    isDefault: false,
-    routing: "123456789",
-  },
-  {
-    id: "pm3",
-    type: "credit",
-    last4: "4321",
-    expiry: "11/27",
-    isDefault: false,
-  },
-];
-
-const PaymentMethodManagerDemo = () => {
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(initialMethods);
-
-  const handleAdd = (method: PaymentMethod) => {
-    setPaymentMethods((prev) => [...prev, method]);
-  };
-
-  const handleEdit = (updated: PaymentMethod) => {
-    setPaymentMethods((prev) => prev.map((pm) => pm.id === updated.id ? updated : pm));
-  };
-
-  const handleRemove = (id: string) => {
-    setPaymentMethods((prev) => prev.filter((pm) => pm.id !== id));
-  };
-
-  const handleSetDefault = (id: string) => {
-    setPaymentMethods((prev) => prev.map((pm) => ({ ...pm, isDefault: pm.id === id })));
-  };
-
-  return (
-    <PaymentMethodManager
-      paymentMethods={paymentMethods}
-      onAdd={handleAdd}
-      onEdit={handleEdit}
-      onRemove={handleRemove}
-      onSetDefault={handleSetDefault}
-    />
-  );
-};
-
-export default PaymentMethodManagerDemo;
-</file>
-
 <file path="src/registry/billingsdk/hello-world.tsx">
 export default function HelloWorld() {
     return (
@@ -2537,508 +2649,6 @@ export default function HelloWorld() {
         </div>
     )
 }
-</file>
-
-<file path="src/registry/billingsdk/PaymentMethodManager.tsx">
-import React, { useState } from "react";
-import { cn } from "@/lib/utils";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { z } from "zod";
-
-export interface PaymentMethod {
-  id: string;
-  type: "credit" | "ach";
-  last4: string;
-  expiry?: string;
-  isDefault: boolean;
-  routing?: string;
-}
-
-export interface PaymentMethodManagerProps {
-  paymentMethods: PaymentMethod[];
-  onAdd?: (method: PaymentMethod) => void;
-  onEdit?: (method: PaymentMethod) => void;
-  onRemove?: (id: string) => void;
-  onSetDefault?: (id: string) => void;
-  className?: string;
-}
-
-
-export const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
-  paymentMethods,
-  onAdd,
-  onEdit,
-  onRemove,
-  onSetDefault,
-  className,
-}) => {
-  // Dialog states
-  const [addOpen, setAddOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
-  const [removeOpen, setRemoveOpen] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
-
-  // Form state
-  const [formType, setFormType] = useState<"credit" | "ach">("credit");
-  const [formData, setFormData] = useState({
-    number: "",
-    expiry: "",
-    cvv: "",
-    routing: "",
-    account: "",
-  });
-  const [formError, setFormError] = useState<string | null>(null);
-
-  // Zod schema
-  const PaymentSchema = z.object({
-    type: z.enum(["credit", "ach"]),
-    number: z.string().min(12).max(19),
-    expiry: z.string().regex(/^(0[1-9]|1[0-2])\/(\d{2})$/, "Invalid expiry format"),
-    cvv: z.string().min(3).max(4),
-    routing: z.string().min(9).max(9).optional(),
-    account: z.string().min(4).max(17).optional(),
-  });
-
-  // Handlers
-  const handleAddOpen = () => {
-    setFormType("credit");
-    setFormData({ number: "", expiry: "", cvv: "", routing: "", account: "" });
-    setFormError(null);
-    setAddOpen(true);
-  };
-  const handleEditOpen = (pm: PaymentMethod) => {
-    setSelectedMethod(pm);
-    setFormType(pm.type);
-    setFormData({
-      number: pm.last4 ? "" : "",
-      expiry: pm.expiry || "",
-      cvv: "",
-      routing: pm.routing || "",
-      account: "",
-    });
-    setFormError(null);
-    setEditOpen(true);
-  };
-  const handleRemoveOpen = (pm: PaymentMethod) => {
-    setSelectedMethod(pm);
-    setRemoveOpen(true);
-  };
-
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (name === "type") setFormType(value as "credit" | "ach");
-  };
-
-  const handleAddSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError(null);
-    // Validate
-    try {
-      if (formType === "credit") {
-        PaymentSchema.pick({ type: true, number: true, expiry: true, cvv: true }).parse({
-          type: formType,
-          number: formData.number,
-          expiry: formData.expiry,
-          cvv: formData.cvv,
-        });
-      } else {
-        PaymentSchema.pick({ type: true, routing: true, account: true }).parse({
-          type: formType,
-          routing: formData.routing,
-          account: formData.account,
-        });
-      }
-    } catch (err: any) {
-      setFormError(err.errors?.[0]?.message || "Invalid input");
-      return;
-    }
-    // Construct new method
-    const newMethod: PaymentMethod = {
-      id: Math.random().toString(36).slice(2),
-      type: formType,
-      last4: formType === "credit" ? formData.number.slice(-4) : formData.account.slice(-4),
-      expiry: formType === "credit" ? formData.expiry : undefined,
-      isDefault: false,
-      routing: formType === "ach" ? formData.routing : undefined,
-    };
-  if (onAdd) onAdd(newMethod);
-  else console.log("Add Payment Method", newMethod);
-    setAddOpen(false);
-  };
-
-  const handleEditSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError(null);
-    if (!selectedMethod) return;
-    try {
-      if (formType === "credit") {
-        PaymentSchema.pick({ type: true, number: true, expiry: true, cvv: true }).parse({
-          type: formType,
-          number: formData.number,
-          expiry: formData.expiry,
-          cvv: formData.cvv,
-        });
-      } else {
-        PaymentSchema.pick({ type: true, routing: true, account: true }).parse({
-          type: formType,
-          routing: formData.routing,
-          account: formData.account,
-        });
-      }
-    } catch (err: any) {
-      setFormError(err.errors?.[0]?.message || "Invalid input");
-      return;
-    }
-    // Construct updated method
-    const updatedMethod: PaymentMethod = {
-      ...selectedMethod,
-      type: formType,
-      last4: formType === "credit" ? formData.number.slice(-4) : formData.account.slice(-4),
-      expiry: formType === "credit" ? formData.expiry : undefined,
-      routing: formType === "ach" ? formData.routing : undefined,
-    };
-  if (onEdit) onEdit(updatedMethod);
-  else console.log("Edit Payment Method", updatedMethod);
-    setEditOpen(false);
-  };
-
-  const handleRemoveConfirm = () => {
-    if (selectedMethod) {
-      if (onRemove) onRemove(selectedMethod.id);
-      else console.log("Remove Payment Method", selectedMethod.id);
-    }
-    setRemoveOpen(false);
-  };
-
-  const handleSetDefault = (id: string) => {
-    if (onSetDefault) onSetDefault(id);
-    else console.log("Set Default Payment Method", id);
-  };
-
-  return (
-    <div className={cn("p-4 border rounded bg-background", className)}>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Payment Methods</h2>
-        <Dialog open={addOpen} onOpenChange={setAddOpen}>
-          <DialogTrigger asChild>
-            <Button variant="default" onClick={handleAddOpen} aria-label="Add New Payment Method">
-              Add New Method
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add Payment Method</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleAddSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="type">Type</Label>
-                <select
-                  id="type"
-                  name="type"
-                  value={formType}
-                  onChange={handleFormChange}
-                  className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                  aria-label="Payment Type"
-                >
-                  <option value="credit">Credit Card</option>
-                  <option value="ach">ACH</option>
-                </select>
-              </div>
-              {formType === "credit" ? (
-                <>
-                  <div>
-                    <Label htmlFor="number">Card Number</Label>
-                    <input
-                      id="number"
-                      name="number"
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={19}
-                      minLength={12}
-                      value={formData.number}
-                      onChange={handleFormChange}
-                      className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                      required
-                      aria-label="Card Number"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="expiry">Expiry (MM/YY)</Label>
-                    <input
-                      id="expiry"
-                      name="expiry"
-                      type="text"
-                      pattern="^(0[1-9]|1[0-2])/(\d{2})$"
-                      value={formData.expiry}
-                      onChange={handleFormChange}
-                      className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                      required
-                      aria-label="Expiry"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="cvv">CVV</Label>
-                    <input
-                      id="cvv"
-                      name="cvv"
-                      type="password"
-                      maxLength={4}
-                      minLength={3}
-                      value={formData.cvv}
-                      onChange={handleFormChange}
-                      className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                      required
-                      aria-label="CVV"
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <Label htmlFor="account">Account Number</Label>
-                    <input
-                      id="account"
-                      name="account"
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={17}
-                      minLength={4}
-                      value={formData.account}
-                      onChange={handleFormChange}
-                      className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                      required
-                      aria-label="Account Number"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="routing">Routing Number</Label>
-                    <input
-                      id="routing"
-                      name="routing"
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={9}
-                      minLength={9}
-                      value={formData.routing}
-                      onChange={handleFormChange}
-                      className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                      required
-                      aria-label="Routing Number"
-                    />
-                  </div>
-                </>
-              )}
-              {formError && <div className="text-red-500 text-sm">{formError}</div>}
-              <div className="flex justify-end gap-2">
-                <DialogClose asChild>
-                  <Button type="button" variant="ghost">Cancel</Button>
-                </DialogClose>
-                <Button type="submit" variant="default">Add</Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-      {paymentMethods.length === 0 ? (
-        <div className="text-center py-8 text-muted-foreground">
-          No payment methods added yet.
-        </div>
-      ) : (
-        <Table className="w-full text-sm">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Type</TableHead>
-              <TableHead>Details</TableHead>
-              <TableHead>Default</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paymentMethods.map((pm) => (
-              <TableRow key={pm.id} className={cn(pm.isDefault && "bg-accent")}> 
-                <TableCell className="capitalize">{pm.type}</TableCell>
-                <TableCell>
-                  ****{pm.last4}
-                  {pm.expiry ? ` • Exp: ${pm.expiry}` : ""}
-                </TableCell>
-                <TableCell>
-                  {pm.isDefault ? (
-                    <span title="Default" className="text-green-500 font-bold">✓</span>
-                  ) : null}
-                </TableCell>
-                <TableCell className="space-x-2">
-                  <Dialog open={editOpen && selectedMethod?.id === pm.id} onOpenChange={setEditOpen}>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" size="sm" onClick={() => handleEditOpen(pm)} aria-label={`Edit ${pm.type} ending in ${pm.last4}`}>
-                        Edit
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Edit Payment Method</DialogTitle>
-                      </DialogHeader>
-                      <form onSubmit={handleEditSubmit} className="space-y-4">
-                        <div>
-                          <Label htmlFor="type">Type</Label>
-                          <select
-                            id="type"
-                            name="type"
-                            value={formType}
-                            onChange={handleFormChange}
-                            className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                            aria-label="Payment Type"
-                          >
-                            <option value="credit">Credit Card</option>
-                            <option value="ach">ACH</option>
-                          </select>
-                        </div>
-                        {formType === "credit" ? (
-                          <>
-                            <div>
-                              <Label htmlFor="number">Card Number</Label>
-                              <input
-                                id="number"
-                                name="number"
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={19}
-                                minLength={12}
-                                value={formData.number}
-                                onChange={handleFormChange}
-                                className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                                required
-                                aria-label="Card Number"
-                              />
-                            </div>
-                            <div>
-                              <Label htmlFor="expiry">Expiry (MM/YY)</Label>
-                              <input
-                                id="expiry"
-                                name="expiry"
-                                type="text"
-                                pattern="^(0[1-9]|1[0-2])/(\d{2})$"
-                                value={formData.expiry}
-                                onChange={handleFormChange}
-                                className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                                required
-                                aria-label="Expiry"
-                              />
-                            </div>
-                            <div>
-                              <Label htmlFor="cvv">CVV</Label>
-                              <input
-                                id="cvv"
-                                name="cvv"
-                                type="password"
-                                maxLength={4}
-                                minLength={3}
-                                value={formData.cvv}
-                                onChange={handleFormChange}
-                                className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                                required
-                                aria-label="CVV"
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div>
-                              <Label htmlFor="account">Account Number</Label>
-                              <input
-                                id="account"
-                                name="account"
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={17}
-                                minLength={4}
-                                value={formData.account}
-                                onChange={handleFormChange}
-                                className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                                required
-                                aria-label="Account Number"
-                              />
-                            </div>
-                            <div>
-                              <Label htmlFor="routing">Routing Number</Label>
-                              <input
-                                id="routing"
-                                name="routing"
-                                type="text"
-                                inputMode="numeric"
-                                maxLength={9}
-                                minLength={9}
-                                value={formData.routing}
-                                onChange={handleFormChange}
-                                className={cn("border rounded-md px-3 py-2 w-full bg-background")}
-                                required
-                                aria-label="Routing Number"
-                              />
-                            </div>
-                          </>
-                        )}
-                        {formError && <div className="text-red-500 text-sm">{formError}</div>}
-                        <div className="flex justify-end gap-2">
-                          <DialogClose asChild>
-                            <Button type="button" variant="ghost">Cancel</Button>
-                          </DialogClose>
-                          <Button type="submit" variant="default">Save</Button>
-                        </div>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                  <Dialog open={removeOpen && selectedMethod?.id === pm.id} onOpenChange={setRemoveOpen}>
-                    <DialogTrigger asChild>
-                      <Button variant="destructive" size="sm" onClick={() => handleRemoveOpen(pm)} aria-label={`Remove ${pm.type} ending in ${pm.last4}`}>
-                        Remove
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Remove Payment Method</DialogTitle>
-                      </DialogHeader>
-                      <div className="py-4">Are you sure you want to remove <span className="font-bold">{pm.type} ending in {pm.last4}</span>?</div>
-                      <div className="flex justify-end gap-2">
-                        <DialogClose asChild>
-                          <Button type="button" variant="ghost">Cancel</Button>
-                        </DialogClose>
-                        <Button type="button" variant="destructive" onClick={handleRemoveConfirm}>Remove</Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                  {!pm.isDefault && (
-                    <Button variant="secondary" size="sm" onClick={() => handleSetDefault(pm.id)}>
-                      Set Default
-                    </Button>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </div>
-  );
-};
-
-export default PaymentMethodManager;
 </file>
 
 <file path=".gitignore">
@@ -3356,6 +2966,222 @@ We will not pursue or support legal action against researchers who:
 - Give us reasonable time to remediate before public disclosure
 
 Thank you for helping keep the ecosystem secure.
+</file>
+
+<file path="content/docs/components/payment-method-manager/index.mdx">
+---
+title: Payment Method Manager
+description: The Payment Method Manager component provides a complete UI for managing billing payment methods, including credit cards and ACH accounts with full CRUD operations and validation.
+---
+
+import { PaymentMethodManagerDemo } from '@/registry/billingsdk/demo/payment-method-manager-demo';
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents registryName="payment-method-manager">
+      <PaymentMethodManagerDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+    ```tsx title="src/registry/billingsdk/demo/payment-method-manager-demo.tsx"
+    'use client'
+
+    import { useState } from 'react';
+    import { PaymentMethodManager, type PaymentMethod } from '@/registry/billingsdk/payment-method-manager';
+
+    export function PaymentMethodManagerDemo() {
+        const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
+            {
+                id: 'pm_1',
+                type: 'credit',
+                last4: '4242',
+                expiry: '12/25',
+                isDefault: true,
+            },
+            {
+                id: 'pm_2',
+                type: 'ach',
+                last4: '1234',
+                isDefault: false,
+                routing: '021000021',
+            },
+        ]);
+
+        const handleAddPaymentMethod = (method: PaymentMethod) => {
+            setPaymentMethods([...paymentMethods, method]);
+        };
+
+        const handleEditPaymentMethod = (method: PaymentMethod) => {
+            setPaymentMethods(paymentMethods.map(pm => pm.id === method.id ? method : pm));
+        };
+
+        const handleRemovePaymentMethod = (id: string) => {
+            setPaymentMethods(paymentMethods.filter(pm => pm.id !== id));
+        };
+
+        const handleSetDefaultPaymentMethod = (id: string) => {
+            setPaymentMethods(paymentMethods.map(pm => ({ ...pm, isDefault: pm.id === id })));
+        };
+
+        return (
+            <div className="flex flex-1 flex-col justify-center text-center">
+                <PaymentMethodManager
+                    className="max-w-4xl mx-auto"
+                    paymentMethods={paymentMethods}
+                    onAdd={handleAddPaymentMethod}
+                    onEdit={handleEditPaymentMethod}
+                    onRemove={handleRemovePaymentMethod}
+                    onSetDefault={handleSetDefaultPaymentMethod}
+                />
+            </div>
+        );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+  <Tab value="npx">
+    ```bash
+    npx shadcn@latest add https://billingsdk.com/r/payment-method-manager.json
+    ```
+  </Tab>
+
+  <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add https://billingsdk.com/r/payment-method-manager.json
+    ```
+  </Tab>
+
+  <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add https://billingsdk.com/r/payment-method-manager.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+```tsx
+import { PaymentMethodManager, type PaymentMethod } from "@/registry/billingsdk/payment-method-manager";
+```
+
+```tsx
+const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
+  {
+    id: 'pm_1',
+    type: 'credit',
+    last4: '4242',
+    expiry: '12/25',
+    isDefault: true,
+  },
+  {
+    id: 'pm_2',
+    type: 'ach',
+    last4: '1234',
+    isDefault: false,
+    routing: '021000021',
+  },
+]);
+```
+
+```tsx
+<PaymentMethodManager
+  className="max-w-4xl mx-auto"
+  paymentMethods={paymentMethods}
+  onAdd={(method) => setPaymentMethods([...paymentMethods, method])}
+  onEdit={(method) => setPaymentMethods(paymentMethods.map(pm => pm.id === method.id ? method : pm))}
+  onRemove={(id) => setPaymentMethods(paymentMethods.filter(pm => pm.id !== id))}
+  onSetDefault={(id) => setPaymentMethods(paymentMethods.map(pm => ({ ...pm, isDefault: pm.id === id })))}
+/>
+```
+
+## Props
+
+| Prop             | Type                             | Required | Description                                        |
+| ---------------- | -------------------------------- | -------- | -------------------------------------------------- |
+| `className`      | `string`                         | ❌        | Additional CSS classes for styling                 |
+| `paymentMethods` | `PaymentMethod[]`                | ✅        | Array of payment methods to display                |
+| `onAdd`          | `(method: PaymentMethod) => void`| ✅        | Callback when a new payment method is added       |
+| `onEdit`         | `(method: PaymentMethod) => void`| ✅        | Callback when a payment method is edited          |
+| `onRemove`       | `(id: string) => void`           | ✅        | Callback when a payment method is removed         |
+| `onSetDefault`   | `(id: string) => void`           | ✅        | Callback to set a payment method as default       |
+
+## PaymentMethod Interface
+
+```tsx
+interface PaymentMethod {
+  id: string;
+  type: 'credit' | 'ach';
+  last4: string;
+  expiry?: string; // Required for credit cards (MM/YY format)
+  isDefault: boolean;
+  routing?: string; // Required for ACH accounts
+}
+```
+
+## Theming
+
+The Payment Method Manager component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
+
+## Example
+
+```tsx title="src/registry/billingsdk/demo/payment-method-manager-demo.tsx"
+'use client'
+
+import { useState } from 'react';
+import { PaymentMethodManager, type PaymentMethod } from '@/registry/billingsdk/payment-method-manager';
+
+export function PaymentMethodManagerDemo() {
+    const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
+        {
+            id: 'pm_1',
+            type: 'credit',
+            last4: '4242',
+            expiry: '12/25',
+            isDefault: true,
+        },
+        {
+            id: 'pm_2',
+            type: 'ach',
+            last4: '1234',
+            isDefault: false,
+            routing: '021000021',
+        },
+    ]);
+
+    const handleAddPaymentMethod = (method: PaymentMethod) => {
+        setPaymentMethods([...paymentMethods, method]);
+    };
+
+    const handleEditPaymentMethod = (method: PaymentMethod) => {
+        setPaymentMethods(paymentMethods.map(pm => pm.id === method.id ? method : pm));
+    };
+
+    const handleRemovePaymentMethod = (id: string) => {
+        setPaymentMethods(paymentMethods.filter(pm => pm.id !== id));
+    };
+
+    const handleSetDefaultPaymentMethod = (id: string) => {
+        setPaymentMethods(paymentMethods.map(pm => ({ ...pm, isDefault: pm.id === id })));
+    };
+
+    return (
+        <div className="flex flex-1 flex-col justify-center text-center">
+            <PaymentMethodManager
+                className="max-w-4xl mx-auto"
+                paymentMethods={paymentMethods}
+                onAdd={handleAddPaymentMethod}
+                onEdit={handleEditPaymentMethod}
+                onRemove={handleRemovePaymentMethod}
+                onSetDefault={handleSetDefaultPaymentMethod}
+            />
+        </div>
+    );
+}
 </file>
 
 <file path="content/docs/components/index.mdx">
@@ -4446,6 +4272,17 @@ module.exports = {
     "https://billingsdk.com/r/banner.json"
   ],
   "files": []
+}
+</file>
+
+<file path="public/r/payment-method-manager.json">
+{
+  "name": "payment-method-manager",
+  "type": "registry:block",
+  "files": [
+    "src/registry/billingsdk/payment-method-manager.tsx",
+    "src/registry/billingsdk/demo/payment-method-manager-demo.tsx"
+  ]
 }
 </file>
 
@@ -7075,6 +6912,68 @@ export function CancelSubscriptionDialogDemo() {
 }
 </file>
 
+<file path="src/registry/billingsdk/demo/payment-method-manager-demo.tsx">
+"use client"
+
+import React, { useState } from "react";
+import { PaymentMethodManager, PaymentMethod } from "@/registry/billingsdk/payment-method-manager";
+
+const initialMethods: PaymentMethod[] = [
+  {
+    id: "pm1",
+    type: "credit",
+    last4: "1234",
+    expiry: "12/25",
+    isDefault: true,
+  },
+  {
+    id: "pm2",
+    type: "ach",
+    last4: "5678",
+    expiry: undefined,
+    isDefault: false,
+    routing: "123456789",
+  },
+  {
+    id: "pm3",
+    type: "credit",
+    last4: "4321",
+    expiry: "11/27",
+    isDefault: false,
+  },
+];
+
+export function PaymentMethodManagerDemo() {
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(initialMethods);
+
+  const handleAdd = (method: PaymentMethod) => {
+    setPaymentMethods((prev) => [...prev, method]);
+  };
+
+  const handleEdit = (updated: PaymentMethod) => {
+    setPaymentMethods((prev) => prev.map((pm) => pm.id === updated.id ? updated : pm));
+  };
+
+  const handleRemove = (id: string) => {
+    setPaymentMethods((prev) => prev.filter((pm) => pm.id !== id));
+  };
+
+  const handleSetDefault = (id: string) => {
+    setPaymentMethods((prev) => prev.map((pm) => ({ ...pm, isDefault: pm.id === id })));
+  };
+
+  return (
+    <PaymentMethodManager
+      paymentMethods={paymentMethods}
+      onAdd={handleAdd}
+      onEdit={handleEdit}
+      onRemove={handleRemove}
+      onSetDefault={handleSetDefault}
+    />
+  );
+}
+</file>
+
 <file path="src/registry/billingsdk/demo/pricing-table-three-demo.tsx">
 'use client'
 
@@ -7236,6 +7135,463 @@ export default function UsageMeterLinearDemo() {
 
   );
 }
+</file>
+
+<file path="src/registry/billingsdk/payment-method-manager.tsx">
+"use client";
+
+import React, { useState } from "react";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CreditCard, Banknote, CheckCircle2, Pencil, Trash2, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { z } from "zod";
+
+export interface PaymentMethod {
+  id: string;
+  type: "credit" | "ach";
+  last4: string;
+  expiry?: string;
+  isDefault: boolean;
+  routing?: string;
+}
+
+export interface PaymentMethodManagerProps {
+  paymentMethods: PaymentMethod[];
+  onAdd?: (method: PaymentMethod) => void;
+  onEdit?: (method: PaymentMethod) => void;
+  onRemove?: (id: string) => void;
+  onSetDefault?: (id: string) => void;
+  className?: string;
+}
+
+export function PaymentMethodManager({
+  paymentMethods,
+  onAdd,
+  onEdit,
+  onRemove,
+  onSetDefault,
+  className,
+}: PaymentMethodManagerProps) {
+  // Dialog states
+  const [addOpen, setAddOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [removeOpen, setRemoveOpen] = useState(false);
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
+
+  // Form schemas
+  const creditSchema = z.object({
+    type: z.literal("credit"),
+    number: z.string().min(16, "Card number must be 16 digits").max(16, "Card number must be 16 digits"),
+    expiry: z.string().regex(/^\d{2}\/\d{2}$/, "Expiry must be MM/YY"),
+    cvv: z.string().min(3, "CVV must be at least 3 digits").max(4, "CVV must be at most 4 digits"),
+    account: z.string().optional(),
+    routing: z.string().optional(),
+  });
+  const achSchema = z.object({
+    type: z.literal("ach"),
+    account: z.string().min(4, "Account number must be at least 4 digits"),
+    routing: z.string().length(9, "Routing number must be 9 digits"),
+    number: z.string().optional(),
+    expiry: z.string().optional(),
+    cvv: z.string().optional(),
+  });
+  const formSchema = z.discriminatedUnion("type", [creditSchema, achSchema]);
+
+  type FormValues = z.infer<typeof formSchema>;
+
+  // Form state
+  const [editing, setEditing] = useState(false);
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues:
+      editing && selectedMethod
+        ? selectedMethod.type === "credit"
+          ? {
+              type: "credit",
+              number: `**** **** **** ${selectedMethod.last4}`,
+              expiry: selectedMethod.expiry || "",
+              cvv: "",
+            }
+          : {
+              type: "ach",
+              account: `**** ${selectedMethod.last4}`,
+              routing: selectedMethod.routing || "",
+            }
+        : {
+            type: "credit",
+            number: "",
+            expiry: "",
+            cvv: "",
+          },
+    mode: "onChange",
+  });
+
+  // Handlers
+  const handleAddOpen = () => {
+    setEditing(false);
+    setAddOpen(true);
+    form.reset({ type: "credit", number: "", expiry: "", cvv: "" });
+  };
+  const handleEditOpen = (pm: PaymentMethod) => {
+    setSelectedMethod(pm);
+    setEditing(true);
+    setEditOpen(true);
+    if (pm.type === "credit") {
+      form.reset({
+        type: "credit",
+        number: `**** **** **** ${pm.last4}`,
+        expiry: pm.expiry || "",
+        cvv: "",
+      });
+    } else {
+      form.reset({
+        type: "ach",
+        account: `**** ${pm.last4}`,
+        routing: pm.routing || "",
+      });
+    }
+  };
+  const handleRemoveOpen = (pm: PaymentMethod) => {
+    setSelectedMethod(pm);
+    setRemoveOpen(true);
+  };
+
+  const handleFormSubmit = (values: FormValues) => {
+    const last4 = values.type === "credit"
+      ? values.number.slice(-4)
+      : values.account.slice(-4);
+    const method: PaymentMethod = {
+      id: editing ? selectedMethod?.id || crypto.randomUUID() : crypto.randomUUID(),
+      type: values.type,
+      last4,
+      ...(values.type === "credit"
+        ? { expiry: values.expiry }
+        : { routing: values.routing }),
+      isDefault: editing ? selectedMethod?.isDefault ?? false : false,
+    };
+    if (editing) {
+      onEdit?.(method);
+      setEditOpen(false);
+    } else {
+      onAdd?.(method);
+      setAddOpen(false);
+    }
+    form.reset();
+  };
+
+  const handleRemoveConfirm = () => {
+    if (selectedMethod) {
+      if (onRemove) onRemove(selectedMethod.id);
+      else console.log("Remove Payment Method", selectedMethod.id);
+    }
+    setRemoveOpen(false);
+  };
+
+  const handleSetDefault = (id: string) => {
+    if (onSetDefault) onSetDefault(id);
+    else console.log("Set Default Payment Method", id);
+  };
+
+  return (
+    <div className={cn("p-4 border rounded bg-background", className)}>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold">Payment Methods</h2>
+        <Dialog open={addOpen} onOpenChange={setAddOpen}>
+          <DialogTrigger asChild>
+            <Button variant="default" onClick={handleAddOpen} aria-label="Add New Payment Method">
+              Add New Method
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Payment Method</DialogTitle>
+            </DialogHeader>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
+                <FormField name="type" control={form.control} render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">Type</FormLabel>
+                    <FormControl>
+                      <Select value={field.value} onValueChange={field.onChange} defaultValue="credit">
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="credit">Credit Card</SelectItem>
+                          <SelectItem value="ach">ACH</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )} />
+                {form.watch("type") === "credit" ? (
+                  <>
+                    <FormField name="number" control={form.control} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">Card Number</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="**** **** **** ****" {...field} className="mt-1" />
+                        </FormControl>
+                        <FormDescription className="text-muted-foreground text-xs mt-1">Enter a valid 16-digit card number.</FormDescription>
+                        <FormMessage className="text-destructive text-xs mt-1" />
+                      </FormItem>
+                    )} />
+                    <FormField name="expiry" control={form.control} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">Expiry</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="MM/YY" {...field} className="mt-1" />
+                        </FormControl>
+                        <FormDescription className="text-muted-foreground text-xs mt-1">Format: MM/YY</FormDescription>
+                        <FormMessage className="text-destructive text-xs mt-1" />
+                      </FormItem>
+                    )} />
+                    <FormField name="cvv" control={form.control} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">CVV</FormLabel>
+                        <FormControl>
+                          <Input type="password" placeholder="CVV" {...field} className="mt-1" />
+                        </FormControl>
+                        <FormDescription className="text-muted-foreground text-xs mt-1">3 or 4 digits</FormDescription>
+                        <FormMessage className="text-destructive text-xs mt-1" />
+                      </FormItem>
+                    )} />
+                  </>
+                ) : (
+                  <>
+                    <FormField name="account" control={form.control} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">Account Number</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Account Number" {...field} className="mt-1" />
+                        </FormControl>
+                        <FormDescription className="text-muted-foreground text-xs mt-1">Enter your bank account number.</FormDescription>
+                        <FormMessage className="text-destructive text-xs mt-1" />
+                      </FormItem>
+                    )} />
+                    <FormField name="routing" control={form.control} render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium">Routing Number</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="Routing Number" {...field} className="mt-1" />
+                        </FormControl>
+                        <FormDescription className="text-muted-foreground text-xs mt-1">9-digit routing number.</FormDescription>
+                        <FormMessage className="text-destructive text-xs mt-1" />
+                      </FormItem>
+                    )} />
+                  </>
+                )}
+                <div className="flex justify-end gap-2">
+                  <DialogClose asChild>
+                    <Button type="button" variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <Button type="submit" variant="default" disabled={form.formState.isSubmitting || !form.formState.isValid}>Save</Button>
+                </div>
+              </form>
+            </Form>
+          </DialogContent>
+        </Dialog>
+      </div>
+      {paymentMethods.length === 0 ? (
+        <Card className="col-span-full text-center p-6 border-border shadow-sm">
+          <CardContent>
+            No payment methods added yet.
+          </CardContent>
+          <CardFooter className="justify-center">
+            <Button onClick={() => setAddOpen(true)} aria-label="Add New Payment Method">Add New Method</Button>
+          </CardFooter>
+        </Card>
+      ) : (
+        <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4", className)}>
+          {paymentMethods.map((method) => (
+            <Card key={method.id} className="hover:shadow-md transition-shadow border-border">
+              <CardHeader className="flex flex-row items-center space-x-2 pb-2">
+                {method.type === "credit" ? (
+                  <CreditCard size={20} className="text-muted-foreground" aria-label="Credit Card" />
+                ) : (
+                  <Banknote size={20} className="text-muted-foreground" aria-label="ACH" />
+                )}
+                <p className="text-md font-semibold">{method.type === "credit" ? "Credit Card" : "ACH Account"}</p>
+              </CardHeader>
+              <CardContent className="space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Last 4:</span>
+                  <span>{method.last4}</span>
+                </div>
+                {method.expiry && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Expiry:</span>
+                    <span>{method.expiry}</span>
+                  </div>
+                )}
+                {method.routing && (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Routing:</span>
+                    <span>{method.routing}</span>
+                  </div>
+                )}
+              </CardContent>
+              <CardFooter className="flex justify-between items-center pt-2 border-t border-border">
+                {method.isDefault ? (
+                  <Badge variant="secondary" className="gap-1"><CheckCircle2 className="h-3 w-3" aria-label="Default" /> Default</Badge>
+                ) : <span />}
+                <div className="flex gap-2">
+                  <Dialog open={editOpen && selectedMethod?.id === method.id} onOpenChange={setEditOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm" onClick={() => handleEditOpen(method)} className="gap-1" aria-label="Edit payment method">
+                        <Pencil className="h-3 w-3" aria-label="Edit" /> Edit
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit Payment Method</DialogTitle>
+                      </DialogHeader>
+                      <Form {...form}>
+                        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
+                          <FormField name="type" control={form.control} render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-sm font-medium">Type</FormLabel>
+                              <FormControl>
+                                <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select type" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="credit">Credit Card</SelectItem>
+                                    <SelectItem value="ach">ACH</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )} />
+                          {form.watch("type") === "credit" ? (
+                            <>
+                              <FormField name="number" control={form.control} render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-sm font-medium">Card Number</FormLabel>
+                                  <FormControl>
+                                    <Input type="text" placeholder="**** **** **** ****" {...field} className="mt-1" />
+                                  </FormControl>
+                                  <FormDescription className="text-muted-foreground text-xs mt-1">Enter a valid 16-digit card number.</FormDescription>
+                                  <FormMessage className="text-destructive text-xs mt-1" />
+                                </FormItem>
+                              )} />
+                              <FormField name="expiry" control={form.control} render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-sm font-medium">Expiry</FormLabel>
+                                  <FormControl>
+                                    <Input type="text" placeholder="MM/YY" {...field} className="mt-1" />
+                                  </FormControl>
+                                  <FormDescription className="text-muted-foreground text-xs mt-1">Format: MM/YY</FormDescription>
+                                  <FormMessage className="text-destructive text-xs mt-1" />
+                                </FormItem>
+                              )} />
+                              <FormField name="cvv" control={form.control} render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-sm font-medium">CVV</FormLabel>
+                                  <FormControl>
+                                    <Input type="password" placeholder="CVV" {...field} className="mt-1" />
+                                  </FormControl>
+                                  <FormDescription className="text-muted-foreground text-xs mt-1">3 or 4 digits</FormDescription>
+                                  <FormMessage className="text-destructive text-xs mt-1" />
+                                </FormItem>
+                              )} />
+                            </>
+                          ) : (
+                            <>
+                              <FormField name="account" control={form.control} render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-sm font-medium">Account Number</FormLabel>
+                                  <FormControl>
+                                    <Input type="text" placeholder="Account Number" {...field} className="mt-1" />
+                                  </FormControl>
+                                  <FormDescription className="text-muted-foreground text-xs mt-1">Enter your bank account number.</FormDescription>
+                                  <FormMessage className="text-destructive text-xs mt-1" />
+                                </FormItem>
+                              )} />
+                              <FormField name="routing" control={form.control} render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel className="text-sm font-medium">Routing Number</FormLabel>
+                                  <FormControl>
+                                    <Input type="text" placeholder="Routing Number" {...field} className="mt-1" />
+                                  </FormControl>
+                                  <FormDescription className="text-muted-foreground text-xs mt-1">9-digit routing number.</FormDescription>
+                                  <FormMessage className="text-destructive text-xs mt-1" />
+                                </FormItem>
+                              )} />
+                            </>
+                          )}
+                          <div className="flex justify-end gap-2">
+                            <DialogClose asChild>
+                              <Button type="button" variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <Button type="submit" variant="default" disabled={form.formState.isSubmitting || !form.formState.isValid}>Save</Button>
+                          </div>
+                        </form>
+                      </Form>
+                    </DialogContent>
+                  </Dialog>
+                  <Dialog open={removeOpen && selectedMethod?.id === method.id} onOpenChange={setRemoveOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="destructive" size="sm" onClick={() => handleRemoveOpen(method)} className="gap-1" aria-label="Remove payment method">
+                        <Trash2 className="h-3 w-3" aria-label="Remove" /> Remove
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Remove Payment Method</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4">Are you sure you want to remove <span className="font-bold">{method.type === "credit" ? "Credit Card" : "ACH Account"} ending in {method.last4}</span>?</div>
+                      <div className="flex justify-end gap-2">
+                        <DialogClose asChild>
+                          <Button type="button" variant="ghost">Cancel</Button>
+                        </DialogClose>
+                        <Button type="button" variant="destructive" onClick={handleRemoveConfirm}>Remove</Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  {!method.isDefault && (
+                    <Button variant="default" size="sm" onClick={() => onSetDefault?.(method.id)} className="gap-1" aria-label="Set default payment method">
+                      <Star className="h-3 w-3" aria-label="Set Default" /> Set Default
+                    </Button>
+                  )}
+                </div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 </file>
 
 <file path="src/registry/billingsdk/usage-meter.tsx">
@@ -8574,39 +8930,6 @@ If you find anything confusing, please give your feedback on [GitHub Issues](htt
 <Callout title="Questions?">
   If you find anything confusing or need help getting started, please open an issue on [GitHub Issues](https://github.com/dodopayments/billingsdk)!
 </Callout>
-</file>
-
-<file path="content/docs/meta.json">
-{
-  "pages": [
-    "---Getting Started---",
-    "index",
-    "quick-start",
-    "contribution-open-source", 
-    "---Pricing Tables---",
-    "components/pricing-table/pricing-table-one",
-    "components/pricing-table/pricing-table-two",
-    "components/pricing-table/pricing-table-three",
-    "---Subscription Management---",
-    "components/manage-subscription/index",
-    "---Update Plan---",
-    "components/update-plan/update-plan-card",
-    "components/update-plan/update-plan-dialog",
-    "---Cancel Subscription---",
-    "components/cancel-subscription/cancel-subscription-card",
-    "components/cancel-subscription/cancel-subscription-dialog",
-    "---Usage Meter---",
-    "components/usage-meter/usage-meter-circle",
-    "components/usage-meter/usage-meter-linear",
-  "---Banner---",
-  "components/banner/index",
-  "---Payment Method Manager---",
-  "components/payment-method-manager/index",
-  "---Configuration---",
-  "interfaces",
-  "theming"
-  ]
-}
 </file>
 
 <file path="public/r/index.json">
@@ -12898,6 +13221,39 @@ export const plans: Plan[] = [
     }
 ];
 ```
+</file>
+
+<file path="content/docs/meta.json">
+{
+  "pages": [
+    "---Getting Started---",
+    "index",
+    "quick-start",
+    "contribution-open-source", 
+    "---Pricing Tables---",
+    "components/pricing-table/pricing-table-one",
+    "components/pricing-table/pricing-table-two",
+    "components/pricing-table/pricing-table-three",
+    "---Subscription Management---",
+    "components/manage-subscription/index",
+    "---Update Plan---",
+    "components/update-plan/update-plan-card",
+    "components/update-plan/update-plan-dialog",
+    "---Cancel Subscription---",
+    "components/cancel-subscription/cancel-subscription-card",
+    "components/cancel-subscription/cancel-subscription-dialog",
+    "---Usage Meter---",
+    "components/usage-meter/usage-meter-circle",
+    "components/usage-meter/usage-meter-linear",
+  "---Banner---",
+  "components/banner/index",
+  "---Payment Method Manager---",
+  "components/payment-method-manager/index",
+  "---Configuration---",
+  "interfaces",
+  "theming"
+  ]
+}
 </file>
 
 <file path="public/r/banner.json">
@@ -17963,145 +18319,6 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
 }
 </file>
 
-<file path="README.md">
-# Billing SDK
-[![GitHub stars](https://img.shields.io/github/stars/dodopayments/billingsdk?style=social)](https://github.com/dodopayments/billingsdk/stargazers)
-[![Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/bYqAp4ayYh)
-[![Twitter Follow](https://img.shields.io/twitter/follow/dodopayments?label=Follow&style=social)](https://twitter.com/dodopayments)
-![License](https://img.shields.io/github/license/dodopayments/billingsdk)
-
-
-Modern, type-safe billing and subscription management components for React, built with TypeScript and Tailwind CSS. Designed to work seamlessly alongside shadcn/ui.
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Components](#components)
-- [Quick Example](#quick-example)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [Installation in Your Project](#installation-in-your-project)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
-- [License](#license)
-
-## Overview
-
-Billing SDK provides production-ready UI building blocks for pricing, usage, and subscription workflows. Drop them into your app, wire up your data, and ship faster with consistent UX.
-
-## Features
-
-- **Ready-to-use components**: End-to-end billing and subscription building blocks
-- **Multiple themes**: Classic, Minimal, and custom theme tokens
-- **Responsive by default**: Optimized for mobile, tablet, and desktop
-- **TypeScript-first**: Strongly typed props for safe composition
-- **Easy integration**: One-command install via shadcn/ui registry
-
-## Components
-
-- **Payment Method Manager**: Manage credit cards and ACH accounts for billing. [Docs](https://billingsdk.com/docs/components/payment-method-manager)
-- **Pricing Tables**: Multiple variants for different use cases
-- **Subscription Management**: Manage plans, status, and details
-- **Usage Meters**: Linear and circular quota indicators
-- **Banner Notifications**: Announcements and promotional banners
-- **Plan Updates**: Upgrade/downgrade flows with clear affordances
-- **Cancellation Flow**: Guided cancellation with retention patterns
-
-### Quick Example
-
-```tsx
-import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
-
-const plans = [
-  {
-    id: "starter",
-    title: "Starter",
-    price: 9,
-    period: "month",
-    features: ["100 requests", "Basic support", "1 project"],
-    popular: false,
-  },
-  {
-    id: "pro",
-    title: "Pro",
-    price: 29,
-    period: "month",
-    features: ["Unlimited requests", "Priority support", "10 projects"],
-    popular: true,
-  },
-];
-
-export default function App() {
-  return (
-    <PricingTableOne
-      plans={plans}
-      title="Choose your plan"
-      description="Select the plan that works best for you"
-      onPlanSelect={(planId) => {
-        console.log("Selected plan:", planId);
-      }}
-      theme="classic"
-      size="medium"
-    />
-  );
-}
-```
-
-## Tech Stack
-
-- **Runtime**: React 19, Next.js 15
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI**: shadcn/ui
-- **Animation**: Motion
-
-## Quick Start
-
-1. Install dependencies
-```bash
-npm install
-```
-
-2. Start the development server
-```bash
-npm run dev
-```
-
-3. Open `http://localhost:3000`
-
-### Installation in Your Project
-
-Add Billing SDK components to your existing shadcn/ui project:
-
-```bash
-npx shadcn@latest add https://billingsdk.com/r/[component-name].json
-```
-
-## Documentation
-
-Explore docs, guides and interactive examples:
-
-[billingsdk.com/docs](https://billingsdk.com/docs)
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, project structure, and contribution guidelines.
-
-## Contributors
-
-Thanks to all our amazing contributors for their support and code!
-
-<a href="https://github.com/dodopayments/billingsdk/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=dodopayments/billingsdk" />
-</a>
-
-## License
-
-This project is licensed under the GNU General Public License (GPL), which allows you to use, modify, and distribute the software freely, provided that any derivative works are also distributed under the same license.
-</file>
-
 <file path="src/components/landing/footer.tsx">
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -18270,6 +18487,145 @@ export function PricingTableOneDemo() {
         />
     </>
 }
+</file>
+
+<file path="README.md">
+# Billing SDK
+[![GitHub stars](https://img.shields.io/github/stars/dodopayments/billingsdk?style=social)](https://github.com/dodopayments/billingsdk/stargazers)
+[![Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/bYqAp4ayYh)
+[![Twitter Follow](https://img.shields.io/twitter/follow/dodopayments?label=Follow&style=social)](https://twitter.com/dodopayments)
+![License](https://img.shields.io/github/license/dodopayments/billingsdk)
+
+
+Modern, type-safe billing and subscription management components for React, built with TypeScript and Tailwind CSS. Designed to work seamlessly alongside shadcn/ui.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Components](#components)
+- [Quick Example](#quick-example)
+- [Tech Stack](#tech-stack)
+- [Quick Start](#quick-start)
+- [Installation in Your Project](#installation-in-your-project)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Contributors](#contributors)
+- [License](#license)
+
+## Overview
+
+Billing SDK provides production-ready UI building blocks for pricing, usage, and subscription workflows. Drop them into your app, wire up your data, and ship faster with consistent UX.
+
+## Features
+
+- **Ready-to-use components**: End-to-end billing and subscription building blocks
+- **Multiple themes**: Classic, Minimal, and custom theme tokens
+- **Responsive by default**: Optimized for mobile, tablet, and desktop
+- **TypeScript-first**: Strongly typed props for safe composition
+- **Easy integration**: One-command install via shadcn/ui registry
+
+## Components
+
+- **Payment Method Manager**: Manage credit cards and ACH accounts for billing. [Docs](https://billingsdk.com/docs/components/payment-method-manager)
+- **Pricing Tables**: Multiple variants for different use cases
+- **Subscription Management**: Manage plans, status, and details
+- **Usage Meters**: Linear and circular quota indicators
+- **Banner Notifications**: Announcements and promotional banners
+- **Plan Updates**: Upgrade/downgrade flows with clear affordances
+- **Cancellation Flow**: Guided cancellation with retention patterns
+
+### Quick Example
+
+```tsx
+import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
+
+const plans = [
+  {
+    id: "starter",
+    title: "Starter",
+    price: 9,
+    period: "month",
+    features: ["100 requests", "Basic support", "1 project"],
+    popular: false,
+  },
+  {
+    id: "pro",
+    title: "Pro",
+    price: 29,
+    period: "month",
+    features: ["Unlimited requests", "Priority support", "10 projects"],
+    popular: true,
+  },
+];
+
+export default function App() {
+  return (
+    <PricingTableOne
+      plans={plans}
+      title="Choose your plan"
+      description="Select the plan that works best for you"
+      onPlanSelect={(planId) => {
+        console.log("Selected plan:", planId);
+      }}
+      theme="classic"
+      size="medium"
+    />
+  );
+}
+```
+
+## Tech Stack
+
+- **Runtime**: React 19, Next.js 15
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI**: shadcn/ui
+- **Animation**: Motion
+
+## Quick Start
+
+1. Install dependencies
+```bash
+npm install
+```
+
+2. Start the development server
+```bash
+npm run dev
+```
+
+3. Open `http://localhost:3000`
+
+### Installation in Your Project
+
+Add Billing SDK components to your existing shadcn/ui project:
+
+```bash
+npx shadcn@latest add https://billingsdk.com/r/[component-name].json
+```
+
+## Documentation
+
+Explore docs, guides and interactive examples:
+
+[billingsdk.com/docs](https://billingsdk.com/docs)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, project structure, and contribution guidelines.
+
+## Contributors
+
+Thanks to all our amazing contributors for their support and code!
+
+<a href="https://github.com/dodopayments/billingsdk/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dodopayments/billingsdk" />
+</a>
+
+## License
+
+This project is licensed under the GNU General Public License (GPL), which allows you to use, modify, and distribute the software freely, provided that any derivative works are also distributed under the same license.
 </file>
 
 <file path="src/app/layout.config.tsx">
@@ -18719,10 +19075,12 @@ function ComponentsShowcase() {
   "dependencies": {
     "@ai-sdk/openai-compatible": "^1.0.10",
     "@ai-sdk/react": "^2.0.18",
+    "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-radio-group": "^1.3.8",
+    "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.6",
@@ -18744,13 +19102,14 @@ function ComponentsShowcase() {
     "next": "15.4.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hook-form": "^7.62.0",
     "react-icons": "^5.5.0",
     "react-syntax-highlighter": "^15.6.1",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-rehype": "^11.1.2",
     "tailwind-merge": "^3.3.1",
-    "zod": "^4.1.2"
+    "zod": "^4.1.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
