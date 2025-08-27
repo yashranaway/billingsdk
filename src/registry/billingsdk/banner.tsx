@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "motion/react"
 
 
 export interface BannerProps {
-  variant?: "default" | "minimal" | "popup"
+  variant?: "default" | "minimal" | "popup" | "destructive"
   title: string
   description?: string
   buttonText?: string
