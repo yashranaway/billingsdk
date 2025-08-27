@@ -5,7 +5,7 @@ import { convertToModelMessages, streamText } from 'ai';
 export const runtime = 'edge';
 
 if (!process.env.INKEEP_API_KEY) {
-  throw new Error('INKEEP_API_KEY environment variable is required for chat functionality');
+  console.log('INKEEP_API_KEY environment variable is required for chat functionality');
 }
 
 const openai = createOpenAICompatible({
