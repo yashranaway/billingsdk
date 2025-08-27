@@ -11,24 +11,22 @@ export interface UsageItem {
     cacheRead: number
     output: number
     totalTokens: number
-    apiCost: number
-    costToYou: number
+    apiCost?: number
+    costToYou?: number
 }
 
 interface UsageTableProps {
     className?: string
     title?: string
     description?: string
-    billingPeriod?: string
     usageHistory: UsageItem[]
     showTotal?: boolean
 }
 
 export function UsageTable({
     className,
-    title = "Included Usage Summary",
+    title,
     description,
-    billingPeriod,
     usageHistory,
     showTotal = true, // Default to true
 }: UsageTableProps) {
@@ -40,8 +38,8 @@ export function UsageTable({
         cacheRead: acc.cacheRead + item.cacheRead,
         output: acc.output + item.output,
         totalTokens: acc.totalTokens + item.totalTokens,
-        apiCost: acc.apiCost + item.apiCost,
-        costToYou: acc.costToYou + item.costToYou,
+        apiCost: acc.apiCost + (item.apiCost || 0),
+        costToYou: acc.costToYou + (item.costToYou || 0),
     }), {
         inputWithCache: 0,
         inputWithoutCache: 0,
@@ -59,19 +57,18 @@ export function UsageTable({
     const formatCurrency = (amount: number) => {
         return `$${amount.toFixed(2)}`
     }
+    const hasApiCost = usageHistory.some(item => item.apiCost)
+    const hasCostToYou = usageHistory.some(item => item.costToYou)
 
     return (
         <Card className={cn("w-full gap-1 py-3 md:py-6", className)}>
             <CardHeader className="space-y-2 pb-2 md:pb-4 px-3 md:px-6">
+                {title && (
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-lg font-medium text-foreground flex items-center gap-2">
                         {title}
                     </CardTitle>
                 </div>
-                {billingPeriod && (
-                    <p className="text-sm font-light text-muted-foreground">
-                        Current billing period: {billingPeriod}
-                    </p>
                 )}
                 {description && (
                     <CardDescription className="text-sm font-light text-muted-foreground leading-relaxed">
@@ -80,11 +77,11 @@ export function UsageTable({
                 )}
             </CardHeader>
             <CardContent className="px-3 md:px-6">
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto border rounded-lg">
                     <Table>
                         <TableCaption className="sr-only">Model usage summary with token counts and costs</TableCaption>
                         <TableHeader>
-                            <TableRow className="border-muted-foreground/30 hover:bg-inherit">
+                            <TableRow className="border-muted-foreground/30 bg-muted/50 hover:bg-muted/50">
                                 <TableHead className="text-muted-foreground text-xs font-semibold text-left whitespace-pre-wrap">MODEL</TableHead>
                                 <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
                                     INPUT (W/ CACHE WRITE)
@@ -101,12 +98,16 @@ export function UsageTable({
                                 <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
                                     TOTAL TOKENS
                                 </TableHead>
+                                {hasApiCost && (
                                 <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
                                     API COST
                                 </TableHead>
+                                )}
+                                {hasCostToYou && (
                                 <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
                                     COST TO YOU
                                 </TableHead>
+                                )}
                             </TableRow>
                         </TableHeader>
                         <TableBody className="overflow-auto">
@@ -118,7 +119,7 @@ export function UsageTable({
                                 </TableRow>
                             )}
                             {usageHistory.map((item, index) => (
-                                <TableRow key={item.model || index} className="border-none">
+                                <TableRow key={item.model || index} className="">
                                     <TableCell className="font-mono text-foreground">
                                         {item.model}
                                     </TableCell>
@@ -137,16 +138,20 @@ export function UsageTable({
                                     <TableCell className="text-right text-foreground font-mono">
                                         {formatNumber(item.totalTokens)}
                                     </TableCell>
+                                    {hasApiCost && (
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item.apiCost)}
+                                        {formatCurrency(item.apiCost || 0)}
                                     </TableCell>
+                                    )}
+                                    {hasCostToYou && (
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item.costToYou)}
+                                        {formatCurrency(item.costToYou || 0)}
                                     </TableCell>
+                                    )}
                                 </TableRow>
                             ))}
                             {showTotal && totalRow && (
-                                <TableRow className="font-medium !border-t !border-muted-foreground/10 hover:bg-inherit">
+                                <TableRow className="font-medium bg-muted/50 hover:bg-muted/50">
                                     <TableCell className="font-mono  font-semibold">
                                         Total
                                     </TableCell>
@@ -165,12 +170,16 @@ export function UsageTable({
                                     <TableCell className="text-right  font-mono font-semibold">
                                         {formatNumber(totalRow.totalTokens)}
                                     </TableCell>
+                                    {hasApiCost && (
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatCurrency(totalRow.apiCost)}
+                                        {formatCurrency(totalRow.apiCost || 0)}
                                     </TableCell>
+                                    )}
+                                    {hasCostToYou && (
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatCurrency(totalRow.costToYou)}
+                                        {formatCurrency(totalRow.costToYou || 0)}
                                     </TableCell>
+                                    )}
                                 </TableRow>
                             )}
                         </TableBody>

@@ -9,8 +9,6 @@ export default function UsageTableDemo() {
       cacheRead: 1646080,
       output: 103271,
       totalTokens: 2267482,
-      apiCost: 1.89,
-      costToYou: 0
     },
     {
       model: 'claude-3.5-sonnet',
@@ -19,8 +17,7 @@ export default function UsageTableDemo() {
       cacheRead: 434612,
       output: 8326,
       totalTokens: 647528,
-      apiCost: 1.00,
-      costToYou: 0
+      costToYou: 1.00
     },
     {
       model: 'gemini-2.0-flash-exp',
@@ -29,7 +26,7 @@ export default function UsageTableDemo() {
       cacheRead: 434612,
       output: 8326,
       totalTokens: 647528,
-      apiCost: 1.00,
+      apiCost: 1,
       costToYou: 0
     },
     {
@@ -39,7 +36,7 @@ export default function UsageTableDemo() {
       cacheRead: 434612,
       output: 7000,
       totalTokens: 647528,
-      apiCost: 1.00,
+      apiCost: 1,
       costToYou: 0
     },
     {
@@ -50,7 +47,7 @@ export default function UsageTableDemo() {
       output: 12769,
       totalTokens: 946536,
       apiCost: 0.71,
-      costToYou: 0
+      costToYou: 0.71
     },
     {
       model: 'claude-3.7-sonnet',
@@ -60,7 +57,6 @@ export default function UsageTableDemo() {
       output: 12769,
       totalTokens: 946536,
       apiCost: 0.71,
-      costToYou: 0
     },
     {
       model: 'auto',
@@ -79,19 +75,17 @@ export default function UsageTableDemo() {
       cacheRead: 4354855,
       output: 23569,
       totalTokens: 4527908,
-      apiCost: 0.00,
-      costToYou: 0
+      costToYou: 2
     }
   ];
 
 
   return (
       <UsageTable 
-        title="Included Usage Summary"
+        title="Usage Summary"
         usageHistory={usageHistory}
         showTotal={true}
-        billingPeriod="Aug 23, 2025 - Sep 23, 2025"
-        description="Pro Student comes with at least $20 of included usage per month."
+        description="Per-model LLM usage with token counts, cache reads, and API cost."
       />
   );
 }
