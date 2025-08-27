@@ -12,7 +12,6 @@ export const handleCommand = async (command: string, args: string[]) => {
                     choices: [
                         { name: "UI Components (shadcn/ui)", value: "ui" },
                         { name: "Framework Setup", value: "framework" },
-                        { name: "Skip additional setup", value: "skip" }
                     ]
                 }
             ]);
