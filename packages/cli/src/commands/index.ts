@@ -39,9 +39,7 @@ export const handleCommand = async (command: string, args: string[]) => {
                             ]);
 
                             console.log(`Selected framework: ${framework}`);
-                            if (framework === "nextjs") {
                                 await addFiles(framework);
-                            }
                         } catch (frameworkError) {
                             process.exit(1);
                         }
