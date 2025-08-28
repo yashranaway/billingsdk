@@ -1,6 +1,6 @@
 "use client"
 
-import PaymentMethodSelector from "@/components/billingsdk/payment-method-selector"
+import { PaymentMethodSelector } from "@/components/billingsdk/payment-method-selector"
 
 export function PaymentMethodSelectorDemo() {
     return (

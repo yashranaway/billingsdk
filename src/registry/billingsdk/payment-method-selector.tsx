@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "motion/react"
 import { X, CreditCard, QrCode, Wallet, Landmark } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "../../components/ui/input"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 type PaymentMethod = "cards" | "digital-wallets" | "upi" | "bnpl-services"
@@ -76,7 +76,7 @@ export interface PaymentMethodSelectorProps {
   onProceed?: (method: PaymentMethod, data: FormData) => void
 }
 
-export default function PaymentMethodSelector({ className, onProceed }: PaymentMethodSelectorProps) {
+export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSelectorProps) {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null)
   const [formData, setFormData] = useState<FormData>({})
 
