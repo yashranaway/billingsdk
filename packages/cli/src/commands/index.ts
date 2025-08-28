@@ -20,7 +20,7 @@ export const handleCommand = async (command: string, args: string[]) => {
 
                     if (setupType === "ui") {
                         console.log("Initializing UI components...");
-                        execSync(`npx shadcn init`, { stdio: "inherit" });
+                        execSync(`npx shadcn@latest init`, { stdio: "inherit" });
                     } else if (setupType === "framework") {
                         try {
                             const { framework } = await inquirer.prompt([
@@ -39,14 +39,12 @@ export const handleCommand = async (command: string, args: string[]) => {
                             console.log(`Selected framework: ${framework}`);
                             // Add framework-specific initialization logic here
                         } catch (frameworkError) {
-                            // console.error("Error during framework selection:", frameworkError);
                             process.exit(1);
                         }
                     } else {
                         console.log("Skipping additional setup.");
                     }
                 } catch (initError) {
-                    // console.error("Error during initialization:", initError);
                     process.exit(1);
                 }
                 break;
@@ -60,13 +58,11 @@ export const handleCommand = async (command: string, args: string[]) => {
                     const templateUrl = `https://billingsdk.com/r/${component}.json`;
                     try {
                         console.log(`Fetching component template...`);
-                        execSync(`npx shadcn add ${templateUrl}`, { stdio: "inherit" });
+                        execSync(`npx shadcn@latest add ${templateUrl}`, { stdio: "inherit" });
                     } catch (fetchError) {
-                        // console.error(`Failed to fetch component template: ${fetchError}`);
                         process.exit(1);
                     }
                 } catch (addError) {
-                    // console.error("Error during component addition:", addError);
                     process.exit(1);
                 }
                 break;
@@ -75,7 +71,6 @@ export const handleCommand = async (command: string, args: string[]) => {
                 process.exit(1);
         }
     } catch (error) {
-        // console.error("Unexpected error occurred:", error);
         process.exit(1);
     }
 }
