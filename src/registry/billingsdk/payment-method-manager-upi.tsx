@@ -37,12 +37,11 @@ export interface PaymentMethodManagerUPIProps {
 }
 
 
-const bankOptions = ["HDFC", "SBI", "ICICI", "Axis Bank", "IDFC First", "IndusInd", "Kotak", "Yes Bank", "PNB", "BOB", "Canara", "Union", "Other"];
 
 export const PaymentMethodManagerUPI: React.FC<PaymentMethodManagerUPIProps> = ({
   paymentMethods,
-  onAdd,
-  onEdit,
+  onAdd: _onAdd,
+  onEdit: _onEdit,
   onRemove,
   onSetDefault,
   onRedirect,
@@ -73,9 +72,6 @@ export const PaymentMethodManagerUPI: React.FC<PaymentMethodManagerUPIProps> = (
   };
 
   const isEmpty = paymentMethods.length === 0;
-
-  // Bank options (can be expanded)
-  const bankOptions = ["HDFC", "ICICI", "SBI", "Axis", "Kotak", "Other"];
 
   return (
     <TooltipProvider>

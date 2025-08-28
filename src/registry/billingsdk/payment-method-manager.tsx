@@ -42,8 +42,8 @@ export interface PaymentMethodManagerProps {
 
 export function PaymentMethodManager({
   paymentMethods,
-  onAdd,
-  onEdit,
+  onAdd: _onAdd,
+  onEdit: _onEdit,
   onRemove,
   onSetDefault,
   onRedirect,
