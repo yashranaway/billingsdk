@@ -2,13 +2,12 @@
   "name": "billingsdk",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "bin": {
     "billingsdk": "dist/index.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
+    "build": "tsup src/index.ts --format cjs --dts",
+    "dev": "tsup src/index.ts --format cjs --dts --watch"
   },
   "dependencies": {
     "tsup": "^8.5.0",
