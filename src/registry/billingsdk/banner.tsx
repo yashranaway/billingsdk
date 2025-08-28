@@ -8,7 +8,8 @@ import { X } from "lucide-react"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "motion/react"
 
-interface BannerProps {
+
+export interface BannerProps {
   variant?: "default" | "minimal" | "popup" | "destructive"
   title: string
   description?: string
