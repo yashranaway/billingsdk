@@ -16,8 +16,4 @@ export interface BackendComponent {
 export interface Registry {
     $schema: string;
     components: BackendComponent[];
-    meta: {
-        version: string;
-        lastUpdated: string;
-    };
 }
