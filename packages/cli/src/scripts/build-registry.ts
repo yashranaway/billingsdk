@@ -1,4 +1,3 @@
-// commands/build-registry.ts
 import fs from "fs";
 import path from "path";
 import { Registry, Result } from "../types/registry.js";
