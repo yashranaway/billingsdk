@@ -19,10 +19,11 @@
     "---Usage Meter---",
     "components/usage-meter/usage-meter-circle",
     "components/usage-meter/usage-meter-linear",
-  "---Banner---",
-  "components/banner/index",
   "---Payment Method Manager---",
   "components/payment-method-manager/index",
+  "components/payment-method-manager-upi/index",
+  "---Banner---",
+  "components/banner/index",
   "---Configuration---",
   "interfaces",
   "theming"

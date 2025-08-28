@@ -1,6 +1,6 @@
 ---
 title: Payment Method Manager
-description: The Payment Method Manager component provides a complete UI for managing billing payment methods, including credit cards and ACH accounts with full CRUD operations and validation.
+description: The Payment Method Manager component provides a PCI-compliant UI for managing billing payment methods. Uses redirect-to-gateway approach for secure add/edit operations with no direct handling of sensitive data.
 ---
 
 import { PaymentMethodManagerDemo } from '@/registry/billingsdk/demo/payment-method-manager-demo';
@@ -125,6 +125,10 @@ const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
   onEdit={(method) => setPaymentMethods(paymentMethods.map(pm => pm.id === method.id ? method : pm))}
   onRemove={(id) => setPaymentMethods(paymentMethods.filter(pm => pm.id !== id))}
   onSetDefault={(id) => setPaymentMethods(paymentMethods.map(pm => ({ ...pm, isDefault: pm.id === id })))}
+  onRedirect={(type, methodId) => {
+    // Redirect to payment gateway (e.g., Stripe, Razorpay)
+    console.log("Redirecting to gateway:", { type, methodId });
+  }}
 />
 ```
 
@@ -134,10 +138,11 @@ const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
 | ---------------- | -------------------------------- | -------- | -------------------------------------------------- |
 | `className`      | `string`                         | ❌        | Additional CSS classes for styling                 |
 | `paymentMethods` | `PaymentMethod[]`                | ✅        | Array of payment methods to display                |
-| `onAdd`          | `(method: PaymentMethod) => void`| ✅        | Callback when a new payment method is added       |
-| `onEdit`         | `(method: PaymentMethod) => void`| ✅        | Callback when a payment method is edited          |
-| `onRemove`       | `(id: string) => void`           | ✅        | Callback when a payment method is removed         |
-| `onSetDefault`   | `(id: string) => void`           | ✅        | Callback to set a payment method as default       |
+| `onAdd`          | `(method: PaymentMethod) => void`| ❌        | Callback when a new payment method is added       |
+| `onEdit`         | `(method: PaymentMethod) => void`| ❌        | Callback when a payment method is edited          |
+| `onRemove`       | `(id: string) => void`           | ❌        | Callback when a payment method is removed         |
+| `onSetDefault`   | `(id: string) => void`           | ❌        | Callback to set a payment method as default       |
+| `onRedirect`     | `(type: 'add' \| 'edit', methodId?: string) => void` | ✅ | Callback to redirect to payment gateway for PCI-compliant add/edit operations |
 
 ## PaymentMethod Interface
 
@@ -211,3 +216,4 @@ export function PaymentMethodManagerDemo() {
         </div>
     );
 }
+```

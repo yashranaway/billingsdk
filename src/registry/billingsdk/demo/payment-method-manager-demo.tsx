@@ -49,6 +49,10 @@ export function PaymentMethodManagerDemo() {
     setPaymentMethods((prev) => prev.map((pm) => ({ ...pm, isDefault: pm.id === id })));
   };
 
+  const handleRedirect = (type: 'add' | 'edit', methodId?: string) => {
+    console.log("Redirecting...", { type, methodId });
+  };
+
   return (
     <PaymentMethodManager
       paymentMethods={paymentMethods}
@@ -56,6 +60,7 @@ export function PaymentMethodManagerDemo() {
       onEdit={handleEdit}
       onRemove={handleRemove}
       onSetDefault={handleSetDefault}
+      onRedirect={handleRedirect}
     />
   );
 }

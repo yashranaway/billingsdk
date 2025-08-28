@@ -2,19 +2,6 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -33,7 +20,6 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { z } from "zod";
 
 export interface PaymentMethod {
   id: string;
@@ -50,6 +36,7 @@ export interface PaymentMethodManagerProps {
   onEdit?: (method: PaymentMethod) => void;
   onRemove?: (id: string) => void;
   onSetDefault?: (id: string) => void;
+  onRedirect: (type: 'add' | 'edit', methodId?: string) => void;
   className?: string;
 }
 
@@ -59,6 +46,7 @@ export function PaymentMethodManager({
   onEdit,
   onRemove,
   onSetDefault,
+  onRedirect,
   className,
 }: PaymentMethodManagerProps) {
   // Dialog states
@@ -67,103 +55,29 @@ export function PaymentMethodManager({
   const [removeOpen, setRemoveOpen] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
 
-  // Form schemas
-  const formSchema = z.discriminatedUnion('type', [
-    z.object({
-      type: z.literal('credit'),
-      number: z.string().length(19, 'Enter a valid card number (e.g., 4242 4242 4242 4242)'),
-      expiry: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, 'Enter valid MM/YY'),
-      cvv: z.string().regex(/^\d{3,4}$/, 'Enter valid CVV'),
-    }),
-    z.object({
-      type: z.literal('ach'),
-      account: z.string().min(4, 'Enter valid account number'),
-      routing: z.string().length(9, 'Enter valid 9-digit routing number'),
-    })
-  ]);
-
-  type FormValues =
-    | { type: 'credit'; number: string; expiry: string; cvv: string }
-    | { type: 'ach'; account: string; routing: string };
-
-  // Form state
-  const [editing, setEditing] = useState(false);
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues:
-      editing && selectedMethod
-        ? selectedMethod.type === 'credit'
-          ? {
-              type: 'credit',
-              number: `**** **** **** ${selectedMethod.last4}`,
-              expiry: selectedMethod.expiry || '',
-              cvv: '',
-            }
-          : {
-              type: 'ach',
-              account: `**** ${selectedMethod.last4}`,
-              routing: selectedMethod.routing || '',
-            }
-        : {
-            type: 'credit',
-            number: '',
-            expiry: '',
-            cvv: '',
-          },
-    mode: 'onChange',
-  });
-
   // Handlers
   const handleAddOpen = () => {
-    setEditing(false);
     setAddOpen(true);
-    form.reset({ type: "credit", number: "", expiry: "", cvv: "" });
   };
+
   const handleEditOpen = (pm: PaymentMethod) => {
     setSelectedMethod(pm);
-    setEditing(true);
     setEditOpen(true);
-    if (pm.type === "credit") {
-      form.reset({
-        type: "credit",
-        number: `**** **** **** ${pm.last4}`,
-        expiry: pm.expiry || "",
-        cvv: "",
-      });
-    } else {
-      form.reset({
-        type: "ach",
-        account: `**** ${pm.last4}`,
-        routing: pm.routing || "",
-      });
-    }
   };
+
   const handleRemoveOpen = (pm: PaymentMethod) => {
     setSelectedMethod(pm);
     setRemoveOpen(true);
   };
 
-  const handleFormSubmit = (values: FormValues) => {
-    const last4 = values.type === 'credit'
-      ? values.number.replace(/\s/g, '').slice(-4)
-      : values.account.slice(-4);
-    const method: PaymentMethod = {
-      id: editing ? selectedMethod?.id ?? crypto.randomUUID() : crypto.randomUUID(),
-      type: values.type,
-      last4,
-      isDefault: editing ? selectedMethod?.isDefault ?? false : false,
-      ...(values.type === 'credit'
-        ? { expiry: values.expiry }
-        : { routing: values.routing }),
-    };
-    if (editing) {
-      onEdit?.(method);
-    } else {
-      onAdd?.(method);
+  const handleRedirectToGateway = (type: 'add' | 'edit') => {
+    if (type === 'add') {
+      onRedirect('add');
+      setAddOpen(false);
+    } else if (type === 'edit' && selectedMethod) {
+      onRedirect('edit', selectedMethod.id);
+      setEditOpen(false);
     }
-    form.reset();
-    setAddOpen(false);
-    setEditOpen(false);
   };
 
   const handleRemoveConfirm = () => {
@@ -193,96 +107,24 @@ export function PaymentMethodManager({
             <DialogHeader>
               <DialogTitle>Add Payment Method</DialogTitle>
             </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
-                <FormField name="type" control={form.control} render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-medium">Type</FormLabel>
-                    <FormControl>
-                      <Select value={field.value} onValueChange={field.onChange} defaultValue="credit">
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="credit">Credit Card</SelectItem>
-                          <SelectItem value="ach">ACH</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )} />
-                {(() => {
-                  const type = form.watch('type');
-                  if (type === 'credit') {
-                    return (
-                      <>
-                        <FormField name="number" control={form.control} render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm font-medium">Card Number</FormLabel>
-                            <FormControl>
-                              <Input type="text" placeholder="4242 4242 4242 4242" {...field} className="mt-1" />
-                            </FormControl>
-                            <FormDescription className="text-muted-foreground text-xs mt-1">Enter a valid 19-character card number.</FormDescription>
-                            <FormMessage className="text-destructive text-xs mt-1" />
-                          </FormItem>
-                        )} />
-                        <FormField name="expiry" control={form.control} render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm font-medium">Expiry</FormLabel>
-                            <FormControl>
-                              <Input type="text" placeholder="MM/YY" {...field} className="mt-1" />
-                            </FormControl>
-                            <FormDescription className="text-muted-foreground text-xs mt-1">Format: MM/YY</FormDescription>
-                            <FormMessage className="text-destructive text-xs mt-1" />
-                          </FormItem>
-                        )} />
-                        <FormField name="cvv" control={form.control} render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm font-medium">CVV</FormLabel>
-                            <FormControl>
-                              <Input type="password" placeholder="CVV" {...field} className="mt-1" />
-                            </FormControl>
-                            <FormDescription className="text-muted-foreground text-xs mt-1">3 or 4 digits</FormDescription>
-                            <FormMessage className="text-destructive text-xs mt-1" />
-                          </FormItem>
-                        )} />
-                      </>
-                    );
-                  } else {
-                    return (
-                      <>
-                        <FormField name="account" control={form.control} render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm font-medium">Account Number</FormLabel>
-                            <FormControl>
-                              <Input type="text" placeholder="Account Number" {...field} className="mt-1" />
-                            </FormControl>
-                            <FormDescription className="text-muted-foreground text-xs mt-1">Enter your bank account number.</FormDescription>
-                            <FormMessage className="text-destructive text-xs mt-1" />
-                          </FormItem>
-                        )} />
-                        <FormField name="routing" control={form.control} render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-sm font-medium">Routing Number</FormLabel>
-                            <FormControl>
-                              <Input type="text" placeholder="Routing Number" {...field} className="mt-1" />
-                            </FormControl>
-                            <FormDescription className="text-muted-foreground text-xs mt-1">9-digit routing number.</FormDescription>
-                            <FormMessage className="text-destructive text-xs mt-1" />
-                          </FormItem>
-                        )} />
-                      </>
-                    );
-                  }
-                })()}
-                <div className="flex justify-end gap-2">
-                  <DialogClose asChild>
-                    <Button type="button" variant="outline">Cancel</Button>
-                  </DialogClose>
-                  <Button type="submit" variant="default" disabled={form.formState.isSubmitting || !form.formState.isValid}>Save</Button>
-                </div>
-              </form>
-            </Form>
+            <div className="py-4 space-y-4">
+              <p className="text-muted-foreground">
+                You will be redirected to the payment gateway to add your payment details securely. 
+                No sensitive payment information is handled directly in this interface.
+              </p>
+            </div>
+            <div className="flex justify-end gap-2">
+              <DialogClose asChild>
+                <Button type="button" variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button 
+                type="button" 
+                variant="default" 
+                onClick={() => handleRedirectToGateway('add')}
+              >
+                Redirect to Gateway
+              </Button>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -340,89 +182,24 @@ export function PaymentMethodManager({
                       <DialogHeader>
                         <DialogTitle>Edit Payment Method</DialogTitle>
                       </DialogHeader>
-                      <Form {...form}>
-                        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-4">
-                          <FormField name="type" control={form.control} render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-sm font-medium">Type</FormLabel>
-                              <FormControl>
-                                <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select type" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="credit">Credit Card</SelectItem>
-                                    <SelectItem value="ach">ACH</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </FormControl>
-                            </FormItem>
-                          )} />
-                          {form.watch("type") === "credit" ? (
-                            <>
-                              <FormField name="number" control={form.control} render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="text-sm font-medium">Card Number</FormLabel>
-                                  <FormControl>
-                                    <Input type="text" placeholder="**** **** **** ****" {...field} className="mt-1" />
-                                  </FormControl>
-                                  <FormDescription className="text-muted-foreground text-xs mt-1">Enter a valid 16-digit card number.</FormDescription>
-                                  <FormMessage className="text-destructive text-xs mt-1" />
-                                </FormItem>
-                              )} />
-                              <FormField name="expiry" control={form.control} render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="text-sm font-medium">Expiry</FormLabel>
-                                  <FormControl>
-                                    <Input type="text" placeholder="MM/YY" {...field} className="mt-1" />
-                                  </FormControl>
-                                  <FormDescription className="text-muted-foreground text-xs mt-1">Format: MM/YY</FormDescription>
-                                  <FormMessage className="text-destructive text-xs mt-1" />
-                                </FormItem>
-                              )} />
-                              <FormField name="cvv" control={form.control} render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="text-sm font-medium">CVV</FormLabel>
-                                  <FormControl>
-                                    <Input type="password" placeholder="CVV" {...field} className="mt-1" />
-                                  </FormControl>
-                                  <FormDescription className="text-muted-foreground text-xs mt-1">3 or 4 digits</FormDescription>
-                                  <FormMessage className="text-destructive text-xs mt-1" />
-                                </FormItem>
-                              )} />
-                            </>
-                          ) : (
-                            <>
-                              <FormField name="account" control={form.control} render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="text-sm font-medium">Account Number</FormLabel>
-                                  <FormControl>
-                                    <Input type="text" placeholder="Account Number" {...field} className="mt-1" />
-                                  </FormControl>
-                                  <FormDescription className="text-muted-foreground text-xs mt-1">Enter your bank account number.</FormDescription>
-                                  <FormMessage className="text-destructive text-xs mt-1" />
-                                </FormItem>
-                              )} />
-                              <FormField name="routing" control={form.control} render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="text-sm font-medium">Routing Number</FormLabel>
-                                  <FormControl>
-                                    <Input type="text" placeholder="Routing Number" {...field} className="mt-1" />
-                                  </FormControl>
-                                  <FormDescription className="text-muted-foreground text-xs mt-1">9-digit routing number.</FormDescription>
-                                  <FormMessage className="text-destructive text-xs mt-1" />
-                                </FormItem>
-                              )} />
-                            </>
-                          )}
-                          <div className="flex justify-end gap-2">
-                            <DialogClose asChild>
-                              <Button type="button" variant="outline">Cancel</Button>
-                            </DialogClose>
-                            <Button type="submit" variant="default" disabled={form.formState.isSubmitting || !form.formState.isValid}>Save</Button>
-                          </div>
-                        </form>
-                      </Form>
+                      <div className="py-4 space-y-4">
+                        <p className="text-muted-foreground">
+                          You will be redirected to the payment gateway to update your payment details securely.
+                          No sensitive payment information is handled directly in this interface.
+                        </p>
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <DialogClose asChild>
+                          <Button type="button" variant="outline">Cancel</Button>
+                        </DialogClose>
+                        <Button 
+                          type="button" 
+                          variant="default" 
+                          onClick={() => handleRedirectToGateway('edit')}
+                        >
+                          Redirect to Gateway
+                        </Button>
+                      </div>
                     </DialogContent>
                   </Dialog>
                   <Dialog open={removeOpen && selectedMethod?.id === method.id} onOpenChange={setRemoveOpen}>
