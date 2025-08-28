@@ -147,7 +147,7 @@ export const Cover = ({
 
 export const Beam = ({
   className,
-  delay: _delay,
+  delay,
   duration,
   hovered,
   width = 600,
@@ -198,7 +198,7 @@ export const Beam = ({
             ease: "linear",
             repeat: Infinity,
             delay: hovered ? Math.random() * (1 - 0.2) + 0.2 : 0,
-            repeatDelay: hovered ? Math.random() * (2 - 1) + 1 : _delay ?? 1,
+            repeatDelay: hovered ? Math.random() * (2 - 1) + 1 : delay ?? 1,
           }}
         >
           <stop stopColor="#2EB9DF" stopOpacity="0" />
@@ -212,7 +212,7 @@ export const Beam = ({
 
 export const CircleIcon = ({
   className,
-  delay: _delay,
+  delay,
 }: {
   className?: string;
   delay?: number;
