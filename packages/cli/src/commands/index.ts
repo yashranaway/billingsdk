@@ -1,9 +1,17 @@
 import { execSync } from "child_process";
 import inquirer from "inquirer";
+import { buildRegistry } from "../scripts/build-registry.js";
 
 export const handleCommand = async (command: string, args: string[]) => {
     try {
         switch (command) {
+            case "build":
+                try {
+                    await buildRegistry();
+                } catch (error) {
+                    process.exit(1);
+                }
+                break;
             case "init":
                 try {
                     const { setupType } = await inquirer.prompt([
