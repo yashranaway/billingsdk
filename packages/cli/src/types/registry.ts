@@ -9,7 +9,6 @@ export interface BackendComponent {
         type: "template" | "config" | "types";
     }>;
     dependencies?: string[];
-    devDependencies?: string[];
 }
 
 export interface Registry {
@@ -27,5 +26,4 @@ export interface Result {
         type: "template" | "config" | "types";
     }>;
     dependencies?: string[];
-    devDependencies?: string[];
 }

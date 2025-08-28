@@ -1,17 +1,11 @@
 import { execSync } from "child_process";
 import inquirer from "inquirer";
 import { buildRegistry } from "../scripts/build-registry.js";
+import { addFiles } from "../scripts/add-files.js";
 
 export const handleCommand = async (command: string, args: string[]) => {
     try {
         switch (command) {
-            case "build":
-                try {
-                    await buildRegistry();
-                } catch (error) {
-                    process.exit(1);
-                }
-                break;
             case "init":
                 try {
                     const { setupType } = await inquirer.prompt([
@@ -45,7 +39,9 @@ export const handleCommand = async (command: string, args: string[]) => {
                             ]);
 
                             console.log(`Selected framework: ${framework}`);
-                            // Add framework-specific initialization logic here
+                            if (framework === "nextjs") {
+                                await addFiles(framework);
+                            }
                         } catch (frameworkError) {
                             process.exit(1);
                         }
@@ -71,6 +67,13 @@ export const handleCommand = async (command: string, args: string[]) => {
                         process.exit(1);
                     }
                 } catch (addError) {
+                    process.exit(1);
+                }
+                break;
+            case "build":
+                try {
+                    await buildRegistry();
+                } catch (error) {
                     process.exit(1);
                 }
                 break;
