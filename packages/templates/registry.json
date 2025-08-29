@@ -25,7 +25,8 @@
             ],
             "dependencies": [
                 "dodopayments",
-                "standardwebhooks"
+                "standardwebhooks",
+                "zod"
             ]
         }
     ]
