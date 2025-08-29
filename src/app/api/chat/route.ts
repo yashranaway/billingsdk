@@ -4,9 +4,7 @@ import { convertToModelMessages, streamText } from 'ai';
 
 export const runtime = 'edge';
 
-if (!process.env.INKEEP_API_KEY) {
-  console.log('INKEEP_API_KEY environment variable is required for chat functionality');
-}
+
 
 const openai = createOpenAICompatible({
   name: 'inkeep',
@@ -15,6 +13,13 @@ const openai = createOpenAICompatible({
 });
 
 export async function POST(req: Request) {
+  if(!process.env.INKEEP_API_KEY){
+    return Response.json({
+      error: {
+        message: "INKEEP_API_KEY is required"
+      }
+    });
+  }
   const reqJson = await req.json();
 
   const result = streamText({
