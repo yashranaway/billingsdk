@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Github, Heart } from "lucide-react";
 import { BsTwitterX } from "react-icons/bs";
-import Image from "next/image";
 
 export function Footer2() {
     return (
