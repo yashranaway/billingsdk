@@ -8,16 +8,15 @@ export const handleCommand = async (command: string, args: string[]) => {
         switch (command) {
             case "init":
                 try {
-                    const { setupType } = await inquirer.prompt([
-                        {
-                            type: "list",
-                            name: "setupType",
-                            message: "What would you like to set up?",
-                            choices: [
-                                { name: "UI Components (shadcn/ui)", value: "ui" },
-                                { name: "Framework Setup", value: "framework" },
-                            ]
-                        }
+                    const { setupType } = await inquirer.prompt([{
+                        type: "list",
+                        name: "setupType",
+                        message: "What would you like to set up?",
+                        choices: [
+                            { name: "UI Components (shadcn/ui)", value: "ui" },
+                            { name: "Framework Setup", value: "framework" },
+                        ]
+                    }
                     ]);
 
                     if (setupType === "ui") {
@@ -25,21 +24,27 @@ export const handleCommand = async (command: string, args: string[]) => {
                         execSync(`npx shadcn@latest init`, { stdio: "inherit" });
                     } else if (setupType === "framework") {
                         try {
-                            const { framework } = await inquirer.prompt([
-                                {
-                                    type: "list",
-                                    name: "framework",
-                                    message: "Which framework would you like to use?",
-                                    choices: [
-                                        { name: "Express.js", value: "express" },
-                                        { name: "Next.js", value: "nextjs" },
-                                        { name: "React.js", value: "reactjs" }
-                                    ]
-                                }
+                            const { framework } = await inquirer.prompt([{
+                                type: "list",
+                                name: "framework",
+                                message: "Which framework would you like to use?",
+                                choices: [
+                                    // { name: "Express.js", value: "express" },
+                                    { name: "Next.js", value: "nextjs" },
+                                    // { name: "React.js", value: "reactjs" }
+                                ]
+                            }
                             ]);
-
-                            console.log(`Selected framework: ${framework}`);
-                                await addFiles(framework);
+                            const { provider } = await inquirer.prompt([{
+                                type: "list",
+                                name: "provider",
+                                message: "Which provider would you like to use?",
+                                choices: [
+                                    { name: "Dopayments", value: "dopayments" },
+                                    // { name: "Stripe", value: "stripe" },
+                                ]
+                            }]);
+                            await addFiles(framework, provider);
                         } catch (frameworkError) {
                             process.exit(1);
                         }
