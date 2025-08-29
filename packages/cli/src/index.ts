@@ -1,20 +1,21 @@
 #!/usr/bin/env node
 
-import { handleCommand } from "./commands/index.js";
+import { Command } from "commander";
+import { initCommand } from "./commands/init.js";
+import { addCommand } from "./commands/add.js";
+import { buildCommand } from "./commands/build.js";
 
-const args = process.argv.slice(2);
-const command = args[0];
+const program = new Command();
 
-if (!command) {
-  console.log("Usage: billingsdk <command> [args]");
-  process.exit(1);
-}
+program
+  .name("billingsdk")
+  .description("Billing SDK CLI for managing billing components")
+  .version("1.0.0");
 
-if (args.includes("--help") || args.length === 0) {
-  console.log("Usage: billingsdk <command>");
-  console.log("Commands:");
-  console.log("  add <component>  - Adds a new component to the project");
-  process.exit(0);
-}
+// Register commands
+program.addCommand(initCommand);
+program.addCommand(addCommand);
+program.addCommand(buildCommand);
 
-handleCommand(command, args);
+// Parse arguments
+program.parse();
