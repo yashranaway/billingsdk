@@ -103,7 +103,7 @@ function AnimatedPriceContainer({
 }) {
   return (
     <motion.div 
-      className="flex items-baseline min-h-[3rem]"
+      className="flex items-end justify-end min-h-[3rem]"
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.2 }}
     >
@@ -221,7 +221,7 @@ const toggleVariants = cva(
 );
 
 const buttonVariants = cva(
-  "w-full py-3 px-6 text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 rounded-lg hover:cursor-pointer",
+  "w-full py-3 px-4 text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 rounded-lg hover:cursor-pointer",
   {
     variants: {
       highlight: {
@@ -283,6 +283,10 @@ export function PricingTableFour({
 
   const getPlanPrice = (plan: Plan) => {
     const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
+    // Don't add currency symbol for "Custom" pricing
+    if (price.toLowerCase() === 'custom') {
+      return price;
+    }
     return `${plan.currency || '$'}${price}`;
   };
 
@@ -354,28 +358,30 @@ export function PricingTableFour({
               )}
 
               <div className={cn(cardVariants({ highlight: plan.highlight }))}>
-                <div className="p-2">
-                  <div className="py-4 px-3">
-                    <div className="flex items-center justify-between mb-4">
+                <div className="p-4 space-y-4">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
                       <div className="w-12 h-12 flex items-center rounded-lg justify-center text-foreground bg-muted border border-border">
                         {getPlanIcon(plan.id)}
                       </div>
-                      <AnimatedPriceContainer
-                        price={getPlanPrice(plan)}
-                        period={getPlanPeriod(plan)}
-                        isHighlight={plan.highlight}
-                      />
+                      <div className="text-right">
+                        <AnimatedPriceContainer
+                          price={getPlanPrice(plan)}
+                          period={getPlanPeriod(plan)}
+                          isHighlight={plan.highlight}
+                        />
+                      </div>
                     </div>
 
-                    <div className="mb-4">
+                    <div>
                       <h3 className="text-xl font-bold text-foreground">{plan.title}</h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-muted-foreground mb-4 leading-relaxed">{plan.description}</p>
+                    <p className="text-muted-foreground leading-relaxed">{plan.description}</p>
                   </div>
-                  <div className="rounded-lg p-2 bg-muted/50 border border-border/50">
-                    <div className="mb-2">
+                  <div className="rounded-lg p-4 bg-muted/50 border border-border/50">
+                    <div className="mb-4">
                       <button
                         onClick={() => handlePlanSelect(plan.id)}
                         className={cn(buttonVariants({ highlight: plan.highlight }))}
@@ -386,7 +392,7 @@ export function PricingTableFour({
                     </div>
 
                     {/* Features */}
-                    <div className="p-4">
+                    <div>
                       <h4 className="text-foreground font-semibold mb-4">Features:</h4>
                       <ul className="space-y-3">
                         {plan.features.map((feature, featureIndex) => (
