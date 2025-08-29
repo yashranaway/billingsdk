@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import inquirer from "inquirer";
+import { intro, outro, select, spinner } from "@clack/prompts";
 import { addFiles } from "../scripts/add-files.js";
 import { render } from "ink";
 import React from "react";
@@ -11,37 +11,30 @@ export const initCommand = new Command()
   .summary("Set up billing components and framework integration")
   .action(async () => {
     try {
-        // Display big text banner on the left side
-        render(
-          React.createElement(BigTextBanner, {
-            text: "Billing\nSDK",
-            font: "block",
-            colors: ["gray"],
-            align: "left",
-            showSubtitle: false
-          })
-        );
+        intro("Welcome to Billing SDK Setup!");
 
-        const { framework } = await inquirer.prompt([{
-          type: "list",
-          name: "framework",
+        const framework = await select({
           message: "Which framework would you like to use? (Adding more frameworks soon)",
-          choices: [
-            { name: "Next.js", value: "nextjs" },
-          ]
-        }]);
+          options: [
+            { value: "nextjs", label: "Next.js", hint: "React framework with App Router" },
+          ],
+        });
 
-        const { provider } = await inquirer.prompt([{
-          type: "list",
-          name: "provider",
-          message: "Which provider would you like to use? (Adding more providers soon)",
-          choices: [
-            { name: "Dodopayments", value: "dodopayments" },
-          ]
-        }]);
+        const provider = await select({
+          message: "Which payment provider would you like to use? (Adding more providers soon)",
+          options: [
+            { value: "dodopayments", label: "Dodopayments", hint: "Modern payment processing" },
+          ],
+        });
 
-        await addFiles(framework, provider);
-        console.log("Framework setup completed successfully!");
+        const s = spinner();
+        s.start("Setting up your billing project...");
+
+        await addFiles(framework as "nextjs" | "express", provider as "dodopayments");
+
+        s.stop("Setup completed successfully!");
+        outro("Your billing project is ready! Happy coding! 🎉");
+
     } catch (error) {
       console.error("Error during initialization");
       process.exit(1);

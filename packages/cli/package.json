@@ -11,10 +11,10 @@
     "dev": "tsup src/index.ts --format esm --dts --watch"
   },
   "dependencies": {
+    "@clack/prompts": "^0.11.0",
     "commander": "^14.0.0",
     "ink": "^6.2.3",
     "ink-big-text": "^2.0.0",
-    "inquirer": "^12.0.0",
     "react": "^19.1.1",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2"
