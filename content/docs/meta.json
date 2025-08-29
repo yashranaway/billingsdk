@@ -3,13 +3,15 @@
     "---Getting Started---",
     "index",
     "quick-start",
-    "contribution-open-source", 
+    "contribution-open-source",
     "---Pricing Tables---",
     "components/pricing-table/pricing-table-one",
     "components/pricing-table/pricing-table-two",
     "components/pricing-table/pricing-table-three",
     "---Subscription Management---",
     "components/manage-subscription/index",
+    "components/invoice-history/index",
+    "components/usage-table/index",
     "---Update Plan---",
     "components/update-plan/update-plan-card",
     "components/update-plan/update-plan-dialog",
@@ -24,8 +26,10 @@
     "components/payment-method-manager-upi/index",
     "---Banner---",
     "components/banner/index",
-  "---Configuration---",
-  "interfaces",
-  "theming"
+    "---Payment Processing---",
+    "components/payment-method-selector/index",
+    "---Configuration---",
+    "interfaces",
+    "theming"
   ]
 }
