@@ -5,9 +5,8 @@ import inquirer from "inquirer";
 import { execSync } from "child_process";
 
 export const addFiles = async (framework: "nextjs" | "express", provider: "dopayments") => {
-    const result = await fetch(`http://localhost:3000/tr/${framework}-${provider}.json`)
+    const result = await fetch(`https://billingsdk.com/tr/${framework}-${provider}.json`)
         .then(res => res.json()) as Result;
-    // check if src folder exists
     let srcExists = fs.existsSync(path.join(process.cwd(), "src"));
     const addToPath = srcExists ? "src" : "";
 
