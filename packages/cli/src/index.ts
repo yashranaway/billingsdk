@@ -20,7 +20,7 @@ if (process.argv.length === 2) {
     React.createElement(BigTextBanner, {
       text: "Billing\nSDK",
       font: "block",
-      colors: ["gray"],
+      colors: ["white"],
       align: "left",
       showSubtitle: false
     })
