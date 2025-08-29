@@ -8,7 +8,8 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 export const addFiles = async (framework: "nextjs" | "express", provider: "dopayments") => {
-    const result = await fetch(`http://localhost:3000/tr/${framework}-${provider}.json`).then(res => res.json()) as Result;
+    const result = await fetch(`http://localhost:3000/tr/${framework}-${provider}.json`)
+        .then(res => res.json()) as Result;
     // check if src folder exists
     let srcExists = fs.existsSync(path.join(process.cwd(), "src"));
     const addToPath = srcExists ? "src" : "";
@@ -45,7 +46,7 @@ export const addFiles = async (framework: "nextjs" | "express", provider: "dopay
             console.error(`Failed to add file ${filePath}:`, error);
         }
     }
-    
+
     // install dependencies
     if (result.dependencies) {
         console.log(`Installing dependencies...`);

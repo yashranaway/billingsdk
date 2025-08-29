@@ -80,10 +80,9 @@ export const buildRegistry = async () => {
       const outputPath = path.join(outputDir, `${component.name}.json`);
       fs.writeFileSync(outputPath, JSON.stringify(processedComponent, null, 2), "utf-8");
 
-      console.log(`✅ Built ${component.name} -> public/tr/${component.name}.json`);
+      console.log(`Built ${component.name} -> public/tr/${component.name}.json`);
     }
-
-    console.log(`\n🎉 Successfully built ${componentsToProcess.length} component(s)`);
+    console.log(`Successfully built ${componentsToProcess.length} component(s)`);
 
   } catch (error) {
     console.error(`Build failed: ${error instanceof Error ? error.message : "Unknown error"}`);

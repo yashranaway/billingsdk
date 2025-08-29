@@ -11,7 +11,7 @@ import {
   createCustomer,
   updateCustomer,
   checkout,
-} from '@/lib/dodoPayments'
+} from '@/lib/dodopayments'
 
 interface UseBillingState {
   loading: boolean

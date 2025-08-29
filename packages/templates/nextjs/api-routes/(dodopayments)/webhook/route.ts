@@ -1,6 +1,6 @@
 import { Webhook } from "standardwebhooks";
 import { headers } from "next/headers";
-import { dodopaymentsClient } from "@/lib/dodoPayments";
+import { dodopaymentsClient } from "@/lib/dodopayments";
 
 const webhook = new Webhook(process.env.DODO_PAYMENTS_WEBHOOK_KEY!);
 

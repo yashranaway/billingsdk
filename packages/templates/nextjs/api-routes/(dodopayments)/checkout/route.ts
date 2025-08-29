@@ -1,4 +1,4 @@
-import { dodopaymentsClient } from "@/lib/dodoPayments";
+import { dodopaymentsClient } from "@/lib/dodopayments";
 import DodoPayments from "dodopayments";
 import { NextResponse } from "next/server";
 import { z } from "zod";

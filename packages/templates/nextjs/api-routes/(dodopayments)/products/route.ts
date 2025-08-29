@@ -1,4 +1,4 @@
-import { dodopaymentsClient } from "@/lib/dodoPayments";
+import { dodopaymentsClient } from "@/lib/dodopayments";
 import { NextResponse } from "next/server";
 
 export async function GET() {
