@@ -7,8 +7,8 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-export const addFiles = async (framework: "nextjs" | "express" | "fastify") => {
-    const result = await fetch(`http://localhost:3000/tr/${framework}-dodopayments.json`).then(res => res.json()) as Result;
+export const addFiles = async (framework: "nextjs" | "express", provider: "dopayments") => {
+    const result = await fetch(`http://localhost:3000/tr/${framework}-${provider}.json`).then(res => res.json()) as Result;
     // check if src folder exists
     let srcExists = fs.existsSync(path.join(process.cwd(), "src"));
     const addToPath = srcExists ? "src" : "";
