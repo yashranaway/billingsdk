@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Github, Heart } from "lucide-react";
 import { BsTwitterX } from "react-icons/bs";
+import Image from "next/image";
 
 export function Footer2() {
     return (
@@ -28,6 +29,7 @@ export function Footer2() {
                                 <Button variant="ghost" size="sm" asChild>
                                     <Link href="https://dodopayments.com/" target="_blank" rel="noopener noreferrer">
                                         <img src="/logo/logo-dodo.svg" alt="Dodo Payments" width="16" height="16" className="h-4 w-4" />
+
                                     </Link>
                                 </Button>
                                 <Button variant="ghost" size="sm" asChild>
