@@ -16,7 +16,6 @@ export const addCommand = new Command()
 
       const templateUrl = `https://billingsdk.com/r/${component}.json`;
       execSync(`npx shadcn@latest add ${templateUrl}`, { stdio: "inherit" });
-      console.log(`Component "${component}" added successfully!`);
     } catch (error) {
       // console.error(`Failed to add component "${component}"`,);
       process.exit(1);
