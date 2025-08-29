@@ -1,17 +1,21 @@
 {
   "name": "billingsdk",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
   "bin": {
     "billingsdk": "dist/index.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs --dts",
-    "dev": "tsup src/index.ts --format cjs --dts --watch"
+    "build": "tsup src/index.ts --format esm --dts",
+    "dev": "tsup src/index.ts --format esm --dts --watch"
   },
   "dependencies": {
     "commander": "^14.0.0",
+    "ink": "^6.2.3",
+    "ink-big-text": "^2.0.0",
     "inquirer": "^12.0.0",
+    "react": "^19.1.1",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2"
   },

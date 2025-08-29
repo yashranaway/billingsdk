@@ -1,13 +1,27 @@
 import { Command } from "commander";
 import inquirer from "inquirer";
 import { addFiles } from "../scripts/add-files.js";
+import { render } from "ink";
+import React from "react";
+import { BigTextBanner } from "../components/BigTextBanner.js";
 
 export const initCommand = new Command()
   .name("init")
   .description("Initialize a new billing project")
   .summary("Set up billing components and framework integration")
   .action(async () => {
-    try { 
+    try {
+        // Display big text banner on the left side
+        render(
+          React.createElement(BigTextBanner, {
+            text: "Billing\nSDK",
+            font: "block",
+            colors: ["gray"],
+            align: "left",
+            showSubtitle: false
+          })
+        );
+
         const { framework } = await inquirer.prompt([{
           type: "list",
           name: "framework",
