@@ -1,9 +1,6 @@
 import { Command } from "commander";
 import { intro, outro, select, spinner } from "@clack/prompts";
 import { addFiles } from "../scripts/add-files.js";
-import { render } from "ink";
-import React from "react";
-import { BigTextBanner } from "../components/BigTextBanner.js";
 
 export const initCommand = new Command()
   .name("init")

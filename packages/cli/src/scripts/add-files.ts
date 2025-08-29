@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { Result } from "../types/registry.js";
-import { confirm } from "@clack/prompts";
+import { confirm, spinner } from "@clack/prompts";
 import { execSync } from "child_process";
 
 export const addFiles = async (framework: "nextjs" | "express", provider: "dodopayments") => {
@@ -24,7 +24,6 @@ export const addFiles = async (framework: "nextjs" | "express", provider: "dodop
                     const existingContent = fs.readFileSync(filePath, 'utf8');
                     const newContent = existingContent + '\n' + file.content + '\n';
                     fs.writeFileSync(filePath, newContent);
-                    console.log(`File ${relativePath} updated (content appended)`);
                 } else {
                     const overwrite = await confirm({
                         message: `File ${relativePath} already exists. Do you want to overwrite it?`,
@@ -35,16 +34,17 @@ export const addFiles = async (framework: "nextjs" | "express", provider: "dodop
                 }
             } else {
                 fs.writeFileSync(filePath, file.content);
-                console.log(`File ${relativePath} added`);
             }
         } catch (error) {
             console.error(`Failed to add file ${relativePath}:`, error);
         }
     }
     if (result.dependencies) {
-        console.log(`Installing dependencies...`);
+        const s = spinner();
+        s.start("Installing dependencies...");
         try {
             await execSync(`npm install ${result.dependencies.join(" ")}`, { stdio: "inherit" });
+            s.stop("Dependencies installed successfully!");
         } catch (error) {
             console.error("Failed to install dependencies:", error);
         }
