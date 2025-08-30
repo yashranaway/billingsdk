@@ -1,95 +1,14 @@
 "use client";
 
 import { ChevronRight, Package, Award, Building2 } from "lucide-react";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useSpring, useTransform } from "motion/react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 
-// Animated Number Component
-function AnimatedNumber({ value, duration = 0.8 }: { value: string; duration?: number }) {
-  const [displayValue, setDisplayValue] = useState(value);
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  useEffect(() => {
-    if (displayValue !== value) {
-      setIsAnimating(true);
-      const timer = setTimeout(() => {
-        setDisplayValue(value);
-        setIsAnimating(false);
-      }, duration * 200);
-      return () => clearTimeout(timer);
-    }
-  }, [value, duration, displayValue]);
-
-  const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''));
-  const isNumeric = !isNaN(numericValue);
-
-  if (!isNumeric) {
-    return (
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={value}
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -20, scale: 0.8 }}
-          transition={{ 
-            duration: duration,
-            ease: [0.4, 0.0, 0.2, 1],
-            scale: { duration: duration * 0.6 }
-          }}
-        >
-          {value}
-        </motion.span>
-      </AnimatePresence>
-    );
-  }
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={value}
-        initial={{ 
-          opacity: 0, 
-          y: 30, 
-          scale: 0.7,
-          rotateX: -90
-        }}
-        animate={{ 
-          opacity: 1, 
-          y: 0, 
-          scale: 1,
-          rotateX: 0
-        }}
-        exit={{ 
-          opacity: 0, 
-          y: -30, 
-          scale: 0.7,
-          rotateX: 90
-        }}
-        transition={{ 
-          duration: duration,
-          ease: [0.25, 0.46, 0.45, 0.94],
-          scale: { 
-            duration: duration * 0.8,
-            ease: [0.34, 1.56, 0.64, 1]
-          },
-          rotateX: {
-            duration: duration * 0.6
-          }
-        }}
-        style={{
-          transformPerspective: 1000,
-          transformStyle: "preserve-3d"
-        }}
-      >
-        {value}
-      </motion.span>
-    </AnimatePresence>
-  );
-}
 
 // Animated Price Container
 function AnimatedPriceContainer({ 
@@ -264,7 +183,7 @@ export function PricingTableFour({
   onPlanSelect,
   className,
   size = "medium",
-  theme = "minimal",
+  theme: _theme = "minimal",
   showBillingToggle = true,
   billingToggleLabels = {
     monthly: "Monthly",
