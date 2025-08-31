@@ -1,8 +1,28 @@
 # Billing SDK
-[![GitHub stars](https://img.shields.io/github/stars/dodopayments/billingsdk?style=social)](https://github.com/dodopayments/billingsdk/stargazers)
-[![Discord](https://img.shields.io/badge/chat-on%20discord-7289DA.svg)](https://discord.gg/bYqAp4ayYh)
-[![Twitter Follow](https://img.shields.io/twitter/follow/dodopayments?label=Follow&style=social)](https://twitter.com/dodopayments)
-![License](https://img.shields.io/github/license/dodopayments/billingsdk)
+
+<p align="center">
+  <img
+    src="https://github.com//dodopayments/billingsdk/blob/main/.github/images/billingsdk-cover.webp?raw=true"
+    alt="Billing SDK Cover"
+    width="900"
+    height="320"
+    style="max-width: 100%; height: auto; border-radius: 0.5rem;"
+    loading="lazy"
+  />
+</p>
+
+<p align="center">
+  <a href="https://github.com/dodopayments/billingsdk/stargazers">
+    <img src="https://img.shields.io/github/stars/dodopayments/billingsdk?style=social" alt="GitHub stars" />
+  </a>
+  <a href="https://discord.gg/bYqAp4ayYh">
+    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord" />
+  </a>
+  <a href="https://twitter.com/dodopayments">
+    <img src="https://img.shields.io/twitter/follow/dodopayments?label=Follow&style=social" alt="Twitter Follow" />
+  </a>
+  <img src="https://img.shields.io/github/license/dodopayments/billingsdk" alt="License" />
+</p>
 
 
 Modern, type-safe billing and subscription management components for React, built with TypeScript and Tailwind CSS. Designed to work seamlessly alongside shadcn/ui.
