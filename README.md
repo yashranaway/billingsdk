@@ -16,7 +16,7 @@
     <img src="https://img.shields.io/github/stars/dodopayments/billingsdk?style=social" alt="GitHub stars" />
   </a>
   <a href="https://discord.gg/bYqAp4ayYh">
-    <img src="https://img.shields.io/badge/chat-on%20discord-7289DA.svg" alt="Discord" />
+    <img src="https://img.shields.io/discord/1305511580854779984?label=Join%20Discord&logo=discord" alt="Join Discord" />
   </a>
   <a href="https://twitter.com/dodopayments">
     <img src="https://img.shields.io/twitter/follow/dodopayments?label=Follow&style=social" alt="Twitter Follow" />
