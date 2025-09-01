@@ -1,10 +1,41 @@
 import { DodoPayments } from 'dodopayments'
 type Product = DodoPayments.Product
 
-export const dodopaymentsClient = new DodoPayments({
-  bearerToken: process.env.DODO_PAYMENTS_API_KEY!,
-  environment: process.env.DODO_PAYMENTS_ENVIRONMENT as "live_mode" | "test_mode",
-})
+let dodopaymentsClient: DodoPayments | null = null
+
+export function getDodoPaymentsClient(): DodoPayments {
+  if (!dodopaymentsClient) {
+    const token = process.env.DODO_PAYMENTS_API_KEY
+    const environment = process.env.DODO_PAYMENTS_ENVIRONMENT as "live_mode" | "test_mode"
+
+    console.log('Initializing DodoPayments client...')
+    console.log('Token exists:', !!token)
+    console.log('Environment:', environment)
+
+    if (!token) {
+      throw new Error(`
+        DODO_PAYMENTS_API_KEY environment variable is missing.
+        
+        Please check:
+        1. Your .env.local file exists in the project root
+        2. The file contains: DODO_PAYMENTS_API_KEY=x7PJAE6k3Xg-6bgV.BeTFL6I53w4ENoXsmIUdqmmXsgP_vnZwQBokW9rfAOTMOA5u
+        3. You've restarted your development server
+        4. No extra quotes or spaces in the .env.local file
+      `)
+    }
+
+    if (!environment || (environment !== "live_mode" && environment !== "test_mode")) {
+      throw new Error('DODO_PAYMENTS_ENVIRONMENT must be either "live_mode" or "test_mode"')
+    }
+
+    dodopaymentsClient = new DodoPayments({
+      bearerToken: token,
+      environment: environment,
+    })
+  }
+
+  return dodopaymentsClient
+}
 
 export const getProducts = async (): Promise<Product[]> => {
   try {
@@ -55,11 +86,11 @@ export const getCustomerSubscriptions = async (customer_id: string): Promise<Dod
   try {
     const response = await fetch(`/api/customer/subscriptions?customer_id=${customer_id}`)
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch customer subscriptions: ${response.status} ${response.statusText}`)
-  }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch customer subscriptions: ${response.status} ${response.statusText}`)
+    }
 
-  return await response.json()
+    return await response.json()
   } catch (error) {
     console.error('Error fetching customer subscriptions:', error)
     throw error
@@ -70,11 +101,11 @@ export const getCustomerPayments = async (customer_id: string): Promise<DodoPaym
   try {
     const response = await fetch(`/api/customer/payments?customer_id=${customer_id}`)
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch customer payments: ${response.status} ${response.statusText}`)
-  }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch customer payments: ${response.status} ${response.statusText}`)
+    }
 
-  return await response.json()
+    return await response.json()
   } catch (error) {
     console.error('Error fetching customer payments:', error)
     throw error

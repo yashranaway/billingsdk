@@ -1,6 +1,6 @@
 import { Webhook } from "standardwebhooks";
 import { headers } from "next/headers";
-import { dodopaymentsClient } from "@/lib/dodopayments";
+import { getDodoPaymentsClient } from "@/lib/dodopayments";
 
 const webhook = new Webhook(process.env.DODO_PAYMENTS_WEBHOOK_KEY!);
 
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     if (payload.data.payload_type === "Subscription") {
       switch (payload.type) {
         case "subscription.active":
-          const subscription = await dodopaymentsClient.subscriptions.retrieve(payload.data.subscription_id);
+          const subscription = await getDodoPaymentsClient().subscriptions.retrieve(payload.data.subscription_id);
           console.log("-------SUBSCRIPTION DATA START ---------")
           console.log(subscription)
           console.log("-------SUBSCRIPTION DATA END ---------")
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     } else if (payload.data.payload_type === "Payment") {
         switch (payload.type) {
             case "payment.succeeded":
-              const paymentDataResp = await dodopaymentsClient.payments.retrieve(payload.data.payment_id)
+              const paymentDataResp = await getDodoPaymentsClient().payments.retrieve(payload.data.payment_id)
               console.log("-------PAYMENT DATA START ---------")
               console.log(paymentDataResp)
               console.log("-------PAYMENT DATA END ---------")

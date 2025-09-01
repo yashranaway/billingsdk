@@ -1,4 +1,4 @@
-import { dodopaymentsClient } from "@/lib/dodopayments";
+import { getDodoPaymentsClient } from "@/lib/dodopayments";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
 
         const { product_id } = validationResult.data;
 
-        const product = await dodopaymentsClient.products.retrieve(product_id);
+        const product = await getDodoPaymentsClient().products.retrieve(product_id);
         return NextResponse.json(product);
     } catch (error) {
         console.error('Error retrieving product:', error);

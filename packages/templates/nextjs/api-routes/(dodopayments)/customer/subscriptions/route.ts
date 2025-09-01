@@ -1,4 +1,4 @@
-import { dodopaymentsClient } from "@/lib/dodopayments";
+import { getDodoPaymentsClient } from "@/lib/dodopayments";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
             );
         }
 
-        const subscriptions = await dodopaymentsClient.subscriptions.list({
+        const subscriptions = await getDodoPaymentsClient().subscriptions.list({
             customer_id: validationResult.data.customer_id,
         });
 
