@@ -1,78 +1,185 @@
 # Billing SDK CLI
 
-A command-line tool for managing billing components and framework integration.
+A command-line tool for managing billing components and framework integration. Built with TypeScript and designed to work seamlessly with React and Next.js applications.
 
-## Commands
+## Installation
 
-### init
-
-Initialize a new billing project with component setup and framework integration.
+The CLI can be used directly with `npx` without installation:
 
 ```bash
-npx billingsdk init
+npx billingsdk --help
 ```
 
 This command provides two setup options:
 - **UI Components**: Sets up shadcn/ui components
 - **Framework Setup**: Configures Next.js with Dopayments integration
 
-### add
+## Quick Start
 
-Add billing components to your existing project.
+### Initialize a New Project
 
 ```bash
-npx billingsdk add <component>
+npx billingsdk init
 ```
 
-Example:
+This interactive command will:
+- Guide you through framework selection (Next.js)
+- Help you choose a payment provider (Dodo Payments)
+- Set up complete project structure with API routes
+- Install all necessary dependencies
+- Generate configuration files and boilerplate code
+
+### Add Components
+
 ```bash
-npx billingsdk add pricing-table
+# Add a pricing table
+npx billingsdk add pricing-table-one
+
+# Add subscription management
 npx billingsdk add subscription-management
+
+# Add usage monitoring
+npx billingsdk add usage-meter-circle
 ```
 
-### build
+## Commands
 
-Build the component registry for distribution.
+### `billingsdk init`
+
+Initialize a new billing project with complete setup.
+
+**Options:**
+- Interactive framework selection
+- Payment provider configuration
+- Automatic dependency installation
+- Template-based file generation
+
+**Generated Structure for Next.js (app router):**
+```
+your-project/
+├── app/api/(dodopayments)/
+│   ├── checkout/route.ts
+│   ├── customer/route.ts
+│   ├── products/route.ts
+│   └── webhook/route.ts
+├── hooks/
+│   └── useBilling.ts
+├── lib/
+│   └── dodopayments.ts
+└── .env.example
+```
+
+### `billingsdk add <component>`
+
+Add individual billing components to your existing project.
+
+**Examples:**
+```bash
+npx billingsdk add pricing-table-one
+npx billingsdk add subscription-management
+npx billingsdk add usage-meter-circle
+```
+
+
+## Configuration
+
+### Environment Variables
+
+After running `init`, configure your environment:
 
 ```bash
-npx billingsdk build
+# Copy the generated .env.example to .env.local
+cp .env.example .env.local
+
+# Add your Dodo Payments credentials
+DODO_PAYMENTS_API_KEY=your_api_key_here
+DODO_PAYMENTS_WEBHOOK_SECRET=your_webhook_secret_here
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-## Usage Examples
+### Dependencies Installed
 
-1. **Initialize a new project**:
-   ```bash
-   npx billingsdk init
-   ```
+The CLI automatically installs:
+- `dodopayments` - Payment processing library
+- `standardwebhooks` - Webhook verification
+- `zod` - TypeScript schema validation
 
-2. **Add a pricing table component**:
-   ```bash
-   npx billingsdk add pricing-table
-   ```
+## Supported Frameworks & Providers
 
-3. **Build registry for distribution**:
-   ```bash
-   npx billingsdk build
-   ```
+### Frameworks
+- ✅ **Next.js** (App Router) - Fully supported
+- 🚧 **Express.js** - Coming soon
+- 🚧 **Hono** - Coming soon
 
-## Supported Frameworks
-
-- Next.js
-
-## Supported Providers
-
-- Dopayments
+### Payment Providers
+- ✅ **Dodo Payments** - Fully supported
+- 🚧 **Stripe** - Coming soon
+- 🚧 **Additional providers** - Based on community demand
 
 ## Development
 
 ### Building the CLI
 
 ```bash
+cd packages/cli
 npm run build
 ```
 
-### Development mode
+### Development Mode
 
 ```bash
+cd packages/cli
 npm run dev
 ```
+
+## Troubleshooting
+
+### Common Issues
+
+**Command not found**
+```bash
+# Ensure you're using npx correctly
+npx billingsdk --help
+```
+
+**Permission errors**
+```bash
+# On Unix systems
+chmod +x node_modules/.bin/billingsdk
+```
+
+**Network issues**
+```bash
+# Check internet connection
+# CLI downloads templates from billingsdk.com
+```
+
+### Getting Help
+
+```bash
+# Show all commands
+npx billingsdk --help
+
+# Get help for specific command
+npx billingsdk init --help
+```
+
+## Contributing
+
+The CLI is part of the Billing SDK monorepo. See the main [CONTRIBUTING.md](../CONTRIBUTING.md) for development setup and contribution guidelines.
+
+### Adding New Commands
+
+1. Create a new command file in `src/commands/`
+2. Export the command from `src/index.ts`
+3. Update this README with documentation
+
+### Adding New Components
+
+1. Add component templates to `packages/templates/`
+2. Update the registry configuration
+3. Run `billingsdk build` to generate new registry files
+
+## License
+
+This project is licensed under the GNU General Public License (GPL). See the main [LICENSE](../LICENSE) file for details.
