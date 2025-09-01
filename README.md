@@ -51,7 +51,7 @@ Billing SDK provides production-ready UI building blocks for pricing, usage, and
 - **Multiple themes**: Classic, Minimal, and custom theme tokens
 - **Responsive by default**: Optimized for mobile, tablet, and desktop
 - **TypeScript-first**: Strongly typed props for safe composition
-- **Easy integration**: One-command install via shadcn/ui registry
+- **Easy integration**: One-command install via CLI or shadcn/ui registry
 
 ## Components
 
@@ -125,6 +125,20 @@ npm run dev
 3. Open `http://localhost:3000`
 
 ### Installation in Your Project
+
+#### Using CLI (Recommended)
+
+For complete project setup with framework integration:
+
+```bash
+# Initialize new project
+npx billingsdk init
+
+# Add individual components
+npx billingsdk add pricing-table-one
+```
+
+#### Manual Installation
 
 Add Billing SDK components to your existing shadcn/ui project:
 
