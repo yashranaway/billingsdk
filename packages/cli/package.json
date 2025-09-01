@@ -1,10 +1,14 @@
 {
   "name": "billingsdk",
   "version": "1.0.0",
+  "repository": "https://github.com/dodopayments/billingsdk",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "billingsdk": "dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
@@ -20,6 +24,7 @@
     "typescript": "^5.9.2"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0"
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12"
   }
 }
