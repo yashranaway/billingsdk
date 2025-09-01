@@ -20,7 +20,7 @@ export const initCommand = new Command()
       const provider = await select({
         message: "Which payment provider would you like to use? (Adding more providers soon)",
         options: [
-          { value: "dodopayments", label: "Dodo Payments", hint: "Modern payment processing" },
+          { value: "dodopayments", label: "Dodo Payments" },
         ],
       });
 
