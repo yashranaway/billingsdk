@@ -1,4 +1,4 @@
-import { dodopaymentsClient } from "@/lib/dodopayments";
+import { getDodoPaymentsClient } from "@/lib/dodopayments";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -33,7 +33,7 @@ export async function GET(request: Request) {
         }
 
         const { customer_id } = validationResult.data;
-        const customer = await dodopaymentsClient.customers.retrieve(customer_id);
+        const customer = await getDodoPaymentsClient().customers.retrieve(customer_id);
         return NextResponse.json(customer);
     } catch (error) {
         console.error('Error retrieving customer:', error);
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const customer = await dodopaymentsClient.customers.create(validationResult.data);
+        const customer = await getDodoPaymentsClient().customers.create(validationResult.data);
         return NextResponse.json(customer);
     } catch (error) {
         console.error('Error creating customer:', error);
@@ -90,7 +90,7 @@ export async function PUT(request: Request) {
         }
 
         const { customer_id: validCustomerId } = customerIdValidation.data;
-        const customer = await dodopaymentsClient.customers.update(validCustomerId, updateValidation.data);
+        const customer = await getDodoPaymentsClient().customers.update(validCustomerId, updateValidation.data);
         return NextResponse.json(customer);
     } catch (error) {
         console.error('Error updating customer:', error);

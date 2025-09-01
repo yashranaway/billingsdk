@@ -1,5 +1,5 @@
-import { dodopaymentsClient } from "@/lib/dodopayments";
-import DodoPayments from "dodopayments";
+import { getDodoPaymentsClient } from "@/lib/dodopayments";
+import { DodoPayments } from "dodopayments";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 
         const { productCart, customer, billing_address, return_url, customMetadata } = validationResult.data;
 
-        const session = await dodopaymentsClient.checkoutSessions.create({
+        const session = await getDodoPaymentsClient().checkoutSessions.create({
             product_cart: productCart,
             customer: customer,
             billing_address: billing_address as DodoPayments.Payments.BillingAddress,
