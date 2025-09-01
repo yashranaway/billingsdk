@@ -18,7 +18,7 @@ export function getDodoPaymentsClient(): DodoPayments {
         
         Please check:
         1. Your .env.local file exists in the project root
-        2. The file contains: DODO_PAYMENTS_API_KEY=x7PJAE6k3Xg-6bgV.BeTFL6I53w4ENoXsmIUdqmmXsgP_vnZwQBokW9rfAOTMOA5u
+        2. The file contains: DODO_PAYMENTS_API_KEY=<your-api-key>
         3. You've restarted your development server
         4. No extra quotes or spaces in the .env.local file
       `)
