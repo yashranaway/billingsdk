@@ -50,12 +50,10 @@ function ScopedThemeWrapper({
   return (
     <div 
       ref={ref}
-      className={cn(isDark ? "dark" : "", "h-full w-full")}
+      className={cn(isDark ? "dark" : "", "h-full w-full flex flex-col")}
       style={{
-
         backgroundColor: isDark ? theme.cssVars.dark['--background'] : theme.cssVars.light['--background'],
         color: isDark ? theme.cssVars.dark['--foreground'] : theme.cssVars.light['--foreground'],
-        minHeight: '100%',
         width: '100%'
       }}
     >
@@ -142,7 +140,7 @@ function PreviewPanelContent() {
       isFullscreen && "fixed inset-0 z-50"
     )}>
       
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50 flex-shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Live Preview</span>
           <div className="flex items-center gap-1 ml-2">
@@ -253,7 +251,7 @@ function PreviewPanelContent() {
 
       
       <ScopedThemeWrapper theme={currentTheme} isDark={previewDarkMode}>
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 min-h-0 overflow-auto scroll-smooth">
           <div className="min-h-full flex items-center justify-center p-4">
             {error ? (
               <div className="text-center p-8">
@@ -268,7 +266,7 @@ function PreviewPanelContent() {
             ) : Component ? (
               <div 
                 className={cn(
-                  "w-full transition-all duration-300 ease-in-out",
+                  "preview-component-wrapper w-full",
                   viewportSize === "mobile" ? "max-w-sm" : "max-w-6xl"
                 )}
                 style={{ 
@@ -276,11 +274,9 @@ function PreviewPanelContent() {
                   minHeight: viewportSize === "mobile" ? "600px" : "auto"
                 }}
               >
-                <div className="w-full h-full flex items-center justify-center">
-                  <ErrorBoundary key={refreshKey} onError={setError}>
-                    <Component key={refreshKey} {...state.props} />
-                  </ErrorBoundary>
-                </div>
+                <ErrorBoundary key={refreshKey} onError={setError}>
+                  <Component key={refreshKey} {...state.props} />
+                </ErrorBoundary>
               </div>
             ) : (
               <div className="text-center text-muted-foreground">
