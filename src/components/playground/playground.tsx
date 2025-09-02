@@ -14,11 +14,6 @@ export function Playground() {
   const [showCodePanel, setShowCodePanel] = useState(true);
   const [showPreviewPanel, setShowPreviewPanel] = useState(true);
 
-  const handleImportComponent = () => {
-    // You can implement custom import logic here
-    console.log("Import component clicked");
-  };
-
   const toggleCodePanel = () => setShowCodePanel(!showCodePanel);
   const togglePreviewPanel = () => setShowPreviewPanel(!showPreviewPanel);
 
@@ -27,7 +22,7 @@ export function Playground() {
       <PlaygroundProvider>
         <div className="flex flex-col bg-background text-foreground h-screen">
           {/* Header */}
-          <PlaygroundHeader onImportComponent={handleImportComponent} />
+          <PlaygroundHeader />
           
           {/* Panel Controls */}
           <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
