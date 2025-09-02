@@ -604,7 +604,7 @@ export const componentRegistry: ComponentConfig[] = [
     description: "Modal dialog for plan changes",
     category: "subscription",
     component: UpdatePlanDialog,
-    imports: ["@/components/billingsdk/update-plan-dialog"],
+    imports: ["@/components/billingsdk/update-plan-dialog"], 
     defaultCode: `<UpdatePlanDialog
   currentPlan="Basic"
   newPlan="Pro"
