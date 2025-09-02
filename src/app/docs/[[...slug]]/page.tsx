@@ -21,6 +21,13 @@ export default async function Page(props: {
 
   return (
     <DocsPage
+      toc={page.data.toc}
+      tableOfContent={{
+        enabled: true,
+      }}
+      tableOfContentPopover={{
+        enabled: true,
+      }}
       full={page.data.full}
       breadcrumb={{
         includePage: true,
