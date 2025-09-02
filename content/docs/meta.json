@@ -27,6 +27,7 @@
     "components/banner/index",
     "---Payment Processing---",
     "components/payment-method-selector/index",
+    "components/payment-method-manager/index",
     "---Configuration---",
     "interfaces",
     "theming"
