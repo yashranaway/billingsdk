@@ -32,14 +32,18 @@ function ScopedThemeWrapper({
   
   React.useEffect(() => {
     if (ref.current) {
-      const vars = isDark ? theme.cssVars.dark : theme.cssVars.light;
-      Object.keys(vars).forEach(key => {
-        ref.current?.style.removeProperty(key);
+      const element = ref.current;
+
+      const allVars = {...theme.cssVars.light, ...theme.cssVars.dark};
+      Object.keys(allVars).forEach(key => {
+        element.style.removeProperty(key);
       });
+
+      element.style.removeProperty('font-family');
+      element.style.removeProperty('--font-family');
+      element.style.removeProperty('--font-mono');
       
-     
-      applyScopedTheme(ref.current, theme, isDark);
-      
+      applyScopedTheme(element, theme, isDark);
     }
   }, [theme, isDark]);
   
