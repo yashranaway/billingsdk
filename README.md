@@ -131,11 +131,11 @@ npm run dev
 For complete project setup with framework integration:
 
 ```bash
-# Initialize new project
-npx billingsdk init
+# Initialize billing to a new project
+npx @billingsdk/cli init
 
 # Add individual components
-npx billingsdk add pricing-table-one
+npx @billingsdk/cli add pricing-table-one
 ```
 
 #### Manual Installation

@@ -7,7 +7,7 @@ A command-line tool for managing billing components and framework integration. B
 The CLI can be used directly with `npx` without installation:
 
 ```bash
-npx billingsdk --help
+npx @billingsdk/cli --help
 ```
 
 This command provides two setup options:
@@ -19,7 +19,7 @@ This command provides two setup options:
 ### Initialize a New Project
 
 ```bash
-npx billingsdk init
+npx @billingsdk/cli init
 ```
 
 This interactive command will:
@@ -33,18 +33,18 @@ This interactive command will:
 
 ```bash
 # Add a pricing table
-npx billingsdk add pricing-table-one
+npx @billingsdk/cli add pricing-table-one
 
 # Add subscription management
-npx billingsdk add subscription-management
+npx @billingsdk/cli add subscription-management
 
 # Add usage monitoring
-npx billingsdk add usage-meter-circle
+npx @billingsdk/cli add usage-meter-circle
 ```
 
 ## Commands
 
-### `billingsdk init`
+### `@billingsdk/cli init`
 
 Initialize a new billing project with complete setup.
 
@@ -69,15 +69,15 @@ your-project/
 └── .env.example
 ```
 
-### `billingsdk add <component>`
+### `@billingsdk/cli add <component>`
 
 Add individual billing components to your existing project.
 
 **Examples:**
 ```bash
-npx billingsdk add pricing-table-one
-npx billingsdk add subscription-management
-npx billingsdk add usage-meter-circle
+npx @billingsdk/cli add pricing-table-one
+npx @billingsdk/cli add subscription-management
+npx @billingsdk/cli add usage-meter-circle
 ```
 
 
@@ -139,29 +139,29 @@ npm run dev
 **Command not found**
 ```bash
 # Ensure you're using npx correctly
-npx billingsdk --help
+npx @billingsdk/cli --help
 ```
 
 **Permission errors**
 ```bash
 # On Unix systems
-chmod +x node_modules/.bin/billingsdk
+chmod +x node_modules/.bin/@billingsdk/cli
 ```
 
 **Network issues**
 ```bash
 # Check internet connection
-# CLI downloads templates from billingsdk.com
+# CLI downloads templates from @billingsdk/cli.com
 ```
 
 ### Getting Help
 
 ```bash
 # Show all commands
-npx billingsdk --help
+npx @billingsdk/cli --help
 
 # Get help for specific command
-npx billingsdk init --help
+npx @billingsdk/cli init --help
 ```
 
 ## Contributing
@@ -178,7 +178,7 @@ The CLI is part of the Billing SDK monorepo. See the main [CONTRIBUTING.md](../C
 
 1. Add component templates to `packages/templates/`
 2. Update the registry configuration
-3. Run `billingsdk build` to generate new registry files
+3. Run `@billingsdk/cli build` to generate new registry files
 
 ## License
 
