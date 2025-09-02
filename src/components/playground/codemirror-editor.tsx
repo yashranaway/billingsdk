@@ -4,8 +4,7 @@ import { useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { css } from "@codemirror/lang-css";
-import { oneDark } from "@codemirror/theme-one-dark";
-import { useTheme } from "@/contexts/theme-context";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 
 interface CodeMirrorEditorProps {
   value: string;
@@ -22,7 +21,6 @@ export function CodeMirrorEditor({
   height = "100%",
   readOnly = false,
 }: CodeMirrorEditorProps) {
-  const { previewDarkMode } = useTheme();
 
   const extensions = useMemo(() => {
     const exts = [];
@@ -37,8 +35,8 @@ export function CodeMirrorEditor({
   }, [language]);
 
   const theme = useMemo(() => {
-    return previewDarkMode ? oneDark : undefined;
-  }, [previewDarkMode]);
+    return vscodeDark;
+  }, []);
 
   return (
     <div style={{ height, width: "100%" }}>

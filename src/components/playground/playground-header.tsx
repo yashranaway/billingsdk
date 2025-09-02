@@ -8,7 +8,7 @@ import { Upload } from "lucide-react";
 import { usePlayground } from "./playground-context";
 import { componentRegistry } from "./component-registry";
 import { PlaygroundLogo } from "./playground-logo";
-import { ThemeSelector } from "./theme-selector";
+
 import Link from "next/link";
 
 export function PlaygroundHeader() {
@@ -116,10 +116,8 @@ export function PlaygroundHeader() {
           </Select>
         </div>
 
-        {/* Right Section - Theme Selector and Import Button */}
+        {/* Right Section - Import Button */}
         <div className="flex items-center gap-3">
-          <ThemeSelector />
-          
           <Button
             onClick={handleImportComponent}
             variant="outline"

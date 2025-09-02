@@ -13,8 +13,6 @@ export interface PlaygroundState {
   selectedComponent: ComponentConfig | null;
   code: string;
   props: Record<string, any>;
-  theme: string;
-  isDarkMode: boolean;
   styles: string;
 }
 
