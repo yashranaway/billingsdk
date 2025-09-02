@@ -3,6 +3,61 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { ComponentConfig, PlaygroundState } from "./types";
 
+function parseJSXProps(code: string): Record<string, any> {
+  try {
+    const jsxMatch = code.match(/<(\w+)([^>]*)>/);
+    if (!jsxMatch) return {};
+
+    const propsString = jsxMatch[2];
+    const props: Record<string, any> = {};
+    const propRegex = /(\w+)=({[^}]*}|"[^"]*"|'[^']*'|\w+)/g;
+    let match;
+
+    while ((match = propRegex.exec(propsString)) !== null) {
+      const [, propName, propValue] = match;
+      
+      try {
+
+        if (propValue.startsWith('{') && propValue.endsWith('}')) {
+
+          const innerValue = propValue.slice(1, -1);
+          if (innerValue.includes('=>') || innerValue.includes('function')) {
+
+            props[propName] = () => console.log(`${propName} called`);
+          } else if (innerValue.includes('{') && innerValue.includes('}')) {
+            try {
+              props[propName] = eval(`(${innerValue})`);
+            } catch {
+              props[propName] = {};
+            }
+          } else {
+
+            try {
+              props[propName] = eval(innerValue);
+            } catch {
+              props[propName] = innerValue;
+            }
+          }
+        } else if (propValue.startsWith('"') || propValue.startsWith("'")) {
+          props[propName] = propValue.slice(1, -1);
+        } else {
+          if (propValue === 'true') props[propName] = true;
+          else if (propValue === 'false') props[propName] = false;
+          else if (!isNaN(Number(propValue))) props[propName] = Number(propValue);
+          else props[propName] = propValue;
+        }
+      } catch {
+        props[propName] = propValue;
+      }
+    }
+
+    return props;
+  } catch (error) {
+    console.warn("Error parsing JSX props:", error);
+    return {};
+  }
+}
+
 interface PlaygroundContextType {
   state: PlaygroundState;
   setSelectedComponent: (component: ComponentConfig) => void;
@@ -35,10 +90,25 @@ export function PlaygroundProvider({ children }: { children: ReactNode }) {
 
   const updateCode = useCallback((code: string) => {
     setState((prev: PlaygroundState) => ({ ...prev, code }));
+    
+
+    try {
+      const props = parseJSXProps(code);
+      if (props && Object.keys(props).length > 0) {
+        setState((prev: PlaygroundState) => ({ 
+          ...prev, 
+          code,
+          props: { ...prev.props, ...props }
+        }));
+      }
+    } catch (error) {
+
+      console.warn("Failed to parse JSX props:", error);
+    }
   }, []);
 
   const updateProps = useCallback((props: Record<string, any>) => {
-    // Filter out undefined values to prevent component errors
+
     const filteredProps = Object.fromEntries(
       Object.entries(props).filter(([_, value]) => value !== undefined)
     );

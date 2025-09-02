@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { FileTabs, FileTab } from "./file-tabs";
@@ -14,6 +14,15 @@ export function AdvancedCodeEditor() {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const debouncedUpdateCode = useCallback((code: string) => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    debounceTimeoutRef.current = setTimeout(() => {
+      updateCode(code);
+    }, 500);
+  }, [updateCode]);
 
   const tabs: FileTab[] = [
     {
@@ -41,6 +50,14 @@ export function AdvancedCodeEditor() {
     }
   }, [state.selectedComponent, state.code]);
 
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleEdit = () => {
     setIsEditing(true);
     setEditValue(activeTabContent);
@@ -54,6 +71,15 @@ export function AdvancedCodeEditor() {
       updateCode(editValue);
     }
     setIsEditing(false);
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    setEditValue(newValue);
+    
+    if (activeTab === "page.tsx") {
+      debouncedUpdateCode(newValue);
+    }
   };
 
   const handleCancel = () => {
@@ -152,7 +178,7 @@ export function AdvancedCodeEditor() {
             <textarea
               ref={textareaRef}
               value={editValue}
-              onChange={(e) => setEditValue(e.target.value)}
+              onChange={handleTextareaChange}
               className="w-full h-full bg-muted text-foreground font-mono text-sm p-4 border border-border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring"
               placeholder="Enter your code here..."
               spellCheck={false}
