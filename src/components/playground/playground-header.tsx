@@ -4,12 +4,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import {  Download, Sun, Moon } from "lucide-react";
+import {  Download } from "lucide-react";
 import { usePlayground } from "./playground-context";
-import { useTheme } from "@/contexts/theme-context";
 import { componentRegistry } from "./component-registry";
 import { PlaygroundLogo } from "./playground-logo";
-import { cn } from "@/lib/utils";
+import { ThemeSelector } from "./theme-selector";
 import Link from "next/link";
 
 interface PlaygroundHeaderProps {
@@ -18,7 +17,6 @@ interface PlaygroundHeaderProps {
 
 export function PlaygroundHeader({ onImportComponent }: PlaygroundHeaderProps) {
   const { state, setSelectedComponent } = usePlayground();
-  const { previewDarkMode, setPreviewDarkMode } = useTheme();
   const [selectedCategory] = useState<string>("all");
 
   const categories = [
@@ -90,27 +88,10 @@ export function PlaygroundHeader({ onImportComponent }: PlaygroundHeaderProps) {
           </Select>
         </div>
 
-        {/* Right Section - Dark Mode Toggle and Import Button */}
+        {/* Right Section - Theme Selector and Import Button */}
         <div className="flex items-center gap-3">
-          {/* Dark Mode Toggle */}
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPreviewDarkMode(!previewDarkMode)}
-              className={cn(
-                "h-8 w-8 p-0",
-                previewDarkMode ? "bg-accent text-accent-foreground" : ""
-              )}
-            >
-              {previewDarkMode ? (
-                <Moon className="h-4 w-4" />
-              ) : (
-                <Sun className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-
+          <ThemeSelector />
+          
           <Button
             onClick={handleImportComponent}
             variant="outline"

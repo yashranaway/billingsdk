@@ -15,6 +15,7 @@ export interface PlaygroundState {
   props: Record<string, any>;
   theme: string;
   isDarkMode: boolean;
+  styles: string;
 }
 
 export interface PropField {

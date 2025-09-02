@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { vscDarkPlus, vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { FileTabs, FileTab } from "./file-tabs";
 import { usePlayground } from "./playground-context";
 import { useTheme } from "@/contexts/theme-context";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, Download, RotateCcw, Save } from "lucide-react";
 
 export function AdvancedCodeEditor() {
-  const { state, updateCode, copyCode } = usePlayground();
+  const { state, updateCode, copyCode, updateStyles } = usePlayground();
   const { previewDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState("page.tsx");
   const [isEditing, setIsEditing] = useState(false);
@@ -36,10 +36,7 @@ export function AdvancedCodeEditor() {
     {
       id: "styles.css",
       name: "styles.css",
-      content: `/* Component styles */
-.component-container {
-  /* Add your custom styles here */
-}`,
+      content: state.styles,
       language: "css",
     },
   ];
@@ -71,6 +68,8 @@ export function AdvancedCodeEditor() {
   const handleSave = () => {
     if (activeTab === "page.tsx") {
       updateCode(editValue);
+    } else if (activeTab === "styles.css") {
+      updateStyles(editValue);
     }
     setIsEditing(false);
   };
@@ -81,6 +80,8 @@ export function AdvancedCodeEditor() {
     
     if (activeTab === "page.tsx") {
       debouncedUpdateCode(newValue);
+    } else if (activeTab === "styles.css") {
+      updateStyles(newValue);
     }
   };
 
@@ -189,17 +190,24 @@ export function AdvancedCodeEditor() {
         ) : (
           <SyntaxHighlighter
             language={activeTab === "page.tsx" ? "tsx" : "css"}
-            style={previewDarkMode ? oneDark : oneLight}
+            style={previewDarkMode ? vscDarkPlus : vs}
             customStyle={{
               margin: 0,
               borderRadius: 0,
               fontSize: "14px",
-              lineHeight: "1.5",
-              background: previewDarkMode ? "#1a1a1a" : "#ffffff",
+              lineHeight: "1.6",
+              background: previewDarkMode ? "#1e1e1e" : "#ffffff",
               padding: "1rem",
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
             }}
             showLineNumbers
             wrapLines
+            wrapLongLines
+            lineNumberStyle={{
+              color: previewDarkMode ? "#858585" : "#237893",
+              marginRight: "1rem",
+              minWidth: "3ch",
+            }}
           >
             {activeTabContent}
           </SyntaxHighlighter>

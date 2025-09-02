@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import { ComponentConfig, PlaygroundState } from "./types";
+import { Theme } from "@/lib/themes";
 
 function parseJSXProps(code: string): Record<string, any> {
   try {
@@ -66,6 +67,9 @@ interface PlaygroundContextType {
   resetToDefault: () => void;
   exportCode: () => string;
   copyCode: () => Promise<void>;
+  updateStyles: (styles: string) => void;
+  setTheme: (theme: Theme) => void;
+  setDarkMode: (isDark: boolean) => void;
 }
 
 const PlaygroundContext = createContext<PlaygroundContextType | undefined>(undefined);
@@ -77,6 +81,10 @@ export function PlaygroundProvider({ children }: { children: ReactNode }) {
     props: {},
     theme: "default",
     isDarkMode: true,
+    styles: `/* Component styles */
+.component-container {
+  /* Add your custom styles here */
+}`,
   });
 
   const setSelectedComponent = useCallback((component: ComponentConfig) => {
@@ -138,6 +146,18 @@ export function PlaygroundProvider({ children }: { children: ReactNode }) {
     }
   }, [state.code]);
 
+  const updateStyles = useCallback((styles: string) => {
+    setState((prev: PlaygroundState) => ({ ...prev, styles }));
+  }, []);
+
+  const setTheme = useCallback((theme: Theme) => {
+    setState((prev: PlaygroundState) => ({ ...prev, theme: theme.name }));
+  }, []);
+
+  const setDarkMode = useCallback((isDark: boolean) => {
+    setState((prev: PlaygroundState) => ({ ...prev, isDarkMode: isDark }));
+  }, []);
+
   const value: PlaygroundContextType = {
     state,
     setSelectedComponent,
@@ -146,6 +166,9 @@ export function PlaygroundProvider({ children }: { children: ReactNode }) {
     resetToDefault,
     exportCode,
     copyCode,
+    updateStyles,
+    setTheme,
+    setDarkMode,
   };
 
   return (

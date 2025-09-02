@@ -35,7 +35,7 @@ export function PreviewPanel() {
     }
   }, [previewDarkMode]);
 
-  // Apply theme CSS variables
+  // Apply theme CSS variables and custom styles
   useEffect(() => {
     const root = document.documentElement;
     const cssVars = previewDarkMode ? currentTheme.cssVars.dark : currentTheme.cssVars.light;
@@ -43,7 +43,16 @@ export function PreviewPanel() {
     Object.entries(cssVars).forEach(([property, value]) => {
       root.style.setProperty(property, value);
     });
-  }, [currentTheme, previewDarkMode]);
+
+    // Apply custom styles
+    let styleElement = document.getElementById('playground-custom-styles');
+    if (!styleElement) {
+      styleElement = document.createElement('style');
+      styleElement.id = 'playground-custom-styles';
+      document.head.appendChild(styleElement);
+    }
+    styleElement.textContent = state.styles;
+  }, [currentTheme, previewDarkMode, state.styles]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
