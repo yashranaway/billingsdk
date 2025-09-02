@@ -24,7 +24,7 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
     const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined)
 
     const getCurrentPrice = (plan: Plan) =>
-        isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`
+        isYearly ? `${plan?.yearlyPrice || '0'}` : `${plan?.monthlyPrice || '0'}`
 
     const handlePlanChange = (planId: string) => {
         setSelectedPlan(planId)
@@ -57,7 +57,7 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
             <CardContent className="space-y-3">
                 <RadioGroup value={selectedPlan} onValueChange={handlePlanChange}>
                     <AnimatePresence mode="wait">
-                        {plans.map((plan) => (
+                        {plans?.map((plan) => (
                             <motion.div
                                 key={plan.id}
                                 onClick={() => handlePlanChange(plan.id)}
@@ -79,16 +79,16 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
                                                     htmlFor={plan.id}
                                                     className="font-medium cursor-pointer"
                                                 >
-                                                    {plan.title}
+                                                    {plan?.title || 'Unknown Plan'}
                                                 </Label>
-                                                {plan.badge && (
+                                                {plan?.badge && (
                                                     <Badge variant="secondary" className="flex-shrink-0">{plan.badge}</Badge>
                                                 )}
                                             </div>
                                             <p className="text-xs text-muted-foreground mt-1">
-                                                {plan.description}
+                                                {plan?.description || 'No description available'}
                                             </p>
-                                            {plan.features.length > 0 && (
+                                            {plan?.features?.length > 0 && (
                                                 <div className="pt-3">
                                                     <div className="flex flex-wrap gap-2">
                                                         {plan.features.map((feature, featureIndex) => (
@@ -98,7 +98,7 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
                                                             >
                                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                                                                 <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                                                    {feature.name}
+                                                                    {feature?.name || 'Feature'}
                                                                 </span>
                                                             </div>
                                                         ))}
@@ -110,9 +110,9 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
                                     <div className="text-right flex-shrink-0">
                                         <div className="text-xl font-semibold">
                                             {
-                                                parseFloat(getCurrentPrice(plan)) >= 0 ?
-                                                    `${plan.currency}${getCurrentPrice(plan)}` :
-                                                    getCurrentPrice(plan)
+                                                plan?.monthlyPrice && parseFloat(getCurrentPrice(plan)) >= 0 ?
+                                                    `${plan.currency || '$'}${getCurrentPrice(plan)}` :
+                                                    getCurrentPrice(plan) || 'N/A'
                                             }
                                         </div>
                                         <div className="text-xs text-muted-foreground">
@@ -129,16 +129,20 @@ export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, ti
                                             transition={{ duration: 0.3, ease: "easeOut" }}
                                         >
                                             <Button className="w-full mt-4"
-                                                disabled={selectedPlan === currentPlan.id}
+                                                disabled={selectedPlan === currentPlan?.id}
                                                 onClick={() => {
                                                     onPlanChange(plan.id)
                                                 }}
-                                            >{selectedPlan === currentPlan.id ? "Current Plan" : "Upgrade"}</Button>
+                                            >{selectedPlan === currentPlan?.id ? "Current Plan" : "Upgrade"}</Button>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
                             </motion.div>
-                        ))}
+                        )) || (
+                            <div className="p-4 text-center text-muted-foreground">
+                                No plans available
+                            </div>
+                        )}
                     </AnimatePresence>
                 </RadioGroup>
             </CardContent>

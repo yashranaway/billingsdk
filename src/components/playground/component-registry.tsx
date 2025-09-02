@@ -560,18 +560,44 @@ export const componentRegistry: ComponentConfig[] = [
     component: CancelSubscriptionDialog,
     imports: ["@/components/billingsdk/cancel-subscription-dialog"],
     defaultCode: `<CancelSubscriptionDialog
-  planName="Pro Plan"
-  nextBillingDate="March 15, 2024"
-  amount="$29.00"
-  onCancel={() => console.log("Subscription cancelled")}
-  onKeep={() => console.log("Subscription kept")}
+  title="Cancel Subscription"
+  description="Are you sure you want to cancel your subscription?"
+  plan={{
+    id: "pro",
+    title: "Pro",
+    description: "For companies adding collaboration in production.",
+    currency: "$",
+    monthlyPrice: "20",
+    yearlyPrice: "199",
+    buttonText: "Sign up",
+    features: [
+      { name: "Presence", icon: "check", iconColor: "text-green-500" },
+      { name: "Comments", icon: "check", iconColor: "text-orange-500" },
+      { name: "Notifications", icon: "check", iconColor: "text-teal-500" }
+    ]
+  }}
+  onCancel={(planId) => console.log("Subscription cancelled for plan:", planId)}
+  onKeepSubscription={(planId) => console.log("Subscription kept for plan:", planId)}
 />`,
     defaultProps: {
-      planName: "Pro Plan",
-      nextBillingDate: "March 15, 2024",
-      amount: "$29.00",
-      onCancel: () => console.log("Subscription cancelled"),
-      onKeep: () => console.log("Subscription kept"),
+      title: "Cancel Subscription",
+      description: "Are you sure you want to cancel your subscription?",
+      plan: {
+        id: "pro",
+        title: "Pro",
+        description: "For companies adding collaboration in production.",
+        currency: "$",
+        monthlyPrice: "20",
+        yearlyPrice: "199",
+        buttonText: "Sign up",
+        features: [
+          { name: "Presence", icon: "check", iconColor: "text-green-500" },
+          { name: "Comments", icon: "check", iconColor: "text-orange-500" },
+          { name: "Notifications", icon: "check", iconColor: "text-teal-500" }
+        ]
+      },
+      onCancel: (planId: string) => console.log("Subscription cancelled for plan:", planId),
+      onKeepSubscription: (planId: string) => console.log("Subscription kept for plan:", planId),
     },
   },
   {
@@ -582,20 +608,66 @@ export const componentRegistry: ComponentConfig[] = [
     component: UpdatePlanCard,
     imports: ["@/components/billingsdk/update-plan-card"],
     defaultCode: `<UpdatePlanCard
-  currentPlan="Basic"
-  newPlan="Pro"
-  currentPrice="$19"
-  newPrice="$49"
-  onUpdate={() => console.log("Plan updated")}
-  onCancel={() => console.log("Update cancelled")}
+  currentPlan={{
+    id: "starter",
+    title: "Starter",
+    description: "For developers testing out Liveblocks locally.",
+    currency: "$",
+    monthlyPrice: "0",
+    yearlyPrice: "0",
+    buttonText: "Start today for free",
+    features: [
+      { name: "Presence", icon: "check", iconColor: "text-green-500" },
+      { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+    ]
+  }}
+  plans={[
+    {
+      id: "pro",
+      title: "Pro",
+      description: "For companies adding collaboration in production.",
+      currency: "$",
+      monthlyPrice: "20",
+      yearlyPrice: "199",
+      buttonText: "Sign up",
+      features: [
+        { name: "Presence", icon: "check", iconColor: "text-green-500" },
+        { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+      ]
+    }
+  ]}
+  onPlanChange={(planId) => console.log("Plan changed to:", planId)}
 />`,
     defaultProps: {
-      currentPlan: "Basic",
-      newPlan: "Pro",
-      currentPrice: "$19",
-      newPrice: "$49",
-      onUpdate: () => console.log("Plan updated"),
-      onCancel: () => console.log("Update cancelled"),
+      currentPlan: {
+        id: "starter",
+        title: "Starter",
+        description: "For developers testing out Liveblocks locally.",
+        currency: "$",
+        monthlyPrice: "0",
+        yearlyPrice: "0",
+        buttonText: "Start today for free",
+        features: [
+          { name: "Presence", icon: "check", iconColor: "text-green-500" },
+          { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+        ]
+      },
+      plans: [
+        {
+          id: "pro",
+          title: "Pro",
+          description: "For companies adding collaboration in production.",
+          currency: "$",
+          monthlyPrice: "20",
+          yearlyPrice: "199",
+          buttonText: "Sign up",
+          features: [
+            { name: "Presence", icon: "check", iconColor: "text-green-500" },
+            { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+          ]
+        }
+      ],
+      onPlanChange: (planId: string) => console.log("Plan changed to:", planId),
     },
   },
   {
@@ -606,20 +678,68 @@ export const componentRegistry: ComponentConfig[] = [
     component: UpdatePlanDialog,
     imports: ["@/components/billingsdk/update-plan-dialog"], 
     defaultCode: `<UpdatePlanDialog
-  currentPlan="Basic"
-  newPlan="Pro"
-  currentPrice="$19"
-  newPrice="$49"
-  onUpdate={() => console.log("Plan updated")}
-  onCancel={() => console.log("Update cancelled")}
+  currentPlan={{
+    id: "starter",
+    title: "Starter",
+    description: "For developers testing out Liveblocks locally.",
+    currency: "$",
+    monthlyPrice: "0",
+    yearlyPrice: "0",
+    buttonText: "Start today for free",
+    features: [
+      { name: "Presence", icon: "check", iconColor: "text-green-500" },
+      { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+    ]
+  }}
+  plans={[
+    {
+      id: "pro",
+      title: "Pro",
+      description: "For companies adding collaboration in production.",
+      currency: "$",
+      monthlyPrice: "20",
+      yearlyPrice: "199",
+      buttonText: "Sign up",
+      features: [
+        { name: "Presence", icon: "check", iconColor: "text-green-500" },
+        { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+      ]
+    }
+  ]}
+  triggerText="Change Plan"
+  onPlanChange={(planId) => console.log("Plan changed to:", planId)}
 />`,
     defaultProps: {
-      currentPlan: "Basic",
-      newPlan: "Pro",
-      currentPrice: "$19",
-      newPrice: "$49",
-      onUpdate: () => console.log("Plan updated"),
-      onCancel: () => console.log("Update cancelled"),
+      currentPlan: {
+        id: "starter",
+        title: "Starter",
+        description: "For developers testing out Liveblocks locally.",
+        currency: "$",
+        monthlyPrice: "0",
+        yearlyPrice: "0",
+        buttonText: "Start today for free",
+        features: [
+          { name: "Presence", icon: "check", iconColor: "text-green-500" },
+          { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+        ]
+      },
+      plans: [
+        {
+          id: "pro",
+          title: "Pro",
+          description: "For companies adding collaboration in production.",
+          currency: "$",
+          monthlyPrice: "20",
+          yearlyPrice: "199",
+          buttonText: "Sign up",
+          features: [
+            { name: "Presence", icon: "check", iconColor: "text-green-500" },
+            { name: "Comments", icon: "check", iconColor: "text-orange-500" }
+          ]
+        }
+      ],
+      triggerText: "Change Plan",
+      onPlanChange: (planId: string) => console.log("Plan changed to:", planId),
     },
   },
   {

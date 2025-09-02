@@ -316,10 +316,10 @@ export function PricingTableTwo({
     return Math.round(discount);
   }
 
-  const yearlyPriceDiscount = plans.length
+  const yearlyPriceDiscount = plans?.length
     ? Math.max(
       ...plans.map((plan) =>
-        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+        calculateDiscount(plan?.monthlyPrice || '0', plan?.yearlyPrice || '0')
       )
     )
     : 0;
@@ -400,7 +400,7 @@ export function PricingTableTwo({
           plans.length === 2 && "flex-col md:flex-row max-w-4xl mx-auto",
           plans.length >= 3 && "flex-col lg:flex-row max-w-7xl mx-auto"
         )}>
-          {plans.map((plan: Plan, index: number) => (
+          {plans?.map((plan: Plan, index: number) => (
             <motion.div
               key={plan.id}
               className={cn(
@@ -516,7 +516,7 @@ export function PricingTableTwo({
             <TableHeader>
               <TableRow className={cn(theme === "classic" && "border-border/30")}>
                 <TableHead className={firstColWidthVariants({ size })}></TableHead>
-                {plans.map((plan: Plan) => (
+                {plans?.map((plan: Plan) => (
                   <TableHead key={plan.id} className={cn(
                     "text-center font-bold text-primary",
                     theme === "classic" && "text-lg"
@@ -529,9 +529,9 @@ export function PricingTableTwo({
             <TableBody>
               {(() => {
                 const allFeatures = new Set<string>();
-                plans.forEach(plan => {
-                  plan.features.forEach(feature => {
-                    allFeatures.add(feature.name);
+                plans?.forEach(plan => {
+                  plan?.features?.forEach(feature => {
+                    allFeatures.add(feature?.name || '');
                   });
                 });
                 return Array.from(allFeatures).map((featureName, featureIndex) => (
@@ -544,8 +544,8 @@ export function PricingTableTwo({
                     )}>
                       {featureName}
                     </TableCell>
-                    {plans.map((plan: Plan) => {
-                      const feature = plan.features.find(f => f.name === featureName);
+                    {plans?.map((plan: Plan) => {
+                      const feature = plan?.features?.find(f => f?.name === featureName);
                       return (
                         <TableCell key={plan.id} className="text-center">
                           {feature ? (

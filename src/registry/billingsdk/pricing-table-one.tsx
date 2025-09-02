@@ -218,10 +218,10 @@ export function PricingTableOne({
     return Math.round(discount);
   }
 
-  const yearlyPriceDiscount = plans.length
+  const yearlyPriceDiscount = plans?.length
     ? Math.max(
       ...plans.map((plan) =>
-        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+        calculateDiscount(plan?.monthlyPrice || '0', plan?.yearlyPrice || '0')
       )
     )
     : 0;
@@ -296,7 +296,7 @@ export function PricingTableOne({
           </div>
 
           <div className="flex w-full flex-col items-stretch gap-6 md:flex-row md:items-stretch">
-            {plans.map((plan, index) => (
+            {plans?.map((plan, index) => (
               <motion.div
                 key={plan.id}
                 layout
@@ -382,7 +382,7 @@ export function PricingTableOne({
                 
                 <div className="flex h-full flex-col justify-between gap-10">
                   <ul className="text-muted-foreground space-y-4">
-                    {plan.features.map((feature, featureIndex) => (
+                    {plan?.features?.map((feature, featureIndex) => (
                       <motion.li 
                         key={featureIndex} 
                         className="flex items-center gap-3"
@@ -415,7 +415,11 @@ export function PricingTableOne({
                   </Button>
                 </div>
               </motion.div>
-            ))}
+            )) || (
+              <div className="p-8 text-center text-muted-foreground">
+                No plans available
+              </div>
+            )}
           </div>
         </div>
       </div>

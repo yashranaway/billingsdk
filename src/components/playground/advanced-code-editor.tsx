@@ -8,6 +8,7 @@ import { usePlayground } from "./playground-context";
 import { useTheme } from "@/contexts/theme-context";
 import { Button } from "@/components/ui/button";
 import { Copy, Download, RotateCcw, Save } from "lucide-react";
+import { MonacoEditor } from "./monaco-editor";
 
 export function AdvancedCodeEditor() {
   const { state, updateCode, copyCode, updateStyles } = usePlayground();
@@ -15,7 +16,6 @@ export function AdvancedCodeEditor() {
   const [activeTab, setActiveTab] = useState("page.tsx");
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const debouncedUpdateCode = useCallback((code: string) => {
     if (debounceTimeoutRef.current) {
@@ -60,9 +60,6 @@ export function AdvancedCodeEditor() {
   const handleEdit = () => {
     setIsEditing(true);
     setEditValue(activeTabContent);
-    setTimeout(() => {
-      textareaRef.current?.focus();
-    }, 0);
   };
 
   const handleSave = () => {
@@ -74,8 +71,7 @@ export function AdvancedCodeEditor() {
     setIsEditing(false);
   };
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
+  const handleEditorChange = (newValue: string) => {
     setEditValue(newValue);
     
     if (activeTab === "page.tsx") {
@@ -175,18 +171,15 @@ export function AdvancedCodeEditor() {
       </div>
 
       {/* Code Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-hidden">
         {isEditing ? (
-          <div className="p-4 h-full">
-            <textarea
-              ref={textareaRef}
-              value={editValue}
-              onChange={handleTextareaChange}
-              className="w-full h-full bg-muted text-foreground font-mono text-sm p-4 border border-border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring"
-              placeholder="Enter your code here..."
-              spellCheck={false}
-            />
-          </div>
+          <MonacoEditor
+            value={editValue}
+            onChange={handleEditorChange}
+            language={activeTab === "page.tsx" ? "tsx" : "css"}
+            height="100%"
+            readOnly={false}
+          />
         ) : (
           <SyntaxHighlighter
             language={activeTab === "page.tsx" ? "tsx" : "css"}
