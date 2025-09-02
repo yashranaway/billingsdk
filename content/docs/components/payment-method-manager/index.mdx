@@ -3,8 +3,6 @@ title: Payment Method Manager
 description: The Payment Method Manager component provides a PCI-compliant UI for managing billing payment methods. Uses redirect-to-gateway approach for secure add/edit operations with no direct handling of sensitive data.
 ---
 
-import { PaymentMethodManagerDemo } from '@/registry/billingsdk/demo/payment-method-manager-demo';
-
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
     <PreviewComponents registryName="payment-method-manager">
@@ -13,61 +11,8 @@ import { PaymentMethodManagerDemo } from '@/registry/billingsdk/demo/payment-met
   </Tab>
 
   <Tab value="Code" className="mt-3">
-    ```tsx title="src/registry/billingsdk/demo/payment-method-manager-demo.tsx"
-    'use client'
-
-    import { useState } from 'react';
-    import { PaymentMethodManager, type PaymentMethod } from '@/registry/billingsdk/payment-method-manager';
-
-    export function PaymentMethodManagerDemo() {
-        const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
-            {
-                id: 'pm_1',
-                type: 'credit',
-                last4: '4242',
-                expiry: '12/25',
-                isDefault: true,
-            },
-            {
-                id: 'pm_2',
-                type: 'ach',
-                last4: '1234',
-                isDefault: false,
-                routing: '021000021',
-            },
-        ]);
-
-        const handleAddPaymentMethod = (method: PaymentMethod) => {
-            setPaymentMethods([...paymentMethods, method]);
-        };
-
-        const handleEditPaymentMethod = (method: PaymentMethod) => {
-            setPaymentMethods(paymentMethods.map(pm => pm.id === method.id ? method : pm));
-        };
-
-        const handleRemovePaymentMethod = (id: string) => {
-            setPaymentMethods(paymentMethods.filter(pm => pm.id !== id));
-        };
-
-        const handleSetDefaultPaymentMethod = (id: string) => {
-            setPaymentMethods(paymentMethods.map(pm => ({ ...pm, isDefault: pm.id === id })));
-        };
-
-        return (
-            <div className="flex flex-1 flex-col justify-center text-center">
-                <PaymentMethodManager
-                    className="max-w-4xl mx-auto"
-                    paymentMethods={paymentMethods}
-                    onAdd={handleAddPaymentMethod}
-                    onEdit={handleEditPaymentMethod}
-                    onRemove={handleRemovePaymentMethod}
-                    onSetDefault={handleSetDefaultPaymentMethod}
-                />
-            </div>
-        );
-    }
-    ```
-  </Tab>
+  <include cwd lang="tsx" meta='title="src/components/payment-method-manager-demo.tsx"'>src/components/payment-method-manager-demo.tsx</include>
+ </Tab>
 </Tabs>
 
 ## Installation
@@ -95,7 +40,7 @@ import { PaymentMethodManagerDemo } from '@/registry/billingsdk/demo/payment-met
 ## Usage
 
 ```tsx
-import { PaymentMethodManager, type PaymentMethod } from "@/registry/billingsdk/payment-method-manager";
+import { PaymentMethodManager, type PaymentMethod } from "@/components/billingsdk/payment-method-manager";
 ```
 
 ```tsx
@@ -163,57 +108,4 @@ The Payment Method Manager component is styled using the `shadcn/ui` library. Yo
 
 ## Example
 
-```tsx title="src/registry/billingsdk/demo/payment-method-manager-demo.tsx"
-'use client'
-
-import { useState } from 'react';
-import { PaymentMethodManager, type PaymentMethod } from '@/registry/billingsdk/payment-method-manager';
-
-export function PaymentMethodManagerDemo() {
-    const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
-        {
-            id: 'pm_1',
-            type: 'credit',
-            last4: '4242',
-            expiry: '12/25',
-            isDefault: true,
-        },
-        {
-            id: 'pm_2',
-            type: 'ach',
-            last4: '1234',
-            isDefault: false,
-            routing: '021000021',
-        },
-    ]);
-
-    const handleAddPaymentMethod = (method: PaymentMethod) => {
-        setPaymentMethods([...paymentMethods, method]);
-    };
-
-    const handleEditPaymentMethod = (method: PaymentMethod) => {
-        setPaymentMethods(paymentMethods.map(pm => pm.id === method.id ? method : pm));
-    };
-
-    const handleRemovePaymentMethod = (id: string) => {
-        setPaymentMethods(paymentMethods.filter(pm => pm.id !== id));
-    };
-
-    const handleSetDefaultPaymentMethod = (id: string) => {
-        setPaymentMethods(paymentMethods.map(pm => ({ ...pm, isDefault: pm.id === id })));
-    };
-
-    return (
-        <div className="flex flex-1 flex-col justify-center text-center">
-            <PaymentMethodManager
-                className="max-w-4xl mx-auto"
-                paymentMethods={paymentMethods}
-                onAdd={handleAddPaymentMethod}
-                onEdit={handleEditPaymentMethod}
-                onRemove={handleRemovePaymentMethod}
-                onSetDefault={handleSetDefaultPaymentMethod}
-            />
-        </div>
-    );
-}
-```
+<include cwd lang="tsx" meta='title="src/components/payment-method-manager-demo.tsx"'>src/components/payment-method-manager-demo.tsx</include>
