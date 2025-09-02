@@ -89,9 +89,11 @@ export function PlaygroundHeader() {
           {/* Component Selector */}
           <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange}>
             <SelectTrigger className="w-64">
-              <SelectValue placeholder="Select a component" />
+              <SelectValue placeholder="Select a component">
+                {state.selectedComponent?.name || "Select a component"}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent className="w-96 min-w-96 max-h-96 overflow-y-auto">
+            <SelectContent className="w-64 min-w-64 max-h-96 overflow-y-auto">
               {categories.map(category => (
                 <div key={category.id}>
                   <div className="px-3 py-2 text-sm font-semibold text-foreground bg-muted/50 border-b border-border">
@@ -103,14 +105,9 @@ export function PlaygroundHeader() {
                       <SelectItem 
                         key={component.id} 
                         value={component.id}
-                        className="px-3 py-3"
+                        className="px-3 py-2"
                       >
-                        <div className="flex flex-col w-full">
-                          <span className="font-medium text-sm">{component.name}</span>
-                          <span className="text-xs text-muted-foreground leading-relaxed break-words">
-                            {component.description}
-                          </span>
-                        </div>
+                        <span className="font-medium text-sm">{component.name}</span>
                       </SelectItem>
                     ))}
                 </div>
