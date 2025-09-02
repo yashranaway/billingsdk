@@ -2,14 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { FileTabs, FileTab } from "./file-tabs";
 import { usePlayground } from "./playground-context";
+import { useTheme } from "@/contexts/theme-context";
 import { Button } from "@/components/ui/button";
 import { Copy, Download, RotateCcw, Save } from "lucide-react";
 
 export function AdvancedCodeEditor() {
   const { state, updateCode, copyCode } = usePlayground();
+  const { previewDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState("page.tsx");
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
@@ -187,13 +189,13 @@ export function AdvancedCodeEditor() {
         ) : (
           <SyntaxHighlighter
             language={activeTab === "page.tsx" ? "tsx" : "css"}
-            style={oneDark}
+            style={previewDarkMode ? oneDark : oneLight}
             customStyle={{
               margin: 0,
               borderRadius: 0,
               fontSize: "14px",
               lineHeight: "1.5",
-              background: "#1a1a1a",
+              background: previewDarkMode ? "#1a1a1a" : "#ffffff",
               padding: "1rem",
             }}
             showLineNumbers

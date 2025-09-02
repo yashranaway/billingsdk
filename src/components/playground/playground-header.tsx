@@ -62,7 +62,7 @@ export function PlaygroundHeader({ onImportComponent }: PlaygroundHeaderProps) {
             <SelectTrigger className="w-64">
               <SelectValue placeholder="Select a component" />
             </SelectTrigger>
-            <SelectContent className="w-80 min-w-80 max-h-96 overflow-y-auto">
+            <SelectContent className="w-96 min-w-96 max-h-96 overflow-y-auto">
               {categories.map(category => (
                 <div key={category.id}>
                   <div className="px-3 py-2 text-sm font-semibold text-foreground bg-muted/50 border-b border-border">
@@ -74,11 +74,11 @@ export function PlaygroundHeader({ onImportComponent }: PlaygroundHeaderProps) {
                       <SelectItem 
                         key={component.id} 
                         value={component.id}
-                        className="px-3 py-2"
+                        className="px-3 py-3"
                       >
-                        <div className="flex flex-col">
-                          <span className="font-medium">{component.name}</span>
-                          <span className="text-xs text-muted-foreground">
+                        <div className="flex flex-col w-full">
+                          <span className="font-medium text-sm">{component.name}</span>
+                          <span className="text-xs text-muted-foreground leading-relaxed break-words">
                             {component.description}
                           </span>
                         </div>
