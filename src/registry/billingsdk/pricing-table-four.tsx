@@ -161,7 +161,6 @@ export interface PricingTableFourProps extends VariantProps<typeof sectionVarian
   subtitle?: string;
   onPlanSelect?: (planId: string) => void;
   className?: string;
-  theme?: "minimal" | "classic";
   showBillingToggle?: boolean;
   billingToggleLabels?: {
     monthly: string;
@@ -183,7 +182,6 @@ export function PricingTableFour({
   onPlanSelect,
   className,
   size = "medium",
-  theme: _theme = "minimal",
   showBillingToggle = true,
   billingToggleLabels = {
     monthly: "Monthly",
