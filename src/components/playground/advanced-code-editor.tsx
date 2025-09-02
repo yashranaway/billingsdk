@@ -8,7 +8,7 @@ import { usePlayground } from "./playground-context";
 import { useTheme } from "@/contexts/theme-context";
 import { Button } from "@/components/ui/button";
 import { Copy, Download, RotateCcw, Save } from "lucide-react";
-import { MonacoEditor } from "./monaco-editor";
+import { CodeMirrorEditor } from "./codemirror-editor";
 
 export function AdvancedCodeEditor() {
   const { state, updateCode, copyCode, updateStyles } = usePlayground();
@@ -43,11 +43,19 @@ export function AdvancedCodeEditor() {
 
   const activeTabContent = tabs.find(tab => tab.id === activeTab)?.content || "";
 
+  // Handle component changes and tab switches
+  useEffect(() => {
+    if (state.selectedComponent && !isEditing) {
+      setEditValue(activeTabContent);
+    }
+  }, [state.selectedComponent, activeTab, activeTabContent, isEditing]);
+
+  // Reset editing state when component changes
   useEffect(() => {
     if (state.selectedComponent) {
-      setEditValue(state.code);
+      setIsEditing(false);
     }
-  }, [state.selectedComponent, state.code]);
+  }, [state.selectedComponent]);
 
   useEffect(() => {
     return () => {
@@ -58,12 +66,16 @@ export function AdvancedCodeEditor() {
   }, []);
 
   const handleEdit = () => {
-    setIsEditing(true);
     setEditValue(activeTabContent);
+    setIsEditing(true);
   };
 
   const handleSave = () => {
     if (activeTab === "page.tsx") {
+      // Clear any pending debounced updates and save immediately
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
       updateCode(editValue);
     } else if (activeTab === "styles.css") {
       updateStyles(editValue);
@@ -74,10 +86,12 @@ export function AdvancedCodeEditor() {
   const handleEditorChange = (newValue: string) => {
     setEditValue(newValue);
     
-    if (activeTab === "page.tsx") {
-      debouncedUpdateCode(newValue);
-    } else if (activeTab === "styles.css") {
+    // Auto-save for styles.css, debounce for page.tsx
+    if (activeTab === "styles.css") {
       updateStyles(newValue);
+    } else if (activeTab === "page.tsx") {
+      // Debounce updates for page.tsx to avoid excessive re-renders
+      debouncedUpdateCode(newValue);
     }
   };
 
@@ -88,8 +102,13 @@ export function AdvancedCodeEditor() {
 
   const handleReset = () => {
     if (state.selectedComponent) {
-      updateCode(state.selectedComponent.defaultCode);
-      setEditValue(state.selectedComponent.defaultCode);
+      if (activeTab === "page.tsx") {
+        updateCode(state.selectedComponent.defaultCode);
+        setEditValue(state.selectedComponent.defaultCode);
+      } else if (activeTab === "styles.css") {
+        updateStyles("/* Add your custom styles here */");
+        setEditValue("/* Add your custom styles here */");
+      }
     }
   };
 
@@ -173,7 +192,7 @@ export function AdvancedCodeEditor() {
       {/* Code Content */}
       <div className="flex-1 overflow-hidden">
         {isEditing ? (
-          <MonacoEditor
+          <CodeMirrorEditor
             value={editValue}
             onChange={handleEditorChange}
             language={activeTab === "page.tsx" ? "tsx" : "css"}
