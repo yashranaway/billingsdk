@@ -9,7 +9,7 @@ import { useTheme } from "@/contexts/theme-context";
 
 interface CodeMirrorEditorProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   language: string;
   height?: string | number;
   readOnly?: boolean;
@@ -44,7 +44,7 @@ export function CodeMirrorEditor({
     <div style={{ height, width: "100%" }}>
       <CodeMirror
         value={value}
-        onChange={onChange}
+        onChange={onChange || (() => {})}
         extensions={extensions}
         theme={theme}
         readOnly={readOnly}

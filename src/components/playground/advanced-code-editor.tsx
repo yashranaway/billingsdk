@@ -1,18 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus, vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { FileTabs, FileTab } from "./file-tabs";
 import { usePlayground } from "./playground-context";
-import { useTheme } from "@/contexts/theme-context";
 import { Button } from "@/components/ui/button";
 import { Copy, Download, RotateCcw, Save } from "lucide-react";
 import { CodeMirrorEditor } from "./codemirror-editor";
 
 export function AdvancedCodeEditor() {
   const { state, updateCode, copyCode, updateStyles } = usePlayground();
-  const { previewDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState("page.tsx");
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
@@ -191,39 +187,13 @@ export function AdvancedCodeEditor() {
 
       {/* Code Content */}
       <div className="flex-1 overflow-hidden">
-        {isEditing ? (
-          <CodeMirrorEditor
-            value={editValue}
-            onChange={handleEditorChange}
-            language={activeTab === "page.tsx" ? "tsx" : "css"}
-            height="100%"
-            readOnly={false}
-          />
-        ) : (
-          <SyntaxHighlighter
-            language={activeTab === "page.tsx" ? "tsx" : "css"}
-            style={previewDarkMode ? vscDarkPlus : vs}
-            customStyle={{
-              margin: 0,
-              borderRadius: 0,
-              fontSize: "14px",
-              lineHeight: "1.6",
-              background: previewDarkMode ? "#1e1e1e" : "#ffffff",
-              padding: "1rem",
-              fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
-            }}
-            showLineNumbers
-            wrapLines
-            wrapLongLines
-            lineNumberStyle={{
-              color: previewDarkMode ? "#858585" : "#237893",
-              marginRight: "1rem",
-              minWidth: "3ch",
-            }}
-          >
-            {activeTabContent}
-          </SyntaxHighlighter>
-        )}
+        <CodeMirrorEditor
+          value={isEditing ? editValue : activeTabContent}
+          onChange={isEditing ? handleEditorChange : undefined}
+          language={activeTab === "page.tsx" ? "tsx" : "css"}
+          height="100%"
+          readOnly={!isEditing}
+        />
       </div>
     </div>
   );
