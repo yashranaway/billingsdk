@@ -4,11 +4,8 @@ import { ChevronRight, Package, Award, Building2 } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
-
-
 
 // Animated Price Container
 function AnimatedPriceContainer({ 
@@ -21,9 +18,8 @@ function AnimatedPriceContainer({
   isHighlight?: boolean;
 }) {
   return (
-    <motion.div 
+    <motion.div
       className="flex items-end justify-end min-h-[3rem]"
-      whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.2 }}
     >
       <motion.div
@@ -169,9 +165,9 @@ export interface PricingTableFourProps extends VariantProps<typeof sectionVarian
 }
 
 const defaultIcons = {
-  starter: <Package className="w-6 h-6" />,
-  pro: <Award className="w-6 h-6" />,
-  enterprise: <Building2 className="w-6 h-6" />,
+  starter: <Package className="w-5 h-5" />,
+  pro: <Award className="w-5 h-5" />,
+  enterprise: <Building2 className="w-5 h-5" />,
 };
 
 export function PricingTableFour({
@@ -195,7 +191,7 @@ export function PricingTableFour({
   };
 
   const getPlanIcon = (planId: string) => {
-    return defaultIcons[planId as keyof typeof defaultIcons] || <Package className="w-6 h-6" />;
+    return defaultIcons[planId as keyof typeof defaultIcons] || <Package className="w-5 h-5" />;
   };
 
   const getPlanPrice = (plan: Plan) => {
@@ -248,35 +244,32 @@ export function PricingTableFour({
           )}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
           {plans.map((plan, index) => (
-            <motion.div 
-              key={plan.id} 
-              className={`relative group ${plan.highlight ? "md:-mt-4 md:mb-4" : ""}`}
+            <motion.div
+              key={plan.id}
+              className="relative group h-full"
               initial={{ opacity: 0, y: 50, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ 
-                duration: 0.6, 
+              transition={{
+                duration: 0.6,
                 delay: index * 0.1,
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
-              whileHover={{ 
-                y: -8,
-                transition: { duration: 0.3, ease: "easeOut" }
-              }}
+
             >
               {/* Popular badge */}
               {plan.badge && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-                  <div className="px-4 py-1 text-sm font-medium bg-primary text-primary-foreground rounded-lg border border-primary/20">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                  <div className="px-3 py-1 text-xs font-medium bg-primary text-primary-foreground rounded">
                     {plan.badge}
                   </div>
                 </div>
               )}
 
               <div className={cn(cardVariants({ highlight: plan.highlight }))}>
-                <div className="p-4 space-y-4">
-                  <div className="space-y-4">
+                <div className="p-4 flex flex-col h-full min-h-[500px]">
+                  <div className="space-y-4 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <div className="w-12 h-12 flex items-center rounded-lg justify-center text-foreground bg-muted border border-border">
                         {getPlanIcon(plan.id)}
@@ -297,8 +290,9 @@ export function PricingTableFour({
                     {/* Description */}
                     <p className="text-muted-foreground leading-relaxed">{plan.description}</p>
                   </div>
-                  <div className="rounded-lg p-4 bg-muted/50 border border-border/50">
-                    <div className="mb-4">
+
+                  <div className="rounded-lg p-4 bg-muted/50 border border-border/50 mt-4 flex flex-col flex-grow">
+                    <div className="mb-4 flex-shrink-0">
                       <button
                         onClick={() => handlePlanSelect(plan.id)}
                         className={cn(buttonVariants({ highlight: plan.highlight }))}
@@ -309,7 +303,7 @@ export function PricingTableFour({
                     </div>
 
                     {/* Features */}
-                    <div>
+                    <div className="flex-grow">
                       <h4 className="text-foreground font-semibold mb-4">Features:</h4>
                       <ul className="space-y-3">
                         {plan.features.map((feature, featureIndex) => (
