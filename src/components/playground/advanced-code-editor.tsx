@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, Download, RotateCcw, Save } from "lucide-react";
 
 export function AdvancedCodeEditor() {
-  const { state, updateCode, copyCode, resetToDefault } = usePlayground();
+  const { state, updateCode, copyCode } = usePlayground();
   const [activeTab, setActiveTab] = useState("page.tsx");
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
@@ -88,9 +88,9 @@ export function AdvancedCodeEditor() {
 
   if (!state.selectedComponent) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-900 text-gray-400">
+      <div className="h-full flex items-center justify-center bg-background text-muted-foreground">
         <div className="text-center">
-          <h3 className="text-lg font-semibold mb-2 text-white">CODE</h3>
+          <h3 className="text-lg font-semibold mb-2 text-foreground">CODE</h3>
           <p className="text-sm">Select a component to view its code</p>
         </div>
       </div>
@@ -98,19 +98,19 @@ export function AdvancedCodeEditor() {
   }
 
   return (
-    <div className="h-full flex flex-col bg-gray-900">
+    <div className="h-full flex flex-col bg-background">
       {/* File Tabs */}
       <FileTabs
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        className="bg-gray-900"
+        className="bg-background"
       />
 
       {/* Editor Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-gray-800/50">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">
+          <span className="text-sm text-muted-foreground">
             {activeTab === "page.tsx" ? "React Component" : "CSS Styles"}
           </span>
         </div>
@@ -153,7 +153,7 @@ export function AdvancedCodeEditor() {
               ref={textareaRef}
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}
-              className="w-full h-full bg-gray-800 text-white font-mono text-sm p-4 border border-white/10 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full h-full bg-muted text-foreground font-mono text-sm p-4 border border-border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-ring"
               placeholder="Enter your code here..."
               spellCheck={false}
             />

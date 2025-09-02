@@ -17,7 +17,7 @@ export const componentRegistry: ComponentConfig[] = [
   {
     id: "banner",
     name: "Banner",
-    description: "Flexible notification banner with multiple variants",
+    description: "Flexible notification banner with multiple variants and animations",
     category: "ui",
     component: Banner,
     imports: ["@/components/billingsdk/banner"],
@@ -27,6 +27,8 @@ export const componentRegistry: ComponentConfig[] = [
   description="Start building amazing billing experiences"
   buttonText="Get Started"
   buttonLink="/docs"
+  autoDismiss={5000}
+  onDismiss={() => console.log("Banner dismissed")}
 />`,
     defaultProps: {
       variant: "default",
@@ -34,23 +36,29 @@ export const componentRegistry: ComponentConfig[] = [
       description: "Start building amazing billing experiences",
       buttonText: "Get Started",
       buttonLink: "/docs",
+      autoDismiss: 5000,
+      onDismiss: () => console.log("Banner dismissed"),
     },
   },
   {
     id: "pricing-table-one",
     name: "Pricing Table One",
-    description: "Clean, modern pricing table with feature lists",
+    description: "Clean, modern pricing table with feature lists and animations",
     category: "pricing",
     component: PricingTableOne,
     imports: ["@/components/billingsdk/pricing-table-one"],
     defaultCode: `<PricingTableOne
   title="Simple Pricing"
   description="Choose the plan that's right for you"
+  size="medium"
+  theme="minimal"
+  onPlanSelect={(planId) => console.log("Selected plan:", planId)}
   plans={[
     {
       id: "starter",
       title: "Starter",
       description: "Perfect for small teams",
+      currency: "$",
       monthlyPrice: "9",
       yearlyPrice: "99",
       buttonText: "Get Started",
@@ -77,6 +85,7 @@ export const componentRegistry: ComponentConfig[] = [
       id: "pro",
       title: "Pro",
       description: "Best for growing businesses",
+      currency: "$",
       monthlyPrice: "29",
       yearlyPrice: "299",
       buttonText: "Start Free Trial",
@@ -109,6 +118,9 @@ export const componentRegistry: ComponentConfig[] = [
     defaultProps: {
       title: "Simple Pricing",
       description: "Choose the plan that's right for you",
+      size: "medium",
+      theme: "minimal",
+      onPlanSelect: (planId: string) => console.log("Selected plan:", planId),
       plans: [
         {
           id: "starter",
@@ -150,7 +162,7 @@ export const componentRegistry: ComponentConfig[] = [
             {
               name: "Up to 25 users",
               icon: "check",
-              iconColor: "text-blue-500"
+              iconColor: "text-green-500"
             },
             {
               name: "Advanced analytics",
@@ -175,13 +187,16 @@ export const componentRegistry: ComponentConfig[] = [
   {
     id: "pricing-table-two",
     name: "Pricing Table Two",
-    description: "Card-based pricing with emphasis on value",
+    description: "Table-based pricing comparison with feature matrix",
     category: "pricing",
     component: PricingTableTwo,
     imports: ["@/components/billingsdk/pricing-table-two"],
     defaultCode: `<PricingTableTwo
   title="Professional Pricing"
-  description="Choose the plan that fits your needs"
+  description="Compare features across all plans"
+  size="medium"
+  theme="minimal"
+  onPlanSelect={(planId) => console.log("Selected plan:", planId)}
   plans={[
     {
       id: "basic",
@@ -246,7 +261,10 @@ export const componentRegistry: ComponentConfig[] = [
 />`,
     defaultProps: {
       title: "Professional Pricing",
-      description: "Choose the plan that fits your needs",
+      description: "Compare features across all plans",
+      size: "medium",
+      theme: "minimal",
+      onPlanSelect: (planId: string) => console.log("Selected plan:", planId),
       plans: [
         {
           id: "basic",
@@ -320,6 +338,8 @@ export const componentRegistry: ComponentConfig[] = [
     defaultCode: `<PricingTableThree
   title="Minimal Pricing"
   description="Simple plans for everyone"
+  variant="medium"
+  onPlanSelect={(planId) => console.log("Selected plan:", planId)}
   plans={[
     {
       id: "free",
@@ -385,6 +405,8 @@ export const componentRegistry: ComponentConfig[] = [
     defaultProps: {
       title: "Minimal Pricing",
       description: "Simple plans for everyone",
+      variant: "medium",
+      onPlanSelect: (planId: string) => console.log("Selected plan:", planId),
       plans: [
         {
           id: "free",
@@ -451,23 +473,83 @@ export const componentRegistry: ComponentConfig[] = [
   {
     id: "cancel-subscription-card",
     name: "Cancel Subscription Card",
-    description: "Elegant subscription cancellation interface",
+    description: "Elegant subscription cancellation interface with confirmation flow",
     category: "subscription",
     component: CancelSubscriptionCard,
     imports: ["@/components/billingsdk/cancel-subscription-card"],
     defaultCode: `<CancelSubscriptionCard
-  planName="Pro Plan"
-  nextBillingDate="March 15, 2024"
-  amount="$29.00"
-  onCancel={() => console.log("Subscription cancelled")}
-  onKeep={() => console.log("Subscription kept")}
+  title="Cancel Subscription"
+  description="We're sorry to see you go. Your subscription will remain active until the end of your billing period."
+  plan={{
+    id: "pro",
+    title: "Pro",
+    description: "Best for growing businesses",
+    currency: "$",
+    monthlyPrice: "29",
+    yearlyPrice: "299",
+    buttonText: "Get Started",
+    highlight: true,
+    features: [
+      {
+        name: "Up to 25 users",
+        icon: "check",
+        iconColor: "text-green-500"
+      },
+      {
+        name: "Advanced analytics",
+        icon: "check",
+        iconColor: "text-blue-500"
+      },
+      {
+        name: "Priority support",
+        icon: "check",
+        iconColor: "text-orange-500"
+      }
+    ]
+  }}
+  warningTitle="What happens when you cancel?"
+  warningText="You'll lose access to all premium features at the end of your current billing period."
+  keepButtonText="Keep My Subscription"
+  continueButtonText="Continue Cancellation"
+  onCancel={(planId) => console.log("Subscription cancelled for plan:", planId)}
+  onKeepSubscription={(planId) => console.log("Subscription kept for plan:", planId)}
 />`,
     defaultProps: {
-      planName: "Pro Plan",
-      nextBillingDate: "March 15, 2024",
-      amount: "$29.00",
-      onCancel: () => console.log("Subscription cancelled"),
-      onKeep: () => console.log("Subscription kept"),
+      title: "Cancel Subscription",
+      description: "We're sorry to see you go. Your subscription will remain active until the end of your billing period.",
+      plan: {
+        id: "pro",
+        title: "Pro",
+        description: "Best for growing businesses",
+        currency: "$",
+        monthlyPrice: "29",
+        yearlyPrice: "299",
+        buttonText: "Get Started",
+        highlight: true,
+        features: [
+          {
+            name: "Up to 25 users",
+            icon: "check",
+            iconColor: "text-green-500"
+          },
+          {
+            name: "Advanced analytics",
+            icon: "check",
+            iconColor: "text-blue-500"
+          },
+          {
+            name: "Priority support",
+            icon: "check",
+            iconColor: "text-orange-500"
+          }
+        ]
+      },
+      warningTitle: "What happens when you cancel?",
+      warningText: "You'll lose access to all premium features at the end of your current billing period.",
+      keepButtonText: "Keep My Subscription",
+      continueButtonText: "Continue Cancellation",
+      onCancel: (planId: string) => console.log("Subscription cancelled for plan:", planId),
+      onKeepSubscription: (planId: string) => console.log("Subscription kept for plan:", planId),
     },
   },
   {
@@ -548,50 +630,180 @@ export const componentRegistry: ComponentConfig[] = [
     component: SubscriptionManagement,
     imports: ["@/components/billingsdk/subscription-management"],
     defaultCode: `<SubscriptionManagement
-  subscription={{
-    status: "active",
-    plan: "Pro",
-    price: "$49/month",
-    nextBilling: "March 15, 2024",
-    usage: "75%",
+  currentPlan={{
+    plan: {
+      id: "pro",
+      title: "Pro",
+      description: "For companies adding collaboration in production.",
+      currency: "$",
+      monthlyPrice: "20",
+      yearlyPrice: "199",
+      buttonText: "Sign up",
+      highlight: true,
+      features: [
+        {
+          name: "Presence",
+          icon: "check",
+          iconColor: "text-green-500"
+        },
+        {
+          name: "Comments",
+          icon: "check",
+          iconColor: "text-orange-500"
+        },
+        {
+          name: "Notifications",
+          icon: "check",
+          iconColor: "text-teal-500"
+        },
+        {
+          name: "Text Editor",
+          icon: "check",
+          iconColor: "text-blue-500"
+        },
+        {
+          name: "Sync Datastore",
+          icon: "check",
+          iconColor: "text-zinc-500"
+        }
+      ]
+    },
+    type: "monthly",
+    nextBillingDate: "March 15, 2024",
+    paymentMethod: "**** 4242",
+    status: "active"
   }}
-  onUpdatePlan={() => console.log("Update plan")}
-  onCancel={() => console.log("Cancel subscription")}
+  cancelSubscription={{
+    planName: "Pro Plan",
+    nextBillingDate: "March 15, 2024",
+    amount: "$20.00",
+    onCancel: () => console.log("Subscription cancelled"),
+    onKeep: () => console.log("Subscription kept")
+  }}
+  updatePlan={{
+    currentPlan: "Pro",
+    newPlan: "Enterprise",
+    currentPrice: "$20",
+    newPrice: "Custom",
+    onUpdate: () => console.log("Plan updated"),
+    onCancel: () => console.log("Update cancelled")
+  }}
 />`,
     defaultProps: {
-      subscription: {
-        status: "active",
-        plan: "Pro",
-        price: "$49/month",
-        nextBilling: "March 15, 2024",
-        usage: "75%",
+      currentPlan: {
+        plan: {
+          id: "pro",
+          title: "Pro",
+          description: "For companies adding collaboration in production.",
+          currency: "$",
+          monthlyPrice: "20",
+          yearlyPrice: "199",
+          buttonText: "Sign up",
+          highlight: true,
+          features: [
+            {
+              name: "Presence",
+              icon: "check",
+              iconColor: "text-green-500"
+            },
+            {
+              name: "Comments",
+              icon: "check",
+              iconColor: "text-orange-500"
+            },
+            {
+              name: "Notifications",
+              icon: "check",
+              iconColor: "text-teal-500"
+            },
+            {
+              name: "Text Editor",
+              icon: "check",
+              iconColor: "text-blue-500"
+            },
+            {
+              name: "Sync Datastore",
+              icon: "check",
+              iconColor: "text-zinc-500"
+            }
+          ]
+        },
+        type: "monthly",
+        nextBillingDate: "March 15, 2024",
+        paymentMethod: "**** 4242",
+        status: "active"
       },
-      onUpdatePlan: () => console.log("Update plan"),
-      onCancel: () => console.log("Cancel subscription"),
+      cancelSubscription: {
+        planName: "Pro Plan",
+        nextBillingDate: "March 15, 2024",
+        amount: "$20.00",
+        onCancel: () => console.log("Subscription cancelled"),
+        onKeep: () => console.log("Subscription kept")
+      },
+      updatePlan: {
+        currentPlan: "Pro",
+        newPlan: "Enterprise",
+        currentPrice: "$20",
+        newPrice: "Custom",
+        onUpdate: () => console.log("Plan updated"),
+        onCancel: () => console.log("Update cancelled")
+      }
     },
   },
   {
     id: "usage-meter",
     name: "Usage Meter",
-    description: "Visual usage tracking with multiple variants",
+    description: "Visual usage tracking with linear and circle variants",
     category: "usage",
     component: UsageMeter,
     imports: ["@/components/billingsdk/usage-meter"],
     defaultCode: `<UsageMeter
   variant="linear"
-  current={75}
-  limit={100}
-  unit="GB"
-  label="Storage Usage"
-  description="75 GB of 100 GB used"
+  size="md"
+  title="Usage Overview"
+  description="Track your current usage across different features"
+  progressColor="usage"
+  usage={[
+    {
+      name: "API Calls",
+      usage: 1200000,
+      limit: 2000000
+    },
+    {
+      name: "Storage",
+      usage: 75,
+      limit: 100
+    },
+    {
+      name: "Users",
+      usage: 45,
+      limit: 50
+    }
+  ]}
 />`,
     defaultProps: {
       variant: "linear",
-      current: 75,
-      limit: 100,
-      unit: "GB",
-      label: "Storage Usage",
-      description: "75 GB of 100 GB used",
+      size: "md",
+      title: "Usage Overview",
+      description: "Track your current usage across different features",
+      progressColor: "usage",
+      usage: [
+        {
+          name: "API Calls",
+          usage: 1200000,
+          limit: 2000000
+        },
+        {
+          name: "Storage",
+          usage: 75,
+          limit: 100
+        },
+        {
+          name: "Users",
+          usage: 45,
+          limit: 50
+        }
+      ]
     },
   },
   {
@@ -621,11 +833,13 @@ export const componentRegistry: ComponentConfig[] = [
   {
     id: "invoice-history",
     name: "Invoice History",
-    description: "Complete invoice management table",
-    category: "usage",
+    description: "Display past invoices and payment history with download actions",
+    category: "billing",
     component: InvoiceHistory,
     imports: ["@/components/billingsdk/invoice-history"],
     defaultCode: `<InvoiceHistory
+  title="Invoice History"
+  description="Your past invoices and payment receipts."
   invoices={[
     {
       id: "INV-001",
@@ -633,6 +847,7 @@ export const componentRegistry: ComponentConfig[] = [
       amount: "$49.00",
       status: "paid",
       description: "Pro Plan - February 2024",
+      invoiceUrl: "https://example.com/invoice/INV-001"
     },
     {
       id: "INV-002",
@@ -640,10 +855,14 @@ export const componentRegistry: ComponentConfig[] = [
       amount: "$49.00",
       status: "paid",
       description: "Pro Plan - January 2024",
-    },
+      invoiceUrl: "https://example.com/invoice/INV-002"
+    }
   ]}
+  onDownload={(invoiceId) => console.log("Download invoice:", invoiceId)}
 />`,
     defaultProps: {
+      title: "Invoice History",
+      description: "Your past invoices and payment receipts.",
       invoices: [
         {
           id: "INV-001",
@@ -651,6 +870,7 @@ export const componentRegistry: ComponentConfig[] = [
           amount: "$49.00",
           status: "paid",
           description: "Pro Plan - February 2024",
+          invoiceUrl: "https://example.com/invoice/INV-001"
         },
         {
           id: "INV-002",
@@ -658,8 +878,10 @@ export const componentRegistry: ComponentConfig[] = [
           amount: "$49.00",
           status: "paid",
           description: "Pro Plan - January 2024",
-        },
+          invoiceUrl: "https://example.com/invoice/INV-002"
+        }
       ],
+      onDownload: (invoiceId: string) => console.log("Download invoice:", invoiceId)
     },
   },
   {

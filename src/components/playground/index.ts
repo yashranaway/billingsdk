@@ -1,5 +1,6 @@
-export { PlaygroundNew } from "./playground-new";
-export { PlaygroundHeaderNew } from "./playground-header-new";
+export { Playground } from "./playground";
+export { PlaygroundHeader } from "./playground-header";
+export { PlaygroundLogo } from "./playground-logo";
 export { AdvancedCodeEditor } from "./advanced-code-editor";
 export { CodePanel } from "./code-panel";
 export { PreviewPanel } from "./preview-panel";

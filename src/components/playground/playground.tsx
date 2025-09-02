@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { PlaygroundHeaderNew } from "./playground-header-new";
+import { PlaygroundHeader } from "./playground-header";
 import { CodePanel } from "./code-panel";
 import { PreviewPanel } from "./preview-panel";
 import { PlaygroundProvider } from "./playground-context";
 import { Button } from "@/components/ui/button";
-import { PanelLeft, PanelRight, Maximize2 } from "lucide-react";
+import { PanelLeft, PanelRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function PlaygroundNew() {
+export function Playground() {
   const [showCodePanel, setShowCodePanel] = useState(true);
   const [showPreviewPanel, setShowPreviewPanel] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const handleImportComponent = () => {
     // You can implement custom import logic here
@@ -21,27 +20,23 @@ export function PlaygroundNew() {
 
   const toggleCodePanel = () => setShowCodePanel(!showCodePanel);
   const togglePreviewPanel = () => setShowPreviewPanel(!showPreviewPanel);
-  const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
 
   return (
     <PlaygroundProvider>
-      <div className={cn(
-        "flex flex-col bg-gray-900 text-white",
-        isFullscreen ? "fixed inset-0 z-50" : "h-screen"
-      )}>
+      <div className="flex flex-col bg-background text-foreground h-screen">
         {/* Header */}
-        <PlaygroundHeaderNew onImportComponent={handleImportComponent} />
+        <PlaygroundHeader onImportComponent={handleImportComponent} />
         
         {/* Panel Controls */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-gray-800/50">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
           <div className="flex items-center gap-2">
             <Button
               size="sm"
               variant="ghost"
               onClick={toggleCodePanel}
               className={cn(
-                "text-gray-400 hover:text-white",
-                showCodePanel && "text-white bg-gray-700"
+                "text-muted-foreground hover:text-foreground",
+                showCodePanel && "text-foreground bg-accent"
               )}
             >
               <PanelLeft className="h-4 w-4 mr-1" />
@@ -52,23 +47,14 @@ export function PlaygroundNew() {
               variant="ghost"
               onClick={togglePreviewPanel}
               className={cn(
-                "text-gray-400 hover:text-white",
-                showPreviewPanel && "text-white bg-gray-700"
+                "text-muted-foreground hover:text-foreground",
+                showPreviewPanel && "text-foreground bg-accent"
               )}
             >
               <PanelRight className="h-4 w-4 mr-1" />
               Preview
             </Button>
           </div>
-          
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={toggleFullscreen}
-            className="text-gray-400 hover:text-white"
-          >
-            <Maximize2 className="h-4 w-4" />
-          </Button>
         </div>
         
         {/* Main Content - Responsive Split */}
@@ -76,7 +62,7 @@ export function PlaygroundNew() {
           {/* Left Panel - CODE */}
           {showCodePanel && (
             <div className={cn(
-              "border-r border-white/10",
+              "border-r border-border",
               showPreviewPanel ? "w-1/2" : "w-full"
             )}>
               <CodePanel />

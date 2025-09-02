@@ -3,17 +3,23 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Play, Download } from "lucide-react";
-import { usePlayground } from "./playground-context";
-import { componentRegistry } from "./component-registry";
 
-interface PlaygroundHeaderNewProps {
+import {  Download, Sun, Moon } from "lucide-react";
+import { usePlayground } from "./playground-context";
+import { useTheme } from "@/contexts/theme-context";
+import { componentRegistry } from "./component-registry";
+import { PlaygroundLogo } from "./playground-logo";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+interface PlaygroundHeaderProps {
   onImportComponent?: () => void;
 }
 
-export function PlaygroundHeaderNew({ onImportComponent }: PlaygroundHeaderNewProps) {
+export function PlaygroundHeader({ onImportComponent }: PlaygroundHeaderProps) {
   const { state, setSelectedComponent } = usePlayground();
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const { previewDarkMode, setPreviewDarkMode } = useTheme();
+  const [selectedCategory] = useState<string>("all");
 
   const categories = [
     { id: "all", label: "All Components" },
@@ -43,33 +49,23 @@ export function PlaygroundHeaderNew({ onImportComponent }: PlaygroundHeaderNewPr
   };
 
   return (
-    <div className="border-b border-white/10 bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-gray-900/60">
+    <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex items-center justify-between px-4 py-3">
-        {/* Left Section - Play Button, Separator, Component Selector */}
+        {/* Left Section - Play Button, Logo, Component Selector */}
         <div className="flex items-center gap-4">
-          {/* Play Button */}
-          <div className="flex items-center gap-2 px-3 py-2 bg-gray-800 border border-white/10 rounded-md">
-            <div className="w-3 h-3 bg-green-500 rounded-full flex items-center justify-center">
-              <Play className="w-2 h-2 text-white fill-current" />
-            </div>
-            <span className="text-white text-sm font-medium">/</span>
-            <div className="w-4 h-4 text-white">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-            </div>
-            <span className="text-white text-sm font-medium">Billing SDK</span>
-          </div>
+          <Link href="/">
+            <PlaygroundLogo />
+          </Link>
 
           {/* Component Selector */}
           <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange}>
-            <SelectTrigger className="w-64 bg-gray-800 border-white/10 text-white">
+            <SelectTrigger className="w-64">
               <SelectValue placeholder="Select a component" />
             </SelectTrigger>
-            <SelectContent className="bg-gray-800 border-white/10">
+            <SelectContent className="w-80 min-w-80 max-h-96 overflow-y-auto">
               {categories.map(category => (
                 <div key={category.id}>
-                  <div className="px-2 py-1.5 text-sm font-semibold text-gray-400">
+                  <div className="px-3 py-2 text-sm font-semibold text-foreground bg-muted/50 border-b border-border">
                     {category.label}
                   </div>
                   {filteredComponents
@@ -78,11 +74,11 @@ export function PlaygroundHeaderNew({ onImportComponent }: PlaygroundHeaderNewPr
                       <SelectItem 
                         key={component.id} 
                         value={component.id}
-                        className="text-white hover:bg-gray-700 focus:bg-gray-700"
+                        className="px-3 py-2"
                       >
                         <div className="flex flex-col">
                           <span className="font-medium">{component.name}</span>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-muted-foreground">
                             {component.description}
                           </span>
                         </div>
@@ -94,17 +90,33 @@ export function PlaygroundHeaderNew({ onImportComponent }: PlaygroundHeaderNewPr
           </Select>
         </div>
 
-        {/* Right Section - Import Component Button */}
+        {/* Right Section - Dark Mode Toggle and Import Button */}
         <div className="flex items-center gap-3">
+          {/* Dark Mode Toggle */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPreviewDarkMode(!previewDarkMode)}
+              className={cn(
+                "h-8 w-8 p-0",
+                previewDarkMode ? "bg-accent text-accent-foreground" : ""
+              )}
+            >
+              {previewDarkMode ? (
+                <Moon className="h-4 w-4" />
+              ) : (
+                <Sun className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+
           <Button
             onClick={handleImportComponent}
-            className="bg-gray-800 border-white/10 text-white hover:bg-gray-700 hover:text-white"
             variant="outline"
           >
             <Download className="h-4 w-4 mr-2" />
             <span className="text-sm">IMPORT</span>
-            <br />
-            <span className="text-sm">COMPONENT</span>
           </Button>
         </div>
       </div>

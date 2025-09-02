@@ -4,10 +4,10 @@ import React, { useEffect, useState } from "react";
 import { usePlayground } from "./playground-context";
 import { useTheme } from "@/contexts/theme-context";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Maximize2, Minimize2, Monitor, Smartphone, Tablet } from "lucide-react";
+import { RefreshCw, Maximize2, Minimize2, Monitor, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type ViewportSize = "desktop" | "tablet" | "mobile";
+type ViewportSize = "desktop" | "mobile";
 
 export function PreviewPanel() {
   const { state } = usePlayground();
@@ -16,6 +16,8 @@ export function PreviewPanel() {
   const [Component, setComponent] = useState<React.ComponentType<any> | null>(null);
   const [viewportSize, setViewportSize] = useState<ViewportSize>("desktop");
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     if (state.selectedComponent) {
@@ -43,26 +45,33 @@ export function PreviewPanel() {
     });
   }, [currentTheme, previewDarkMode]);
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
     setError(null);
+    
+    // Small delay to show the refresh animation
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    setRefreshKey(prev => prev + 1);
     if (state.selectedComponent) {
       setComponent(() => state.selectedComponent!.component);
     }
+    
+    setIsRefreshing(false);
   };
 
   const getViewportWidth = () => {
     switch (viewportSize) {
       case "mobile": return "375px";
-      case "tablet": return "768px";
       default: return "100%";
     }
   };
 
   if (!state.selectedComponent) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-900 text-gray-400">
+      <div className="h-full flex items-center justify-center bg-background text-muted-foreground">
         <div className="text-center">
-          <h3 className="text-lg font-semibold mb-2 text-white">PREVIEW</h3>
+          <h3 className="text-lg font-semibold mb-2 text-foreground">PREVIEW</h3>
           <p className="text-sm">Select a component to see it in action</p>
         </div>
       </div>
@@ -71,13 +80,21 @@ export function PreviewPanel() {
 
   return (
     <div className={cn(
-      "h-full flex flex-col bg-gray-900",
+      "h-full flex flex-col bg-background",
       isFullscreen && "fixed inset-0 z-50"
     )}>
       {/* Preview Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-gray-800/50">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">Live Preview</span>
+          <span className="text-sm text-muted-foreground">Live Preview</span>
+          <div className="flex items-center gap-1 ml-2">
+            {viewportSize === "mobile" ? (
+              <Smartphone className="h-3 w-3 text-muted-foreground" />
+            ) : (
+              <Monitor className="h-3 w-3 text-muted-foreground" />
+            )}
+            <span className="text-xs text-muted-foreground capitalize">{viewportSize}</span>
+          </div>
         </div>
         
         <div className="flex items-center gap-1">
@@ -88,33 +105,22 @@ export function PreviewPanel() {
               variant="ghost"
               onClick={() => setViewportSize("mobile")}
               className={cn(
-                "h-7 w-7 p-0",
-                viewportSize === "mobile" ? "bg-gray-700 text-white" : "text-gray-400 hover:text-white"
+                "h-8 w-8 p-0",
+                viewportSize === "mobile" ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <Smartphone className="h-3 w-3" />
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setViewportSize("tablet")}
-              className={cn(
-                "h-7 w-7 p-0",
-                viewportSize === "tablet" ? "bg-gray-700 text-white" : "text-gray-400 hover:text-white"
-              )}
-            >
-              <Tablet className="h-3 w-3" />
+              <Smartphone className="h-4 w-4" />
             </Button>
             <Button
               size="sm"
               variant="ghost"
               onClick={() => setViewportSize("desktop")}
               className={cn(
-                "h-7 w-7 p-0",
-                viewportSize === "desktop" ? "bg-gray-700 text-white" : "text-gray-400 hover:text-white"
+                "h-8 w-8 p-0",
+                viewportSize === "desktop" ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <Monitor className="h-3 w-3" />
+              <Monitor className="h-4 w-4" />
             </Button>
           </div>
 
@@ -122,16 +128,17 @@ export function PreviewPanel() {
             size="sm"
             variant="ghost"
             onClick={handleRefresh}
-            className="h-7 px-2 text-gray-400 hover:text-white"
+            disabled={isRefreshing}
+            className="h-7 px-2 text-muted-foreground hover:text-foreground disabled:opacity-50"
           >
-            <RefreshCw className="h-3 w-3" />
+            <RefreshCw className={cn("h-3 w-3", isRefreshing && "animate-spin")} />
           </Button>
           
           <Button
             size="sm"
             variant="ghost"
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="h-7 px-2 text-gray-400 hover:text-white"
+            className="h-7 px-2 text-muted-foreground hover:text-foreground"
           >
             {isFullscreen ? (
               <Minimize2 className="h-3 w-3" />
@@ -143,30 +150,38 @@ export function PreviewPanel() {
       </div>
 
       {/* Preview Content */}
-      <div className="flex-1 overflow-auto p-6 bg-gray-900">
-        <div className="min-h-full flex items-center justify-center">
+      <div className="flex-1 overflow-auto bg-background">
+        <div className="min-h-full flex items-center justify-center p-4">
           {error ? (
             <div className="text-center p-8">
-              <div className="text-red-500 text-lg font-semibold mb-2">
+              <div className="text-destructive text-lg font-semibold mb-2">
                 Component Error
               </div>
-              <div className="text-gray-400 mb-4">{error}</div>
+              <div className="text-muted-foreground mb-4">{error}</div>
               <Button onClick={handleRefresh} variant="outline" size="sm">
                 Try Again
               </Button>
             </div>
           ) : Component ? (
             <div 
-              className="w-full max-w-4xl transition-all duration-200"
-              style={{ maxWidth: getViewportWidth() }}
+              className={cn(
+                "w-full transition-all duration-300 ease-in-out",
+                viewportSize === "mobile" ? "max-w-sm" : "max-w-6xl"
+              )}
+              style={{ 
+                maxWidth: getViewportWidth(),
+                minHeight: viewportSize === "mobile" ? "600px" : "auto"
+              }}
             >
-              <ErrorBoundary onError={setError}>
-                <Component {...state.props} />
-              </ErrorBoundary>
+              <div className="w-full h-full flex items-center justify-center">
+                <ErrorBoundary key={refreshKey} onError={setError}>
+                  <Component key={refreshKey} {...state.props} />
+                </ErrorBoundary>
+              </div>
             </div>
           ) : (
-            <div className="text-center text-gray-400">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-2"></div>
+            <div className="text-center text-muted-foreground">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
               <p>Loading component...</p>
             </div>
           )}
@@ -198,10 +213,10 @@ class ErrorBoundary extends React.Component<
     if (this.state.hasError) {
       return (
         <div className="text-center p-8">
-          <div className="text-red-500 text-lg font-semibold mb-2">
+          <div className="text-destructive text-lg font-semibold mb-2">
             Component Failed to Render
           </div>
-          <div className="text-gray-400">
+          <div className="text-muted-foreground">
             Check the code for syntax errors or invalid props
           </div>
         </div>

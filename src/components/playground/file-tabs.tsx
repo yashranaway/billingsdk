@@ -18,7 +18,7 @@ interface FileTabsProps {
 
 export function FileTabs({ tabs, activeTab, onTabChange, className }: FileTabsProps) {
   return (
-    <div className={cn("flex border-b border-white/10", className)}>
+    <div className={cn("flex border-b border-border", className)}>
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -26,8 +26,8 @@ export function FileTabs({ tabs, activeTab, onTabChange, className }: FileTabsPr
           className={cn(
             "px-4 py-2 text-sm font-medium border-b-2 transition-colors",
             activeTab === tab.id
-              ? "border-white text-white bg-gray-800/50"
-              : "border-transparent text-gray-400 hover:text-white hover:bg-gray-800/30"
+              ? "border-primary text-foreground bg-muted/50"
+              : "border-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30"
           )}
         >
           {tab.name}

@@ -1,4 +1,4 @@
-import { PlaygroundNew } from "@/components/playground/playground-new";
+import { Playground } from "@/components/playground/playground";
 
 export const metadata = {
   title: "Playground | Billing SDK",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function PlaygroundPage() {
-  return <PlaygroundNew />;
+  return <Playground />;
 }
