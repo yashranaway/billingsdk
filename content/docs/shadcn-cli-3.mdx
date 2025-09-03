@@ -106,10 +106,8 @@ ShadCN CLI 3.0 introduces namespaced registries, allowing you to organize and ac
 To set up the Billing SDK namespace, update your `components.json` file:
 
 ```json title="components.json"
-{
-  "registries": {
+"registries": {
     "@billingsdk": "https://billingsdk.com/r/{name}.json"
-  }
 }
 ```
 
@@ -161,7 +159,7 @@ npx shadcn@latest add @billingsdk/subscription-management
 
 Explore and discover available Billing SDK components using the built-in discovery commands. These tools help you find the right components for your specific use cases.
 
-### View Registry
+{/* ### View Registry
 
 Get a detailed overview of all available components in the Billing SDK registry:
 
@@ -186,7 +184,7 @@ Get a detailed overview of all available components in the Billing SDK registry:
     bunx shadcn@latest view @billingsdk
     ```
     </Tab>
-</Tabs>
+</Tabs> */}
 
 ### List Components
 
@@ -307,19 +305,19 @@ Once MCP is set up, you can use natural language commands with your AI assistant
 **Example prompts:**
 
 ```bash
-Add a pricing table to my project
+Add a pricing table to my project from billingSDK registry
 ```
 
 ```bash
-I need a payment method manager component
+I need a payment method manager component from billingSDK registry
 ```
 
 ```bash
-Add a subscription management interface
+Add a subscription management interface from billingSDK registry
 ```
 
 ```bash
-Include a usage meter component for my billing dashboard
+Include a usage meter component for my billing dashboard from billingSDK registry
 ```
 
 ### Benefits of MCP Integration
