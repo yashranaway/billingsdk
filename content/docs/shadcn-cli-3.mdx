@@ -1,0 +1,245 @@
+---
+title: Shadcn CLI 3.0
+description: Add Billing SDK components to your project with new ShadCN CLI 3.0 with MCP support
+---
+
+### Initialization
+
+<Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="shadcn-cli-3-tabs">
+    <Tab value="npx">
+    ```bash
+    npx shadcn@latest init
+    ```
+    </Tab>
+    <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest init
+    ```
+    </Tab>
+    <Tab value="yarn">
+    ```bash
+    npx shadcn@latest init
+    ```
+    </Tab>
+    <Tab value="bun">
+    ```bash
+    npx shadcn@latest init
+    ```
+    </Tab>
+</Tabs>
+
+The `init` command will install dependencies, adds utils, configures `tailwind.config.js` and sets up default styles for you.
+
+### Add Components
+
+You can add components to your project with the `add` command. You can use `shadcn` cli or `billingSDK` cli to add components to your project.
+
+<Tabs items={['shadcn', 'billingSDK']} defaultValue="shadcn" className="bg-transparent border-none">
+  <Tab value="shadcn" className="border-none bg-transparent p-0 mt-3">
+    <Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+      <Tab value="npx">
+        ```bash
+        npx shadcn@latest add https://billingsdk.com/r/<component-name>.json
+        ```
+      </Tab>
+      <Tab value="pnpm">
+        ```bash
+        pnpm dlx shadcn@latest add https://billingsdk.com/r/<component-name>.json
+        ```
+      </Tab>
+      <Tab value="yarn">
+        ```bash
+        npx shadcn@latest add https://billingsdk.com/r/<component-name>.json
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab value="billingSDK" className="border-none bg-transparent p-0 mt-3">
+    <Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="billingsdk-cli-tabs">
+      <Tab value="npx">
+        ```bash
+        npx @billingsdk/cli add <component-name>
+        ```
+      </Tab>
+      <Tab value="pnpm">
+        ```bash
+        pnpm dlx @billingsdk/cli add <component-name>
+        ```
+      </Tab>
+      <Tab value="yarn">
+        ```bash
+        npx @billingsdk/cli add <component-name>
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+</Tabs>
+
+
+### Namespaced Registry
+With shadCN CLI 3.0, you can use namespaced registry to add components to your project easily.
+
+Edit `components.json` with following code to add billingSDK components to your project:
+
+```json title="components.json"
+{
+  "registries": {
+    "@billingsdk": "https://billingsdk.com/r/{name}.json"
+  }
+}
+```
+
+Now you can add components to your project with the following command:
+
+<Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="shadcn-cli-3-namespaced-registry-tabs">
+    <Tab value="npx">
+    ```bash
+    npx shadcn@latest add @billingsdk/[component-name]
+    ```
+    </Tab>
+    <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest add @billingsdk/[component-name]
+    ```
+    </Tab>
+    <Tab value="yarn">
+    ```bash
+    npx shadcn@latest add @billingsdk/[component-name]
+    ```
+    </Tab>
+    <Tab value="bun">
+    ```bash
+    npx shadcn@latest add @billingsdk/[component-name]
+    ```
+    </Tab>
+</Tabs>
+
+Example:
+
+```bash
+npx shadcn@latest add @billingsdk/pricing-table-one
+```
+
+### Discover Components
+You can search, view and list components in the billingSDK registry with the following command:
+
+**View**:
+
+<Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="shadcn-cli-3-discover-components-tabs">
+    <Tab value="npx">
+    ```bash
+    npx shadcn@latest view @billingsdk
+    ```
+    </Tab>
+    <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest view @billingsdk
+    ```
+    </Tab>
+    <Tab value="yarn">
+    ```bash
+    npx shadcn@latest view @billingsdk
+    ```
+    </Tab>
+    <Tab value="bun">
+    ```bash
+    npx shadcn@latest view @billingsdk
+    ```
+    </Tab>
+</Tabs>
+
+**List**:
+
+<Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="shadcn-cli-3-discover-components-list-tabs">   
+    <Tab value="npx">
+    ```bash
+    npx shadcn@latest list @billingsdk
+    ```
+    </Tab>
+    <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest list @billingsdk
+    ```
+    </Tab>
+    <Tab value="yarn">
+    ```bash
+    npx shadcn@latest list @billingsdk
+    ```
+    </Tab>
+</Tabs>
+
+**Search**:
+
+<Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="shadcn-cli-3-discover-components-search-tabs">
+    <Tab value="npx">
+    ```bash
+    npx shadcn@latest search @billingsdk -q "banner"
+    ```
+    </Tab>
+        <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest search @billingsdk -q "banner"
+    ```
+    </Tab>
+    <Tab value="yarn">
+    ```bash
+    npx shadcn@latest search @billingsdk -q "banner"
+    ```
+    </Tab>
+    <Tab value="bun">
+    ```bash
+    npx shadcn@latest search @billingsdk -q "banner"
+    ```
+    </Tab>
+</Tabs>
+
+## MCP Support
+With shadcn cli 3.0, you can use MCP to add components to your project.
+With this, your AI assistant can help you add components to your project with just a few words.
+
+Add **`@billingsdk`** to your `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@billingsdk": "https://billingsdk.com/r/{name}.json"
+  }
+}
+```
+
+Add the MCP server to your project:
+
+<Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="shadcn-cli-3-mcp-server-tabs">
+    <Tab value="npx">
+    ```bash
+    npx shadcn@latest mcp init
+    ```
+    </Tab>
+    <Tab value="pnpm">
+    ```bash
+    pnpm dlx shadcn@latest mcp init
+    ```
+    </Tab>
+    <Tab value="yarn">
+    ```bash
+    npx shadcn@latest mcp init
+    ```
+    </Tab>
+    <Tab value="bun">
+    ```bash
+    npx shadcn@latest mcp init
+    ```
+    </Tab>
+</Tabs>
+
+That's it! Now you can ask AI with a prompt like this:
+
+```
+Add a pricing table to my project
+```
+
+or
+
+```
+Add a banner to my project
+```
