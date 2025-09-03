@@ -164,28 +164,28 @@ export function CancelSubscriptionDialog({
                     </div>
 
                     {/* Plan Details */}
-                    {!showConfirmation && plan && (
+                    {!showConfirmation && (
                         <div className="flex flex-col gap-4 p-4 bg-muted/50 rounded-lg">
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-col gap-1">
-                                    <span className="font-semibold text-lg">{plan?.title || 'Unknown'} Plan</span>
+                                    <span className="font-semibold text-lg">{plan.title} Plan</span>
                                     <span className="text-sm text-muted-foreground">Current subscription</span>
                                 </div>
                                 <Badge variant="secondary">
                                     {
-                                        plan?.monthlyPrice && parseFloat(plan.monthlyPrice) >= 0 ?
-                                            `${plan.currency || '$'}${plan.monthlyPrice}/monthly` :
-                                            `${plan?.monthlyPrice || 'N/A'}/monthly`
+                                        parseFloat(plan.monthlyPrice) >= 0 ?
+                                            `${plan.currency}${plan.monthlyPrice}/monthly` :
+                                            `${plan.monthlyPrice}/monthly`
                                     }
                                 </Badge>
                             </div>
                             <div className="flex flex-col gap-2">
-                                {plan?.features?.slice(0, 4).map((feature, index) => (
+                                {plan.features.slice(0, 4).map((feature, index) => (
                                     <div key={index} className="flex items-center gap-2">
                                         <Circle className="w-2 h-2 fill-primary text-primary" />
                                         <span className="text-sm text-muted-foreground">{feature.name}</span>
                                     </div>
-                                )) || []}
+                                ))}
                             </div>
                         </div>
                     )}

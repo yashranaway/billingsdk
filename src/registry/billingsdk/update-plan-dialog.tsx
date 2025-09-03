@@ -67,7 +67,7 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
                 <div className="flex-1 min-h-0 space-y-3">
                     <RadioGroup value={selectedPlan} onValueChange={handlePlanChange}>
                         <AnimatePresence mode="wait">
-                            {plans?.map((plan) => (
+                            {plans.map((plan) => (
                                 <motion.div
                                     key={plan.id}
                                     onClick={() => handlePlanChange(plan.id)}
@@ -139,21 +139,17 @@ export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, 
                                                 transition={{ duration: 0.3, ease: "easeOut" }}
                                             >
                                                 <Button className="w-full mt-4"
-                                                    disabled={selectedPlan === currentPlan?.id}
+                                                    disabled={selectedPlan === currentPlan.id}
                                                     onClick={() => {
                                                         onPlanChange(plan.id)
                                                         setIsOpen(false)
                                                     }}
-                                                >{selectedPlan === currentPlan?.id ? "Current Plan" : "Upgrade"}</Button>
+                                                >{selectedPlan === currentPlan.id ? "Current Plan" : "Upgrade"}</Button>
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
                                 </motion.div>
-                            )) || (
-                                <div className="p-4 text-center text-muted-foreground">
-                                    No plans available
-                                </div>
-                            )}
+                            ))}
                         </AnimatePresence>
                     </RadioGroup>
                 </div>

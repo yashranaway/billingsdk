@@ -47,16 +47,6 @@ const NavBar = () => {
         >
           <Logo />
 
-          {/* Navigation Links */}
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/playground">Playground</Link>
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/docs">Docs</Link>
-            </Button>
-          </div>
-
           {/* Join Beta Button */}
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>

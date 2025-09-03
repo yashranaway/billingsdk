@@ -32,14 +32,14 @@ export function UsageTable({
 }: UsageTableProps) {
 
     // Calculate total row if showTotal is true
-    const totalRow = showTotal && usageHistory?.length > 0 ? usageHistory.reduce((acc, item) => ({
-        inputWithCache: acc.inputWithCache + (item?.inputWithCache || 0),
-        inputWithoutCache: acc.inputWithoutCache + (item?.inputWithoutCache || 0),
-        cacheRead: acc.cacheRead + (item?.cacheRead || 0),
-        output: acc.output + (item?.output || 0),
-        totalTokens: acc.totalTokens + (item?.totalTokens || 0),
-        apiCost: acc.apiCost + (item?.apiCost || 0),
-        costToYou: acc.costToYou + (item?.costToYou || 0),
+    const totalRow = showTotal ? usageHistory.reduce((acc, item) => ({
+        inputWithCache: acc.inputWithCache + item.inputWithCache,
+        inputWithoutCache: acc.inputWithoutCache + item.inputWithoutCache,
+        cacheRead: acc.cacheRead + item.cacheRead,
+        output: acc.output + item.output,
+        totalTokens: acc.totalTokens + item.totalTokens,
+        apiCost: acc.apiCost + (item.apiCost || 0),
+        costToYou: acc.costToYou + (item.costToYou || 0),
     }), {
         inputWithCache: 0,
         inputWithoutCache: 0,
@@ -57,8 +57,8 @@ export function UsageTable({
     const formatCurrency = (amount: number) => {
         return `$${amount.toFixed(2)}`
     }
-    const hasApiCost = usageHistory?.some(item => item?.apiCost) || false
-    const hasCostToYou = usageHistory?.some(item => item?.costToYou) || false
+    const hasApiCost = usageHistory.some(item => item.apiCost)
+    const hasCostToYou = usageHistory.some(item => item.costToYou)
 
     return (
         <Card className={cn("w-full gap-1 py-3 md:py-6", className)}>
@@ -111,79 +111,73 @@ export function UsageTable({
                             </TableRow>
                         </TableHeader>
                         <TableBody className="overflow-auto">
-                            {usageHistory?.length === 0 && (
+                            {usageHistory.length === 0 && (
                                 <TableRow className="border-muted-foreground/10">
                                     <TableCell colSpan={8} className="h-24 text-center text-muted-foreground pl-6 pr-6">
                                         No usage data available
                                     </TableCell>
                                 </TableRow>
                             )}
-                            {usageHistory?.map((item, index) => (
+                            {usageHistory.map((item, index) => (
                                 <TableRow key={item.model || index} className="">
                                     <TableCell className="font-mono text-foreground">
-                                        {item?.model || 'Unknown Model'}
+                                        {item.model}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.inputWithCache || 0)}
+                                        {formatNumber(item.inputWithCache)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.inputWithoutCache || 0)}
+                                        {formatNumber(item.inputWithoutCache)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.cacheRead || 0)}
+                                        {formatNumber(item.cacheRead)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.output || 0)}
+                                        {formatNumber(item.output)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.totalTokens || 0)}
+                                        {formatNumber(item.totalTokens)}
                                     </TableCell>
                                     {hasApiCost && (
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item?.apiCost || 0)}
+                                        {formatCurrency(item.apiCost || 0)}
                                     </TableCell>
                                     )}
                                     {hasCostToYou && (
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item?.costToYou || 0)}
+                                        {formatCurrency(item.costToYou || 0)}
                                     </TableCell>
                                     )}
                                 </TableRow>
-                            )) || (
-                                <TableRow className="border-muted-foreground/10">
-                                    <TableCell colSpan={8} className="h-24 text-center text-muted-foreground pl-6 pr-6">
-                                        No usage data available
-                                    </TableCell>
-                                </TableRow>
-                            )}
+                            ))}
                             {showTotal && totalRow && (
                                 <TableRow className="font-medium bg-muted/50 hover:bg-muted/50">
                                     <TableCell className="font-mono  font-semibold">
                                         Total
                                     </TableCell>
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow?.inputWithCache || 0)}
+                                        {formatNumber(totalRow.inputWithCache)}
                                     </TableCell>
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow?.inputWithoutCache || 0)}
+                                        {formatNumber(totalRow.inputWithoutCache)}
                                     </TableCell>
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow?.cacheRead || 0)}
+                                        {formatNumber(totalRow.cacheRead)}
                                     </TableCell>
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow?.output || 0)}
+                                        {formatNumber(totalRow.output)}
                                     </TableCell>
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow?.totalTokens || 0)}
+                                        {formatNumber(totalRow.totalTokens)}
                                     </TableCell>
                                     {hasApiCost && (
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatCurrency(totalRow?.apiCost || 0)}
+                                        {formatCurrency(totalRow.apiCost || 0)}
                                     </TableCell>
                                     )}
                                     {hasCostToYou && (
                                     <TableCell className="text-right  font-mono font-semibold">
-                                        {formatCurrency(totalRow?.costToYou || 0)}
+                                        {formatCurrency(totalRow.costToYou || 0)}
                                     </TableCell>
                                     )}
                                 </TableRow>
