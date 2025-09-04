@@ -109,7 +109,7 @@ export function PricingTableFive({ plans, title, description, onPlanSelect,class
       <div className="flex flex-col md:!flex-row justify-between gap-4">
         <div className="flex flex-col gap-5 w-full md:!w-[70%]">
           {regularPlans.map((plan) => (
-              <Card key={plan.id} className="relative bg-card border border-border shadow-lg  py-4">
+              <Card key={plan.id} className="relative bg-card border border-border shadow-sm  py-4">
                 {plan.highlight && (
                   <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1">
                     {plan.badge}
