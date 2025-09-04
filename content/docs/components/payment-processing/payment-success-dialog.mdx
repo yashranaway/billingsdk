@@ -62,20 +62,31 @@ description: A confirmation dialog that celebrates a successful payment with the
 ## Usage
 
 ```tsx
-import { PaymentSuccessDialog } from "@/components/billingsdk/payment-success-dialog";
+import { PaymentSuccessDialog, type PaymentSuccessDialogRef } from "@/components/billingsdk/payment-success-dialog";
 ```
 
 ```tsx
+// Controlled usage (recommended)
+const [open, setOpen] = useState(false);
+
+// Show on demand, e.g. after successful payment
+setOpen(true);
+
 <PaymentSuccessDialog
+  open={open}
+  onOpenChange={setOpen}
   price="29"
   currencySymbol="$"
   productName="Pro Plan (Monthly)"
-  triggerText="Complete Purchase"
   proceedButtonText="Go to Dashboard"
   backButtonText="Back to Pricing"
-  onProceed={() => console.log('proceed')}
-  onBack={() => console.log('back')}
 />
+```
+
+```tsx
+// Imperative ref (optional)
+const ref = useRef<PaymentSuccessDialogRef>(null);
+ref.current?.open();
 ```
 
 ## Props
@@ -87,12 +98,13 @@ import { PaymentSuccessDialog } from "@/components/billingsdk/payment-success-di
 | `currencySymbol` | `string` | ❌ | Currency symbol prefix (default: `$`) |
 | `price` | `string` | ✅ | Amount paid |
 | `productName` | `string` | ✅ | Product Name |
-| `triggerText` | `string` | ❌ | Label for the trigger button |
 | `proceedButtonText` | `string` | ❌ | Primary action label |
 | `backButtonText` | `string` | ❌ | Secondary action label |
 | `onProceed` | `() => void` | ❌ | Callback for proceed action |
 | `onBack` | `() => void` | ❌ | Callback for back action |
 | `className` | `string` | ❌ | Additional class names |
+| `open` | `boolean` | ❌ | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | ❌ | Controlled state handler |
 
 ## Theming
 

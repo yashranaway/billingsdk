@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -22,12 +21,18 @@ export interface PaymentSuccessDialogProps {
   currencySymbol?: string;
   price: string;
   productName: string;
-  triggerText?: string;
   proceedButtonText?: string;
   backButtonText?: string;
   onProceed?: () => void;
   onBack?: () => void;
   className?: string;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
+export interface PaymentSuccessDialogRef {
+  open: () => void;
+  close: () => void;
 }
 
 type ConfettiPiece = {
@@ -40,32 +45,46 @@ type ConfettiPiece = {
   colorVar: string; // CSS var name like --primary, --accent
 };
 
-export function PaymentSuccessDialog({
+export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentSuccessDialogProps>(function PaymentSuccessDialog({
   title = "Congratulations!",
   subtitle = "Your payment was successful.",
   currencySymbol = "$",
   price,
   productName,
-  triggerText = "Show Success",
   proceedButtonText = "Proceed",
   backButtonText = "Back",
   onProceed,
   onBack,
   className,
-}: PaymentSuccessDialogProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  open,
+  onOpenChange,
+}, ref) {
+  const isControlled = open !== undefined;
+  const [internalOpen, setInternalOpen] = useState(false);
+  const openState = isControlled ? (open as boolean) : internalOpen;
+  const setOpenState = (value: boolean) => {
+    if (isControlled) {
+      onOpenChange?.(value);
+    } else {
+      setInternalOpen(value);
+    }
+  };
+  useImperativeHandle(ref, () => ({
+    open: () => setOpenState(true),
+    close: () => setOpenState(false),
+  }), [isControlled, onOpenChange]);
   const [confettiActive, setConfettiActive] = useState(false);
   const { currentTheme, previewDarkMode } = useTheme();
   const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
 
   useEffect(() => {
-    if (isOpen) {
+    if (openState) {
       setConfettiActive(true);
       const t = setTimeout(() => setConfettiActive(false), 2200);
       return () => clearTimeout(t);
     }
     setConfettiActive(false);
-  }, [isOpen]);
+  }, [openState]);
 
   const confetti: ConfettiPiece[] = useMemo(() => {
     const pieces: ConfettiPiece[] = [];
@@ -87,10 +106,7 @@ export function PaymentSuccessDialog({
   }, []);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button>{triggerText}</Button>
-      </DialogTrigger>
+    <Dialog open={openState} onOpenChange={setOpenState}>
       <DialogContent
         className={cn(
           "w-[95%] sm:max-w-[560px] p-0 overflow-hidden text-foreground",
@@ -153,7 +169,7 @@ export function PaymentSuccessDialog({
                 className="w-full"
                 onClick={() => {
                   onBack?.();
-                  setIsOpen(false);
+                  setOpenState(false);
                 }}
               >
                 {backButtonText}
@@ -162,7 +178,7 @@ export function PaymentSuccessDialog({
                 className="w-full"
                 onClick={() => {
                   onProceed?.();
-                  setIsOpen(false);
+                  setOpenState(false);
                 }}
               >
                 {proceedButtonText}
@@ -201,6 +217,6 @@ export function PaymentSuccessDialog({
       </DialogContent>
     </Dialog>
   );
-}
+});
 
 
