@@ -59,12 +59,12 @@ export function Banner({
             ? "sticky top-0 z-50 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-card/60"
             : "sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60",
           wrapper:
-            "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-center px-3 sm:px-4 py-2 gap-2 sm:gap-4 max-w-2xl",
+            "relative container mx-auto flex flex-col sm:flex-row md:items-start items-center justify-center px-3 sm:px-4 py-2 gap-2 sm:gap-4 max-w-2xl",
           content:
             "flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2",
           title: "text-sm font-medium text-card-foreground leading-tight",
           description: "text-xs text-muted-foreground sm:ml-2",
-          actions: "flex items-center gap-2 self-end sm:self-auto",
+          actions: "flex items-center justify-center md:justify-start gap-2 sm:self-auto",
         };
       case "popup":
         return {
@@ -78,7 +78,7 @@ export function Banner({
           title: "text-sm font-medium text-popover-foreground leading-snug",
           description: "text-xs text-muted-foreground",
           actions:
-            "flex items-center gap-2 self-end sm:self-auto flex-shrink-0 pr-8",
+            "flex items-center justify-center md:justify-start gap-2 sm:self-auto flex-shrink-0 pr-8 md:pr-0",
         };
       case "destructive":
         return {
@@ -86,16 +86,17 @@ export function Banner({
             ? "sticky top-0 z-50 w-full border-b border-destructive/20 backdrop-blur supports-[backdrop-filter]:bg-destructive/10"
             : "sticky top-0 z-50 w-full border-b bg-destructive text-destructive-foreground shadow-sm backdrop-blur",
           wrapper:
-            "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
+            "relative container mx-auto flex flex-col sm:flex-row md:items-start items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
           content:
-            "flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full",
+            "flex flex-col sm:flex-row md:items-start items-center gap-2 w-full",
           title: hasGradient
             ? "text-sm font-medium text-destructive leading-tight"
             : "text-sm font-medium text-destructive-foreground leading-tight",
           description: hasGradient
             ? "text-xs text-destructive/80"
             : "text-xs text-destructive-foreground/80",
-          actions: "flex items-center gap-2 self-end sm:self-auto pr-8",
+          actions:
+            "flex items-center justify-center md:justify-start gap-2 sm:self-auto pr-8 md:pr-0",
         };
       default:
         return {
@@ -103,16 +104,17 @@ export function Banner({
             ? "sticky top-0 z-50 w-full border-b text-primary-foreground shadow-sm text-left backdrop-blur"
             : "sticky top-0 z-50 w-full border-b bg-primary text-primary-foreground shadow-sm text-left backdrop-blur",
           wrapper:
-            "relative container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
+            "relative container mx-auto flex flex-col sm:flex-row md:items-start items-center justify-between px-3 sm:px-4 py-2 sm:py-3 gap-2 sm:gap-4",
           content:
-            "flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full",
+            "flex flex-col sm:flex-row md:items-start items-center gap-2 w-full",
           title: hasGradient
             ? "text-sm font-medium text-foreground leading-tight"
             : "text-sm font-medium text-primary-foreground leading-tight",
           description: hasGradient
             ? "text-xs text-foreground/80"
             : "text-xs text-primary-foreground/80",
-          actions: "flex items-center gap-2 self-end sm:self-auto pr-8",
+          actions:
+            "flex items-center justify-center md:justify-start gap-2 sm:self-auto pr-8 md:pr-0",
         };
     }
   };
