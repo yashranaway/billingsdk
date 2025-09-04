@@ -64,9 +64,8 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
 
         res.status(200).json({ message: "Webhook processed successfully" });
     } catch (error) {
-        console.log(" ----- webhook verification failed -----")
-        console.log(error)
-        res.status(200).json({ message: "Webhook processed successfully" });
+        console.error("Webhook verification failed:", error);
+        res.status(400).json({ error: "Webhook verification failed" });
     }
 });
 
