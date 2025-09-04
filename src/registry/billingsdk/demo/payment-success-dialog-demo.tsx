@@ -5,7 +5,7 @@ import { PaymentSuccessDialog } from "@/components/billingsdk/payment-success-di
 import { Card, CardContent } from "@/components/ui/card";
 
 export function PaymentSuccessDialogDemo() {
-  const [lastAction, setLastAction] = useState<string>("");
+  const [, setLastAction] = useState<string>("");
 
   return (
     <Card className="border-muted/40">
