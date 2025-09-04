@@ -3,7 +3,6 @@ import { getDodoPaymentsClient } from '../../lib/dodopayments';
 
 const router = express.Router();
 
-
 router.get('/', async (req, res) => {
     try {
         const { limit, starting_after } = req.query;
