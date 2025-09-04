@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { PaymentSuccessDialog } from '@/components/billingsdk/payment-success-dialog'
 import { Card, CardContent } from '@/components/ui/card'
 
