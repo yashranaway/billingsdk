@@ -35,6 +35,7 @@
                 "@billingsdk/subscription-management",
                 "@billingsdk/usage-meter-linear",
                 "@billingsdk/usage-meter-circle",
+                "@billingsdk/usage-forecast",
                 "@billingsdk/banner",
                 "@billingsdk/invoice-history",
                 "@billingsdk/usage-table",
@@ -571,6 +572,33 @@
               "card",
               "input",
               "label",
+              "utils"
+            ]
+          },
+          {
+            "name": "usage-forecast",
+            "type": "registry:block",
+            "title": "Usage Forecast",
+            "description": "A smart usage forecasting component with trend analysis and cost projections",
+            "files": [
+              {
+                "path": "src/registry/billingsdk/usage-forecast.tsx",
+                "type": "registry:component",
+                "target": "components/billingsdk/usage-forecast.tsx"
+              },
+              {
+                "path": "src/registry/billingsdk/demo/usage-forecast-demo.tsx",
+                "type": "registry:component",
+                "target": "components/usage-forecast-demo.tsx"
+              }
+            ],
+            "dependencies": [
+              "motion"
+            ],
+            "registryDependencies": [
+              "card",
+              "badge",
+              "button",
               "utils"
             ]
           }
