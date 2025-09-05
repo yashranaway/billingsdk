@@ -105,7 +105,7 @@ const contactDescriptionVariants = cva("text-sm leading-relaxed", {
 const contactButtonVariants = cva("w-full", {
   variants: {
     variant: {
-      default: "bg-primary-foreground text-foreground hover:bg-foreground/60",
+      default: "bg-primary-foreground text-foreground hover:bg-primary-foreground/50",
       minimal: "bg-primary text-primary-foreground hover:bg-primary/60",
     },
   },
