@@ -23,22 +23,23 @@
             "description": "All components in the BillingSDK",
             "files": [],
             "registryDependencies": [
-                "https://billingsdk.com/r/pricing-table-one.json",
-                "https://billingsdk.com/r/pricing-table-two.json",
-                "https://billingsdk.com/r/pricing-table-three.json",
-                "https://billingsdk.com/r/pricing-table-four.json",
-                "https://billingsdk.com/r/cancel-subscription-dialog.json",
-                "https://billingsdk.com/r/cancel-subscription-card.json",
-                "https://billingsdk.com/r/update-plan-dialog.json",
-                "https://billingsdk.com/r/update-plan-card.json",
-                "https://billingsdk.com/r/subscription-management.json",
-                "https://billingsdk.com/r/usage-meter-linear.json",
-                "https://billingsdk.com/r/usage-meter-circle.json",
-                "https://billingsdk.com/r/banner.json",
-                "https://billingsdk.com/r/invoice-history.json",
-                "https://billingsdk.com/r/usage-table.json",
-                "https://billingsdk.com/r/payment-method-selector.json",
-                "https://billingsdk.com/r/payment-method-manager.json"
+                "@billingsdk/pricing-table-one",
+                "@billingsdk/pricing-table-two",
+                "@billingsdk/pricing-table-three",
+                "@billingsdk/pricing-table-four",
+                "@billingsdk/pricing-table-five",
+                "@billingsdk/cancel-subscription-dialog",
+                "@billingsdk/cancel-subscription-card",
+                "@billingsdk/update-plan-dialog",
+                "@billingsdk/update-plan-card",
+                "@billingsdk/subscription-management",
+                "@billingsdk/usage-meter-linear",
+                "@billingsdk/usage-meter-circle",
+                "@billingsdk/banner",
+                "@billingsdk/invoice-history",
+                "@billingsdk/usage-table",
+                "@billingsdk/payment-method-selector",
+                "@billingsdk/payment-method-manager"
             ]
         },
         {
@@ -255,6 +256,44 @@
             ]
         },
         {
+            "name": "pricing-table-five",
+            "type": "registry:block",
+            "title": "Pricing Table Five",
+            "description": "A modern pricing table component with contact us plan",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/pricing-table-five.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/pricing-table-five.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/pricing-table-five-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/pricing-table-five-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/billingsdk-config.ts",
+                    "type": "registry:lib",
+                    "target": "lib/billingsdk-config.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "class-variance-authority",
+                "motion"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "switch",
+                "radio-group",
+                "label",
+                "separator",
+                "utils"
+            ]
+        },
+        {
             "name": "cancel-subscription-dialog",
             "type": "registry:block",
             "title": "Cancel Subscription Dialog",
@@ -421,8 +460,8 @@
                 "badge",
                 "separator",
                 "utils",
-                "https://billingsdk.com/r/cancel-subscription-dialog.json",
-                "https://billingsdk.com/r/update-plan-dialog.json"
+                "@billingsdk/cancel-subscription-dialog",
+                "@billingsdk/update-plan-dialog"
             ]
         },
         {
@@ -505,27 +544,39 @@
                 "utils"
             ]
         },
+        
         {
-            "name": "usage-table",
+            "name": "payment-method-selector",
             "type": "registry:block",
-            "title": "Usage Table",
-            "description": "Per-model LLM usage with token counts, cache reads, and API cost",
+            "title": "Payment Method Selector",
+            "description": "A payment method selector component with support for cards, digital wallets, UPI, and BNPL services",
             "files": [
               {
-                "path": "src/registry/billingsdk/usage-table.tsx",
+                "path": "src/registry/billingsdk/payment-method-selector.tsx",
                 "type": "registry:component",
-                "target": "components/billingsdk/usage-table.tsx"
+                "target": "components/billingsdk/payment-method-selector.tsx"
               },
               {
-                "path": "src/registry/billingsdk/demo/usage-table-demo.tsx",
+                "path": "src/registry/billingsdk/demo/payment-method-selector-demo.tsx",
                 "type": "registry:component",
-                "target": "components/usage-table-demo.tsx"
+                "target": "components/payment-method-selector-demo.tsx"
               }
             ],
-            "dependencies": ["lucide-react"],
-            "registryDependencies": ["card", "table", "utils"]
+            "dependencies": [
+              "lucide-react",
+              "motion"
+            ],
+            "registryDependencies": [
+              "button",
+              "dialog",
+              "tooltip",
+              "card",
+              "input",
+              "label",
+              "utils"
+            ]
           },
-        {
+          {
             "name": "payment-method-selector",
             "type": "registry:block",
             "title": "Payment Method Selector",
