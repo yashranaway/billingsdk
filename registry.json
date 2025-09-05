@@ -573,26 +573,6 @@
               "label",
               "utils"
             ]
-          },
-          {
-            "name": "usage-meter-bar",
-            "type": "registry:block",
-            "title": "Usage Meter Bar",
-            "description": "Per-model LLM usage with token counts, cache reads, and API cost",
-            "files": [
-              {
-                "path": "src/registry/billingsdk/usage-meter-bar.tsx",
-                "type": "registry:component",
-                "target": "components/billingsdk/usage-meter-bar.tsx"
-              },
-              {
-                "path": "src/registry/billingsdk/demo/usage-meter-bar-demo.tsx",
-                "type": "registry:component",
-                "target": "components/usage-meter-bar-demo.tsx"
-              }
-            ],
-            "dependencies": ["lucide-react", "motion"],
-            "registryDependencies": ["card", "table", "utils", "badge"]
           }
     ]
 }
