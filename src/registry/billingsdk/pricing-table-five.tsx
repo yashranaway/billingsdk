@@ -17,6 +17,7 @@ export interface PricingTableFiveProps {
   description: string
   onPlanSelect: (planId: string) => void
   className?: string
+  variant?: "default" | "minimal"
 }
 
 
@@ -38,7 +39,94 @@ const switchScaleVariants = cva("transition-all", {
   },
 });
 
-export function PricingTableFive({ plans, title, description, onPlanSelect,className }: PricingTableFiveProps) {
+
+const contactCardVariants = cva("border-border shadow-sm w-full md:!w-[30%]", {
+  variants: {
+    variant: {
+      default: "bg-primary text-primary-foreground",
+      minimal: "bg-card text-foreground",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const contactIconContainerVariants = cva("w-12 h-12 rounded-lg flex items-center justify-center mx-auto", {
+  variants: {
+    variant: {
+      default: "bg-primary",
+      minimal: "bg-card",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+
+const contactIconVariants = cva("w-9 h-9", {
+  variants: {
+    variant: {
+      default: "text-primary-foreground",
+      minimal: "text-foreground",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const contactTitleVariants = cva("text-2xl font-bold mb-3", {
+  variants: {
+    variant: {
+      default: "text-primary-foreground",
+      minimal: "text-foreground",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+
+const contactDescriptionVariants = cva("text-sm leading-relaxed", {
+  variants: {
+    variant: {
+      default: "text-primary-foreground",
+      minimal: "text-muted-foreground",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const contactButtonVariants = cva("w-full", {
+  variants: {
+    variant: {
+      default: "bg-primary-foreground text-foreground hover:bg-foreground/60",
+      minimal: "bg-primary text-primary-foreground hover:bg-primary/60",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+const contactFooterVariants = cva("text-xs", {
+  variants: {
+    variant: {
+      default: "text-primary-foreground",
+      minimal: "text-muted-foreground",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+export function PricingTableFive({ plans, title, description, onPlanSelect,className,variant="default" }: PricingTableFiveProps) {
   const [isAnnual, setIsAnnual] = useState(false)
 
 
@@ -161,21 +249,21 @@ export function PricingTableFive({ plans, title, description, onPlanSelect,class
         </div>
 
         {/* Contact Us Card */}
-        <Card className="bg-card text-foreground border-border shadow-sm w-full md:!w-[30%]">
+        <Card className={cn(contactCardVariants({ variant }))} >
           <CardContent className="p-8 text-center space-y-6">
-            <div className="w-12 h-12 bg-card rounded-lg flex items-center justify-center mx-auto">
-              <Phone className="w-9 h-9 text-foreground" />
+            <div className={cn(contactIconContainerVariants({ variant }))}>
+              <Phone className={cn(contactIconVariants({ variant }))} />
             </div>
             <div>
-              <h3 className="text-2xl font-bold mb-3">{contactUsPlan.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <h3 className={cn(contactTitleVariants({ variant }))}>{contactUsPlan.title}</h3>
+              <p className={cn(contactDescriptionVariants({ variant }))}>
                 {contactUsPlan.description}
               </p>
             </div>
-            <Button onClick={() => onPlanSelect(plans[plans.length - 1].id)} variant="secondary" className="w-full bg-primary text-primary-foreground hover:bg-primary/60">
+            <Button onClick={() => onPlanSelect(plans[plans.length - 1].id)} variant="secondary" className={cn(contactButtonVariants({ variant }))}>
               {contactUsPlan.buttonText}
             </Button>
-            <p className="text-xs text-muted-foreground">{contactUsPlan.description}</p>
+            <p className={cn(contactFooterVariants({ variant }))}>{contactUsPlan.description}</p>
           </CardContent>
         </Card>
       </div>

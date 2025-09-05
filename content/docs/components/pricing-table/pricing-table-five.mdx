@@ -3,6 +3,8 @@ title: Pricing Table Five
 description: The Pricing Table Five component provides a fifth design option for pricing displays. You can use this component to display your pricing plans in a 2 column layout with a contact us plan.  
 ---
 
+## Default Theme
+
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
     <PreviewComponents registryName="pricing-table-five">
@@ -12,7 +14,22 @@ description: The Pricing Table Five component provides a fifth design option for
 
   <Tab value="Code" className="mt-3">
     <include cwd lang="tsx" meta='title="src/components/pricing-table-five-demo.tsx"'>src/components/pricing-table-five-demo.tsx</include>
-  </Tab>  
+  </Tab>
+</Tabs>
+
+## Minimal Theme
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents registryName="pricing-table-five">
+      <PricingTableFiveDemoMinimal />
+    </PreviewComponents>
+  </Tab>
+
+
+  <Tab value="Code" className="mt-3">
+    <include cwd lang="tsx" meta='title="src/components/pricing-table-five-minimal-demo.tsx"'>src/components/pricing-table-five-minimal-demo.tsx</include>
+  </Tab>
 </Tabs>
 
 ## Installation
@@ -69,6 +86,7 @@ import { plans } from "@/lib/billingsdk-config";
   title="Pricing Plans"
   description="Find the right plan for your business"
   onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+  variant="default" // default or minimal
 />
 ```
 
@@ -80,6 +98,7 @@ import { plans } from "@/lib/billingsdk-config";
 | `title` | `string` | Main title for the pricing section |
 | `description` | `string` | Subtitle description |
 | `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
+| `variant` | `"default" \| "minimal"` | Variant of the pricing table (default: "default") |
 
 ## Theming
 
