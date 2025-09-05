@@ -9,8 +9,8 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { motion, useMotionValue } from "motion/react"
-import { useEffect, useState } from "react"
+import { motion } from "motion/react"
+import { useState } from "react"
 
 export interface HistoricalUsage {
     date: string
@@ -92,22 +92,25 @@ export function UsageForecast({
         const recentAvg = recent.reduce((sum, d) => sum + d.usage, 0) / recent.length
         const olderAvg = older.reduce((sum, d) => sum + d.usage, 0) / older.length
         
-        return ((recentAvg - olderAvg) / olderAvg) * 100
+        if (olderAvg === 0 || !isFinite(olderAvg)) return 0
+        
+        const trendValue = ((recentAvg - olderAvg) / olderAvg) * 100
+        return isFinite(trendValue) ? trendValue : 0
     }
 
     const forecastMetric = (metric: UsageMetric): ForecastData => {
         const trend = calculateTrend(metric.historicalData)
-        const dailyGrowth = trend / 100 / 7
+        const dailyGrowth = isFinite(trend) ? trend / 100 / 7 : 0
         const projected = Math.max(0, metric.currentUsage * (1 + dailyGrowth * forecastDays))
         const projectedCost = projected * metric.unitCost
         
         const alerts: ForecastAlert[] = []
-        const projectedPercentage = (projected / metric.limit) * 100
+        const projectedPercentage = metric.limit > 0 ? (projected / metric.limit) * 100 : 0
 
         const applicableThresholds = alertThresholds.filter(threshold => projectedPercentage >= threshold)
         const highestThreshold = Math.max(...applicableThresholds)
         
-        if (applicableThresholds.length > 0) {
+        if (applicableThresholds.length > 0 && metric.limit > 0) {
             const type = highestThreshold >= 100 ? "critical" : highestThreshold >= 90 ? "warning" : "info"
             const overage = Math.max(0, projected - metric.limit)
             const overageCost = overage * metric.unitCost
@@ -124,7 +127,7 @@ export function UsageForecast({
             })
         }
 
-        const daysToLimit = dailyGrowth > 0 
+        const daysToLimit = (dailyGrowth > 0 && metric.currentUsage > 0 && metric.limit > metric.currentUsage) 
             ? Math.ceil((metric.limit - metric.currentUsage) / (metric.currentUsage * dailyGrowth))
             : undefined
 
@@ -199,15 +202,26 @@ export function UsageForecast({
         return chartData
     }
 
-    const SimplifiedChart = ({ data, metric }: { data: any[], metric: UsageMetric }) => {
-        const maxUsage = Math.max(...data.map(d => d.usage), metric.limit)
+    const SimplifiedChart = ({ data, metric }: { data: Array<{ usage: number; isProjected?: boolean }>, metric: UsageMetric }) => {
+        if (data.length < 2) {
+            return (
+                <div className="flex items-center justify-center h-16 px-3 py-2 bg-muted/30 dark:bg-muted/20 border border-border rounded-md">
+                    <span className="text-xs text-muted-foreground">Insufficient data</span>
+                </div>
+            )
+        }
+        
+        const usageValues = data.map(d => d.usage).filter(usage => typeof usage === 'number' && isFinite(usage))
+        const maxUsage = usageValues.length > 0 ? Math.max(...usageValues, metric.limit, 0) : Math.max(metric.limit, 1)
         const chartHeight = 48
         const chartWidth = 240
         
         const bars = data.map((d, i) => {
-            const x = (i / (data.length - 1)) * chartWidth
-            const barWidth = Math.max(2, chartWidth / data.length - 1)
-            const height = Math.min(chartHeight - 4, Math.max(2, (d.usage / maxUsage) * chartHeight))
+            const safeDataLength = Math.max(data.length, 1)
+            const x = safeDataLength > 1 ? (i / (safeDataLength - 1)) * chartWidth : chartWidth / 2
+            const barWidth = Math.max(2, Math.max(chartWidth / safeDataLength - 1, 1))
+            const safeUsage = typeof d.usage === 'number' && isFinite(d.usage) ? d.usage : 0
+            const height = Math.min(chartHeight - 4, Math.max(2, (safeUsage / maxUsage) * chartHeight))
             const y = chartHeight - height
             
             return {
@@ -215,7 +229,7 @@ export function UsageForecast({
                 y,
                 width: barWidth,
                 height,
-                isProjected: d.isProjected
+                isProjected: d.isProjected || false
             }
         })
         
@@ -271,14 +285,8 @@ export function UsageForecast({
             <CardContent className={cn("grid grid-cols-1 gap-6", config.spacing)}>
                 {metrics.map((metric, i) => {
                     const forecast = forecastMetric(metric)
-                    const projectedPercentage = (forecast.projected / metric.limit) * 100
+                    const projectedPercentage = metric.limit > 0 ? (forecast.projected / metric.limit) * 100 : 0
                     const chartData = generateChartData(metric, forecast)
-
-                    const motionValue = useMotionValue(0)
-
-                    useEffect(() => {
-                        motionValue.set(projectedPercentage)
-                    }, [projectedPercentage, motionValue])
 
                     const isSelected = selectedMetric === i
 

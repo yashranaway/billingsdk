@@ -1,15 +1,15 @@
 "use client"
 
-import { UsageForecast } from "@/registry/billingsdk/usage-forecast"
-import type { UsageMetric } from "@/registry/billingsdk/usage-forecast"
+import { UsageForecast } from "@/components/billingsdk/usage-forecast"
+import type { UsageMetric } from "@/components/billingsdk/usage-forecast"
 
 const generateHistoricalData = (baseUsage: number, days: number = 30, trendType: 'up' | 'down' | 'stable' = 'up') => {
     const data = []
-    const baseDate = new Date('2024-01-01')
+    const baseDate = new Date(Date.UTC(2024, 0, 1)) // January 1, 2024 UTC
     
-    for (let i = days; i >= 0; i--) {
-        const date = new Date(baseDate)
-        date.setDate(baseDate.getDate() - i)
+    for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(baseDate.getTime())
+        date.setUTCDate(baseDate.getUTCDate() - i)
         
         const seedValue = (i * 37) % 100 / 100
         let trendFactor = 0
