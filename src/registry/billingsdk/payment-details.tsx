@@ -10,15 +10,22 @@ import { getThemeStyles } from "@/lib/themes"
  * Detects the card type based on the card number
  * @param cardNumber - The card number to analyze
  * @returns The detected card type (visa, mastercard, amex, rupay, diners, or unknown)
+ * @note This is a best-effort detection based on known BIN ranges
  */
-const detectCardType = (cardNumber: string): 'visa' | 'mastercard' | 'amex' | 'rupay' | 'diners' | 'unknown' => {
+const detectCardType = (cardNumber: string): 'visa' | 'mastercard' | 'amex' | 'rupay' | 'diners' | 'discover' | 'unknown' => {
   const number = cardNumber.replace(/\s/g, "")
 
+  // Order matters: check more specific patterns first
   if (/^4/.test(number)) return "visa"
-  if (/^5[1-5]/.test(number) || /^2[2-7]/.test(number)) return "mastercard"
   if (/^3[47]/.test(number)) return "amex"
-  if (/^6/.test(number)) return "rupay"
-  if (/^30[0-5]/.test(number) || /^36/.test(number) || /^38/.test(number)) return "diners"
+  // Diners Club with expanded prefixes
+  if (/^3(?:0[0-5]|09|095|6|8)/.test(number)) return "diners"
+  // Mastercard with expanded range (51-55 and 2221-2720)
+  if (/^5[1-5]/.test(number) || /^222[1-9]/.test(number) || /^22[3-9]\d/.test(number) || /^2[3-6]\d{2}/.test(number) || /^27[0-1]\d/.test(number) || /^2720/.test(number)) return "mastercard"
+  // Discover with expanded prefixes
+  if (/^6011/.test(number) || /^65/.test(number) || /^64[4-9]/.test(number) || /^622(?:12[6-9]|1[3-9]\d|[2-8]\d{2}|9[0-1]\d|92[0-5])/.test(number)) return "discover"
+  // More specific RuPay BIN ranges (best effort)
+  if (/^60/.test(number) || /^81/.test(number) || /^82/.test(number) || /^508/.test(number)) return "rupay"
 
   return "unknown"
 }
@@ -59,27 +66,95 @@ const formatExpiryDate = (value: string): string => {
 }
 
 /**
+ * Validates a card number using the Luhn algorithm
+ * @param cardNumber - The card number to validate
+ * @returns Boolean indicating if the card number is valid
+ */
+const validateLuhn = (cardNumber: string): boolean => {
+  const number = cardNumber.replace(/\s/g, "")
+  if (!number || !/^\d+$/.test(number)) return false
+  
+  let sum = 0
+  let shouldDouble = false
+  
+  // Loop through values starting from the rightmost digit
+  for (let i = number.length - 1; i >= 0; i--) {
+    let digit = parseInt(number.charAt(i))
+    
+    if (shouldDouble) {
+      digit *= 2
+      if (digit > 9) digit -= 9
+    }
+    
+    sum += digit
+    shouldDouble = !shouldDouble
+  }
+  
+  return sum % 10 === 0
+}
+
+/**
  * Validates the payment form data
  * @param data - The form data to validate
+ * @param validators - Optional validation configuration
  * @returns Object containing validation errors
  */
-const validateForm = (data: PaymentFormData): Partial<PaymentFormData> => {
+const validateForm = (data: PaymentFormData, validators?: ValidationConfig): Partial<PaymentFormData> => {
   const errors: Partial<PaymentFormData> = {}
+  const cardType = detectCardType(data.cardNumber || "")
 
   if (!data.nameOnCard?.trim()) errors.nameOnCard = "Name is required"
-  if (!data.cardNumber?.replace(/\s/g, "") || data.cardNumber.replace(/\s/g, "").length < 13) {
+  
+  // Card number validation with Luhn algorithm
+  const strippedCardNumber = data.cardNumber?.replace(/\s/g, "") || ""
+  if (!strippedCardNumber || strippedCardNumber.length < 13 || !validateLuhn(strippedCardNumber)) {
     errors.cardNumber = "Valid card number is required"
   }
+  
+  // Expiry date validation
   if (!data.validTill || !/^\d{2}\/\d{2}$/.test(data.validTill)) {
     errors.validTill = "Valid expiry date is required (MM/YY)"
+  } else {
+    const [month, year] = data.validTill.split("/")
+    const expiryMonth = parseInt(month)
+    const expiryYear = 2000 + parseInt(year)
+    
+    const currentDate = new Date()
+    const currentMonth = currentDate.getMonth() + 1 // getMonth() returns 0-11
+    const currentYear = currentDate.getFullYear()
+    
+    if (expiryMonth < 1 || expiryMonth > 12) {
+      errors.validTill = "Invalid expiry month"
+    } else {
+      // Create date for last day of expiry month
+      const expiryDate = new Date(expiryYear, expiryMonth, 0) // Day 0 gives last day of previous month
+      expiryDate.setHours(23, 59, 59, 999) // Set to last moment of the day
+      
+      if (expiryDate < currentDate) {
+        errors.validTill = "Card has expired"
+      }
+    }
   }
-  if (!data.cvv || data.cvv.length < 3) errors.cvv = "Valid CVV is required"
+  
+  // CVV validation based on card type
+  const requiredCvvLength = cardType === "amex" ? 4 : 3
+  if (!data.cvv || data.cvv.length !== requiredCvvLength) {
+    errors.cvv = `Valid ${requiredCvvLength}-digit CVV is required`
+  }
+  
   if (!data.firstName?.trim()) errors.firstName = "First name is required"
   if (!data.middleLastName?.trim()) errors.middleLastName = "Last name is required"
   if (!data.billingAddress?.trim()) errors.billingAddress = "Billing address is required"
-  if (!data.pinCode || !/^\d{6}$/.test(data.pinCode)) errors.pinCode = "Valid 6-digit PIN code is required"
-  if (!data.contactNumber || !/^\d{10}$/.test(data.contactNumber)) {
-    errors.contactNumber = "Valid 10-digit contact number is required"
+  // PIN code validation - configurable based on country
+  const pinCodePattern = validators?.pinCode || /^\d{6}$/
+  if (!data.pinCode || !pinCodePattern.test(data.pinCode)) {
+    errors.pinCode = validators?.pinCodeErrorMessage || "Invalid postal code"
+  }
+  
+  // Contact number validation - configurable based on country
+  const contactNumberPattern = validators?.contactNumber || /^\d{10}$/
+  if (!data.contactNumber || !contactNumberPattern.test(data.contactNumber)) {
+    errors.contactNumber = validators?.contactNumberErrorMessage || "Invalid phone number"
   }
 
   return errors
@@ -112,6 +187,12 @@ const CardLogo = ({ type }: { type: string }) => {
           RuPay
         </div>
       )
+    case "discover":
+      return (
+        <div className="flex items-center justify-center w-10 h-6 bg-orange-600 rounded text-white text-xs font-bold">
+          DISC
+        </div>
+      )
     default:
       return <CreditCard className="w-5 h-5 text-muted-foreground" />
   }
@@ -141,10 +222,28 @@ export interface PaymentFormData {
   city?: string
   /** Customer's billing address */
   billingAddress?: string
-  /** Customer's PIN code (6 digits) */
+  /** Customer's PIN code */
   pinCode?: string
-  /** Customer's contact number (10 digits) */
+  /** Customer's phone number */
   contactNumber?: string
+  /** General form error message */
+  general?: string
+}
+
+/**
+ * Validation configuration interface
+ */
+export interface ValidationConfig {
+  /** Custom PIN code validation regex */
+  pinCode?: RegExp
+  /** Custom PIN code error message */
+  pinCodeErrorMessage?: string
+  /** Custom contact number validation regex */
+  contactNumber?: RegExp
+  /** Custom contact number error message */
+  contactNumberErrorMessage?: string
+  /** Country code for phone validation */
+  countryCode?: string
 }
 
 /**
@@ -159,6 +258,8 @@ export interface PaymentFormProps {
   description?: string
   /** Initial form data */
   initialData?: Partial<PaymentFormData>
+  /** Validation configuration */
+  validators?: ValidationConfig
   /** Callback when form is submitted */
   onSubmit?: (data: PaymentFormData) => void | Promise<void>
   /** Callback when discard button is clicked */
@@ -205,6 +306,7 @@ export function PaymentDetails({
   title = "Payment Details",
   description = "Enter your payment information to complete the transaction.",
   initialData = {},
+  validators,
   onSubmit,
   onDiscard,
   submitButtonText = "Save Changes",
@@ -221,19 +323,20 @@ export function PaymentDetails({
   const { currentTheme, previewDarkMode } = useTheme()
   const themeStyles = getThemeStyles(currentTheme, previewDarkMode)
   
+  // Initialize with empty strings, allowing initialData to override if provided
   const [formData, setFormData] = useState<PaymentFormData>({
-    nameOnCard: "Sai Shankar",
-    cardNumber: "4293 1891 0000 0008",
-    validTill: "09/28",
+    nameOnCard: "",
+    cardNumber: "",
+    validTill: "",
     cvv: "",
-    firstName: "Sai",
-    middleLastName: "Shankar",
-    country: "India",
-    state: "Maharashtra",
-    city: "Mumbai",
-    billingAddress: "House No :- 88, Near Fuel Pump, Park Street",
-    pinCode: "800011",
-    contactNumber: "9248286210",
+    firstName: "",
+    middleLastName: "",
+    country: "",
+    state: "",
+    city: "",
+    billingAddress: "",
+    pinCode: "",
+    contactNumber: "",
     ...initialData,
   })
 
@@ -244,16 +347,21 @@ export function PaymentDetails({
   const handleInputChange = (field: keyof PaymentFormData, value: string) => {
     let formattedValue = value
 
-    if (field === "cardNumber") {
+    // Type guard function to check if a field is a specific key
+    const isField = <K extends keyof PaymentFormData>(f: keyof PaymentFormData, k: K): f is K => f === k
+
+    if (isField(field, "cardNumber")) {
       formattedValue = formatCardNumber(value)
       setCardType(detectCardType(formattedValue))
-    } else if (field === "validTill") {
+    } else if (isField(field, "cvv")) {
+      // Limit CVV length based on card type
+      const maxLength = cardType === "amex" ? 4 : 3
+      formattedValue = value.slice(0, maxLength)
+    } else if (isField(field, "validTill")) {
       formattedValue = formatExpiryDate(value)
-    } else if (field === "cvv") {
-      formattedValue = value.replace(/\D/g, "").substring(0, 4)
-    } else if (field === "pinCode") {
+    } else if (isField(field, "pinCode")) {
       formattedValue = value.replace(/\D/g, "").substring(0, 6)
-    } else if (field === "contactNumber") {
+    } else if (isField(field, "contactNumber")) {
       formattedValue = value.replace(/\D/g, "").substring(0, 10)
     }
 
@@ -266,7 +374,7 @@ export function PaymentDetails({
   }
 
   const handleSubmit = async () => {
-    const formErrors = validateForm(formData)
+    const formErrors = validateForm(formData, validators)
 
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors)
@@ -279,6 +387,13 @@ export function PaymentDetails({
       await onSubmit?.(formData)
     } catch (error) {
       console.error("Error submitting form:", error)
+      // Set user-facing error message
+      setErrors(prev => ({
+        ...prev,
+        general: "Payment submission failed. Please try again."
+      }))
+      // Could also send to monitoring service if integrated
+      // monitoringService.captureException(error)
     } finally {
       setIsSubmitting(false)
     }
@@ -500,7 +615,7 @@ export function PaymentDetails({
               </div>
               <div>
                 <label className="block text-sm font-medium text-muted-foreground mb-2">
-                  Contact Number (+91) <span className="text-destructive">*</span>
+                  Phone Number <span className="text-destructive">*</span>
                 </label>
                 <input
                   type="text"
@@ -517,6 +632,13 @@ export function PaymentDetails({
           </div>
         </div>
 
+        {/* Display general error message */}
+        {errors.general && (
+          <div className="p-4 mb-6 bg-destructive/10 border border-destructive rounded-xl text-destructive">
+            {errors.general}
+          </div>
+        )}
+        
         {/* Action Buttons */}
         <div className="flex justify-end gap-4">
           <button 

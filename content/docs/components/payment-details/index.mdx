@@ -34,7 +34,7 @@ Choose your preferred installation method:
       </Tab>
       <Tab value="yarn">
         ```bash
-        npx shadcn@latest add @billingsdk/payment-details
+        yarn dlx shadcn@latest add @billingsdk/payment-details
         ```
       </Tab>
     </Tabs>
@@ -53,7 +53,7 @@ Choose your preferred installation method:
       </Tab>
       <Tab value="yarn">
         ```bash
-        npx @billingsdk/cli add payment-details
+        yarn dlx @billingsdk/cli add payment-details
         ```
       </Tab>
     </Tabs>
@@ -71,22 +71,31 @@ import { PaymentDetails, type PaymentFormData } from "@/components/billingsdk/pa
 ### Basic Implementation
 
 ```tsx
-const handleSubmit = async (data: PaymentFormData) => {
-  // Process payment data
-  console.log('Payment data:', data);
-};
+import { useState } from "react";
 
-<PaymentDetails
-  title="Payment Details"
-  description="Enter your payment information to complete the transaction."
-  onSubmit={handleSubmit}
-  onDiscard={() => console.log('Form discarded')}
-  showConfirmation={true}
-  onConfirmationClose={() => setShowConfirmation(false)}
-  countries={["India", "United States", "United Kingdom", "Canada", "Australia"]}
-  states={["Bihar", "Karnataka", "Maharashtra"]}
-  cities={["Patna", "Bangalore", "Mumbai"]}
-/>
+function PaymentForm() {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  
+  const handleSubmit = async (data: PaymentFormData) => {
+    // Process payment data
+    console.log('Payment data:', data);
+    setShowConfirmation(true);
+  };
+
+  return (
+    <PaymentDetails
+      title="Payment Details"
+      description="Enter your payment information to complete the transaction."
+      onSubmit={handleSubmit}
+      onDiscard={() => console.log('Form discarded')}
+      showConfirmation={showConfirmation}
+      onConfirmationClose={() => setShowConfirmation(false)}
+      countries={["India", "United States", "United Kingdom", "Canada", "Australia"]}
+      states={["Bihar", "Karnataka", "Maharashtra"]}
+      cities={["Patna", "Bangalore", "Mumbai"]}
+    />
+  );
+}
 ```
 
 ## Props
