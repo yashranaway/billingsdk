@@ -511,68 +511,96 @@
                 "utils"
             ]
         },
-        
         {
             "name": "payment-method-selector",
             "type": "registry:block",
             "title": "Payment Method Selector",
             "description": "A payment method selector component with support for cards, digital wallets, UPI, and BNPL services",
             "files": [
-              {
-                "path": "src/registry/billingsdk/payment-method-selector.tsx",
-                "type": "registry:component",
-                "target": "components/billingsdk/payment-method-selector.tsx"
-              },
-              {
-                "path": "src/registry/billingsdk/demo/payment-method-selector-demo.tsx",
-                "type": "registry:component",
-                "target": "components/payment-method-selector-demo.tsx"
-              }
+                {
+                    "path": "src/registry/billingsdk/payment-method-selector.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/payment-method-selector.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/payment-method-selector-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/payment-method-selector-demo.tsx"
+                }
             ],
             "dependencies": [
-              "lucide-react",
-              "motion"
+                "lucide-react",
+                "motion"
             ],
             "registryDependencies": [
-              "button",
-              "dialog",
-              "tooltip",
-              "card",
-              "input",
-              "label",
-              "utils"
+                "button",
+                "dialog",
+                "tooltip",
+                "card",
+                "input",
+                "label",
+                "utils"
             ]
-          },
-          {
+        },
+        {
             "name": "payment-method-selector",
             "type": "registry:block",
             "title": "Payment Method Selector",
             "description": "A payment method selector component with support for cards, digital wallets, UPI, and BNPL services",
             "files": [
-              {
-                "path": "src/registry/billingsdk/payment-method-selector.tsx",
-                "type": "registry:component",
-                "target": "components/billingsdk/payment-method-selector.tsx"
-              },
-              {
-                "path": "src/registry/billingsdk/demo/payment-method-selector-demo.tsx",
-                "type": "registry:component",
-                "target": "components/payment-method-selector-demo.tsx"
-              }
+                {
+                    "path": "src/registry/billingsdk/payment-method-selector.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/payment-method-selector.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/payment-method-selector-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/payment-method-selector-demo.tsx"
+                }
             ],
             "dependencies": [
-              "lucide-react",
-              "motion"
+                "lucide-react",
+                "motion"
             ],
             "registryDependencies": [
-              "button",
-              "dialog",
-              "tooltip",
-              "card",
-              "input",
-              "label",
-              "utils"
+                "button",
+                "dialog",
+                "tooltip",
+                "card",
+                "input",
+                "label",
+                "utils"
             ]
-          }
+        },
+        {
+            "name": "coupon",
+            "type": "registry:block",
+            "title": "Coupon Generator",
+            "description": "A coupon code generator component for billing and promotional purposes",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/coupon.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/coupon.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/coupon-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/coupon-demo.tsx"
+                }
+            ],
+            "dependencies": [
+                "lucide-react"
+            ],
+            "registryDependencies": [
+                "card",
+                "button",
+                "input",
+                "switch",
+                "label",
+                "select"
+            ]
+        }   
     ]
 }
