@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Toaster, toast } from "sonner"
-import { BillingSettings } from "../billing-setting"
+import { BillingSettings } from "@/components/billingsdk/billing-settings"
 
 type InvoiceFormat = "PDF" | "HTML"
 
@@ -24,7 +24,7 @@ interface NewCardForm {
   cvc: string
 }
 
-export default function BillingSettingsComponent() {
+export default function BillingSettingsDemo() {
   const [activeTab, setActiveTab] = useState<"general" | "payment" | "invoices" | "limits">("general")
   const [emailNotifications, setEmailNotifications] = useState<boolean>(true)
   const [usageAlerts, setUsageAlerts] = useState<boolean>(true)

@@ -2,16 +2,17 @@
 title: Billing Settings
 description: The Billing Settings component provides a user-friendly interface for managing billing preferences, payment methods, invoices, and usage limits. This component features a tabbed navigation system, form controls, and an interactive payment card management section.
 ---
+import BillingSettingsDemo from "src/components/billing-settings-demo.tsx"
 
     <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
     <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
     <PreviewComponents registryName="billing-settings">
-    <BillingSettingsComponent />
+    <BillingSettingsDemo  />
     </PreviewComponents>
     </Tab>
 
     <Tab value="Code" className="mt-3">
-    <include cwd lang="tsx" meta='title="src/components/billing-settings-component.tsx"'>src/components/billing-setting-demo.tsx</include>
+    <include cwd lang="tsx" meta='title="src/components/billing-settings-demo.tsx"'>src/components/billing-settings-demo.tsx</include>
     </Tab>
     </Tabs>
 
@@ -25,12 +26,12 @@ description: The Billing Settings component provides a user-friendly interface f
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
 <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
 <PreviewComponents registryName="billing-settings">
-<BillingSettingsComponent />
+<BillingSettingsDemo />
 </PreviewComponents>
 </Tab>
 
 <Tab value="Code" className="mt-3">
-<include cwd lang="tsx" meta='title="src/components/billing-settings-component.tsx"'>src/components/billing-settings-component.tsx</include>
+<include cwd lang="tsx" meta='title="src/components/billing-settings-demo.tsx"'>src/components/billing-settings-demo.tsx</include>
 </Tab>
 </Tabs>
 </Tabs>
@@ -43,7 +44,7 @@ Installation
     <Tab value="npx">
         
     ```bash 
-      npx shadcn@latest add https://billingsdk.com/r/billing-setting.json 
+      npx shadcn@latest add https://billingsdk.com/r/billing-settings.json 
       ```
     </Tab>
     <Tab value="pnpm">
@@ -135,7 +136,7 @@ export default function BillingSettingsDemo() {
 The pricing table component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 ## Example
-<include cwd lang="tsx" meta='title="src/components/billing-settings-component.tsx"'>src/components/billing-setting-demo.tsx</include>
+<include cwd lang="tsx" meta='title="src/components/billing-settings-demo.tsx"'>src/components/billing-settings-demo.tsx</include>
 
 ### Credits
 - Created by [@shashwat558](https://github.com/shashwat558)

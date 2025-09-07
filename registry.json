@@ -39,7 +39,8 @@
                 "@billingsdk/invoice-history",
                 "@billingsdk/usage-table",
                 "@billingsdk/payment-method-selector",
-                "@billingsdk/payment-method-manager"
+                "@billingsdk/payment-method-manager",
+                "@billingsdk/billing-setting"
             ]
         },
         {
@@ -581,14 +582,14 @@
             "description": "A comprehensive billing settings component with tabs for general, payment methods, invoices, and usage limits",
             "files": [
                 {
-                "path": "src/registry/billingsdk/billing-setting.tsx",
+                "path": "src/registry/billingsdk/billing-settings.tsx",
                 "type": "registry:component",
-                "target": "components/billingsdk/billing-setting.tsx"
+                "target": "components/billingsdk/billing-settings.tsx"
                 },
                 {
-                "path": "src/registry/billingsdk/demo/billing-setting-demo.tsx",
+                "path": "src/registry/billingsdk/demo/billing-settings-demo.tsx",
                 "type": "registry:component",
-                "target": "components/billing-setting-demo.tsx"
+                "target": "components/billing-settings-demo.tsx"
                 }
             ],
             "dependencies": [
