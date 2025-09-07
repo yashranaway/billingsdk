@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { intro, outro, select, spinner } from "@clack/prompts";
 import { addFiles } from "../scripts/add-files.js";
+import { detectFramework } from "../scripts/detect-framework.js";
 
 export const initCommand = new Command()
   .name("init")
@@ -10,13 +11,18 @@ export const initCommand = new Command()
     try {
       intro("Welcome to Billing SDK Setup!");
 
-      const framework = await select({
-        message: "Which framework would you like to use?",
-        options: [
-          { value: "nextjs", label: "Next.js", hint: "React framework with App Router" },
-          { value: "express", label: "Express.js", hint: "Node.js web framework" },
-        ],
-      });
+      let framework = detectFramework()
+      if (!framework) {
+        framework = await select({
+          message: "Which framework would you like to use?",
+          options: [
+            { value: "nextjs", label: "Next.js", hint: "React framework with App Router" },
+            { value: "express", label: "Express.js", hint: "Node.js web framework" },
+          ],
+        }) as 'nextjs' | 'express'
+      } else {
+        intro(`Framework detected: ${framework}`) // framework is detected in the same directory or in parent dir
+      }
 
       const provider = await select({
         message: "Which payment provider would you like to use? (Adding more providers soon)",
