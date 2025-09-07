@@ -2,8 +2,7 @@ import path from "path";
 import fs from "fs";
 import { Result } from "../types/registry.js";
 import { confirm, spinner } from "@clack/prompts";
-import { execFileSync } from "child_process";
-import { getInstaller } from "../utils/pm.js";
+import { execSync } from "child_process";
 
 export const addFiles = async (framework: "nextjs" | "express", provider: "dodopayments") => {
     const result = await fetch(`https://billingsdk.com/tr/${framework}-${provider}.json`)
@@ -44,9 +43,7 @@ export const addFiles = async (framework: "nextjs" | "express", provider: "dodop
         const s = spinner();
         s.start("Installing dependencies...");
         try {
-            const installer = getInstaller("install");
-            const deps = result.dependencies;
-            execFileSync(installer.cmd, [...installer.args, ...deps], { stdio: "inherit" });
+            await execSync(`npm install ${result.dependencies.join(" ")}`, { stdio: "inherit" });
             s.stop("Dependencies installed successfully!");
         } catch (error) {
             console.error("Failed to install dependencies:", error);
