@@ -7,10 +7,12 @@ import { ComponentsSection } from "@/components/landing/components";
 import Features from "@/components/landing/Features";
 import { Footer } from "@/components/landing/footer";
 import { OpenSource } from "@/components/landing/opensource";
+import NavBar from "@/components/landing/NavBar";
 
 const Page = () => {
   return (
     <main className="w-full relative overflow-hidden p-4">
+      <NavBar />
       <Hero />
       <Features />
       <ComponentsSection />
