@@ -13,7 +13,7 @@ export const initCommand = new Command()
 
       const detectedFramework = detectFramework();
       const framework = await select({
-        message: "Which framework would you like to use?",
+        message: "Which framework you are using? (Adding more frameworks soon)",
         options: [
           { value: "nextjs", label: detectedFramework === "nextjs" ? "Next.js (detected)" : "Next.js", hint: "React framework with App Router" },
           { value: "express", label: detectedFramework === "express" ? "Express.js (detected)" : "Express.js", hint: "Node.js web framework" },
