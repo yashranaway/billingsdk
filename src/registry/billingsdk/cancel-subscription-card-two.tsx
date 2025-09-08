@@ -99,13 +99,13 @@ export function CancelSubscriptionCardTwo({
                 <div className="flex flex-col gap-2 text-center md:text-left pl-4">
                     <h2 className="text-lg sm:text-2xl font-semibold">{title}</h2>
                     <p className="md:text-sm text-xs text-muted-foreground">{description}</p>
-                    {error && (
-                        <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                            <p className="text-sm text-destructive">{error}</p>
-                        </div>
-                    )}
                 </div>
                     </>
+                )}
+                {error && (
+                    <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                    <p className="text-sm text-destructive">{error}</p>
+                </div>
                 )}
               
                 {/* Subscription Details */}
