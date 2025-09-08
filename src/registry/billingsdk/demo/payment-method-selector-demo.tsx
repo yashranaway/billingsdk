@@ -5,8 +5,10 @@ export function PaymentMethodSelectorDemo() {
         <div className="w-full h-full flex flex-col gap-6 min-h-[500px] rounded-lg overflow-hidden bg-background-secondary border-2">
             <div className="flex flex-1 flex-col justify-center text-center">
                 <PaymentMethodSelector
-                    onProceed={(method, data) => {
+                    onSelectMethod={(method) => {
                         console.log("Selected method:", method)
+                    }}
+                    onFormSubmit={(data) => {
                         console.log("Form data:", data)
                     }}
                 />

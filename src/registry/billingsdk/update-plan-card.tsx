@@ -43,7 +43,7 @@ export function UpdatePlanCard({
             if (typeof onPlanChange === 'function') {
                 onPlanChange(planId);
             }
-        } catch (error) {
+        } catch (_error) {
             // Silently handle errors in playground mode
         }
     }

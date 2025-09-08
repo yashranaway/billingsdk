@@ -50,7 +50,7 @@ export function Banner({
       if (typeof onDismiss === 'function') {
         onDismiss();
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   };
@@ -218,7 +218,7 @@ export function Banner({
                       if (buttonLink) {
                         window.open(buttonLink, "_blank");
                       }
-                    } catch (error) {
+                    } catch (_error) {
                       // Silently handle errors in playground mode
                     }
                   }}

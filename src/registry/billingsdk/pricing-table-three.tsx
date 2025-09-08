@@ -169,7 +169,7 @@ export function PricingTableThree({
       if (typeof onPlanSelect === 'function') {
         onPlanSelect(planId)
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   }
@@ -179,7 +179,7 @@ export function PricingTableThree({
       if (typeof onFooterButtonClick === 'function') {
         onFooterButtonClick()
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   }

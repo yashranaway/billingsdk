@@ -107,7 +107,7 @@ export function CancelSubscriptionDialog({
             if (typeof onDialogClose === 'function') {
                 onDialogClose();
             }
-        } catch (error) {
+        } catch (_error) {
             // Silently handle errors in playground mode
         }
     };

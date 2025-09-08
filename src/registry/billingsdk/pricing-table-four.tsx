@@ -191,7 +191,7 @@ export function PricingTableFour({
       if (typeof onPlanSelect === 'function') {
         onPlanSelect(planId);
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   };

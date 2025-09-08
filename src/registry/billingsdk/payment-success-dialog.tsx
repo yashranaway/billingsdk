@@ -68,7 +68,7 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
         if (typeof onOpenChange === 'function') {
           onOpenChange(value);
         }
-      } catch (error) {
+      } catch (_error) {
         // Silently handle errors in playground mode
       }
     } else {
@@ -182,7 +182,7 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
                     if (typeof onBack === 'function') {
                       onBack();
                     }
-                  } catch (error) {
+                  } catch (_error) {
                     // Silently handle errors in playground mode
                   }
                   closeDialog();
@@ -197,7 +197,7 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
                     if (typeof onProceed === 'function') {
                       onProceed();
                     }
-                  } catch (error) {
+                  } catch (_error) {
                     // Silently handle errors in playground mode
                   }
                   closeDialog();
