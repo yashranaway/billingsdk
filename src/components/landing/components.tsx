@@ -15,7 +15,7 @@ import { FiSettings } from "react-icons/fi";
 import { BsBell } from "react-icons/bs";
 import { BiBarChartAlt2, BiArrowToTop } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
-import { motion } from "motion/react";
+import { motion, Transition } from "motion/react";
 import { usePerformanceOptimization } from "@/hooks/use-performance-optimization";
 
 export function ComponentsSection() {
@@ -85,10 +85,10 @@ function ComponentsShowcase() {
     useEffect(() => {
         if (!isAutoRotating || isHovered) return;
 
-        // Adjust rotation interval based on performance
+        // Adjust rotation interval based on performance - much slower now
         const interval = setInterval(() => {
             handleTransition();
-        }, shouldEnableVisualEffects ? 10000 : 20000);
+        }, shouldEnableVisualEffects ? 30000 : 60000);
 
         return () => clearInterval(interval);
     }, [active, isAutoRotating, isHovered, shouldEnableVisualEffects]);
@@ -113,10 +113,26 @@ function ComponentsShowcase() {
         handleTransition(componentId);
         setIsAutoRotating(false);
 
-        // Adjust timeout based on performance
+        // Adjust timeout based on performance - much longer now
         setTimeout(() => {
             setIsAutoRotating(true);
-        }, shouldEnableVisualEffects ? 30000 : 60000);
+        }, shouldEnableVisualEffects ? 120000 : 300000);
+    };
+
+    // Simplified transition for low-performance devices
+    const getBorderTransition = (): Transition => {
+        if (shouldEnableVisualEffects) {
+            return getAnimationConfig({
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+            });
+        }
+        // Simpler transition for low-performance devices
+        return getAnimationConfig({
+            type: "tween",
+            duration: 0.1
+        });
     };
 
     return (
@@ -157,11 +173,7 @@ function ComponentsShowcase() {
                                 width: borderPosition.width,
                                 height: borderPosition.height
                             }}
-                            transition={getAnimationConfig({
-                                type: "spring",
-                                stiffness: 300,
-                                damping: 30
-                            })}
+                            transition={getBorderTransition()}
                             style={{
                                 position: 'absolute'
                             }}

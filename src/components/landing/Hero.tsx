@@ -32,37 +32,50 @@ const Hero = () => {
   };
 
   // Adjust shader intensity based on performance
-  const shaderIntensity = shouldEnableVisualEffects ? 0.15 : 0.08;
-  const shaderNoise = shouldEnableVisualEffects ? 0.15 : 0.08;
-  const shaderSpeed = shouldEnableVisualEffects ? 0.5 : 0.2;
+  const shaderIntensity = shouldEnableVisualEffects ? 0.08 : 0.03;
+  const shaderNoise = shouldEnableVisualEffects ? 0.08 : 0.03;
+  const shaderSpeed = shouldEnableVisualEffects ? 0.3 : 0.1;
+  const shaderScale = shouldEnableVisualEffects ? 1 : 0.8;
 
   return (
     <div className="rounded-lg overflow-hidden relative">
-      <GrainGradient
-        style={{ 
-          height: "100%", 
-          width: "100%", 
-          position: "absolute",
-          willChange: "transform"
-        }}
-        colorBack="hsl(0, 0%, 5%)"
-        softness={0.5}
-        className="opacity-90"
-        intensity={shaderIntensity}
-        noise={shaderNoise}
-        shape="corners"
-        offsetX={0}
-        offsetY={0}
-        scale={1}
-        rotation={0}
-        speed={shaderSpeed}
-        colors={[
-          "hsl(218, 100%, 50%)",
-          "hsl(212, 100%, 83%)",
-          "hsl(195, 100%, 50%)",
-          "hsl(250, 100%, 50%)",
-        ]}
-      />
+      {/* Only render GrainGradient on devices that can handle it */}
+      {shouldEnableVisualEffects && (
+        <GrainGradient
+          style={{ 
+            height: "100%", 
+            width: "100%", 
+            position: "absolute",
+            willChange: "transform"
+          }}
+          colorBack="hsl(0, 0%, 5%)"
+          softness={0.7}
+          className="opacity-70"
+          intensity={shaderIntensity}
+          noise={shaderNoise}
+          shape="corners"
+          offsetX={0}
+          offsetY={0}
+          scale={shaderScale}
+          rotation={0}
+          speed={shaderSpeed}
+          colors={[
+            "hsl(218, 100%, 50%)",
+            "hsl(212, 100%, 83%)",
+            "hsl(195, 100%, 50%)",
+            "hsl(250, 100%, 50%)",
+          ]}
+        />
+      )}
+      {/* Fallback gradient for low-performance devices */}
+      {!shouldEnableVisualEffects && (
+        <div 
+          className="absolute inset-0 opacity-70"
+          style={{ 
+            background: "linear-gradient(135deg, hsl(218, 100%, 50%), hsl(212, 100%, 83%), hsl(195, 100%, 50%), hsl(250, 100%, 50%))",
+          }}
+        />
+      )}
       {/* Content */}
       <motion.div
         className="relative z-10 pt-[calc(70vh/4)] px-6"

@@ -68,8 +68,8 @@ export default function Features() {
   const { shouldEnableVisualEffects, getAnimationConfig } = usePerformanceOptimization();
   
   // Adjust animation settings based on performance
-  const animationDuration = shouldEnableVisualEffects ? "duration-700" : "duration-300";
-  const baseDelay = shouldEnableVisualEffects ? 50 : 0;
+  const animationDuration = shouldEnableVisualEffects ? "duration-500" : "duration-100";
+  const baseDelay = shouldEnableVisualEffects ? 20 : 0;
 
   return (
     <div className="flex flex-col my-24 mt-32 items-center justify-center max-w-7xl mx-auto">
@@ -88,7 +88,7 @@ export default function Features() {
               <div
                 key={feature.id}
                 className={cn(
-                  "justify-center md:min-h-[240px] transform-gpu flex flex-col p-10 2xl:p-12 animate-in fade-in slide-in-from-bottom-6",
+                  "justify-center md:min-h-[240px] flex flex-col p-10 2xl:p-12 animate-in fade-in slide-in-from-bottom-6",
                   animationDuration, // Dynamic duration
                   // Add right border for all except last column
                   (index + 1) % 3 !== 0 && "md:border-r-[1.2px]",
@@ -99,7 +99,8 @@ export default function Features() {
                 )}
                 style={{
                   animationDelay: `${baseDelay * index}ms`,
-                  willChange: "transform"
+                  // Remove transform-gpu for low-performance devices
+                  ...(shouldEnableVisualEffects ? { willChange: "transform" } : {})
                 } as CSSProperties}
               >
                 <div className="mt-2">

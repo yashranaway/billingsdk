@@ -27,8 +27,16 @@ export function usePerformanceOptimization(): PerformanceMetrics & {
     
     const memory = (navigator as any).deviceMemory || 0;
     const cores = navigator.hardwareConcurrency || 0;
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
     
-    setIsLowPerformance((memory > 0 && memory < 4) || (cores > 0 && cores < 4));
+
+    const isLowPerformanceDevice = 
+      (memory > 0 && memory < 4) || 
+      (cores > 0 && cores < 4) || 
+      isMobile ||
+      (memory > 0 && memory < 2 && cores > 0 && cores < 2);
+    
+    setIsLowPerformance(isLowPerformanceDevice);
     
     return () => {
       mediaQuery.removeEventListener('change', handleMediaChange);
