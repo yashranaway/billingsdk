@@ -40,7 +40,7 @@
                 "@billingsdk/usage-table",
                 "@billingsdk/payment-method-selector",
                 "@billingsdk/payment-method-manager",
-                "@billingsdk/billing-setting",
+                "@billingsdk/billing-settings",
                 "@billingsdk/proration-preview"
             ]
         },
