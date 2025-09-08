@@ -43,24 +43,51 @@ export default function GitHubStarBadge() {
 
   useEffect(() => {
     let cancelled = false;
+    // Create AbortController for fetch requests
+    let controller: AbortController | null = null;
+    
     async function load() {
+      // Create new controller for each request
+      controller = new AbortController();
+      
       try {
-        const res = await fetch("/api/github-stars", { cache: "no-store" });
+        const res = await fetch("/api/github-stars", { 
+          cache: "no-store",
+          signal: controller.signal
+        });
+        
+        // Check if response is ok before parsing JSON
+        if (!res.ok) {
+          // Don't clobber existing display on error
+          return;
+        }
+        
         const data: StarResponse = await res.json();
-        if (!cancelled) {
+        // Only update state if component is still mounted and request wasn't aborted
+        if (!cancelled && controller && !controller.signal.aborted) {
           setMetrics(data);
           const initial = formatApprox(data.stars);
           setDisplay({ kind: "stars", text: initial });
         }
-      } catch {
-        if (!cancelled) setDisplay(null);
+      } catch (error) {
+        // Only clear display if component is still mounted and request wasn't aborted
+        // Don't clobber existing display on error
+        if (!cancelled && controller && !controller.signal.aborted) {
+          // Keep existing display/metrics instead of setting to null
+        }
       }
     }
+    
     load();
     const id = setInterval(load, 60_000 * 5);
+    
     return () => {
       cancelled = true;
       clearInterval(id);
+      // Abort any ongoing fetch requests
+      if (controller) {
+        controller.abort();
+      }
     };
   }, []);
 
@@ -134,5 +161,3 @@ export default function GitHubStarBadge() {
     </Link>
   );
 }
-
-
