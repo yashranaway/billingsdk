@@ -1,18 +1,33 @@
-import fs from "fs";
+import { existsSync, readFileSync } from "node:fs";
 import { findUpSync } from "find-up"; // find a directory by walking up parent directories
 
-export const detectFramework = (): "nextjs" | "express" | null => {
+export const detectFramework = (): "nextjs" | "express" | "react" | null => {
     try {
 
         const pkgPath = findUpSync("package.json")
-        if (!pkgPath) return null
-        const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"))
+        if (!pkgPath) return null;
+        const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"))
 
-        if (pkg.dependencies?.next || pkg.devDependencies?.next) {
-            return "nextjs"
+        function hasFile(file: string) {
+            return existsSync(file)
         }
-        if (pkg.dependencies?.express || pkg.devDependencies?.express) {
-            return "express"
+        const deps = {
+            ...pkg.dependencies,
+            ...pkg.devDependencies,
+            ...pkg.peerDependencies
+        }
+        
+        //  nextjs detection
+        if (deps.next || hasFile("next.config.js") || hasFile("next.config.mjs") || hasFile("next.config.ts")) {
+            return "nextjs";
+        }
+        //  express detection
+        if (deps.express) {
+            return "express";
+        }
+        //  reactjs detection
+        if (deps.react) {
+            return "react";
         }
         return null;
     } catch {
