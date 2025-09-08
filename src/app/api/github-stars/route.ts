@@ -32,7 +32,7 @@ export async function GET() {
     clearTimeout(timeoutId);
     
     if (!response.ok) {
-      const fallback = { stars: null, pretty: null };
+      const fallback = { stars: null, pretty: null, forks: null, forksPretty: null };
       return new Response(JSON.stringify(fallback), {
         status: 200,
         headers: {
