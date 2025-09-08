@@ -3,6 +3,8 @@ title: Coupon Generator
 description: The Coupon Generator component provides an interactive interface for creating and displaying coupon codes for billing and promotional purposes. It features customizable discount rates, validity periods, and a beautiful coupon display with sharing capabilities.
 ---
 
+import CouponDemo from "@/registry/billingsdk/demo/coupon-demo"
+
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
     <PreviewComponents registryName="coupon">
@@ -11,7 +13,7 @@ description: The Coupon Generator component provides an interactive interface fo
   </Tab>
 
   <Tab value="Code" className="mt-3">
-  <include cwd lang="tsx" meta='title="src/components/coupon-demo.tsx"'>src/components/coupon-demo.tsx</include>
+  <include cwd lang="tsx" meta='title="src/registry/billingsdk/demo/coupon-demo.tsx"'>src/registry/billingsdk/demo/coupon-demo.tsx</include>
 
   </Tab>
 </Tabs>
@@ -129,4 +131,4 @@ interface CouponData {
 The coupon component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
 
 ## Example
-<include cwd lang="tsx" meta='title="src/components/coupon-demo.tsx"'>src/components/coupon-demo.tsx</include>
+<include cwd lang="tsx" meta='title="src/registry/billingsdk/demo/coupon-demo.tsx"'>src/registry/billingsdk/demo/coupon-demo.tsx</include>

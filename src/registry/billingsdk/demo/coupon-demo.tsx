@@ -33,7 +33,7 @@ export default function CouponDemo() {
   }
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-center p-4 bg-zinc-50 dark:bg-zinc-950">
+    <div className="w-full flex justify-center items-center p-4 bg-background">
       <CouponGenerator
         companyName="Dodopayments"
         applicableOptions={[
