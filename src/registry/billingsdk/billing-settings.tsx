@@ -52,6 +52,7 @@ interface BillingSettingsProps {
 
   usageLimitAlerts: boolean
   onUsageLimitAlertsChange: (value: boolean) => void
+  className?: string
 }
 
 interface SettingItemProps {
@@ -63,12 +64,12 @@ interface SettingItemProps {
 
 function SettingItem({ title, description, checked, onCheckedChange }: SettingItemProps) {
   return (
-    <div className="flex items-center justify-between py-4">
-      <div className="space-y-1">
+    <div className="flex items-start justify-between py-4 gap-4 w-full">
+      <div className="space-y-1 flex-1 min-w-0">
         <h3 className="font-medium text-foreground">{title}</h3>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
-      <Switch checked={checked} onCheckedChange={onCheckedChange} />
+      <Switch checked={checked} onCheckedChange={onCheckedChange} className="flex-shrink-0" />
     </div>
   )
 }
@@ -80,7 +81,7 @@ interface TabNavigationProps {
 
 function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="flex space-x-1 rounded-lg bg-muted p-1">
+    <div className="flex flex-wrap gap-1 rounded-lg bg-muted p-1">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -88,13 +89,13 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             console.log("[v0] Tab button clicked:", tab.id)
             onTabChange(tab.id)
           }}
-          className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
+          className={`flex-1 min-w-0 rounded-md px-2 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
             activeTab === tab.id
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-background/50"
           }`}
         >
-          {tab.label}
+          <span className="truncate">{tab.label}</span>
         </button>
       ))}
     </div>
@@ -119,9 +120,10 @@ export function BillingSettings({
   onOverageProtectionChange,
   usageLimitAlerts,
   onUsageLimitAlertsChange,
+  className,
 }: BillingSettingsProps) {
   const renderGeneralContent = () => (
-    <div className="space-y-0 divide-y">
+    <div className="space-y-0 divide-y divide-border">
       <SettingItem
         title="Email notifications"
         description="Receive billing updates via email"
@@ -146,38 +148,39 @@ export function BillingSettings({
   const renderPaymentContent = () => (
     <div className="space-y-4">
       {cards.map((card) => (
-        <div key={card.id} className="flex items-center justify-between rounded-lg border p-4">
-          <div className="flex items-center space-x-3">
-            <CreditCard className="h-8 w-8 text-muted-foreground" />
-            <div>
+        <div key={card.id} className="flex items-center justify-between rounded-lg border p-3 sm:p-4 gap-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+            <CreditCard className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground flex-shrink-0" />
+            <div className="min-w-0 flex-1">
               <div className="flex items-center space-x-2">
-                <span className="font-mono text-sm">•••• •••• •••• {card.last4}</span>
+                <span className="font-mono text-xs sm:text-sm truncate">•••• •••• •••• {card.last4}</span>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-muted-foreground truncate">
                 {card.brand} • Expires {card.expiry}
               </p>
             </div>
           </div>
-          {card.primary && <Badge variant="secondary">Primary</Badge>}
+          {card.primary && <Badge variant="secondary" className="flex-shrink-0 text-xs">Primary</Badge>}
         </div>
       ))}
       <Button variant="outline" className="w-full bg-transparent" onClick={onAddCard}>
         <Plus className="mr-2 h-4 w-4" />
-        Add new card
+        <span className="hidden sm:inline">Add new card</span>
+        <span className="sm:hidden">Add card</span>
       </Button>
     </div>
   )
 
   const renderInvoicesContent = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="space-y-1 min-w-0 flex-1">
           <h3 className="font-medium text-foreground">Invoice format</h3>
           <p className="text-sm text-muted-foreground">Choose PDF or HTML format</p>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="w-20 bg-transparent">
+            <Button variant="outline" className="w-full sm:w-20 bg-transparent">
               {invoiceFormat}
               <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
@@ -188,12 +191,12 @@ export function BillingSettings({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+        <div className="space-y-1 min-w-0 flex-1">
           <h3 className="font-medium text-foreground">Billing address</h3>
           <p className="text-sm text-muted-foreground">Update your billing address</p>
         </div>
-        <Button variant="outline" onClick={onEditBillingAddress}>
+        <Button variant="outline" onClick={onEditBillingAddress} className="w-full sm:w-auto">
           Edit
         </Button>
       </div>
@@ -201,7 +204,7 @@ export function BillingSettings({
   )
 
   const renderLimitsContent = () => (
-    <div className="space-y-0 divide-y">
+    <div className="space-y-0 divide-y divide-border">
       <SettingItem
         title="Overage protection"
         description="Prevent accidental overages"
@@ -233,12 +236,16 @@ export function BillingSettings({
   }
 
   return (
-    <Card className="mx-auto max-w-2xl">
-      <CardHeader>
-        <CardTitle>Billing settings</CardTitle>
+    <Card className={`mx-auto md:min-w-xl max-w-2xl overflow-hidden ${className || ''}`}>
+      <CardHeader className="space-y-4">
+        <CardTitle className="text-lg sm:text-xl">Billing settings</CardTitle>
         <TabNavigation activeTab={activeTab} onTabChange={onTabChange} />
       </CardHeader>
-      <CardContent>{renderTabContent()}</CardContent>
+      <CardContent className="px-3 sm:px-6 overflow-hidden">
+        <div className="w-full">
+          {renderTabContent()}
+        </div>
+      </CardContent>
     </Card>
   )
 }
