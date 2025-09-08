@@ -35,7 +35,7 @@ export function UpdatePlanCard({
         isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`
 
     const handlePlanSelect = (planId: string) => {
-        setSelectedPlan(prev => prev === planId ? undefined : planId);
+        setSelectedPlan(planId);
     }
 
     const handleUpgrade = (planId: string) => {

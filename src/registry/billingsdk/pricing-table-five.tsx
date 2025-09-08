@@ -161,7 +161,7 @@ export function PricingTableFive({
 
   const safePlans = Array.isArray(plans) ? plans : [];
   const regularPlans = safePlans.slice(0, -1);
-  const contactUsPlan = safePlans[safePlans.length - 1];
+  const contactUsPlan = safePlans.length > 0 ? safePlans[safePlans.length - 1] : undefined;
   
   const handlePlanSelect = (planId: string) => {
     try {
@@ -264,23 +264,29 @@ export function PricingTableFive({
         </div>
 
         {/* Contact Us Card */}
-        <Card className={cn(contactCardVariants({ variant }))} >
-          <CardContent className="p-8 text-center space-y-6">
-            <div className={cn(contactIconContainerVariants({ variant }))}>
-              <Phone className={cn(contactIconVariants({ variant }))} />
-            </div>
-            <div>
-              <h3 className={cn(contactTitleVariants({ variant }))}>{contactUsPlan.title}</h3>
-              <p className={cn(contactDescriptionVariants({ variant }))}>
-                {contactUsPlan.description}
-              </p>
-            </div>
-            <Button onClick={() => onPlanSelect(plans[plans.length - 1].id)} variant="secondary" className={cn(contactButtonVariants({ variant }))}>
-              {contactUsPlan.buttonText}
-            </Button>
-            <p className={cn(contactFooterVariants({ variant }))}>{contactUsPlan.description}</p>
-          </CardContent>
-        </Card>
+        {contactUsPlan && (
+          <Card className={cn(contactCardVariants({ variant }))} >
+            <CardContent className="p-8 text-center space-y-6">
+              <div className={cn(contactIconContainerVariants({ variant }))}>
+                <Phone className={cn(contactIconVariants({ variant }))} />
+              </div>
+              <div>
+                <h3 className={cn(contactTitleVariants({ variant }))}>{contactUsPlan?.title}</h3>
+                <p className={cn(contactDescriptionVariants({ variant }))}>
+                  {contactUsPlan?.description}
+                </p>
+              </div>
+              <Button
+                onClick={() => contactUsPlan?.id ? handlePlanSelect(contactUsPlan.id) : undefined}
+                variant="secondary"
+                className={cn(contactButtonVariants({ variant }))}
+              >
+                {contactUsPlan?.buttonText}
+              </Button>
+              <p className={cn(contactFooterVariants({ variant }))}>{contactUsPlan?.description}</p>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )
