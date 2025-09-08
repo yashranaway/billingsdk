@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, Info,  ZapIcon} from "lucide-react";
+import { ArrowRight, ChevronDown, Info,  Zap } from "lucide-react";
 import { BiSupport } from "react-icons/bi";
 
 export interface CancelSubscriptionCardTwoProps {
@@ -15,7 +15,7 @@ export interface CancelSubscriptionCardTwoProps {
     plan: Plan;
     warningText?: string;
     supportText?: string;
-    supportLink?:String;
+    supportLink?:string;
     keepButtonText?: string;
     continueButtonText?: string;
     finalTitle?: string;
@@ -47,7 +47,7 @@ export function CancelSubscriptionCardTwo({
     const [showFinalConfirmation, setShowFinalConfirmation] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [showBenefits, setShowBenefits] = useState(true); // collapse features
+    const [showBenefits, setShowBenefits] = useState(true); // collapse 
 
     const handleContinueCancellation = () => {
         setShowFinalConfirmation(true);
@@ -113,7 +113,7 @@ export function CancelSubscriptionCardTwo({
                     <div className="flex flex-col gap-4 p-4 bg-muted/50 rounded-lg">
                         <div className="flex items-center justify-between">
                            <div className="flex text-left">
-                            <p className=" text:sm sm:text-lg ">
+                            <p className=" text-sm sm:text-lg ">
                                 Current Subscription:
                             </p>
                            </div>
@@ -138,7 +138,7 @@ export function CancelSubscriptionCardTwo({
                                 <>
                                     {plan.features.slice(0, 4).map((feature, index) => (
                                         <div key={index} className="flex items-center gap-2 pl-3">
-                                            <ZapIcon className="w-4 h-4 fill-primary text-primary" />
+                                            <Zap className="w-4 h-4 fill-primary text-primary" />
                                             <span className="text-sm text-muted-foreground">{feature.name}</span>
                                         </div>
                                     ))}
@@ -207,7 +207,7 @@ export function CancelSubscriptionCardTwo({
                                 </p>
                              {plan.features.slice(0, 4).map((feature, index) => (
                                         <div key={index} className="flex items-center gap-2 pl-3">
-                                            <ZapIcon className="w-4 h-4 fill-primary text-primary" />
+                                            <Zap className="w-4 h-4 fill-primary text-primary" />
                                             <p className="text-sm text-muted-foreground">{feature.name}</p>
                                         </div>
                                     ))}
