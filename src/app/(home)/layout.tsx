@@ -1,10 +1,12 @@
-import type { ReactNode } from "react";
-import NavBar from "@/components/landing/NavBar";
+import React from "react";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function HomeLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="w-full max-w-[1920px] mx-auto min-h-screen bg-background">
-      <NavBar />
+    <div className="w-full">
       {children}
     </div>
   );

@@ -16,6 +16,7 @@ import { BsBell } from "react-icons/bs";
 import { BiBarChartAlt2, BiArrowToTop } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { motion } from "motion/react";
+import { usePerformanceOptimization } from "@/hooks/use-performance-optimization";
 
 export function ComponentsSection() {
     return (
@@ -34,6 +35,7 @@ export function ComponentsSection() {
 }
 
 function ComponentsShowcase() {
+    const { shouldEnableVisualEffects, getAnimationConfig } = usePerformanceOptimization();
     const [active, setActive] = useState("pricing");
     const [isAutoRotating, setIsAutoRotating] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
@@ -83,12 +85,13 @@ function ComponentsShowcase() {
     useEffect(() => {
         if (!isAutoRotating || isHovered) return;
 
+        // Adjust rotation interval based on performance
         const interval = setInterval(() => {
             handleTransition();
-        }, 6000);
+        }, shouldEnableVisualEffects ? 10000 : 20000);
 
         return () => clearInterval(interval);
-    }, [active, isAutoRotating, isHovered]);
+    }, [active, isAutoRotating, isHovered, shouldEnableVisualEffects]);
 
     const handleTransition = (targetComponent?: string) => {
         const currentIndex = components.findIndex(comp => comp.id === active);
@@ -110,9 +113,10 @@ function ComponentsShowcase() {
         handleTransition(componentId);
         setIsAutoRotating(false);
 
+        // Adjust timeout based on performance
         setTimeout(() => {
             setIsAutoRotating(true);
-        }, 15000);
+        }, shouldEnableVisualEffects ? 30000 : 60000);
     };
 
     return (
@@ -153,11 +157,11 @@ function ComponentsShowcase() {
                                 width: borderPosition.width,
                                 height: borderPosition.height
                             }}
-                            transition={{
+                            transition={getAnimationConfig({
                                 type: "spring",
                                 stiffness: 300,
                                 damping: 30
-                            }}
+                            })}
                             style={{
                                 position: 'absolute'
                             }}

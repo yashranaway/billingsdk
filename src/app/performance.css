@@ -1,0 +1,52 @@
+/* Performance optimizations for the landing page */
+
+/* Reduce animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optimize rendering for 3D transforms */
+.transform-gpu {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Optimize scroll performance */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optimize text rendering */
+.text-optimized {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Reduce GPU usage on low-end devices */
+@media (max-width: 768px) {
+  .reduced-motion-mobile {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/* Optimize images */
+img[loading="lazy"] {
+  will-change: transform;
+}
+
+/* Contain layout changes */
+.contain-layout {
+  contain: layout style paint;
+}

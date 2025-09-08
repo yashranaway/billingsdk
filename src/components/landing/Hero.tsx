@@ -7,7 +7,11 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Cover } from "../ui/cover";
 import { GrainGradient } from "@paper-design/shaders-react";
+import { usePerformanceOptimization } from "@/hooks/use-performance-optimization";
+
 const Hero = () => {
+  const { shouldEnableVisualEffects, getAnimationConfig } = usePerformanceOptimization();
+  
   const feature = {
     title: "Plan Upgrades in Seconds",
     description: "Beautiful plan upgrade interface - copy, paste, done!",
@@ -27,21 +31,31 @@ const Hero = () => {
     language: "tsx",
   };
 
+  // Adjust shader intensity based on performance
+  const shaderIntensity = shouldEnableVisualEffects ? 0.15 : 0.08;
+  const shaderNoise = shouldEnableVisualEffects ? 0.15 : 0.08;
+  const shaderSpeed = shouldEnableVisualEffects ? 0.5 : 0.2;
+
   return (
     <div className="rounded-lg overflow-hidden relative">
       <GrainGradient
-        style={{ height: "125%", width: "125%", position: "absolute" }}
+        style={{ 
+          height: "100%", 
+          width: "100%", 
+          position: "absolute",
+          willChange: "transform"
+        }}
         colorBack="hsl(0, 0%, 5%)"
         softness={0.5}
         className="opacity-90"
-        intensity={0.27}
-        noise={0.3}
+        intensity={shaderIntensity}
+        noise={shaderNoise}
         shape="corners"
         offsetX={0}
         offsetY={0}
         scale={1}
         rotation={0}
-        speed={1}
+        speed={shaderSpeed}
         colors={[
           "hsl(218, 100%, 50%)",
           "hsl(212, 100%, 83%)",
@@ -64,7 +78,7 @@ const Hero = () => {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },
               }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={getAnimationConfig({ duration: 0.4, ease: "easeOut" })}
             >
               Ship Billing UIs <Cover className="text-primary">10x</Cover>{" "}
               Faster
@@ -75,7 +89,7 @@ const Hero = () => {
                   hidden: { opacity: 0, y: -20 },
                   visible: { opacity: 1, y: 0 },
                 }}
-                transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
+                transition={getAnimationConfig({ duration: 0.4, delay: 0.3, ease: "easeOut" })}
               >
                 <div className="relative">
                   <div className="handwritten text-white text-lg transform rotate-12 whitespace-nowrap">
@@ -114,7 +128,7 @@ const Hero = () => {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },
               }}
-              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+              transition={getAnimationConfig({ duration: 0.4, delay: 0.1, ease: "easeOut" })}
             >
               Stop reinventing the wheel. Use production-ready, accessible
               billing components, from pricing cards to subscription dashboards,
@@ -128,7 +142,7 @@ const Hero = () => {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 },
               }}
-              transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+              transition={getAnimationConfig({ duration: 0.4, delay: 0.2, ease: "easeOut" })}
             >
               <Button
                 className="bg-primary text-primary-foreground ring-primary before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay hover:cursor-pointer"
@@ -155,6 +169,7 @@ const Hero = () => {
                   style={{ width: "250px", height: "54px" }}
                   width="250"
                   height="54"
+                  loading="lazy"
                 />
               </a>
             </div>
@@ -167,7 +182,7 @@ const Hero = () => {
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
             }}
-            transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
+            transition={getAnimationConfig({ duration: 0.4, delay: 0.4, ease: "easeOut" })}
           >
             {/* Search Card */}
             <motion.div
@@ -176,7 +191,7 @@ const Hero = () => {
                 hidden: { opacity: 0, scale: 0.95 },
                 visible: { opacity: 1, scale: 1 },
               }}
-              transition={{ duration: 0.4, delay: 0.6, ease: "easeOut" }}
+              transition={getAnimationConfig({ duration: 0.4, delay: 0.6, ease: "easeOut" })}
             >
               {/* Window chrome */}
               <div className="py-2 px-4 border-b border-border bg-transparent border-l-foreground relative">
@@ -192,7 +207,7 @@ const Hero = () => {
                     hidden: { opacity: 0, x: -20 },
                     visible: { opacity: 1, x: 0 },
                   }}
-                  transition={{ duration: 0.4, delay: 0.5, ease: "easeOut" }}
+                  transition={getAnimationConfig({ duration: 0.4, delay: 0.5, ease: "easeOut" })}
                 >
                   <div className="relative">
                     <div className="handwritten text-white text-lg transform -rotate-12 whitespace-nowrap">

@@ -11,6 +11,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import React, { CSSProperties } from "react";
+import { usePerformanceOptimization } from "@/hooks/use-performance-optimization";
 
 const features = [
   {
@@ -64,6 +65,12 @@ const features = [
 ];
 
 export default function Features() {
+  const { shouldEnableVisualEffects, getAnimationConfig } = usePerformanceOptimization();
+  
+  // Adjust animation settings based on performance
+  const animationDuration = shouldEnableVisualEffects ? "duration-700" : "duration-300";
+  const baseDelay = shouldEnableVisualEffects ? 50 : 0;
+
   return (
     <div className="flex flex-col my-24 mt-32 items-center justify-center max-w-7xl mx-auto">
       <h2 className="text-3xl sm:text-3xl font-display md:text-4xl font-medium text-primary animate-in fade-in slide-in-from-bottom-4 duration-1000">
@@ -81,7 +88,8 @@ export default function Features() {
               <div
                 key={feature.id}
                 className={cn(
-                  "justify-center md:min-h-[240px] transform-gpu flex flex-col p-10 2xl:p-12 animate-in fade-in slide-in-from-bottom-6 duration-1000",
+                  "justify-center md:min-h-[240px] transform-gpu flex flex-col p-10 2xl:p-12 animate-in fade-in slide-in-from-bottom-6",
+                  animationDuration, // Dynamic duration
                   // Add right border for all except last column
                   (index + 1) % 3 !== 0 && "md:border-r-[1.2px]",
                   // Add bottom border for first row
@@ -90,7 +98,8 @@ export default function Features() {
                   index > 0 && "border-t-[1.2px] md:border-t-0"
                 )}
                 style={{
-                  animationDelay: `${500 + index * 150}ms`,
+                  animationDelay: `${baseDelay * index}ms`,
+                  willChange: "transform"
                 } as CSSProperties}
               >
                 <div className="mt-2">
