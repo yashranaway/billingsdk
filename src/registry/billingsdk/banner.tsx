@@ -10,21 +10,21 @@ import { motion, AnimatePresence } from "motion/react";
 
 export interface BannerProps {
   variant?: "default" | "minimal" | "popup" | "destructive";
-  title: string;
+  title?: string;
   description?: string;
   buttonText?: string;
   buttonIcon?: React.ReactNode;
   buttonLink?: string;
   dismissable?: boolean;
   className?: string;
-  autoDismiss?: number; // in ms
+  autoDismiss?: number;
   onDismiss?: () => void;
   gradientColors?: string[];
 }
 
 export function Banner({
   variant = "default",
-  title,
+  title = "Welcome to Billing SDK",
   description,
   buttonText,
   buttonIcon,
@@ -32,7 +32,7 @@ export function Banner({
   dismissable = true,
   className,
   autoDismiss,
-  onDismiss,
+  onDismiss = () => {},
   gradientColors,
 }: BannerProps) {
   const [isVisible, setIsVisible] = useState(true);
@@ -46,7 +46,13 @@ export function Banner({
 
   const handleDismiss = () => {
     setIsVisible(false);
-    onDismiss?.();
+    try {
+      if (typeof onDismiss === 'function') {
+        onDismiss();
+      }
+    } catch (error) {
+      // Silently handle errors in playground mode
+    }
   };
 
   const getVariantStyles = () => {
@@ -207,7 +213,15 @@ export function Banner({
                 <Button
                   variant={variant === "default" ? "secondary" : "default"}
                   size="sm"
-                  onClick={() => window.open(buttonLink, "_blank")}
+                  onClick={() => {
+                    try {
+                      if (buttonLink) {
+                        window.open(buttonLink, "_blank");
+                      }
+                    } catch (error) {
+                      // Silently handle errors in playground mode
+                    }
+                  }}
                   className={"h-8"}
                 >
                   {buttonIcon && (

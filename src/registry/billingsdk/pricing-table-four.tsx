@@ -151,12 +151,12 @@ const buttonVariants = cva(
 );
 
 export interface PricingTableFourProps extends VariantProps<typeof sectionVariants> {
-  plans: Plan[];
+  plans?: Plan[];
+  onPlanSelect?: (planId: string) => void;
+  className?: string;
   title?: string;
   description?: string;
   subtitle?: string;
-  onPlanSelect?: (planId: string) => void;
-  className?: string;
   showBillingToggle?: boolean;
   billingToggleLabels?: {
     monthly: string;
@@ -171,12 +171,12 @@ const defaultIcons = {
 };
 
 export function PricingTableFour({
-  plans,
+  plans = [],
+  onPlanSelect = () => {},
+  className,
   title = "Choose Your Perfect Plan",
   description = "Transform your project with our comprehensive pricing options designed for every need.",
   subtitle = "Simple Pricing",
-  onPlanSelect,
-  className,
   size = "medium",
   showBillingToggle = true,
   billingToggleLabels = {
@@ -187,7 +187,13 @@ export function PricingTableFour({
   const [isYearly, setIsYearly] = useState(false);
 
   const handlePlanSelect = (planId: string) => {
-    onPlanSelect?.(planId);
+    try {
+      if (typeof onPlanSelect === 'function') {
+        onPlanSelect(planId);
+      }
+    } catch (error) {
+      // Silently handle errors in playground mode
+    }
   };
 
   const getPlanIcon = (planId: string) => {
@@ -195,16 +201,16 @@ export function PricingTableFour({
   };
 
   const getPlanPrice = (plan: Plan) => {
-    const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
+    const currentPrice = isYearly ? (plan?.yearlyPrice || '0') : (plan?.monthlyPrice || '0');
     // Don't add currency symbol for "Custom" pricing
-    if (price.toLowerCase() === 'custom') {
-      return price;
+    if (currentPrice.toLowerCase() === 'custom') {
+      return currentPrice;
     }
-    return `${plan.currency || '$'}${price}`;
+    return `${plan?.currency || '$'}${currentPrice}`;
   };
 
   const getPlanPeriod = (plan: Plan) => {
-    if (plan.monthlyPrice === '0' || plan.yearlyPrice === '0') {
+    if ((plan?.monthlyPrice || '0') === '0' || (plan?.yearlyPrice || '0') === '0') {
       return 'Free';
     }
     return isYearly ? 'year' : 'month';
@@ -245,7 +251,7 @@ export function PricingTableFour({
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-          {plans.map((plan, index) => (
+          {Array.isArray(plans) && plans.map((plan, index) => (
             <motion.div
               key={plan.id}
               className="relative group h-full"
@@ -259,10 +265,10 @@ export function PricingTableFour({
 
             >
               {/* Popular badge */}
-              {plan.badge && (
+              {plan?.badge && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
                   <div className="px-3 py-1 text-xs font-medium bg-primary text-primary-foreground rounded">
-                    {plan.badge}
+                    {plan?.badge || 'Popular'}
                   </div>
                 </div>
               )}
@@ -272,32 +278,32 @@ export function PricingTableFour({
                   <div className="space-y-4 flex-shrink-0">
                     <div className="flex items-center justify-between">
                       <div className="w-12 h-12 flex items-center rounded-lg justify-center text-foreground bg-muted border border-border">
-                        {getPlanIcon(plan.id)}
+                        {getPlanIcon(plan?.id || '')}
                       </div>
                       <div className="text-right">
                         <AnimatedPriceContainer
                           price={getPlanPrice(plan)}
                           period={getPlanPeriod(plan)}
-                          isHighlight={plan.highlight}
+                          isHighlight={plan?.highlight}
                         />
                       </div>
                     </div>
 
                     <div>
-                      <h3 className="text-xl font-bold text-foreground">{plan.title}</h3>
+                      <h3 className="text-xl font-semibold text-foreground mb-2">{plan?.title || 'Plan'}</h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-muted-foreground leading-relaxed">{plan.description}</p>
+                    <p className="text-sm text-muted-foreground mb-4">{plan?.description || 'Plan description'}</p>
                   </div>
 
                   <div className="rounded-lg p-4 bg-muted/50 border border-border/50 mt-4 flex flex-col flex-grow">
                     <div className="mb-4 flex-shrink-0">
                       <button
-                        onClick={() => handlePlanSelect(plan.id)}
-                        className={cn(buttonVariants({ highlight: plan.highlight }))}
+                        onClick={() => handlePlanSelect(plan?.id || '')}
+                        className={cn(buttonVariants({ highlight: plan?.highlight }))}
                       >
-                        {plan.buttonText}
+                        {plan?.buttonText || 'Get Started'}
                         <ChevronRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -305,13 +311,13 @@ export function PricingTableFour({
                     {/* Features */}
                     <div className="flex-grow">
                       <h4 className="text-foreground font-semibold mb-4">Features:</h4>
-                      <ul className="space-y-3">
-                        {plan.features.map((feature, featureIndex) => (
+                      <ul className="space-y-3 mb-6">
+                        {Array.isArray(plan?.features) && plan.features.map((feature, featureIndex) => (
                           <li key={featureIndex} className="flex items-center text-muted-foreground">
                             <div className="w-5 h-5 flex rounded items-center justify-center mr-3 flex-shrink-0 bg-primary/10 border border-primary/20">
                               <ChevronRight className="w-3 h-3 text-primary rotate-90" />
                             </div>
-                            <span className="text-sm">{feature.name}</span>
+                            <span className="text-sm text-foreground">{feature?.name || 'Feature'}</span>
                           </li>
                         ))}
                       </ul>
