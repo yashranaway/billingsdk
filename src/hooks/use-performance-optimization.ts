@@ -1,15 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Transition } from 'motion/react';
 
-/**
- * Hook to optimize performance by detecting device capabilities
- * and adjusting animations/effects accordingly
- */
-export function usePerformanceOptimization() {
-  const [isLowPerformance, setIsLowPerformance] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+interface PerformanceMetrics {
+  isLowPerformance: boolean;
+  prefersReducedMotion: boolean;
+  shouldEnableVisualEffects: boolean;
+}
+
+type GetAnimationConfig = (defaultConfig?: Transition) => Transition;
+
+export function usePerformanceOptimization(): PerformanceMetrics & {
+  getAnimationConfig: GetAnimationConfig;
+} {
+  const [isLowPerformance, setIsLowPerformance] = useState<boolean>(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check for reduced motion preference
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
     
@@ -19,22 +25,17 @@ export function usePerformanceOptimization() {
     
     mediaQuery.addEventListener('change', handleMediaChange);
     
-    // Simple performance detection based on device memory and CPU cores
     const memory = (navigator as any).deviceMemory || 0;
     const cores = navigator.hardwareConcurrency || 0;
     
-    // Consider low performance if device has less than 4GB memory or less than 4 cores
-    setIsLowPerformance(memory > 0 && memory < 4 || cores > 0 && cores < 4);
+    setIsLowPerformance((memory > 0 && memory < 4) || (cores > 0 && cores < 4));
     
     return () => {
       mediaQuery.removeEventListener('change', handleMediaChange);
     };
   }, []);
 
-  /**
-   * Returns animation configuration based on performance settings
-   */
-  const getAnimationConfig = useCallback((defaultConfig: any = {}) => {
+  const getAnimationConfig: GetAnimationConfig = useCallback((defaultConfig: Transition = {}) => {
     if (prefersReducedMotion || isLowPerformance) {
       return {
         ...defaultConfig,
@@ -46,10 +47,7 @@ export function usePerformanceOptimization() {
     return defaultConfig;
   }, [prefersReducedMotion, isLowPerformance]);
 
-  /**
-   * Returns whether to enable heavy visual effects
-   */
-  const shouldEnableVisualEffects = !prefersReducedMotion && !isLowPerformance;
+  const shouldEnableVisualEffects: boolean = !prefersReducedMotion && !isLowPerformance;
 
   return {
     isLowPerformance,
