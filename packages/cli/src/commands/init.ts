@@ -11,18 +11,14 @@ export const initCommand = new Command()
     try {
       intro("Welcome to Billing SDK Setup!");
 
-      let framework = detectFramework()
-      if (!framework) {
-        framework = await select({
-          message: "Which framework would you like to use?",
-          options: [
-            { value: "nextjs", label: "Next.js", hint: "React framework with App Router" },
-            { value: "express", label: "Express.js", hint: "Node.js web framework" },
-          ],
-        }) as 'nextjs' | 'express'
-      } else {
-        intro(`Framework detected: ${framework}`) // framework is detected in the same directory or in parent dir
-      }
+      const framework = await select({
+        message: "Which framework would you like to use?",
+        options: [
+          { value: "nextjs", label: "Next.js", hint: "React framework with App Router" },
+          { value: "express", label: "Express.js", hint: "Node.js web framework" },
+          { value: "react", label: "React.js", hint: "Client-side React app template"}
+        ],
+      });
 
       const provider = await select({
         message: "Which payment provider would you like to use? (Adding more providers soon)",
