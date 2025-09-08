@@ -52,7 +52,7 @@ export function UpdatePlanDialog({
         isYearly ? `${plan?.yearlyPrice || '0'}` : `${plan?.monthlyPrice || '0'}`
 
     const handlePlanChange = (planId: string) => {
-        setSelectedPlan((prev) => (prev === planId ? undefined : planId));
+        setSelectedPlan(planId);
     }
 
     const handlePlanSelect = () => {
