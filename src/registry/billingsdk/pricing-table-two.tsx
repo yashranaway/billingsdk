@@ -280,23 +280,38 @@ const buttonVariants = cva("w-full hover:cursor-pointer transition-all duration-
 });
 
 export interface PricingTableTwoProps extends VariantProps<typeof sectionVariants> {
-  className?: string;
-  plans: Plan[];
   title?: string;
   description?: string;
+  plans?: Plan[];
   onPlanSelect?: (planId: string) => void;
+  className?: string;
 }
 
+
 export function PricingTableTwo({
-  className,
-  plans,
-  title,
+  title = "Professional Pricing",
   description,
-  onPlanSelect,
+  plans = [],
+  onPlanSelect = () => {},
   size,
-  theme = "minimal"
+  theme,
+  className,
 }: PricingTableTwoProps) {
-  const [isAnnually, setIsAnnually] = useState(false);
+  const [isYearly, setIsYearly] = useState(false);
+  const safePlans = Array.isArray(plans) ? plans : [];
+
+  const getCurrentPrice = (plan: Plan) =>
+    isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`;
+
+  const handlePlanSelect = (planId: string) => {
+    try {
+      if (typeof onPlanSelect === 'function') {
+        onPlanSelect(planId);
+      }
+    } catch (error) {
+      // Silently handle errors in playground mode
+    }
+  };
 
   function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
     const monthly = parseFloat(monthlyPrice);
@@ -316,9 +331,9 @@ export function PricingTableTwo({
     return Math.round(discount);
   }
 
-  const yearlyPriceDiscount = plans.length
+  const yearlyPriceDiscount = safePlans.length
     ? Math.max(
-      ...plans.map((plan) =>
+      ...safePlans.map((plan) =>
         calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
       )
     )
@@ -359,18 +374,18 @@ export function PricingTableTwo({
         <div className={cn(toggleWrapperVariants({ size, theme }))}>
           <span className={cn(
             toggleLabelVariants({ size, theme }),
-            !isAnnually ? "text-foreground" : "text-muted-foreground"
+            !isYearly ? "text-foreground" : "text-muted-foreground"
           )}>
             Monthly
           </span>
           <Switch
-            checked={isAnnually}
-            onCheckedChange={setIsAnnually}
+            checked={isYearly}
+            onCheckedChange={setIsYearly}
             className={cn(switchScaleVariants({ size, theme }))}
           />
           <span className={cn(
             toggleLabelVariants({ size, theme }),
-            isAnnually ? "text-foreground" : "text-muted-foreground"
+            isYearly ? "text-foreground" : "text-muted-foreground"
           )}>
             Yearly
           </span>
@@ -400,7 +415,7 @@ export function PricingTableTwo({
           plans.length === 2 && "flex-col md:flex-row max-w-4xl mx-auto",
           plans.length >= 3 && "flex-col lg:flex-row max-w-7xl mx-auto"
         )}>
-          {plans.map((plan: Plan, index: number) => (
+          {safePlans.map((plan: Plan, index: number) => (
             <motion.div
               key={plan.id}
               className={cn(
@@ -410,8 +425,8 @@ export function PricingTableTwo({
                   highlight: plan.highlight
                 }),
                 index === 0 && "md:rounded-l-xl md:border-r-0",
-                index === plans.length - 1 && "md:rounded-r-xl md:border-l-0",
-                index > 0 && index < plans.length - 1 && "md:border-l-0 md:border-r-0",
+                index === safePlans.length - 1 && "md:rounded-r-xl md:border-l-0",
+                index > 0 && index < safePlans.length - 1 && "md:border-l-0 md:border-r-0",
                 plans.length === 1 && "rounded-xl"
               )}
               initial={{ opacity: 0 }}
@@ -438,7 +453,7 @@ export function PricingTableTwo({
 
               <div className="px-6">
                 <AnimatePresence mode="wait">
-                  {isAnnually ? (
+                  {isYearly ? (
                     <motion.div
                       key="yearly"
                       initial={{ opacity: 0, y: 10 }}
@@ -450,7 +465,7 @@ export function PricingTableTwo({
                         {parseFloat(plan.yearlyPrice) >= 0 && (
                           <>{plan.currency}</>
                         )}
-                        {plan.yearlyPrice}
+                        {plan.currency || '$'}{getCurrentPrice(plan)}
                         {calculateDiscount(plan.monthlyPrice, plan.yearlyPrice) > 0 && (
                           <span className={cn(
                             "text-xs ml-2",
@@ -490,7 +505,7 @@ export function PricingTableTwo({
                     plan.highlight && theme === "classic" && "relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold py-3 px-6 rounded-lg border border-primary/20"
                   )}
                   variant={plan.highlight ? "default" : "secondary"}
-                  onClick={() => onPlanSelect?.(plan.id)}
+                  onClick={() => handlePlanSelect(plan.id)}
                 >
                   {theme === "classic" && plan.highlight && (
                     <Zap className="w-4 h-4 mr-1" />
@@ -516,7 +531,7 @@ export function PricingTableTwo({
             <TableHeader>
               <TableRow className={cn(theme === "classic" && "border-border/30")}>
                 <TableHead className={firstColWidthVariants({ size })}></TableHead>
-                {plans.map((plan: Plan) => (
+                {safePlans.map((plan: Plan) => (
                   <TableHead key={plan.id} className={cn(
                     "text-center font-bold text-primary",
                     theme === "classic" && "text-lg"
@@ -529,8 +544,8 @@ export function PricingTableTwo({
             <TableBody>
               {(() => {
                 const allFeatures = new Set<string>();
-                plans.forEach(plan => {
-                  plan.features.forEach(feature => {
+                safePlans.forEach(plan => {
+                  plan.features && Array.isArray(plan.features) && plan.features.map((feature, index) => {
                     allFeatures.add(feature.name);
                   });
                 });
@@ -558,7 +573,7 @@ export function PricingTableTwo({
                                 "text-sm text-muted-foreground",
                                 theme === "classic" && "font-medium text-foreground/70"
                               )}>
-                                {feature.name}
+                                {typeof feature === 'string' ? feature : feature?.name || 'Feature'}
                               </span>
                             )
                           ) : (
