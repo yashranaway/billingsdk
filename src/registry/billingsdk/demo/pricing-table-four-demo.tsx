@@ -327,7 +327,6 @@ function PricingTableFour({
     </section>
   );
 }
->>>>>>> 8f9987b (fix: remove registry imports from demo files)
 
 export function PricingTableFourDemo() {
   const plans = [
@@ -342,10 +341,10 @@ export function PricingTableFourDemo() {
       highlight: false,
       badge: "",
       features: [
-        { name: "Up to 5 projects" },
-        { name: "Basic support" },
-        { name: "1GB storage" },
-        { name: "Email support" }
+        { name: "Up to 5 projects", icon: "check", iconColor: "text-green-500" },
+        { name: "Basic support", icon: "check", iconColor: "text-blue-500" },
+        { name: "1GB storage", icon: "check", iconColor: "text-purple-500" },
+        { name: "Email support", icon: "check", iconColor: "text-orange-500" }
       ]
     },
     {
@@ -359,11 +358,11 @@ export function PricingTableFourDemo() {
       highlight: true,
       badge: "Most Popular",
       features: [
-        { name: "Unlimited projects" },
-        { name: "Priority support" },
-        { name: "10GB storage" },
-        { name: "Phone & email support" },
-        { name: "Advanced analytics" }
+        { name: "Unlimited projects", icon: "check", iconColor: "text-green-500" },
+        { name: "Priority support", icon: "check", iconColor: "text-blue-500" },
+        { name: "10GB storage", icon: "check", iconColor: "text-purple-500" },
+        { name: "Phone & email support", icon: "check", iconColor: "text-orange-500" },
+        { name: "Advanced analytics", icon: "check", iconColor: "text-red-500" }
       ]
     },
     {
@@ -377,12 +376,12 @@ export function PricingTableFourDemo() {
       highlight: false,
       badge: "",
       features: [
-        { name: "Everything in Pro" },
-        { name: "Custom integrations" },
-        { name: "Unlimited storage" },
-        { name: "24/7 dedicated support" },
-        { name: "Custom SLA" },
-        { name: "On-premise deployment" }
+        { name: "Everything in Pro", icon: "check", iconColor: "text-green-500" },
+        { name: "Custom integrations", icon: "check", iconColor: "text-blue-500" },
+        { name: "Unlimited storage", icon: "check", iconColor: "text-purple-500" },
+        { name: "24/7 dedicated support", icon: "check", iconColor: "text-orange-500" },
+        { name: "Custom SLA", icon: "check", iconColor: "text-red-500" },
+        { name: "On-premise deployment", icon: "check", iconColor: "text-indigo-500" }
       ]
     }
   ];
