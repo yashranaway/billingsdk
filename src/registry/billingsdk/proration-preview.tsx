@@ -71,31 +71,43 @@ export function ProrationPreview({
   // Prices & proration (robust) - Fixed CodeRabbit issues
   const currentCycleDays = currentPlan.type === 'yearly' ? 365 : 30;
   const newCycleDays = billingCycle === 'yearly' ? 365 : 30;
-  const toNumber = (v?: string) => {
-    const n = parseFloat(String(v));
-    return Number.isFinite(n) ? n : 0;
+  const isNumericValue = (v?: string) => {
+    if (v == null) return false;
+    const s = String(v).replace(/[^\d.\-]/g, "");
+    const n = Number.parseFloat(s);
+    return Number.isFinite(n);
   };
-  const currentPrice = toNumber(
+  const toNumber = (v?: string) => {
+    if (v == null) return undefined;
+    const s = String(v).replace(/[^\d.\-]/g, "");
+    const n = Number.parseFloat(s);
+    return Number.isFinite(n) ? n : undefined;
+  };
+  const currentRaw =
     currentPlan.type === 'monthly' ? currentPlan.plan.monthlyPrice :
     currentPlan.type === 'yearly' ? currentPlan.plan.yearlyPrice :
-    currentPlan.price
-  );
-  const newPrice = toNumber(billingCycle === 'monthly' ? newPlan.monthlyPrice : newPlan.yearlyPrice);
+    currentPlan.price;
+  const newRaw = billingCycle === 'monthly' ? newPlan.monthlyPrice : newPlan.yearlyPrice;
+  const currentPrice = toNumber(currentRaw);
+  const newPrice = toNumber(newRaw);
+  const isCustomCurrent = !isNumericValue(currentRaw);
+  const isCustomNew = !isNumericValue(newRaw);
   const chargeCurrency = newPlan.currency ?? currentPlan.plan.currency ?? "$";
   const creditCurrency = currentPlan.plan.currency ?? newPlan.currency ?? "$";
   const clampedUnusedDays = Math.max(0, Math.min(daysRemaining, currentCycleDays));
   const isNextCycle = typeof effectiveDate === 'string' && effectiveDate.toLowerCase().includes('next');
   
-  // Fixed: Use remaining days (not elapsed days) for credit calculation
-  const creditAmount = isNextCycle ? 0 : (currentPrice / currentCycleDays) * clampedUnusedDays;
   const prorationDays = isNextCycle ? 0 : clampedUnusedDays;
-  const proratedCharge = isNextCycle ? 0 : (newPrice / newCycleDays) * prorationDays;
+  const canCompute = !isNextCycle && !isCustomCurrent && !isCustomNew && currentPrice !== undefined && newPrice !== undefined;
+  const creditAmount = canCompute ? (currentPrice! / currentCycleDays) * clampedUnusedDays : 0;
+  const proratedCharge = canCompute ? (newPrice! / newCycleDays) * prorationDays : 0;
   const netAmount = proratedCharge - creditAmount;
   
-  const normalizedCurrentMonthly = currentPlan.type === 'yearly' ? currentPrice / 12 : currentPrice;
-  const normalizedNewMonthly = billingCycle === 'yearly' ? newPrice / 12 : newPrice;
-  const isUpgrade = normalizedNewMonthly > normalizedCurrentMonthly;
-  const isDowngrade = normalizedNewMonthly < normalizedCurrentMonthly;
+  const normalizedCurrentMonthly = currentPlan.type === 'yearly' && currentPrice !== undefined ? currentPrice / 12 : (currentPrice ?? 0);
+  const normalizedNewMonthly = billingCycle === 'yearly' && newPrice !== undefined ? newPrice / 12 : (newPrice ?? 0);
+  const hasComparablePrices = !isCustomCurrent && !isCustomNew && currentPrice !== undefined && newPrice !== undefined;
+  const isUpgrade = hasComparablePrices && normalizedNewMonthly > normalizedCurrentMonthly;
+  const isDowngrade = hasComparablePrices && normalizedNewMonthly < normalizedCurrentMonthly;
 
   return (
     <div className={cn(prorationPreviewVariants({ theme, size }), className)}>
@@ -144,7 +156,7 @@ export function ProrationPreview({
               </div>
               <h3 className="font-semibold text-lg">{currentPlan.plan.title}</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                {creditCurrency}{currentPrice}/{currentPlan.type}
+                {isCustomCurrent ? 'Custom' : `${creditCurrency}${currentPrice}/${currentPlan.type}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
@@ -191,7 +203,7 @@ export function ProrationPreview({
               </div>
               <h3 className="font-semibold text-lg">{newPlan.title}</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                {chargeCurrency}{newPrice}/{billingCycle}
+                {isCustomNew ? 'Custom' : `${chargeCurrency}${newPrice}/${billingCycle}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Calendar className="h-3 w-3" />
@@ -225,7 +237,7 @@ export function ProrationPreview({
               <div className="flex justify-between items-center text-sm">
                 <span className="text-muted-foreground">Credit for unused time</span>
                 <span className="text-green-600 font-medium">
-                  -{creditCurrency}{Math.abs(creditAmount).toFixed(2)}
+                  {canCompute ? `-${creditCurrency}${Math.abs(creditAmount).toFixed(2)}` : "—"}
                 </span>
               </div>
               
@@ -234,21 +246,19 @@ export function ProrationPreview({
                   Prorated charge ({prorationDays} days)
                 </span>
                 <span className="font-medium">
-                  +{chargeCurrency}{proratedCharge.toFixed(2)}
+                  {canCompute ? `+${chargeCurrency}${proratedCharge.toFixed(2)}` : "—"}
                 </span>
               </div>
               
               <Separator className="my-2" />
               
               <div className="flex justify-between items-center font-semibold">
-                <span>
-                  {netAmount >= 0 ? "Amount to charge" : "Credit to account"}
-                </span>
+                <span>{canCompute ? (netAmount >= 0 ? "Amount to charge" : "Credit to account") : "Amount due will be calculated at checkout"}</span>
                 <span className={cn(
                   "text-lg",
-                  netAmount >= 0 ? "text-foreground" : "text-green-600"
+                  canCompute ? (netAmount >= 0 ? "text-foreground" : "text-green-600") : "text-muted-foreground"
                 )}>
-                  {netAmount >= 0 ? "+" : ""}{chargeCurrency}{netAmount.toFixed(2)}
+                  {canCompute ? `${netAmount >= 0 ? "+" : ""}${chargeCurrency}${netAmount.toFixed(2)}` : "—"}
                 </span>
               </div>
             </div>
@@ -263,12 +273,11 @@ export function ProrationPreview({
           >
             <p className="text-sm text-muted-foreground">
               Your plan will change {effectiveDate}. 
-              {isNextCycle
-                ? ' No immediate charge.'
-                : (netAmount >= 0
+              {isNextCycle ? ' No immediate charge.' : (hasComparablePrices
+                ? (netAmount >= 0
                     ? ` You'll be charged ${chargeCurrency}${Math.abs(netAmount).toFixed(2)}.`
                     : ` You'll receive a ${chargeCurrency}${Math.abs(netAmount).toFixed(2)} credit.`)
-              }
+                : ' Amount will be finalized at checkout.')}
             </p>
           </motion.div>
 
