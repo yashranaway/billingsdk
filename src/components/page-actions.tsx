@@ -292,29 +292,25 @@ function PlaygroundButton({
 }: {
   componentName?: string;
 }) {
-  const handlePlaygroundClick = () => {
-    if (componentName) {
-      // Navigate to playground with the component pre-selected
-      window.open(`/playground?component=${encodeURIComponent(componentName)}`, '_blank');
-    } else {
-      // Navigate to playground without pre-selection
-      window.open('/playground', '_blank');
-    }
-  };
-
   return (
-    <button
+    <a
+      href={
+        componentName
+          ? `/playground?component=${encodeURIComponent(componentName)}`
+          : '/playground'
+      }
+      target="_blank"
+      rel="noopener noreferrer"
       className={cn(
         buttonVariants({
           variant: 'secondary',
           className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
         }),
       )}
-      onClick={handlePlaygroundClick}
     >
       <Play />
       Playground
-    </button>
+    </a>
   );
 }
 
