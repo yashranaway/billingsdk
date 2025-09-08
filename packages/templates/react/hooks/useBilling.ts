@@ -19,7 +19,7 @@ interface UseBillingState {
 
 export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
   const resolvedBaseUrl =
-    baseUrl ?? process.env.BASE_URL ?? 'http://localhost:8080'
+    baseUrl ?? process.env.VITE_BASE_URL ?? 'http://localhost:8080'
 
   const [state, setState] = useState<UseBillingState>({
     loading: false,
