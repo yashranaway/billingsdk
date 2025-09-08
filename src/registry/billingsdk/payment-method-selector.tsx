@@ -91,7 +91,7 @@ export function PaymentMethodSelector({
       if (typeof onSelectMethod === 'function') {
         onSelectMethod(method)
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   }
@@ -102,7 +102,7 @@ export function PaymentMethodSelector({
       if (typeof onFormSubmit === 'function') {
         onFormSubmit(formData)
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   }
@@ -478,7 +478,7 @@ export function PaymentMethodSelector({
                 onClick={() => {
                   try {
                     handleSubmit(new Event('submit') as any);
-                  } catch (error) {
+                  } catch (_error) {
                     // Silently handle errors in playground mode
                   }
                 }}

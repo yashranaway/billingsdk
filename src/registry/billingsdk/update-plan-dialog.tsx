@@ -61,7 +61,7 @@ export function UpdatePlanDialog({
                 onPlanChange(selectedPlan);
                 setIsOpen(false);
             }
-        } catch (error) {
+        } catch (_error) {
             // Silently handle errors in playground mode
         }
     }

@@ -142,7 +142,7 @@ export function InvoiceHistory({
                                                 if (typeof onDownload === 'function') {
                                                     onDownload(invoice.id);
                                                 }
-                                            } catch (error) {
+                                            } catch (_error) {
                                                 // Silently handle errors in playground mode
                                             }
                                         }}

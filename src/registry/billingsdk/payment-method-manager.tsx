@@ -85,6 +85,7 @@ function PaymentMethodCard({
   };
 
   const handleRemove = () => {
+    onRemove(method.id);
     setRemoveOpen(true);
   };
 
@@ -428,7 +429,7 @@ export function PaymentMethodManager({
 }: PaymentMethodManagerProps) {
   // Dialog states
   const [addOpen, setAddOpen] = useState(false);
-  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
+  const [_selectedMethod, _setSelectedMethod] = useState<PaymentMethod | null>(null);
 
   // Handlers
   const handleAddRedirect = () => {
@@ -440,7 +441,7 @@ export function PaymentMethodManager({
       if (typeof onEdit === 'function') {
         onEdit(method);
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   };
@@ -450,7 +451,7 @@ export function PaymentMethodManager({
       if (typeof onRemove === 'function') {
         onRemove(id);
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   };
@@ -460,7 +461,7 @@ export function PaymentMethodManager({
       if (typeof onSetDefault === 'function') {
         onSetDefault(id);
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   };
@@ -484,7 +485,7 @@ export function PaymentMethodManager({
                   onClick={() => {
                     try {
                       setAddOpen(true);
-                    } catch (error) {
+                    } catch (_error) {
                       // Silently handle errors in playground mode
                     }
                   }}
@@ -548,7 +549,7 @@ export function PaymentMethodManager({
               <EmptyState onAdd={() => {
                 try {
                   setAddOpen(true);
-                } catch (error) {
+                } catch (_error) {
                   // Silently handle errors in playground mode
                 }
               }} />

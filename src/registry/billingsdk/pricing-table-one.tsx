@@ -411,7 +411,7 @@ export function PricingTableOne({
                         if (typeof onPlanSelect === 'function') {
                           onPlanSelect(plan.id);
                         }
-                      } catch (error) {
+                      } catch (_error) {
                         // Silently handle errors in playground mode
                       }
                     }}

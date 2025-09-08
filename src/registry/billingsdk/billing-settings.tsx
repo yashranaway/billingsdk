@@ -87,7 +87,7 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
               if (typeof onTabChange === 'function') {
                 onTabChange(tab.id);
               }
-            } catch (error) {
+            } catch (_error) {
               // Silently handle errors in playground mode
             }
           }}
@@ -122,8 +122,8 @@ export function BillingSettings({
   onOverageProtectionChange = () => {},
   usageLimitAlerts = false,
   onUsageLimitAlertsChange = () => {},
-  usageLimit = "1000",
-  onUsageLimitChange = () => {},
+  usageLimit: _usageLimit = "1000",
+  onUsageLimitChange: _onUsageLimitChange = () => {},
   className,
 }: BillingSettingsProps) {
   const renderGeneralContent = () => (
@@ -137,7 +137,7 @@ export function BillingSettings({
             if (typeof onEmailNotificationsChange === 'function') {
               onEmailNotificationsChange(value);
             }
-          } catch (error) {
+          } catch (_error) {
             // Silently handle errors in playground mode
           }
         }}
@@ -151,7 +151,7 @@ export function BillingSettings({
             if (typeof onUsageAlertsChange === 'function') {
               onUsageAlertsChange(value);
             }
-          } catch (error) {
+          } catch (_error) {
             // Silently handle errors in playground mode
           }
         }}
@@ -165,7 +165,7 @@ export function BillingSettings({
             if (typeof onInvoiceRemindersChange === 'function') {
               onInvoiceRemindersChange(value);
             }
-          } catch (error) {
+          } catch (_error) {
             // Silently handle errors in playground mode
           }
         }}
@@ -196,7 +196,7 @@ export function BillingSettings({
           if (typeof onAddCard === 'function') {
             onAddCard();
           }
-        } catch (error) {
+        } catch (_error) {
           // Silently handle errors in playground mode
         }
       }}>
@@ -227,7 +227,7 @@ export function BillingSettings({
                 if (typeof onInvoiceFormatChange === 'function') {
                   onInvoiceFormatChange("PDF");
                 }
-              } catch (error) {
+              } catch (_error) {
                 // Silently handle errors in playground mode
               }
             }}>PDF</DropdownMenuItem>
@@ -236,7 +236,7 @@ export function BillingSettings({
                 if (typeof onInvoiceFormatChange === 'function') {
                   onInvoiceFormatChange("HTML");
                 }
-              } catch (error) {
+              } catch (_error) {
                 // Silently handle errors in playground mode
               }
             }}>HTML</DropdownMenuItem>
@@ -253,7 +253,7 @@ export function BillingSettings({
             if (typeof onEditBillingAddress === 'function') {
               onEditBillingAddress();
             }
-          } catch (error) {
+          } catch (_error) {
             // Silently handle errors in playground mode
           }
         }} className="w-full sm:w-auto">
@@ -274,7 +274,7 @@ export function BillingSettings({
             if (typeof onOverageProtectionChange === 'function') {
               onOverageProtectionChange(value);
             }
-          } catch (error) {
+          } catch (_error) {
             // Silently handle errors in playground mode
           }
         }}
@@ -288,7 +288,7 @@ export function BillingSettings({
             if (typeof onUsageLimitAlertsChange === 'function') {
               onUsageLimitAlertsChange(value);
             }
-          } catch (error) {
+          } catch (_error) {
             // Silently handle errors in playground mode
           }
         }}

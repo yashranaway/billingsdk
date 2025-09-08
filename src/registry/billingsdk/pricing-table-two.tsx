@@ -308,7 +308,7 @@ export function PricingTableTwo({
       if (typeof onPlanSelect === 'function') {
         onPlanSelect(planId);
       }
-    } catch (error) {
+    } catch (_error) {
       // Silently handle errors in playground mode
     }
   };
@@ -531,7 +531,7 @@ export function PricingTableTwo({
             <TableHeader>
               <TableRow className={cn(theme === "classic" && "border-border/30")}>
                 <TableHead className={firstColWidthVariants({ size })}></TableHead>
-                {safePlans.map((plan: Plan) => (
+                {Array.isArray(plans) && plans.map((plan, _index) => (
                   <TableHead key={plan.id} className={cn(
                     "text-center font-bold text-primary",
                     theme === "classic" && "text-lg"
