@@ -4,6 +4,8 @@ description: Variant of Billing Settings matching the inline form layout with sw
 ---
 
 import BillingSettings2Demo from '@/components/billing-settings-2-demo';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { PreviewComponents } from '@/components/preview/preview-components';
 
     <Tabs items={["Preview", "Code"]} className="bg-transparent border-none">
     <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
@@ -31,13 +33,19 @@ import BillingSettings2Demo from '@/components/billing-settings-2-demo';
 			groupId="installation-tabs"
 		>
 			<Tab value="npx">
-				```bash npx shadcn@latest add @billingsdk/billing-settings-2 ```
+				```bash 
+				npx shadcn@latest add @billingsdk/billing-settings-2 
+				```
 			</Tab>
 			<Tab value="pnpm">
-				```bash pnpm dlx shadcn@latest add @billingsdk/billing-settings-2 ```
+				```bash 
+				pnpm dlx shadcn@latest add @billingsdk/billing-settings-2 
+				```
 			</Tab>
 			<Tab value="yarn">
-				```bash yarn dlx shadcn@latest add @billingsdk/billing-settings-2 ```
+				```bash 
+				yarn dlx shadcn@latest add @billingsdk/billing-settings-2 
+				```
 			</Tab>
 		</Tabs>
 	</Tab>
@@ -48,13 +56,19 @@ import BillingSettings2Demo from '@/components/billing-settings-2-demo';
 			groupId="billingsdk-cli-tabs"
 		>
 			<Tab value="npx">
-				```bash npx @billingsdk/cli add billing-settings-2 ```
+				```bash 
+				npx @billingsdk/cli add billing-settings-2 
+				```
 			</Tab>
 			<Tab value="pnpm">
-				```bash pnpm dlx @billingsdk/cli add billing-settings-2 ```
+				```bash 
+				pnpm dlx @billingsdk/cli add billing-settings-2 
+				```
 			</Tab>
 			<Tab value="yarn">
-				```bash yarn dlx @billingsdk/cli add billing-settings-2 ```
+				```bash 
+				yarn dlx @billingsdk/cli add billing-settings-2 
+				```
 			</Tab>
 		</Tabs>
 	</Tab>
