@@ -17,7 +17,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-interface CouponGeneratorProps {
+export interface CouponGeneratorProps {
     companyName: string
     applicableOptions?: { label: string; value: string }[]
     onGenerate: (couponData: {
@@ -35,7 +35,7 @@ interface CouponGeneratorProps {
     defaultCode?: string
 }
 
-export default function CouponGenerator({
+export function CouponGenerator({
     companyName,
     applicableOptions = [],
     onGenerate,

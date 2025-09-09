@@ -1,8 +1,7 @@
 
 "use client"
 
-import CouponGenerator from "@/registry/billingsdk/coupon"
-
+import {CouponGenerator}  from "@/components/billingsdk/coupon"
 function generateRandomCode(length = 8) {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
   let result = ""
