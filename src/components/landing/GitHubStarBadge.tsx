@@ -15,7 +15,10 @@ type StarResponse = {
 };
 
 export default function GitHubStarBadge() {
-  const [display, setDisplay] = useState<{ kind: "stars" | "forks"; text: string } | null>(null);
+  const [display, setDisplay] = useState<{
+    kind: "stars" | "forks";
+    text: string;
+  } | null>(null);
   const [metrics, setMetrics] = useState<StarResponse | null>(null);
 
   function toFixedTrim(value: number, digits: number) {
@@ -45,23 +48,22 @@ export default function GitHubStarBadge() {
     let cancelled = false;
     // Create AbortController for fetch requests
     let controller: AbortController | null = null;
-    
+
     async function load() {
       // Create new controller for each request
       controller = new AbortController();
-      
+
       try {
-        const res = await fetch("/api/github-stars", { 
+        const res = await fetch("/api/github-stars", {
           cache: "no-store",
-          signal: controller.signal
         });
-        
+
         // Check if response is ok before parsing JSON
         if (!res.ok) {
           // Don't clobber existing display on error
           return;
         }
-        
+
         const data: StarResponse = await res.json();
         // Only update state if component is still mounted and request wasn't aborted
         if (!cancelled && controller && !controller.signal.aborted) {
@@ -77,10 +79,11 @@ export default function GitHubStarBadge() {
         }
       }
     }
-    
+
     load();
-    const id = setInterval(load, 60_000 * 5);
-    
+    // Schedule refresh twice hourly (every 30 minutes)
+    const id = setInterval(load, 60_000 * 30);
+
     return () => {
       cancelled = true;
       clearInterval(id);
@@ -130,7 +133,12 @@ export default function GitHubStarBadge() {
               initial={{ y: 4, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -4, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 320, damping: 20, mass: 0.7 }}
+              transition={{
+                type: "spring",
+                stiffness: 320,
+                damping: 20,
+                mass: 0.7,
+              }}
             >
               {display.text}
             </motion.span>
@@ -146,7 +154,12 @@ export default function GitHubStarBadge() {
               initial={{ rotate: -12, scale: 0.95, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
               exit={{ rotate: 12, scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 280, damping: 18, mass: 0.8 }}
+              transition={{
+                type: "spring",
+                stiffness: 280,
+                damping: 18,
+                mass: 0.8,
+              }}
               className="inline-flex"
             >
               {display.kind === "stars" ? (
