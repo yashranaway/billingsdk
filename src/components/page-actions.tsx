@@ -6,6 +6,7 @@ import {
   Copy,
   ExternalLinkIcon,
   MessageCircleIcon,
+  Play,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCopyButton } from 'fumadocs-ui/utils/use-copy-button';
@@ -303,12 +304,41 @@ export function ViewOptions({
   );
 }
 
+function PlaygroundButton({
+  componentName,
+}: {
+  componentName?: string;
+}) {
+  return (
+    <a
+      href={
+        componentName
+          ? `/playground?component=${encodeURIComponent(componentName)}`
+          : '/playground'
+      }
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        buttonVariants({
+          variant: 'secondary',
+          className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
+        }),
+      )}
+    >
+      <Play />
+      Playground
+    </a>
+  );
+}
+
 export function CombinedAIButton({
   markdownUrl,
   githubUrl,
+  componentName,
 }: {
   markdownUrl: string;
   githubUrl: string;
+  componentName?: string;
 }) {
   const [isLoading, setLoading] = useState(false);
   const [checked, onClick] = useCopyButton(async () => {
@@ -455,13 +485,14 @@ export function CombinedAIButton({
   }, [githubUrl, markdownUrl]);
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-2">
+      <PlaygroundButton componentName={componentName} />
       <button
         disabled={isLoading}
         className={cn(
           buttonVariants({
             variant: 'secondary',
-            className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-r-none border-r-0',
+            className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
           }),
         )}
         onClick={onClick}
