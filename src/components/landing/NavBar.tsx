@@ -9,7 +9,7 @@ import { FaGithub } from "react-icons/fa";
 
 export const Logo = () => {
   return (
-    <div className="flex items-center justify-center gap-2 mr-8">
+    <div className="flex items-center justify-center gap-2">
       <Image
         src="/logo/logo-dodo.svg"
         alt="Billing SDK"
@@ -39,9 +39,9 @@ const NavBar = () => {
       <div className="max-w-[1920px] mx-auto w-full">
         <div
           className={cn(
-            `flex items-center w-full justify-between px-6 py-3 transition-all duration-300 ${
+            `flex items-center w-full justify-between px-2 md:px-6 py-3 transition-all duration-300 ${
               isScrolled &&
-              "bg-white/10 backdrop-blur-md border border-white/20 rounded-b-lg"
+              "bg-white/10 backdrop-blur-md border border-white/20 rounded-b-lg px-4"
             }`
           )}
         >
