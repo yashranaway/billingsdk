@@ -49,12 +49,12 @@ export interface PaymentMethod {
 }
 
 export interface PaymentMethodManagerProps {
-  paymentMethods?: PaymentMethod[];
+  paymentMethods: PaymentMethod[];
   onAdd?: (method: PaymentMethod) => void;
   onEdit?: (method: PaymentMethod) => void;
   onRemove?: (id: string) => void;
   onSetDefault?: (id: string) => void;
-  onRedirect?: (type: 'add' | 'edit', methodId?: string) => void;
+  onRedirect: (type: 'add' | 'edit', methodId?: string) => void;
   className?: string;
   isLoading?: boolean;
   error?: string | null;
@@ -85,7 +85,6 @@ function PaymentMethodCard({
   };
 
   const handleRemove = () => {
-    onRemove(method.id);
     setRemoveOpen(true);
   };
 
@@ -417,53 +416,37 @@ function AddPaymentMethodDialog({
 }
 
 export function PaymentMethodManager({
-  paymentMethods = [],
-  onAdd = () => {},
-  onEdit = () => {},
-  onRemove = () => {},
-  onSetDefault = () => {},
-  onRedirect = () => {},
+  paymentMethods,
+  onAdd: _onAdd,
+  onEdit: _onEdit,
+  onRemove,
+  onSetDefault,
+  onRedirect,
   className,
   isLoading = false,
   error = null,
 }: PaymentMethodManagerProps) {
   // Dialog states
   const [addOpen, setAddOpen] = useState(false);
-  const [_selectedMethod, _setSelectedMethod] = useState<PaymentMethod | null>(null);
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
 
   // Handlers
   const handleAddRedirect = () => {
     onRedirect('add');
   };
 
-  const handleEditById = (method: PaymentMethod) => {
-    try {
-      if (typeof onEdit === 'function') {
-        onEdit(method);
-      }
-    } catch (_error) {
-      // Silently handle errors in playground mode
-    }
+  const handleEdit = (method: PaymentMethod) => {
+    if (_onEdit) _onEdit(method);
   };
 
   const handleRemoveById = (id: string) => {
-    try {
-      if (typeof onRemove === 'function') {
-        onRemove(id);
-      }
-    } catch (_error) {
-      // Silently handle errors in playground mode
-    }
+    if (onRemove) onRemove(id);
   };
 
+
+
   const handleSetDefault = (id: string) => {
-    try {
-      if (typeof onSetDefault === 'function') {
-        onSetDefault(id);
-      }
-    } catch (_error) {
-      // Silently handle errors in playground mode
-    }
+    if (onSetDefault) onSetDefault(id);
   };
 
   return (
@@ -482,13 +465,7 @@ export function PaymentMethodManager({
               <TooltipTrigger asChild>
                 <Button
                   variant="default"
-                  onClick={() => {
-                    try {
-                      setAddOpen(true);
-                    } catch (_error) {
-                      // Silently handle errors in playground mode
-                    }
-                  }}
+                  onClick={() => setAddOpen(true)}
                   className="gap-2 w-full sm:w-auto"
                   aria-label="Add New Payment Method"
                   disabled={isLoading}
@@ -545,21 +522,15 @@ export function PaymentMethodManager({
         {/* Payment Methods Grid */}
         {!isLoading && (
           <>
-            {Array.isArray(paymentMethods) && paymentMethods.length === 0 ? (
-              <EmptyState onAdd={() => {
-                try {
-                  setAddOpen(true);
-                } catch (_error) {
-                  // Silently handle errors in playground mode
-                }
-              }} />
+            {paymentMethods.length === 0 ? (
+              <EmptyState onAdd={() => setAddOpen(true)} />
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {Array.isArray(paymentMethods) && paymentMethods.map((method) => (
+                {paymentMethods.map((method) => (
                   <PaymentMethodCard
                     key={method.id}
                     method={method}
-                    onEdit={handleEditById}
+                    onEdit={handleEdit}
                     onRemove={handleRemoveById}
                     onSetDefault={handleSetDefault}
                     onRedirect={onRedirect}

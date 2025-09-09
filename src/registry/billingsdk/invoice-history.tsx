@@ -34,7 +34,7 @@ interface InvoiceHistoryProps {
     className?: string
     title?: string
     description?: string
-    invoices?: InvoiceItem[]
+    invoices: InvoiceItem[]
     onDownload?: (invoiceId: string) => void
 }
 
@@ -42,27 +42,10 @@ export function InvoiceHistory({
     className,
     title = "Invoice History",
     description = "Your past invoices and payment receipts.",
-    invoices = [],
-    onDownload = () => {},
+    invoices,
+    onDownload,
 }: InvoiceHistoryProps) {
-    const safeInvoices = Array.isArray(invoices) ? invoices : [];
-    
-    if (safeInvoices.length === 0) {
-        return (
-            <Card className={cn("w-full", className)}>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <ReceiptText className="h-5 w-5" />
-                        {title}
-                    </CardTitle>
-                    <CardDescription>{description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground text-center py-8">No invoices found.</p>
-                </CardContent>
-            </Card>
-        );
-    }
+    if (!invoices) return null
 
     const statusBadge = (status: InvoiceItem["status"]) => {
         switch (status) {
@@ -114,39 +97,36 @@ export function InvoiceHistory({
                                 </TableCell>
                             </TableRow>
                         )}
-                        {safeInvoices.map((invoice) => (
-                            <TableRow key={invoice.id} className="group">
+                        {invoices.map((inv) => (
+                            <TableRow key={inv.id} className="group">
                                 <TableCell className="text-muted-foreground">
                                     <div className="inline-flex items-center gap-2">
                                         <CalendarDays className="h-3.5 w-3.5" />
-                                        {invoice.date}
+                                        {inv.date}
                                     </div>
                                 </TableCell>
                                 <TableCell className="max-w-[320px]">
-                                    <div className="truncate" title={invoice.description || "Invoice"}>
-                                        {invoice.description || "Invoice"}
+                                    <div className="truncate" title={inv.description || "Invoice"}>
+                                        {inv.description || "Invoice"}
                                     </div>
                                 </TableCell>
                                 <TableCell className="text-right font-medium">
-                                    {invoice.amount}
+                                    {inv.amount}
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    {statusBadge(invoice.status)}
+                                    {statusBadge(inv.status)}
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <Button
-                                        variant="ghost"
+                                        variant="outline"
                                         size="sm"
-                                        onClick={() => {
-                                            try {
-                                                if (typeof onDownload === 'function') {
-                                                    onDownload(invoice.id);
-                                                }
-                                            } catch (_error) {
-                                                // Silently handle errors in playground mode
-                                            }
-                                        }}
-                                        className="h-8 w-8 p-0"
+                                        className="h-8 text-xs"
+                                        onClick={() =>
+                                            inv.invoiceUrl
+                                                ? window.open(inv.invoiceUrl, "_blank", "noopener,noreferrer")
+                                                : onDownload?.(inv.id)
+                                        }
+                                        aria-label={`Download invoice ${inv.id}`}
                                     >
                                         <Download className="h-3.5 w-3.5" />
                                         Download

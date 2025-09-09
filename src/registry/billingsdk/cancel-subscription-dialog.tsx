@@ -17,9 +17,9 @@ import { useTheme } from "@/contexts/theme-context";
 import { getThemeStyles } from "@/lib/themes";
 
 export interface CancelSubscriptionDialogProps {
-    title?: string;
-    description?: string;
-    plan?: Plan;
+    title: string;
+    description: string;
+    plan: Plan;
     triggerButtonText?: string;
     leftPanelImageUrl?: string;
     warningTitle?: string;
@@ -31,30 +31,30 @@ export interface CancelSubscriptionDialogProps {
     finalWarningText?: string;
     goBackButtonText?: string;
     confirmButtonText?: string;
-    onCancel?: (planId: string) => Promise<void> | void;
+    onCancel: (planId: string) => Promise<void> | void;
     onKeepSubscription?: (planId: string) => Promise<void> | void;
     onDialogClose?: () => void;
     className?: string;
 }
 
 export function CancelSubscriptionDialog({
-    title = "Cancel Subscription",
-    description = "We're sorry to see you go. Please review the details below.",
+    title,
+    description,
     plan,
-    triggerButtonText = "Cancel Subscription",
+    triggerButtonText,
     leftPanelImageUrl,
-    warningTitle = "Are you sure?",
-    warningText = "You'll lose access to all premium features immediately.",
-    keepButtonText = "Keep Subscription",
-    continueButtonText = "Continue Cancellation",
-    finalTitle = "Final Confirmation",
-    finalSubtitle = "This action cannot be undone",
-    finalWarningText = "Your subscription will be cancelled immediately.",
-    goBackButtonText = "Go Back",
-    confirmButtonText = "Confirm Cancellation",
-    onCancel = () => {},
-    onKeepSubscription = () => {},
-    onDialogClose = () => {},
+    warningTitle,
+    warningText,
+    keepButtonText,
+    continueButtonText,
+    finalTitle,
+    finalSubtitle,
+    finalWarningText,
+    goBackButtonText,
+    confirmButtonText,
+    onCancel,
+    onKeepSubscription,
+    onDialogClose,
     className,
 }: CancelSubscriptionDialogProps) {
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -69,31 +69,29 @@ export function CancelSubscriptionDialog({
         setError(null);
     };
 
-    const handleKeepSubscription = async () => {
+    const handleConfirmCancellation = async () => {
         try {
             setIsLoading(true);
             setError(null);
-            if (typeof onKeepSubscription === 'function' && plan?.id) {
-                await onKeepSubscription(plan.id);
-            }
-            setIsOpen(false);
+            await onCancel(plan.id);
+            handleDialogClose();
         } catch (err) {
-            setError(err instanceof Error ? err.message : "An error occurred");
+            setError(err instanceof Error ? err.message : 'Failed to cancel subscription');
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleConfirmCancellation = async () => {
+    const handleKeepSubscription = async () => {
         try {
             setIsLoading(true);
             setError(null);
-            if (typeof onCancel === 'function' && plan?.id) {
-                await onCancel(plan.id);
+            if (onKeepSubscription) {
+                await onKeepSubscription(plan.id);
             }
             handleDialogClose();
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to cancel subscription');
+            setError(err instanceof Error ? err.message : 'Failed to keep subscription');
         } finally {
             setIsLoading(false);
         }
@@ -103,13 +101,8 @@ export function CancelSubscriptionDialog({
         setIsOpen(false);
         setShowConfirmation(false);
         setError(null);
-        try {
-            if (typeof onDialogClose === 'function') {
-                onDialogClose();
-            }
-        } catch (_error) {
-            // Silently handle errors in playground mode
-        }
+        setIsLoading(false);
+        onDialogClose?.();
     };
 
     const handleGoBack = () => {
@@ -175,27 +168,25 @@ export function CancelSubscriptionDialog({
                         <div className="flex flex-col gap-4 p-4 bg-muted/50 rounded-lg">
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-col gap-1">
-                                    <h3 className="text-lg font-semibold">{plan?.title || 'Plan'}</h3>
+                                    <span className="font-semibold text-lg">{plan.title} Plan</span>
                                     <span className="text-sm text-muted-foreground">Current subscription</span>
                                 </div>
                                 <Badge variant="secondary">
                                     {
-                                        plan?.monthlyPrice && parseFloat(plan.monthlyPrice) >= 0 ?
-                                            `${plan?.currency || '$'}${plan.monthlyPrice}/monthly` :
-                                            `${plan?.monthlyPrice || '0'}/monthly`
+                                        parseFloat(plan.monthlyPrice) >= 0 ?
+                                            `${plan.currency}${plan.monthlyPrice}/monthly` :
+                                            `${plan.monthlyPrice}/monthly`
                                     }
                                 </Badge>
                             </div>
-                            {Array.isArray(plan?.features) && plan.features.length > 0 && (
-                                <ul className="space-y-2">
-                                    {plan.features.map((feature, index) => (
-                                        <li key={index} className="flex items-center gap-2">
-                                            <Circle className="h-1.5 w-1.5 fill-current" />
-                                            <span className="text-sm">{feature?.name || 'Feature'}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                            <div className="flex flex-col gap-2">
+                                {plan.features.slice(0, 4).map((feature, index) => (
+                                    <div key={index} className="flex items-center gap-2">
+                                        <Circle className="w-2 h-2 fill-primary text-primary" />
+                                        <span className="text-sm text-muted-foreground">{feature.name}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
 
@@ -208,14 +199,10 @@ export function CancelSubscriptionDialog({
                                 </h3>
                             )}
                             {warningText && (
-                                <p className="text-sm text-muted-foreground mb-2">
+                                <p className="text-sm text-muted-foreground">
                                     {warningText}
                                 </p>
                             )}
-                            <p className="text-2xl font-bold">
-                                ${plan?.monthlyPrice || '0'}
-                                <span className="text-sm font-normal text-muted-foreground">/month</span>
-                            </p>
                         </div>
                     )}
                     {/* Action Buttons */}

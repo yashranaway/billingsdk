@@ -19,7 +19,7 @@ export interface Usage {
 }
 
 export interface UsageMeterProps {
-    usage?: Usage[]
+    usage: Usage[]
     className?: string
     variant?: "linear" | "circle"
     size?: "sm" | "md" | "lg"
@@ -29,19 +29,15 @@ export interface UsageMeterProps {
 }
 
 export function UsageMeter({
-    usage = [
-        { name: 'API Calls', usage: 750, limit: 1000 },
-        { name: 'Storage', usage: 2.5, limit: 5 },
-        { name: 'Bandwidth', usage: 45, limit: 100 }
-    ],
+    usage,
     className,
     variant = "linear",
     size = "md",
-    title = "Usage Overview",
-    description = "Current usage across all services",
+    title,
+    description,
     progressColor = "default",
 }: UsageMeterProps) {
-    if (!Array.isArray(usage) || !usage.length) return null
+    if (!usage?.length) return null
 
     const getStatus = (percentage: number) => {
         if (percentage >= 90) return <Badge variant="destructive">Critical</Badge>
@@ -97,8 +93,8 @@ export function UsageMeter({
                     className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"}
                 >
                     {usage.map((item, i) => {
-                        const percentage = Math.min(((item?.usage || 0) / (item?.limit || 1)) * 100, 100)
-                        const remaining = Math.max((item?.limit || 0) - (item?.usage || 0), 0)
+                        const percentage = Math.min((item.usage / item.limit) * 100, 100)
+                        const remaining = Math.max(item.limit - item.usage, 0)
 
                         const motionValue = useMotionValue(0)
                         const springValue = useSpring(motionValue, { stiffness: 100, damping: 20 })
@@ -110,10 +106,10 @@ export function UsageMeter({
 
                         return (
                             <div
-                                key={item?.name || i}
+                                key={item.name || i}
                                 className="space-y-3 p-4 bg-muted/20 rounded-xl flex flex-col items-center text-center"
                             >
-                                <span className="text-sm font-medium truncate w-full">{item?.name || 'Usage'}</span>
+                                <span className="text-sm font-medium truncate w-full">{item.name}</span>
                                 <div className="relative">
                                     <svg width={config.circle} height={config.circle} className="-rotate-90">
                                         <circle
@@ -144,7 +140,7 @@ export function UsageMeter({
                                     </div>
                                 </div>
                                 <span className="text-xs text-muted-foreground">
-                                    {remaining.toLocaleString()} / {(item?.limit || 0).toLocaleString()} left
+                                    {remaining.toLocaleString()} / {item.limit.toLocaleString()} left
                                 </span>
                                 {getStatus(percentage)}
                             </div>
@@ -185,8 +181,8 @@ export function UsageMeter({
                 className={"grid grid-cols-1 gap-4"}
             >
                 {usage.map((item, i) => {
-                    const percentage = Math.min(((item?.usage || 0) / (item?.limit || 1)) * 100, 100)
-                    const remaining = Math.max((item?.limit || 0) - (item?.usage || 0), 0)
+                    const percentage = Math.min((item.usage / item.limit) * 100, 100)
+                    const remaining = Math.max(item.limit - item.usage, 0)
 
                     const motionValue = useMotionValue(0)
                     const springValue = useSpring(motionValue, { stiffness: 100, damping: 20 })
@@ -197,9 +193,9 @@ export function UsageMeter({
                     }, [percentage, motionValue])
 
                     return (
-                        <div key={item?.name || i} className="space-y-2 p-4 bg-muted/20 rounded-xl">
+                        <div key={item.name || i} className="space-y-2 p-4 bg-muted/20 rounded-xl">
                             <div className="flex items-center justify-between">
-                                <span className="text-sm font-medium truncate">{item?.name || 'Usage'}</span>
+                                <span className="text-sm font-medium truncate">{item.name}</span>
                                 <motion.span className="text-xs text-muted-foreground">{display}</motion.span>
                             </div>
                             <div className={cn("w-full bg-muted rounded-full overflow-hidden", config.bar)}>
@@ -212,7 +208,7 @@ export function UsageMeter({
                             </div>
                             <div className="flex items-center justify-between text-xs text-muted-foreground">
                                 <span>
-                                    {remaining.toLocaleString()} / {(item?.limit || 0).toLocaleString()} left
+                                    {remaining.toLocaleString()} / {item.limit.toLocaleString()} left
                                 </span>
                                 {getStatus(percentage)}
                             </div>

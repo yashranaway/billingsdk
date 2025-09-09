@@ -6,11 +6,8 @@ export function PaymentMethodSelectorDemo() {
     return (
         <div className="w-full max-w-md mx-auto min-h-[600px] flex items-center justify-center">
             <PaymentMethodSelector
-                onSelectMethod={(method) => {
-                    console.log("Demo: Selected method:", method)
-                }}
-                onFormSubmit={(data) => {
-                    console.log("Demo: Form submitted:", data)
+                onProceed={(method, data) => {
+                    console.log("Demo: Proceed with:", method, data)
                 }}
             />
         </div>

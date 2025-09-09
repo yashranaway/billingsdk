@@ -1,2 +1,2 @@
 "use client";
-export { PricingTableThree, type PricingTableThreeProps } from "@/registry/billingsdk/pricing-table-three"
+export { PricingTableThree, type PricingTableProps } from "@/registry/billingsdk/pricing-table-three"
