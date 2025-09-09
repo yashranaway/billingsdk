@@ -51,17 +51,60 @@ export function CouponGenerator({
     const [endDate, setEndDate] = useState("")
     const [generated, setGenerated] = useState(false)
     const [customCode, setCustomCode] = useState("DODO20")
-    const [discount, setDiscount] = useState(20)
+    const [discount, setDiscount] = useState<number | "">(20)
+    const [discountError, setDiscountError] = useState("")
     const [selectedRule, setSelectedRule] = useState("")
     const [generatedCouponCode, setGeneratedCouponCode] = useState("")
+    const [dateError, setDateError] = useState("")
 
-    const isFormValid = selectedRule.trim() !== "" && startDate.trim() !== "" && endDate.trim() !== ""
+    const isDateValid = startDate && endDate && new Date(startDate) < new Date(endDate);
+
+    const isDiscountValid = discount !== "" && !isNaN(Number(discount)) && Number(discount) >= 0 && Number(discount) <= 100;
+
+    const isFormValid =
+        selectedRule.trim() !== "" &&
+        startDate.trim() !== "" &&
+        endDate.trim() !== "" &&
+        isDateValid &&
+        isDiscountValid;
+
+    function generateCouponCode() {
+        let rnd = Math.floor(Math.random() * 1_000_000);
+        if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
+            const arr = new Uint32Array(1);
+            crypto.getRandomValues(arr);
+            rnd = arr[0] % 1_000_000;
+        }
+        return `COUPON${rnd.toString().padStart(6, "0")}`;
+    }
 
     const handleGenerate = () => {
+        let valid = true;
+
         if (!selectedRule.trim() || !startDate.trim() || !endDate.trim()) {
-            alert("Please fill in all required fields: Applicable rule, Start date, and End date")
-            return
+            setDateError("Please fill in all required fields: Applicable rule, Start date, and End date");
+            valid = false;
+        } else if (!isDateValid) {
+            setDateError("Start date must be before end date.");
+            valid = false;
+        } else {
+            setDateError("");
         }
+
+        if (discount === "" || isNaN(Number(discount))) {
+            setDiscountError("Discount must be a number.");
+            valid = false;
+        } else if (Number(discount) < 0) {
+            setDiscountError("Discount cannot be negative.");
+            valid = false;
+        } else if (Number(discount) > 100) {
+            setDiscountError("Discount cannot exceed 100%.");
+            valid = false;
+        } else {
+            setDiscountError("");
+        }
+
+        if (!valid) return;
 
         let code: string
         if (enabled && customCode.trim()) {
@@ -69,12 +112,12 @@ export function CouponGenerator({
         } else if (defaultCode) {
             code = defaultCode
         } else {
-            code = `COUPON${Math.floor(Math.random() * 10000)}`
+            code = generateCouponCode();
         }
 
         const couponData = {
             code,
-            discount,
+            discount: Number(discount),
             rule: selectedRule,
             startDate,
             endDate,
@@ -85,7 +128,25 @@ export function CouponGenerator({
         setGenerated(true)
     }
 
-    const safeApplicableOptions = applicableOptions || [];
+    const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value === "") {
+            setDiscount("");
+            setDiscountError("");
+            return;
+        }
+        const num = Number(value);
+        if (isNaN(num)) {
+            setDiscountError("Discount must be a number.");
+        } else if (num < 0) {
+            setDiscountError("Discount cannot be negative.");
+        } else if (num > 100) {
+            setDiscountError("Discount cannot exceed 100%.");
+        } else {
+            setDiscountError("");
+        }
+        setDiscount(num); 
+    };
 
     return (
         <>
@@ -119,7 +180,9 @@ export function CouponGenerator({
                             <div className="p-6 bg-white dark:bg-zinc-900">
                                 <div className="text-center space-y-2">
                                     <div className="text-2xl font-bold text-zinc-900 dark:text-white">{discount}% OFF</div>
-                                    <div className="text-sm text-zinc-600 dark:text-zinc-400">Valid until selected date</div>
+                                    <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                                        Valid until {endDate}
+                                    </div>
                                 </div>
                             </div>
 
@@ -185,10 +248,14 @@ export function CouponGenerator({
                                     type="number"
                                     id="discount"
                                     value={discount}
-                                    onChange={(e) => setDiscount(Number(e.target.value))}
+                                    onChange={handleDiscountChange}
                                     min={0}
+                                    max={100}
                                     className="bg-background border-border text-foreground"
                                 />
+                                {discountError && (
+                                    <div className="text-sm text-red-500">{discountError}</div>
+                                )}
                             </div>
 
                             <div className="space-y-2">
@@ -202,7 +269,7 @@ export function CouponGenerator({
                                     <SelectContent>
                                         <SelectGroup>
                                             <SelectLabel>Rules</SelectLabel>
-                                            {safeApplicableOptions.map((option) => (
+                                            {applicableOptions.map((option) => (
                                                 <SelectItem
                                                     key={option.value}
                                                     value={option.value}
@@ -247,6 +314,9 @@ export function CouponGenerator({
                                     />
                                 </div>
                             </div>
+                            {dateError && (
+                                <div className="text-sm text-red-500 mt-2">{dateError}</div>
+                            )}
                         </div>
 
                         <div className="space-y-3">
