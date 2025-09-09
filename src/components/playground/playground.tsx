@@ -25,21 +25,27 @@ function PlaygroundContent() {
   useEffect(() => {
     const componentParam = searchParams.get('component');
     if (componentParam && componentRegistry) {
-      // Normalize the search term by converting to lowercase and removing any hyphens/spaces
-      const normalizedSearch = componentParam.toLowerCase().replace(/[-\s]/g, '');
+      // First try exact matches
+      let component = componentRegistry.find(comp => 
+        comp.name === componentParam || 
+        comp.id === componentParam.toLowerCase()
+      );
       
-      // Find the component in the registry by id or name (case-insensitive and ignoring hyphens/spaces)
-      const component = componentRegistry.find(comp => {
-        const normalizedId = comp.id.toLowerCase();
-        const normalizedName = comp.name.toLowerCase().replace(/[-\s]/g, '');
-        
-        return (
-          normalizedId === normalizedSearch ||
-          normalizedName === normalizedSearch ||
-          normalizedId.includes(normalizedSearch) ||
-          normalizedName.includes(normalizedSearch)
-        );
-      });
+      // If no exact match, try case-insensitive and normalized search
+      if (!component) {
+        const normalizedSearch = componentParam.toLowerCase().replace(/[-\s]/g, '');
+        component = componentRegistry.find(comp => {
+          const normalizedId = comp.id.toLowerCase();
+          const normalizedName = comp.name.toLowerCase().replace(/[-\s]/g, '');
+          
+          return (
+            normalizedId === normalizedSearch ||
+            normalizedName === normalizedSearch ||
+            normalizedId.includes(normalizedSearch) ||
+            normalizedName.includes(normalizedSearch)
+          );
+        });
+      }
       
       if (component) {
         // Small delay to ensure context is ready
