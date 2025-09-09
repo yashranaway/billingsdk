@@ -12,10 +12,10 @@ import { cva } from "class-variance-authority"
 import { AnimatePresence, motion } from "motion/react"
 
 export interface PricingTableFiveProps {
-  plans?: Plan[]
-  title?: string
-  description?: string
-  onPlanSelect?: (planId: string) => void
+  plans: Plan[]
+  title: string
+  description: string
+  onPlanSelect: (planId: string) => void
   className?: string
   variant?: "default" | "minimal"
 }
@@ -38,6 +38,7 @@ const switchScaleVariants = cva("transition-all", {
     theme: "minimal",
   },
 });
+
 
 const contactCardVariants = cva("border-border shadow-sm w-full md:!w-[30%]", {
   variants: {
@@ -63,6 +64,7 @@ const contactIconContainerVariants = cva("w-12 h-12 rounded-lg flex items-center
   },
 });
 
+
 const contactIconVariants = cva("w-9 h-9", {
   variants: {
     variant: {
@@ -86,6 +88,7 @@ const contactTitleVariants = cva("text-2xl font-bold mb-3", {
     variant: "default",
   },
 });
+
 
 const contactDescriptionVariants = cva("text-sm leading-relaxed", {
   variants: {
@@ -123,15 +126,9 @@ const contactFooterVariants = cva("text-xs", {
   },
 });
 
-export function PricingTableFive({
-  plans = [],
-  title = "Choose Your Plan",
-  description = "Select the perfect plan for your needs",
-  onPlanSelect = () => {},
-  className,
-  variant = "default",
-}: PricingTableFiveProps) {
+export function PricingTableFive({ plans, title, description, onPlanSelect,className,variant="default" }: PricingTableFiveProps) {
   const [isAnnual, setIsAnnual] = useState(false)
+
 
   function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
     const monthly = parseFloat(monthlyPrice);
@@ -151,29 +148,19 @@ export function PricingTableFive({
     return Math.round(discount);
   }
 
-  const yearlyPriceDiscount = Array.isArray(plans) && plans.length
-    ? Math.max(
-      ...plans.map((plan) => {
-        return calculateDiscount(plan?.monthlyPrice || '0', plan?.yearlyPrice || '0')
-      })
-    )
-    : 0;
 
-  const safePlans = Array.isArray(plans) ? plans : [];
-  const regularPlans = safePlans.slice(0, -1);
-  const contactUsPlan = safePlans.length > 0 ? safePlans[safePlans.length - 1] : undefined;
-  
-  const handlePlanSelect = (planId: string) => {
-    try {
-      if (typeof onPlanSelect === 'function') {
-        onPlanSelect(planId)
-      }
-    } catch (_error) {
-      // Silently handle errors in playground mode
-    }
-  }
+  const yearlyPriceDiscount = plans.length
+  ? Math.max(
+    ...plans.map((plan) =>
+      calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+    )
+  )
+  : 0;
+
+  const regularPlans = plans.slice(0, -1);
+  const contactUsPlan = plans[plans.length - 1];
   return (
-    <div className={cn(className, "w-full")}>
+    <div className={cn(className,"w-full")}>
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-foreground mb-4 text-balance">{title}</h1>
         <p className="text-lg text-muted-foreground mb-8 text-pretty">
@@ -189,104 +176,96 @@ export function PricingTableFive({
             className={cn(switchScaleVariants({ size: "large", theme: "minimal" }))}
           />
           <span className={`text-sm font-medium ${isAnnual ? "text-foreground" : "text-muted-foreground"}`}>ANNUAL</span>
-          <div className="flex justify-center">
-            {yearlyPriceDiscount > 0 && (
-              <motion.span
-                className={cn(
-                  "text-xs  text-emerald-500 font-medium bg-emerald-500/10 px-2 py-1 rounded-md"
-                )}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                Save {yearlyPriceDiscount}%
-              </motion.span>
-            )}
-          </div>
+        <div className="flex justify-center">
+          {yearlyPriceDiscount > 0 && (
+            <motion.span
+              className={cn(
+                "text-xs  text-emerald-500 font-medium bg-emerald-500/10 px-2 py-1 rounded-md"
+              )}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              Save {yearlyPriceDiscount}%
+            </motion.span>
+          )}
+        </div>
         </div>
       </div>
 
       <div className="flex flex-col md:!flex-row justify-between gap-4">
         <div className="flex flex-col gap-5 w-full md:!w-[70%]">
-          {Array.isArray(regularPlans) && regularPlans.map((plan) => (
-            <Card key={plan.id} className="relative bg-card border border-border shadow-sm  py-4">
-              {plan?.highlight && (
-                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1">
-                  {plan?.buttonText || 'Get Started'}
-                </Badge>
-              )}
-              <CardContent className="w-full flex flex-col md:!flex-row md:!justify-between gap-6">
-                <div className="flex flex-col justify-center gap-2">
-                  <CardTitle className="w-fit text-sm px-2 py-1 font-medium text-foreground uppercase border  border-border rounded-md">{plan?.title || 'Plan'}</CardTitle>
-                  <AnimatePresence mode="wait">
-                    {isAnnual ? (
-                      <motion.div
-                        key="yearly"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <span className="text-2xl font-bold">
-                          ${isAnnual ? (plan?.yearlyPrice || '0') : (plan?.monthlyPrice || '0')}
-                        </span>
-                        <span className="text-foreground">/{isAnnual ? "Year" : "Month"}</span>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="monthly"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <span className="text-4xl font-bold text-foreground">${plan?.monthlyPrice || '0'}</span>
-                        <span className="text-foreground">/{isAnnual ? "Year" : "Month"}</span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  <Button onClick={() => handlePlanSelect(plan?.id || '')} className="w-full bg-primary text-primary-foreground hover:bg-primary/60">{plan?.buttonText || 'Get Started'}</Button>
-                </div>
-                <div className="grid gap-4">
-                  {Array.isArray(plan?.features) && plan.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center gap-3">
-                      <div className="flex-shrink-0 w-5 h-5 rounded-full border-2 border-muted-foreground flex items-center justify-center">
-                        <Check className="w-3 h-3 text-muted-foreground" />
+          {regularPlans.map((plan) => (
+              <Card key={plan.id} className="relative bg-card border border-border shadow-sm  py-4">
+                {plan.highlight && (
+                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1">
+                    {plan.badge}
+                  </Badge>
+                )}
+                <CardContent className="w-full flex flex-col md:!flex-row md:!justify-between gap-6">
+                      <div className="flex flex-col justify-center gap-2">
+                        <CardTitle className="w-fit text-sm px-2 py-1 font-medium text-foreground uppercase border  border-border rounded-md">{plan.title}</CardTitle>
+                        <AnimatePresence mode="wait">
+                        {isAnnual ? (
+                          <motion.div
+                            key="yearly"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <span className="text-4xl font-bold text-foreground">${plan.yearlyPrice}</span>
+                            <span className="text-foreground">/{isAnnual ? "Year" : "Month"}</span>
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="monthly"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <span className="text-4xl font-bold text-foreground">${plan.monthlyPrice}</span>
+                            <span className="text-foreground">/{isAnnual ? "Year" : "Month"}</span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                        <Button onClick={() => onPlanSelect(plan.id)} className="w-full bg-primary text-primary-foreground hover:bg-primary/60">{plan.buttonText}</Button>
                       </div>
-                      <span className="text-sm text-muted-foreground">{feature?.name || 'Feature'}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                      <div className="grid gap-4">
+                        {plan.features.map((feature, index) => (
+                          <div key={index} className="flex items-center gap-3">
+                            <div className="flex-shrink-0 w-5 h-5 rounded-full border-2 border-muted-foreground flex items-center justify-center">
+                              <Check className="w-3 h-3 text-muted-foreground" />
+                            </div>
+                            <span className="text-sm text-muted-foreground">{feature.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                </CardContent>
+              </Card>
           ))}
         </div>
 
         {/* Contact Us Card */}
-        {contactUsPlan && (
-          <Card className={cn(contactCardVariants({ variant }))} >
-            <CardContent className="p-8 text-center space-y-6">
-              <div className={cn(contactIconContainerVariants({ variant }))}>
-                <Phone className={cn(contactIconVariants({ variant }))} />
-              </div>
-              <div>
-                <h3 className={cn(contactTitleVariants({ variant }))}>{contactUsPlan?.title}</h3>
-                <p className={cn(contactDescriptionVariants({ variant }))}>
-                  {contactUsPlan?.description}
-                </p>
-              </div>
-              <Button
-                onClick={() => contactUsPlan?.id ? handlePlanSelect(contactUsPlan.id) : undefined}
-                variant="secondary"
-                className={cn(contactButtonVariants({ variant }))}
-              >
-                {contactUsPlan?.buttonText}
-              </Button>
-              <p className={cn(contactFooterVariants({ variant }))}>{contactUsPlan?.description}</p>
-            </CardContent>
-          </Card>
-        )}
+        <Card className={cn(contactCardVariants({ variant }))} >
+          <CardContent className="p-8 text-center space-y-6">
+            <div className={cn(contactIconContainerVariants({ variant }))}>
+              <Phone className={cn(contactIconVariants({ variant }))} />
+            </div>
+            <div>
+              <h3 className={cn(contactTitleVariants({ variant }))}>{contactUsPlan.title}</h3>
+              <p className={cn(contactDescriptionVariants({ variant }))}>
+                {contactUsPlan.description}
+              </p>
+            </div>
+            <Button onClick={() => onPlanSelect(plans[plans.length - 1].id)} variant="secondary" className={cn(contactButtonVariants({ variant }))}>
+              {contactUsPlan.buttonText}
+            </Button>
+            <p className={cn(contactFooterVariants({ variant }))}>{contactUsPlan.description}</p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

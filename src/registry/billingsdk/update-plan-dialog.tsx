@@ -14,34 +14,15 @@ import { useTheme } from "@/contexts/theme-context"
 import { getThemeStyles } from "@/lib/themes"
 
 export interface UpdatePlanDialogProps {
-    currentPlan?: Plan
-    plans?: Plan[]
-    triggerText?: string
-    onPlanChange?: (planId: string) => void
+    currentPlan: Plan
+    plans: Plan[]
+    triggerText: string
+    onPlanChange: (planId: string) => void
     className?: string
     title?: string
 }
 
-export function UpdatePlanDialog({ 
-    currentPlan = {
-        id: 'starter',
-        title: 'Starter',
-        description: 'Perfect for getting started',
-        monthlyPrice: '9',
-        yearlyPrice: '99',
-        currency: '$',
-        buttonText: 'Get Started',
-        features: [
-            { name: 'Basic features', icon: 'check' },
-            { name: '24/7 support', icon: 'check' }
-        ]
-    }, 
-    plans = [], 
-    onPlanChange = () => {}, 
-    className, 
-    title, 
-    triggerText = 'Update Plan' 
-}: UpdatePlanDialogProps) {
+export function UpdatePlanDialog({ currentPlan, plans, onPlanChange, className, title, triggerText }: UpdatePlanDialogProps) {
     const [isYearly, setIsYearly] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
     const [isOpen, setIsOpen] = useState(false);
@@ -49,27 +30,16 @@ export function UpdatePlanDialog({
     const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
 
     const getCurrentPrice = (plan: Plan) =>
-        isYearly ? `${plan?.yearlyPrice || '0'}` : `${plan?.monthlyPrice || '0'}`
+        isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`
 
     const handlePlanChange = (planId: string) => {
-        setSelectedPlan(planId);
-    }
-
-    const handlePlanSelect = () => {
-        try {
-            if (selectedPlan && typeof onPlanChange === 'function') {
-                onPlanChange(selectedPlan);
-                setIsOpen(false);
-            }
-        } catch (_error) {
-            // Silently handle errors in playground mode
-        }
+        setSelectedPlan((prev) => (prev === planId ? undefined : planId));
     }
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button>{triggerText}</Button>
+                <Button>{triggerText || "Update Plan"}</Button>
             </DialogTrigger>
             <DialogContent className={cn("space-y-3 max-h-[90vh] flex flex-col text-foreground", className)} style={themeStyles}>
                 <DialogHeader className="flex flex-row items-center justify-between py-2">
@@ -97,10 +67,10 @@ export function UpdatePlanDialog({
                 <div className="flex-1 min-h-0 space-y-3">
                     <RadioGroup value={selectedPlan} onValueChange={handlePlanChange}>
                         <AnimatePresence mode="wait">
-                            {Array.isArray(plans) && plans.map((plan) => (
+                            {plans.map((plan) => (
                                 <motion.div
                                     key={plan.id}
-                                    onClick={() => handlePlanChange(plan?.id || '')}
+                                    onClick={() => handlePlanChange(plan.id)}
                                     className={`p-4 rounded-lg border transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer ${selectedPlan === plan.id
                                         ? "border-primary bg-gradient-to-br from-muted/60 to-muted/30 shadow-md"
                                         : "border-border hover:border-primary/50"
@@ -109,26 +79,26 @@ export function UpdatePlanDialog({
                                     <div className="flex items-start justify-between gap-3">
                                         <div className="flex gap-3 min-w-0 flex-1">
                                             <RadioGroupItem
-                                                value={plan?.id || ''}
-                                                id={plan?.id || ''}
+                                                value={plan.id}
+                                                id={plan.id}
                                                 className="flex-shrink-0 pointer-events-none"
                                             />
                                             <div className="min-w-0 flex-1">
                                                 <div className="flex items-center gap-2 flex-wrap">
                                                     <Label
-                                                        htmlFor={plan?.id || ''}
+                                                        htmlFor={plan.id}
                                                         className="font-medium cursor-pointer"
                                                     >
-                                                        {plan?.title || 'Plan'}
+                                                        {plan.title}
                                                     </Label>
-                                                    {plan?.badge && (
-                                                        <Badge variant="secondary" className="flex-shrink-0">{plan?.badge}</Badge>
+                                                    {plan.badge && (
+                                                        <Badge variant="secondary" className="flex-shrink-0">{plan.badge}</Badge>
                                                     )}
                                                 </div>
                                                 <p className="text-xs text-muted-foreground mt-1">
-                                                    {plan?.description || 'Plan description'}
+                                                    {plan.description}
                                                 </p>
-                                                {Array.isArray(plan?.features) && plan.features.length > 0 && (
+                                                {plan.features.length > 0 && (
                                                     <div className="pt-3">
                                                         <div className="flex flex-wrap gap-2">
                                                             {plan.features.map((feature, featureIndex) => (
@@ -138,7 +108,7 @@ export function UpdatePlanDialog({
                                                                 >
                                                                     <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                                                                     <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                                                        {feature?.name || 'Feature'}
+                                                                        {feature.name}
                                                                     </span>
                                                                 </div>
                                                             ))}
@@ -151,7 +121,7 @@ export function UpdatePlanDialog({
                                             <div className="text-xl font-semibold">
                                                 {
                                                     parseFloat(getCurrentPrice(plan)) >= 0 ?
-                                                        `${plan?.currency || '$'}${getCurrentPrice(plan)}` :
+                                                        `${plan.currency}${getCurrentPrice(plan)}` :
                                                         getCurrentPrice(plan)
                                                 }
                                             </div>
@@ -169,12 +139,12 @@ export function UpdatePlanDialog({
                                                 transition={{ duration: 0.3, ease: "easeOut" }}
                                             >
                                                 <Button className="w-full mt-4"
-                                                    disabled={selectedPlan === currentPlan?.id}
+                                                    disabled={selectedPlan === currentPlan.id}
                                                     onClick={() => {
-                                                        handlePlanSelect()
+                                                        onPlanChange(plan.id)
                                                         setIsOpen(false)
                                                     }}
-                                                >{selectedPlan === currentPlan?.id ? "Current Plan" : "Upgrade"}</Button>
+                                                >{selectedPlan === currentPlan.id ? "Current Plan" : "Upgrade"}</Button>
                                             </motion.div>
                                         )}
                                     </AnimatePresence>

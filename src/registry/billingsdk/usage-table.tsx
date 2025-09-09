@@ -19,49 +19,27 @@ interface UsageTableProps {
     className?: string
     title?: string
     description?: string
-    usageHistory?: UsageItem[]
+    usageHistory: UsageItem[]
     showTotal?: boolean
 }
 
 export function UsageTable({
     className,
-    title = "Usage History",
-    description = "Detailed breakdown of your API usage",
-    usageHistory = [
-        {
-            model: 'GPT-4',
-            inputWithCache: 1250,
-            inputWithoutCache: 850,
-            cacheRead: 400,
-            output: 750,
-            totalTokens: 3250,
-            apiCost: 0.032,
-            costToYou: 0.025
-        },
-        {
-            model: 'GPT-3.5',
-            inputWithCache: 2100,
-            inputWithoutCache: 1200,
-            cacheRead: 900,
-            output: 1100,
-            totalTokens: 5300,
-            apiCost: 0.018,
-            costToYou: 0.014
-        }
-    ],
-    showTotal = true,
+    title,
+    description,
+    usageHistory,
+    showTotal = true, // Default to true
 }: UsageTableProps) {
 
     // Calculate total row if showTotal is true
-    const safeUsageHistory = Array.isArray(usageHistory) ? usageHistory : [];
-    const totalRow = showTotal ? safeUsageHistory.reduce((acc, item) => ({
-        inputWithCache: acc.inputWithCache + (item?.inputWithCache || 0),
-        inputWithoutCache: acc.inputWithoutCache + (item?.inputWithoutCache || 0),
-        cacheRead: acc.cacheRead + (item?.cacheRead || 0),
-        output: acc.output + (item?.output || 0),
-        totalTokens: acc.totalTokens + (item?.totalTokens || 0),
-        apiCost: acc.apiCost + (item?.apiCost || 0),
-        costToYou: acc.costToYou + (item?.costToYou || 0),
+    const totalRow = showTotal ? usageHistory.reduce((acc, item) => ({
+        inputWithCache: acc.inputWithCache + item.inputWithCache,
+        inputWithoutCache: acc.inputWithoutCache + item.inputWithoutCache,
+        cacheRead: acc.cacheRead + item.cacheRead,
+        output: acc.output + item.output,
+        totalTokens: acc.totalTokens + item.totalTokens,
+        apiCost: acc.apiCost + (item.apiCost || 0),
+        costToYou: acc.costToYou + (item.costToYou || 0),
     }), {
         inputWithCache: 0,
         inputWithoutCache: 0,
@@ -79,8 +57,8 @@ export function UsageTable({
     const formatCurrency = (amount: number) => {
         return `$${amount.toFixed(2)}`
     }
-    const hasApiCost = safeUsageHistory.some(item => item?.apiCost)
-    const hasCostToYou = safeUsageHistory.some(item => item?.costToYou)
+    const hasApiCost = usageHistory.some(item => item.apiCost)
+    const hasCostToYou = usageHistory.some(item => item.costToYou)
 
     return (
         <Card className={cn("w-full gap-1 py-3 md:py-6", className)}>
@@ -133,41 +111,41 @@ export function UsageTable({
                             </TableRow>
                         </TableHeader>
                         <TableBody className="overflow-auto">
-                            {safeUsageHistory.length === 0 && (
+                            {usageHistory.length === 0 && (
                                 <TableRow className="border-muted-foreground/10">
                                     <TableCell colSpan={8} className="h-24 text-center text-muted-foreground pl-6 pr-6">
                                         No usage data available
                                     </TableCell>
                                 </TableRow>
                             )}
-                            {safeUsageHistory.map((item, index) => (
-                                <TableRow key={item?.model || index} className="">
+                            {usageHistory.map((item, index) => (
+                                <TableRow key={item.model || index} className="">
                                     <TableCell className="font-mono text-foreground">
-                                        {item?.model || 'Unknown'}
+                                        {item.model}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.inputWithCache || 0)}
+                                        {formatNumber(item.inputWithCache)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.inputWithoutCache || 0)}
+                                        {formatNumber(item.inputWithoutCache)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.cacheRead || 0)}
+                                        {formatNumber(item.cacheRead)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.output || 0)}
+                                        {formatNumber(item.output)}
                                     </TableCell>
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item?.totalTokens || 0)}
+                                        {formatNumber(item.totalTokens)}
                                     </TableCell>
                                     {hasApiCost && (
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item?.apiCost || 0)}
+                                        {formatCurrency(item.apiCost || 0)}
                                     </TableCell>
                                     )}
                                     {hasCostToYou && (
                                     <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item?.costToYou || 0)}
+                                        {formatCurrency(item.costToYou || 0)}
                                     </TableCell>
                                     )}
                                 </TableRow>

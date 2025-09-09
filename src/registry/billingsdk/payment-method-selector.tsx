@@ -72,39 +72,22 @@ const paymentOptions: PaymentOption[] = [
 ]
 
 export interface PaymentMethodSelectorProps {
-  onSelectMethod?: (method: PaymentMethod) => void
-  onFormSubmit?: (data: FormData) => void
   className?: string
+  onProceed?: (method: PaymentMethod, data: FormData) => void
 }
 
-export function PaymentMethodSelector({
-  onSelectMethod = () => {},
-  onFormSubmit = () => {},
-  className,
-}: PaymentMethodSelectorProps) {
+export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSelectorProps) {
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null)
   const [formData, setFormData] = useState<FormData>({})
 
   const handleMethodSelect = (method: PaymentMethod) => {
-    setSelectedMethod(method)
-    try {
-      if (typeof onSelectMethod === 'function') {
-        onSelectMethod(method)
-      }
-    } catch (_error) {
-      // Silently handle errors in playground mode
-    }
+    setSelectedMethod(selectedMethod === method ? null : method)
+    setFormData({})
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      if (typeof onFormSubmit === 'function') {
-        onFormSubmit(formData)
-      }
-    } catch (_error) {
-      // Silently handle errors in playground mode
-    }
+  const handleClose = () => {
+    setSelectedMethod(null)
+    setFormData({})
   }
 
   const handleInputChange = (field: keyof FormData, value: string) => {
@@ -379,13 +362,13 @@ export function PaymentMethodSelector({
                               tabIndex={0}
                               onClick={(e) => {
                                 e.stopPropagation()
-                                setSelectedMethod(null)
+                                handleClose()
                               }}
                               onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === ' ') {
                                   e.preventDefault()
                                   e.stopPropagation()
-                                  setSelectedMethod(null)
+                                  handleClose()
                                 }
                               }}
                               className="absolute top-2 right-2 p-1 rounded-full bg-muted hover:bg-muted/80 transition-colors z-10"
@@ -476,11 +459,7 @@ export function PaymentMethodSelector({
               <Button
                 className="w-full mt-6"
                 onClick={() => {
-                  try {
-                    handleSubmit(new Event('submit') as any);
-                  } catch (_error) {
-                    // Silently handle errors in playground mode
-                  }
+                  if (onProceed) onProceed(selectedMethod, formData)
                 }}
               >
                 <span>Proceed with Payment</span>

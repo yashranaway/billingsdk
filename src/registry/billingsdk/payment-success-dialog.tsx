@@ -19,8 +19,8 @@ export interface PaymentSuccessDialogProps {
   title?: string;
   subtitle?: string;
   currencySymbol?: string;
-  price?: string;
-  productName?: string;
+  price: string;
+  productName: string;
   proceedButtonText?: string;
   backButtonText?: string;
   onProceed?: () => void;
@@ -49,28 +49,22 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
   title = "Congratulations!",
   subtitle = "Your payment was successful.",
   currencySymbol = "$",
-  price = "0",
-  productName = "Product",
-  proceedButtonText = "Continue",
+  price,
+  productName,
+  proceedButtonText = "Proceed",
   backButtonText = "Back",
-  onProceed = () => {},
-  onBack = () => {},
+  onProceed,
+  onBack,
   className,
-  open = false,
-  onOpenChange = () => {},
-}: PaymentSuccessDialogProps, ref) {
+  open,
+  onOpenChange,
+}, ref) {
   const isControlled = open !== undefined;
   const [internalOpen, setInternalOpen] = useState(false);
   const openState = isControlled ? (open as boolean) : internalOpen;
   const setOpenState = (value: boolean) => {
     if (isControlled) {
-      try {
-        if (typeof onOpenChange === 'function') {
-          onOpenChange(value);
-        }
-      } catch (_error) {
-        // Silently handle errors in playground mode
-      }
+      onOpenChange?.(value);
     } else {
       setInternalOpen(value);
     }
@@ -110,10 +104,6 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
     }
     return pieces;
   }, []);
-
-  const closeDialog = () => {
-    setOpenState(false);
-  };
 
   return (
     <Dialog open={openState} onOpenChange={setOpenState}>
@@ -178,14 +168,8 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
                 variant="outline"
                 className="w-full"
                 onClick={() => {
-                  try {
-                    if (typeof onBack === 'function') {
-                      onBack();
-                    }
-                  } catch (_error) {
-                    // Silently handle errors in playground mode
-                  }
-                  closeDialog();
+                  onBack?.();
+                  setOpenState(false);
                 }}
               >
                 {backButtonText}
@@ -193,14 +177,8 @@ export const PaymentSuccessDialog = forwardRef<PaymentSuccessDialogRef, PaymentS
               <Button
                 className="w-full"
                 onClick={() => {
-                  try {
-                    if (typeof onProceed === 'function') {
-                      onProceed();
-                    }
-                  } catch (_error) {
-                    // Silently handle errors in playground mode
-                  }
-                  closeDialog();
+                  onProceed?.();
+                  setOpenState(false);
                 }}
               >
                 {proceedButtonText}

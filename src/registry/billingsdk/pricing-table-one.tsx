@@ -181,36 +181,24 @@ const buttonVariants = cva(
 );
 
 export interface PricingTableOneProps extends VariantProps<typeof sectionVariants> {
+  className?: string;
+  plans: Plan[];
   title?: string;
   description?: string;
-  plans?: Plan[];
   onPlanSelect?: (planId: string) => void;
-  className?: string;
 }
 
-
-export function PricingTableOne({
-  title = "Simple Pricing",
-  description,
-  plans = [],
-  onPlanSelect = () => {},
+export function PricingTableOne({ 
+  className, 
+  plans, 
+  title, 
+  description, 
+  onPlanSelect, 
   size,
-  theme,
-  className,
+  theme = "minimal"
 }: PricingTableOneProps) {
   const [isAnnually, setIsAnnually] = useState(false);
-  const uniqueId = useId();
-  
-  // Ensure plans is always an array
-  const safePlans = Array.isArray(plans) ? plans : [];
-  
-  const yearlyPriceDiscount = safePlans.length
-    ? Math.max(
-      ...safePlans.map((plan) =>
-        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
-      )
-    )
-    : 0;
+  const uniqueId = useId(); // Generate unique ID automatically
 
   function calculateDiscount(monthlyPrice: string, yearlyPrice: string): number {
     const monthly = parseFloat(monthlyPrice);
@@ -229,6 +217,14 @@ export function PricingTableOne({
     const discount = ((monthly * 12 - yearly) / (monthly * 12)) * 100;
     return Math.round(discount);
   }
+
+  const yearlyPriceDiscount = plans.length
+    ? Math.max(
+      ...plans.map((plan) =>
+        calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)
+      )
+    )
+    : 0;
 
   return (
     <section className={cn(sectionVariants({ size, theme }), className)}>
@@ -300,7 +296,7 @@ export function PricingTableOne({
           </div>
 
           <div className="flex w-full flex-col items-stretch gap-6 md:flex-row md:items-stretch">
-            {safePlans.map((plan, index) => (
+            {plans.map((plan, index) => (
               <motion.div
                 key={plan.id}
                 layout
@@ -386,7 +382,7 @@ export function PricingTableOne({
                 
                 <div className="flex h-full flex-col justify-between gap-10">
                   <ul className="text-muted-foreground space-y-4">
-                    {plan.features && Array.isArray(plan.features) && plan.features.map((feature, featureIndex) => (
+                    {plan.features.map((feature, featureIndex) => (
                       <motion.li 
                         key={featureIndex} 
                         className="flex gap-3"
@@ -398,7 +394,7 @@ export function PricingTableOne({
                         <span className={cn(
                           theme === "classic" && "text-foreground/90"
                         )}>
-                          {typeof feature === 'string' ? feature : feature?.name || 'Feature'}
+                          {feature.name}
                         </span>
                       </motion.li>
                     ))}
@@ -406,15 +402,7 @@ export function PricingTableOne({
 
                   <Button
                     className={buttonVariants({ theme })}
-                    onClick={() => {
-                      try {
-                        if (typeof onPlanSelect === 'function') {
-                          onPlanSelect(plan.id);
-                        }
-                      } catch (_error) {
-                        // Silently handle errors in playground mode
-                      }
-                    }}
+                    onClick={() => onPlanSelect?.(plan.id)}
                     aria-label={`Select ${plan.title} plan`}
                   >
                     {theme === "classic" && plan.highlight && (

@@ -12,47 +12,29 @@ import { type Plan } from "@/lib/billingsdk-config"
 import { cn } from "@/lib/utils"
 
 export interface UpdatePlanCardProps {
-    currentPlan?: Plan
-    plans?: Plan[]
-    onPlanChange?: (planId: string) => void
+    currentPlan: Plan
+    plans: Plan[]
+    onPlanChange: (planId: string) => void
     className?: string
     title?: string
 }
 
-export function UpdatePlanCard({ 
-    currentPlan, 
-    plans = [], 
-    onPlanChange = () => {}, 
-    className, 
-    title = "Upgrade Plan" 
-}: UpdatePlanCardProps) {
-    const safePlans = Array.isArray(plans) ? plans : [];
-    
+export function UpdatePlanCard({ currentPlan, plans, onPlanChange, className, title }: UpdatePlanCardProps) {
     const [isYearly, setIsYearly] = useState(false)
     const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined)
 
     const getCurrentPrice = (plan: Plan) =>
         isYearly ? `${plan.yearlyPrice}` : `${plan.monthlyPrice}`
 
-    const handlePlanSelect = (planId: string) => {
-        setSelectedPlan(planId);
-    }
-
-    const handleUpgrade = (planId: string) => {
-        try {
-            if (typeof onPlanChange === 'function') {
-                onPlanChange(planId);
-            }
-        } catch (_error) {
-            // Silently handle errors in playground mode
-        }
+    const handlePlanChange = (planId: string) => {
+        setSelectedPlan((prev => prev == planId ? undefined : planId));
     }
 
     return (
         <Card className={cn("max-w-xl mx-auto text-left overflow-hidden shadow-lg w-full", className)}>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-base font-semibold">
-                    {title}
+                    {title || "Upgrade Plan"}
                 </CardTitle>
                 <div className="flex items-center gap-2 text-sm">
                     <Toggle
@@ -73,12 +55,12 @@ export function UpdatePlanCard({
                 </div>
             </CardHeader>
             <CardContent className="space-y-3">
-                <RadioGroup value={selectedPlan} onValueChange={handlePlanSelect}>
+                <RadioGroup value={selectedPlan} onValueChange={handlePlanChange}>
                     <AnimatePresence mode="wait">
-                        {safePlans.map((plan) => (
+                        {plans.map((plan) => (
                             <motion.div
                                 key={plan.id}
-                                onClick={() => handlePlanSelect(plan.id)}
+                                onClick={() => handlePlanChange(plan.id)}
                                 className={`p-4 rounded-lg border transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer ${selectedPlan === plan.id
                                     ? "border-primary bg-gradient-to-br from-muted/60 to-muted/30 shadow-md"
                                     : "border-border hover:border-primary/50"
@@ -106,7 +88,7 @@ export function UpdatePlanCard({
                                             <p className="text-xs text-muted-foreground mt-1">
                                                 {plan.description}
                                             </p>
-                                            {plan.features && Array.isArray(plan.features) && plan.features.length > 0 && (
+                                            {plan.features.length > 0 && (
                                                 <div className="pt-3">
                                                     <div className="flex flex-wrap gap-2">
                                                         {plan.features.map((feature, featureIndex) => (
@@ -116,7 +98,7 @@ export function UpdatePlanCard({
                                                             >
                                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
                                                                 <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                                                    {typeof feature === 'string' ? feature : feature?.name || 'Feature'}
+                                                                    {feature.name}
                                                                 </span>
                                                             </div>
                                                         ))}
@@ -129,7 +111,7 @@ export function UpdatePlanCard({
                                         <div className="text-xl font-semibold">
                                             {
                                                 parseFloat(getCurrentPrice(plan)) >= 0 ?
-                                                    `${plan.currency || '$'}${getCurrentPrice(plan)}` :
+                                                    `${plan.currency}${getCurrentPrice(plan)}` :
                                                     getCurrentPrice(plan)
                                             }
                                         </div>
@@ -146,18 +128,12 @@ export function UpdatePlanCard({
                                             exit={{ opacity: 0, height: 0, y: -10 }}
                                             transition={{ duration: 0.3, ease: "easeOut" }}
                                         >
-                                            <Button 
-                                                className="w-full mt-4"
-                                                disabled={selectedPlan === currentPlan?.id}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    handleUpgrade(plan.id);
+                                            <Button className="w-full mt-4"
+                                                disabled={selectedPlan === currentPlan.id}
+                                                onClick={() => {
+                                                    onPlanChange(plan.id)
                                                 }}
-                                                type="button"
-                                            >
-                                                {selectedPlan === currentPlan?.id ? "Current Plan" : "Upgrade"}
-                                            </Button>
+                                            >{selectedPlan === currentPlan.id ? "Current Plan" : "Upgrade"}</Button>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>

@@ -11,69 +11,12 @@ import { UpdatePlanDialog, type UpdatePlanDialogProps } from "@/components/billi
 
 export interface SubscriptionManagementProps {
     className?: string
-    currentPlan?: CurrentPlan
-    cancelSubscription?: CancelSubscriptionDialogProps
-    updatePlan?: UpdatePlanDialogProps
+    currentPlan: CurrentPlan
+    cancelSubscription: CancelSubscriptionDialogProps
+    updatePlan: UpdatePlanDialogProps
 }
 
-export function SubscriptionManagement({ 
-    className, 
-    currentPlan = {
-        plan: {
-            id: 'starter',
-            title: 'Starter',
-            description: 'Perfect for getting started',
-            monthlyPrice: '9',
-            yearlyPrice: '99',
-            currency: '$',
-            buttonText: 'Get Started',
-            features: [
-                { name: 'Basic features', icon: 'check' },
-                { name: '24/7 support', icon: 'check' }
-            ]
-        },
-        status: 'active',
-        type: 'monthly',
-        price: '$9/month',
-        nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
-        paymentMethod: '**** 1234'
-    }, 
-    cancelSubscription = {
-        plan: {
-            id: 'starter',
-            title: 'Starter',
-            description: 'Perfect for getting started',
-            monthlyPrice: '9',
-            yearlyPrice: '99',
-            currency: '$',
-            buttonText: 'Get Started',
-            features: [
-                { name: 'Basic features', icon: 'check' },
-                { name: '24/7 support', icon: 'check' }
-            ]
-        },
-        onCancel: () => {},
-        onKeepSubscription: () => {}
-    }, 
-    updatePlan = {
-        currentPlan: {
-            id: 'starter',
-            title: 'Starter',
-            description: 'Perfect for getting started',
-            monthlyPrice: '9',
-            yearlyPrice: '99',
-            currency: '$',
-            buttonText: 'Get Started',
-            features: [
-                { name: 'Basic features', icon: 'check' },
-                { name: '24/7 support', icon: 'check' }
-            ]
-        },
-        plans: [],
-        onPlanChange: () => {},
-        triggerText: 'Upgrade Plan'
-    }
-}: SubscriptionManagementProps) {
+export function SubscriptionManagement({ className, currentPlan, cancelSubscription, updatePlan }: SubscriptionManagementProps) {
 
     return (<div className={cn("text-left w-full", className)}>
         <Card className="shadow-lg">
@@ -95,26 +38,26 @@ export function SubscriptionManagement({
                             <div className="w-full">
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
                                     <div className="flex items-center gap-2">
-                                        <h3 className="text-lg sm:text-xl font-semibold">{currentPlan?.plan?.title || 'Plan'} Plan</h3>
+                                        <h3 className="text-lg sm:text-xl font-semibold">{currentPlan.plan.title} Plan</h3>
                                     </div>
                                     <div className="flex flex-wrap items-center gap-2">
                                         <Badge
-                                            variant={currentPlan?.status === "active" ? "default" : "outline"}
+                                            variant={currentPlan.status === "active" ? "default" : "outline"}
                                             className="shadow-sm text-xs sm:text-sm bg-primary/90 hover:bg-primary border-0 font-medium"
                                         >
-                                            {currentPlan?.type === 'monthly' ? `${currentPlan?.plan?.currency || '$'}${currentPlan?.plan?.monthlyPrice || '0'}/month` : currentPlan?.type === 'yearly' ? `${currentPlan?.plan?.currency || '$'}${currentPlan?.plan?.yearlyPrice || '0'}/year` : `${currentPlan?.price || 'Free'}`}
+                                            {currentPlan.type === `monthly` ? `${currentPlan.plan.currency}${currentPlan.plan.monthlyPrice}/month` : currentPlan.type === `yearly` ? `${currentPlan.plan.yearlyPrice}/year` : `${currentPlan.price}`}
                                         </Badge>
                                         <Badge
                                             variant="outline"
                                             className="shadow-sm text-xs sm:text-sm border-border/60 bg-background/50 backdrop-blur-sm"
                                         >
-                                            {currentPlan?.status || 'inactive'}
+                                            {currentPlan.status}
                                         </Badge>
                                     </div>
                                 </div>
                                 <div className="relative">
                                     <p className="text-xs sm:text-sm text-muted-foreground relative z-10">
-                                        {currentPlan?.plan?.description || 'Plan description'}
+                                        {currentPlan.plan.description}
                                     </p>
                                 </div>
                             </div>
@@ -134,11 +77,11 @@ export function SubscriptionManagement({
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                         <div className="group p-2.5 sm:p-3 rounded-lg md:bg-gradient-to-tl bg-gradient-to-b from-muted to-background/10 border border-border/30 hover:border-border/60 transition-all duration-200">
                             <span className="text-xs sm:text-sm text-muted-foreground block mb-1">Next billing date</span>
-                            <div className="font-medium text-sm sm:text-base group-hover:text-primary transition-colors duration-200">{currentPlan?.nextBillingDate || 'N/A'}</div>
+                            <div className="font-medium text-sm sm:text-base group-hover:text-primary transition-colors duration-200">{currentPlan.nextBillingDate}</div>
                         </div>
                         <div className="group p-2.5 sm:p-3 rounded-lg md:bg-gradient-to-tr bg-gradient-to-b from-muted to-background/10 border border-border/30 hover:border-border/60 transition-all duration-200">
                             <span className="text-xs sm:text-sm text-muted-foreground block mb-1">Payment method</span>
-                            <div className="font-medium text-sm sm:text-base group-hover:text-primary transition-colors duration-200">{currentPlan?.paymentMethod || 'N/A'}</div>
+                            <div className="font-medium text-sm sm:text-base group-hover:text-primary transition-colors duration-200">{currentPlan.paymentMethod}</div>
                         </div>
                     </div>
                 </div>
@@ -160,13 +103,13 @@ export function SubscriptionManagement({
                 <div className="pt-4 sm:pt-6">
                     <h4 className="font-medium mb-3 sm:mb-4 text-base sm:text-lg">Current Plan Features</h4>
                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                        {Array.isArray(currentPlan?.plan?.features) && currentPlan.plan.features.map((feature, index) => (
+                        {currentPlan.plan.features.map((feature, index) => (
                             <div
                                 key={index}
                                 className="group flex items-center gap-2 p-2 sm:p-2 rounded-lg border border-border/80 hover:border-primary/30 hover:bg-primary/5 transition-all duration-200"
                             >
                                 <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-primary flex-shrink-0 group-hover:bg-primary group-hover:scale-125 transition-all duration-200"></div>
-                                <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-200">{feature?.name || 'Feature'}</span>
+                                <span className="text-xs sm:text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-200">{feature.name}</span>
                             </div>
                         ))}
                     </div>

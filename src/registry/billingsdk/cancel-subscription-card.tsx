@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 import { Circle } from "lucide-react";
 
 export interface CancelSubscriptionCardProps {
-    title?: string;
-    description?: string;
-    plan?: Plan;
+    title: string;
+    description: string;
+    plan: Plan;
     leftPanelImageUrl?: string;
     warningTitle?: string;
     warningText?: string;
@@ -22,27 +22,27 @@ export interface CancelSubscriptionCardProps {
     finalWarningText?: string;
     goBackButtonText?: string;
     confirmButtonText?: string;
-    onCancel?: (planId: string) => Promise<void> | void;
+    onCancel: (planId: string) => Promise<void> | void;
     onKeepSubscription?: (planId: string) => Promise<void> | void;
     className?: string;
 }
 
 export function CancelSubscriptionCard({
-    title = "Cancel Subscription",
-    description = "We're sorry to see you go. Please review the details below.",
+    title,
+    description,
     plan,
     leftPanelImageUrl,
-    warningTitle = "Are you sure?",
-    warningText = "You'll lose access to all premium features immediately.",
-    keepButtonText = "Keep Subscription",
-    continueButtonText = "Continue Cancellation",
-    finalTitle = "Final Confirmation",
-    finalSubtitle = "This action cannot be undone",
-    finalWarningText = "Your subscription will be cancelled immediately.",
-    goBackButtonText = "Go Back",
-    confirmButtonText = "Confirm Cancellation",
-    onCancel = () => {},
-    onKeepSubscription = () => {},
+    warningTitle,
+    warningText,
+    keepButtonText,
+    continueButtonText,
+    finalTitle,
+    finalSubtitle,
+    finalWarningText,
+    goBackButtonText,
+    confirmButtonText,
+    onCancel,
+    onKeepSubscription,
     className,
 }: CancelSubscriptionCardProps) {
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -54,29 +54,27 @@ export function CancelSubscriptionCard({
         setError(null);
     };
 
-    const handleKeepSubscription = async () => {
+    const handleConfirmCancellation = async () => {
         try {
             setIsLoading(true);
             setError(null);
-            if (typeof onKeepSubscription === 'function' && plan?.id) {
-                await onKeepSubscription(plan.id);
-            }
+            await onCancel(plan.id);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "An error occurred");
+            setError(err instanceof Error ? err.message : 'Failed to cancel subscription');
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleConfirmCancellation = async () => {
+    const handleKeepSubscription = async () => {
         try {
             setIsLoading(true);
             setError(null);
-            if (typeof onCancel === 'function' && plan?.id) {
-                await onCancel(plan.id);
+            if (onKeepSubscription) {
+                await onKeepSubscription(plan.id);
             }
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to cancel subscription');
+            setError(err instanceof Error ? err.message : 'Failed to keep subscription');
         } finally {
             setIsLoading(false);
         }
@@ -112,21 +110,18 @@ export function CancelSubscriptionCard({
                     <div className="flex flex-col gap-4 p-4 bg-muted/50 rounded-lg">
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-1">
-                                <span className="font-semibold text-lg">{plan?.title || 'Plan'} Plan</span>
+                                <span className="font-semibold text-lg">{plan.title} Plan</span>
                                 <span className="text-sm text-muted-foreground">Current subscription</span>
                             </div>
                             <Badge variant="secondary">
-                                <p className="text-2xl font-bold">
-                                    ${plan?.monthlyPrice || '0'}
-                                    <span className="text-sm font-normal text-muted-foreground">/month</span>
-                                </p>
+                                {parseFloat(plan.monthlyPrice) >= 0 ? `${plan.currency}${plan.monthlyPrice}/monthly` : `${plan.monthlyPrice}/monthly`}
                             </Badge>
                         </div>
                         <div className="flex flex-col gap-2">
-                            {Array.isArray(plan?.features) && plan.features.slice(0, 4).map((feature, index) => (
+                            {plan.features.slice(0, 4).map((feature, index) => (
                                 <div key={index} className="flex items-center gap-2">
                                     <Circle className="w-2 h-2 fill-primary text-primary" />
-                                    <span className="text-sm text-muted-foreground">{feature?.name || 'Feature'}</span>
+                                    <span className="text-sm text-muted-foreground">{feature.name}</span>
                                 </div>
                             ))}
                         </div>
@@ -137,7 +132,9 @@ export function CancelSubscriptionCard({
                 {!showConfirmation && (warningTitle || warningText) && (
                     <div className="p-4 bg-muted/30 border border-border rounded-lg">
                         {warningTitle && (
-                            <h3 className="text-lg font-semibold">{plan?.title || 'Plan'}</h3>
+                            <h3 className="font-semibold text-foreground mb-2">
+                                {warningTitle}
+                            </h3>
                         )}
                         {warningText && (
                             <p className="text-sm text-muted-foreground">
