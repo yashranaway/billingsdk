@@ -19,30 +19,37 @@ export default async function Page(props: {
 
   const MDXContent = page.data.body;
   
-  // Extract component name from the path for playground integration
+  // Map component paths to their corresponding component IDs in the registry
   const getComponentName = (slug?: string[]): string | undefined => {
     if (!slug || slug.length < 2) return undefined;
     
     // Check if this is a component page (starts with 'components')
     if (slug[0] !== 'components') return undefined;
     
-    // Map component paths to playground component names (matching registry exactly)
+    // Map component paths to their corresponding registry IDs
     const componentMap: Record<string, string> = {
-      'banner': 'Banner',
-      'cancel-subscription/cancel-subscription-card': 'Cancel Subscription Card',
-      'cancel-subscription/cancel-subscription-dialog': 'Cancel Subscription Dialog',
-      'invoice-history': 'Invoice History',
-      'payment-method-selector': 'Payment Method Selector',
-      'pricing-table/pricing-table-one': 'Pricing Table One',
-      'pricing-table/pricing-table-two': 'Pricing Table Two',
-      'pricing-table/pricing-table-three': 'Pricing Table Three',
-      'pricing-table/pricing-table-five': 'Pricing Table Five',
-      'manage-subscription': 'Subscription Management',
-      'update-plan/update-plan-card': 'Update Plan Card',
-      'update-plan/update-plan-dialog': 'Update Plan Dialog',
-      'usage-meter/usage-meter-circle': 'Usage Meter',
-      'usage-meter/usage-meter-linear': 'Usage Meter',
-      'usage-table': 'Usage Table',
+      // Simple mappings where the ID is the last part of the path
+      'banner': 'banner',
+      'invoice-history': 'invoice-history',
+      'payment-method-selector': 'payment-method-selector',
+      'usage-table': 'usage-table',
+      'subscription-management': 'subscription-management',
+      'usage-meter/usage-meter-circle': 'usage-meter',
+      'usage-meter/usage-meter-linear': 'usage-meter',
+      
+      // Pricing tables
+      'pricing-table/pricing-table-one': 'pricing-table-one',
+      'pricing-table/pricing-table-two': 'pricing-table-two',
+      'pricing-table/pricing-table-three': 'pricing-table-three',
+      'pricing-table/pricing-table-five': 'pricing-table-five',
+      
+      // Cancel subscription components
+      'cancel-subscription/cancel-subscription-card': 'cancel-subscription-card',
+      'cancel-subscription/cancel-subscription-dialog': 'cancel-subscription-dialog',
+      
+      // Update plan components
+      'update-plan/update-plan-card': 'update-plan-card',
+      'update-plan/update-plan-dialog': 'update-plan-dialog',
     };
     
     const componentPath = slug.slice(1).join('/');

@@ -292,11 +292,18 @@ function PlaygroundButton({
 }: {
   componentName?: string;
 }) {
+  // Convert component name to a URL-friendly format that matches our registry
+  const getComponentSlug = (name: string) => {
+    if (!name) return '';
+    // Convert to lowercase and replace spaces with hyphens
+    return name.toLowerCase().replace(/\s+/g, '-');
+  };
+
   return (
     <a
       href={
         componentName
-          ? `/playground?component=${encodeURIComponent(componentName)}`
+          ? `/playground?component=${encodeURIComponent(getComponentSlug(componentName))}`
           : '/playground'
       }
       target="_blank"
@@ -304,11 +311,11 @@ function PlaygroundButton({
       className={cn(
         buttonVariants({
           variant: 'secondary',
-          className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
+          className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-md',
         }),
       )}
     >
-      <Play />
+      <Play className="h-4 w-4" />
       Playground
     </a>
   );
@@ -453,28 +460,19 @@ export function CombinedAIButton({
   return (
     <div className="flex items-center gap-2">
       <PlaygroundButton componentName={componentName} />
-      <button
-        disabled={isLoading}
-        className={cn(
-          buttonVariants({
-            variant: 'secondary',
-            className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
-          }),
-        )}
-        onClick={onClick}
-      >
-        {checked ? <Check /> : <Copy />}
-        Copy Page
-      </button>
       <Popover>
         <PopoverTrigger
           className={cn(
             buttonVariants({
               variant: 'secondary',
-              className: 'gap-2 rounded-l-none border-l-0 px-2',
+              className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-md',
             }),
           )}
         >
+          <div className="flex items-center gap-2" onClick={onClick}>
+            {checked ? <Check /> : <Copy />}
+            Copy Page
+          </div>
           <ChevronDown className="size-3.5 text-fd-muted-foreground" />
         </PopoverTrigger>
         <PopoverContent className="flex flex-col overflow-auto w-56">
