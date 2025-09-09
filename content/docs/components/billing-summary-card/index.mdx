@@ -42,11 +42,11 @@ import { BillingSummaryCard } from '@/components/billingsdk/billing-summary-card
 
 ## Props
 
-| Prop      | Type         | Description                                        |
-| --------- | ------------ | -------------------------------------------------- |
-| className | `string`     | Additional CSS classes to apply to the card        |
-| plan      | `Plan`       | Object containing plan information                 |
-| onUpgrade | `() => void` | Function called when the upgrade button is clicked |
+| Prop      | Type                                                                                          | Description                                        |
+| --------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| className | `string`                                                                                      | Additional CSS classes to apply to the card        |
+| plan      | `{ name: string; price: string; period: string; renewalDate: string; paymentMethod: string }` | Object containing plan information                 |
+| onUpgrade | `() => void`                                                                                  | Function called when the upgrade button is clicked |
 
 ### Plan Object
 
