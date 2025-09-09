@@ -27,7 +27,3 @@ yarn-error.log*
 .env
 .vercel
 next-env.d.ts
-
-# sitemap files
-public/sitemap*.xml
-public/robots.txt
