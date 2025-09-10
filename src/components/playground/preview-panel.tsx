@@ -78,16 +78,27 @@ function PreviewPanelContent() {
   const defaultProps = state.selectedComponent?.defaultProps || {};
 
   function deepMerge(base: any, override: any): any {
+    const isPlainObject = (val: any) => val !== null && typeof val === "object" && !Array.isArray(val);
+    const dangerousKeys = new Set(["__proto__", "prototype", "constructor"]);
+
+    // Arrays are replaced entirely by override arrays (preserve current semantics)
     if (Array.isArray(base)) {
       return Array.isArray(override) ? override : base;
     }
-    if (typeof base === "object" && base !== null) {
-      const result: any = { ...base };
-      if (override && typeof override === "object") {
+
+    // Merge plain objects only; copy into a safe, fresh object
+    if (isPlainObject(base)) {
+      const result: any = Object.assign({}, base);
+      if (isPlainObject(override)) {
         for (const key of Object.keys(override)) {
-          const baseVal = base[key];
-          const overrideVal = override[key];
-          if (baseVal && typeof baseVal === "object" && !Array.isArray(baseVal)) {
+          // Process only own, non-dangerous properties
+          if (dangerousKeys.has(key)) continue;
+          if (!Object.prototype.hasOwnProperty.call(override, key)) continue;
+
+          const baseVal = (base as any)[key];
+          const overrideVal = (override as any)[key];
+
+          if (isPlainObject(baseVal)) {
             result[key] = deepMerge(baseVal, overrideVal);
           } else {
             result[key] = overrideVal;
@@ -96,6 +107,8 @@ function PreviewPanelContent() {
       }
       return result;
     }
+
+    // For primitives or non-plain objects, prefer override when defined
     return override !== undefined ? override : base;
   }
 
