@@ -12,7 +12,7 @@ function generateRandomCode(length = 8) {
   return result
 }
 
-export default function CouponDemo() {
+export function CouponDemo() {
   const handleGenerate = (couponData: {
     code: string
     discount: number
