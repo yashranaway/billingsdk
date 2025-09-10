@@ -23,6 +23,7 @@
     "components/proration-preview/index",
     "---Cancel Subscription---",
     "components/cancel-subscription/cancel-subscription-card",
+    "components/cancel-subscription/cancel-subscription-card-two",
     "components/cancel-subscription/cancel-subscription-dialog",
     "---Billing & Usage Analytics---",
     "components/billing-setting/index",
