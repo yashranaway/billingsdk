@@ -14,6 +14,7 @@ import {
 import { RefreshCw, Maximize2, Minimize2, Monitor, Smartphone, Palette, Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { themes, applyScopedTheme } from "@/lib/themes";
+import { plans as defaultPlans } from "@/lib/billingsdk-config";
 
 type ViewportSize = "desktop" | "mobile";
 
@@ -98,7 +99,14 @@ function PreviewPanelContent() {
     return override !== undefined ? override : base;
   }
 
-  const effectiveProps = deepMerge(defaultProps, state.props);
+  const mergedProps = deepMerge(defaultProps, state.props);
+  const effectiveProps = typeof mergedProps === 'object' && mergedProps !== null
+    ? {
+        ...mergedProps,
+        // Global fallback: ensure `plans` exists for pricing components
+        ...(mergedProps.plans === undefined ? { plans: defaultPlans } : {}),
+      }
+    : mergedProps;
   useEffect(() => {
     if (state.selectedComponent) {
       setError(null);

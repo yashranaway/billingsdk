@@ -317,13 +317,32 @@ function PlaygroundButton({
           : '/playground'
       }
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener"
       className={cn(
         buttonVariants({
           variant: 'secondary',
           className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
         }),
       )}
+      onClick={(e) => {
+        if (componentName) return; // normal navigation with param
+        try {
+          const path = window.location.pathname;
+          const marker = '/docs/components/';
+          const idx = path.indexOf(marker);
+          if (idx !== -1) {
+            const after = path.slice(idx + marker.length);
+            const last = after.split('/').filter(Boolean).pop();
+            if (last) {
+              e.preventDefault();
+              const url = `/playground?component=${encodeURIComponent(last)}`;
+              window.open(url, '_blank', 'noopener');
+            }
+          }
+        } catch {
+          // fallback: allow default
+        }
+      }}
     >
       <Play />
       Playground
