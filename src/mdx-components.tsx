@@ -23,6 +23,7 @@ import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import { PricingTableTwoMinimalDemo } from '@/components/pricing-table-two-minimal-demo';
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
+import { CouponDemo } from '@/components/coupon-demo';
 import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
 import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
 import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
@@ -70,5 +71,5 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
 		PaymentMethodManagerDemo,
 		PaymentSuccessDialogDemo,
 		ProrationPreviewDemo,
+    CouponDemo
 	};
-}
