@@ -8,7 +8,6 @@ import { PreviewPanel } from "./preview-panel";
 import { PlaygroundProvider, usePlayground } from "./playground-context";
 import { componentRegistry } from "./component-registry";
 import type { ComponentConfig } from "./types";
-import { plans as defaultPlans } from "@/lib/billingsdk-config";
 
 import { Button } from "@/components/ui/button";
 import { PanelLeft, PanelRight } from "lucide-react";
