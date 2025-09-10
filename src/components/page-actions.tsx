@@ -485,48 +485,50 @@ export function CombinedAIButton({
   }, [githubUrl, markdownUrl]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <PlaygroundButton componentName={componentName} />
-      <button
-        disabled={isLoading}
-        className={cn(
-          buttonVariants({
-            variant: 'secondary',
-            className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none',
-          }),
-        )}
-        onClick={onClick}
-      >
-        {checked ? <Check /> : <Copy />}
-        Copy Page
-      </button>
-      <Popover>
-        <PopoverTrigger
+      <div className="inline-flex items-stretch gap-0">
+        <button
+          disabled={isLoading}
           className={cn(
             buttonVariants({
               variant: 'secondary',
-              className: 'gap-2 rounded-l-none border-l-0 px-2',
+              className: 'gap-2 [&_svg]:size-3.5 [&_svg]:text-fd-muted-foreground rounded-none rounded-l-md',
             }),
           )}
+          onClick={onClick}
         >
-          <ChevronDown className="size-3.5 text-fd-muted-foreground" />
-        </PopoverTrigger>
-        <PopoverContent className="flex flex-col overflow-auto w-56">
-          {items.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              rel="noreferrer noopener"
-              target="_blank"
-              className={cn(optionVariants())}
-            >
-              {item.icon}
-              {item.title}
-              <ExternalLinkIcon className="text-fd-muted-foreground size-3.5 ms-auto" />
-            </a>
-          ))}
-        </PopoverContent>
-      </Popover>
+          {checked ? <Check /> : <Copy />}
+          Copy Page
+        </button>
+        <Popover>
+          <PopoverTrigger
+            className={cn(
+              buttonVariants({
+                variant: 'secondary',
+                className: 'gap-2 rounded-none rounded-r-md -ml-px px-2',
+              }),
+            )}
+          >
+            <ChevronDown className="size-3.5 text-fd-muted-foreground" />
+          </PopoverTrigger>
+          <PopoverContent className="flex flex-col overflow-auto w-56">
+            {items.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                rel="noreferrer noopener"
+                target="_blank"
+                className={cn(optionVariants())}
+              >
+                {item.icon}
+                {item.title}
+                <ExternalLinkIcon className="text-fd-muted-foreground size-3.5 ms-auto" />
+              </a>
+            ))}
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   );
 }

@@ -66,16 +66,41 @@ function PreviewPanelContent() {
   const { state } = usePlayground();
   const { previewDarkMode, currentTheme, setTheme, setPreviewDarkMode } = useTheme();
   const [error, setError] = useState<string | null>(null);
-  const [Component, setComponent] = useState<React.ComponentType<any> | null>(null);
   const [viewportSize, setViewportSize] = useState<ViewportSize>("desktop");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
+  
+  // Always reference the latest component export to respect HMR updates
+  const LiveComponent = state.selectedComponent?.component ?? null;
+  const defaultProps = state.selectedComponent?.defaultProps || {};
 
+  function deepMerge(base: any, override: any): any {
+    if (Array.isArray(base)) {
+      return Array.isArray(override) ? override : base;
+    }
+    if (typeof base === "object" && base !== null) {
+      const result: any = { ...base };
+      if (override && typeof override === "object") {
+        for (const key of Object.keys(override)) {
+          const baseVal = base[key];
+          const overrideVal = override[key];
+          if (baseVal && typeof baseVal === "object" && !Array.isArray(baseVal)) {
+            result[key] = deepMerge(baseVal, overrideVal);
+          } else {
+            result[key] = overrideVal;
+          }
+        }
+      }
+      return result;
+    }
+    return override !== undefined ? override : base;
+  }
+
+  const effectiveProps = deepMerge(defaultProps, state.props);
   useEffect(() => {
     if (state.selectedComponent) {
-      setComponent(() => state.selectedComponent!.component);
       setError(null);
     }
   }, [state.selectedComponent, state.code]);
@@ -100,9 +125,7 @@ function PreviewPanelContent() {
     await new Promise(resolve => setTimeout(resolve, 100));
     
     setRefreshKey(prev => prev + 1);
-    if (state.selectedComponent) {
-      setComponent(() => state.selectedComponent!.component);
-    }
+    // No explicit component reset needed; render uses live export
     
     setIsRefreshing(false);
   };
@@ -263,7 +286,7 @@ function PreviewPanelContent() {
                   Try Again
                 </Button>
               </div>
-            ) : Component ? (
+            ) : LiveComponent ? (
               <div 
                 className={cn(
                   "preview-component-wrapper w-full",
@@ -274,8 +297,13 @@ function PreviewPanelContent() {
                   minHeight: viewportSize === "mobile" ? "600px" : "auto"
                 }}
               >
-                <ErrorBoundary key={`${refreshKey}-${state.code}`} onError={setError}>
-                  <Component key={`${refreshKey}-${state.code}`} {...state.props} />
+                <ErrorBoundary key={`${state.selectedComponent?.id}-${refreshKey}-${state.code}`} onError={setError}>
+                  {/**
+                   * Use the live component reference so edits to source files
+                   * hot-reload correctly. Key on component id + code + refreshKey
+                   * to force remounts when the code sample changes.
+                   */}
+                  <LiveComponent key={`${state.selectedComponent?.id}-${refreshKey}-${state.code}`} {...effectiveProps} />
                 </ErrorBoundary>
               </div>
             ) : (
