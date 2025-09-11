@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { FastifyInstance } from 'fastify'
 import { getDodoPaymentsClient } from '../../lib/dodopayments'
 

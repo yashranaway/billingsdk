@@ -1,5 +1,3 @@
-
-// @ts-nocheck
 import { FastifyInstance } from 'fastify'
 import { Webhook } from 'standardwebhooks'
 
