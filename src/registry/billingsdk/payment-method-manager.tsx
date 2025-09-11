@@ -37,7 +37,9 @@ import {
   AlertCircle,
   Loader2,
   Clock,
-  XCircle
+  XCircle,
+  BadgeCheck,
+  AlarmClock
 } from "lucide-react";
 
 export interface PaymentMethod {
@@ -103,6 +105,29 @@ function PaymentMethodCard({
     return { state: "valid" as const, monthsRemaining: Math.ceil(diffMonths) };
   }, [method.type, method.expiry]);
 
+  // Brand / Bank badge (minimal, no external assets)
+  const BrandBadge = ({ label }: { label: string }) => {
+    const key = label.toLowerCase();
+    const colorAccent =
+      key.includes("visa")
+        ? "text-blue-400"
+        : key.includes("master")
+        ? "text-red-400"
+        : key.includes("amex") || key.includes("american express")
+        ? "text-teal-400"
+        : key.includes("discover")
+        ? "text-orange-400"
+        : key.includes("chase") || key.includes("bank")
+        ? "text-indigo-400"
+        : "text-muted-foreground";
+    return (
+      <Badge variant="secondary" className={"gap-1.5 px-2 py-0.5 text-[10px] mr-0"}>
+        <CreditCard className={"h-3 w-3 " + colorAccent} />
+        <span className={colorAccent}>{label}</span>
+      </Badge>
+    );
+  };
+
   const handleEdit = () => {
     onEdit(method);
     setEditOpen(true);
@@ -149,46 +174,45 @@ function PaymentMethodCard({
             <p id={`pm-title-${method.id}`} className="text-sm font-medium leading-none">
               {method.type === "credit" ? "Credit Card" : "ACH Account"}
             </p>
-            {(method.brand || method.bankName) && (
-              <div className="mt-1 inline-flex items-center gap-2">
-                <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center text-[10px] font-semibold text-muted-foreground uppercase">
-                  {(method.brand || method.bankName || "").slice(0,2)}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  {method.brand || method.bankName}
-                </p>
-              </div>
-            )}
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          {method.type === "credit" && method.expiry && expiryStatus.state !== "valid" && (
-            <Badge
-              variant={expiryStatus.state === "expired" ? "destructive" : "secondary"}
-              className="gap-1"
-              aria-label={expiryStatus.state === "expired" ? "Card expired" : `Card expiring soon`}
-            >
-              {expiryStatus.state === "expired" ? (
-                <XCircle className="h-3 w-3" />
-              ) : (
-                <Clock className="h-3 w-3" />
-              )}
-              {expiryStatus.state === "expired" ? "Expired" : "Expiring"}
-            </Badge>
+          {method.type === "credit" && method.expiry && expiryStatus.state !== "valid" && !method.isDefault && (
+            <motion.span layout initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
+              <Badge
+                variant={expiryStatus.state === "expired" ? "destructive" : "secondary"}
+                className="gap-1.5 px-2.5 py-1 text-[11px] md:text-sm"
+                aria-label={expiryStatus.state === "expired" ? "Card expired" : `Card expiring soon`}
+              >
+                {expiryStatus.state === "expired" ? (
+                  <XCircle className="h-3 w-3 text-destructive" />
+                ) : (
+                  <AlarmClock className="h-3 w-3 text-amber-400" />
+                )}
+                {expiryStatus.state === "expired" ? "Expired" : "Expiring Soon"}
+              </Badge>
+            </motion.span>
           )}
           {method.isDefault && (
-            <Badge variant="secondary" className="gap-1 px-2.5 py-1 shadow-sm text-[11px] md:text-sm" aria-label="Default payment method">
-              <CheckCircle2 className="h-3 w-3" />
-              Default
-            </Badge>
+            <motion.span layout initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 20 }}>
+              <Badge variant="secondary" className="gap-1.5 px-2.5 py-1 shadow-sm text-[11px] md:text-sm" aria-label="Default payment method">
+                <BadgeCheck className="h-3 w-3 text-primary" />
+                Default
+              </Badge>
+            </motion.span>
           )}
         </div>
       </CardHeader>
 
       <CardContent className="space-y-2 pb-3">
+        {(method.brand || method.bankName) && (
+          <div className="mb-5 -ml-[4px]">
+            <BrandBadge label={(method.brand || method.bankName)!} />
+          </div>
+        )}
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">Last 4:</span>
-          <span className="font-mono text-sm">•••• {method.last4}</span>
+          <span className="font-mono text-sm">• • • • {method.last4}</span>
         </div>
         {method.expiry && (
           <div className="flex justify-between items-center">
@@ -204,9 +228,7 @@ function PaymentMethodCard({
         )}
       </CardContent>
 
-      <Separator />
-
-      <CardFooter className="flex justify-between items-center pt-3 bg-muted/20 rounded-b-xl px-4 py-3 border-t">
+      <CardFooter className="flex justify-between items-center pt-3 bg-muted/20 dark:bg-muted/30 rounded-b-xl px-4 py-3">
         <div className="flex gap-1">
           <TooltipProvider>
             <Tooltip>
@@ -268,8 +290,8 @@ function PaymentMethodCard({
 
       {/* Edit Dialog */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-md [&>button]:top-5 [&>button]:right-5">
+          <DialogHeader className="pb-2 pr-8">
             <DialogTitle className="flex items-center gap-2">
               <Pencil className="h-5 w-5" />
               Edit Payment Method
@@ -327,8 +349,8 @@ function PaymentMethodCard({
 
       {/* Remove Dialog */}
       <Dialog open={removeOpen} onOpenChange={setRemoveOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
+        <DialogContent className="sm:max-w-md [&>button]:top-5 [&>button]:right-5">
+          <DialogHeader className="pb-2 pr-8">
             <DialogTitle className="flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-destructive" />
               Remove Payment Method
@@ -477,7 +499,7 @@ function AddPaymentMethodDialog({
             Your information is encrypted and protected.
           </p>
         </div>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-center gap-3 pt-2">
           <DialogClose asChild>
             <Button type="button" variant="outline" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
               Cancel
@@ -608,16 +630,18 @@ export function PaymentMethodManager({
               <EmptyState onAdd={() => setAddOpen(true)} />
             ) : (
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
-                {paymentMethods.map((method) => (
-                  <PaymentMethodCard
-                    key={method.id}
-                    method={method}
-                    onEdit={handleEdit}
-                    onRemove={handleRemoveById}
-                    onSetDefault={handleSetDefault}
-                    onRedirect={onRedirect}
-                  />
-                ))}
+                {[...paymentMethods]
+                  .sort((a, b) => (a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1))
+                  .map((method) => (
+                    <PaymentMethodCard
+                      key={method.id}
+                      method={method}
+                      onEdit={handleEdit}
+                      onRemove={handleRemoveById}
+                      onSetDefault={handleSetDefault}
+                      onRedirect={onRedirect}
+                    />
+                  ))}
               </div>
             )}
           </>
