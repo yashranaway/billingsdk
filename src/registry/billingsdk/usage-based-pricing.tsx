@@ -62,6 +62,7 @@ export function UsageBasedPricing({
   // drag state refs to distinguish click vs drag
   const isPointerDownRef = useRef(false)
   const hasMovedRef = useRef(false)
+  const suppressClickRef = useRef(false)
   // measure track width for ticks and bubble clamping
   useLayoutEffect(() => {
     const el = trackRef.current
@@ -125,7 +126,7 @@ export function UsageBasedPricing({
   }
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    (e.target as Element).setPointerCapture?.(e.pointerId)
+    e.currentTarget.setPointerCapture?.(e.pointerId)
     isPointerDownRef.current = true
     hasMovedRef.current = false
     // do not update immediately; wait for move to avoid jump on simple click
@@ -139,7 +140,15 @@ export function UsageBasedPricing({
     // Only commit if there was a drag; a simple click will be handled by onClick animation
     if (hasMovedRef.current) {
       updateFromEvent(e, true)
+      // skip the trailing synthetic click fired after a drag
+      suppressClickRef.current = true
     }
+    e.currentTarget.releasePointerCapture?.(e.pointerId)
+    isPointerDownRef.current = false
+    hasMovedRef.current = false
+  }
+  const onPointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.releasePointerCapture?.(e.pointerId)
     isPointerDownRef.current = false
     hasMovedRef.current = false
   }
@@ -286,7 +295,12 @@ export function UsageBasedPricing({
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
+            onPointerCancel={onPointerCancel}
             onClick={(e) => {
+              if (suppressClickRef.current) {
+                suppressClickRef.current = false
+                return
+              }
               if (!trackRef.current) return
               const rect = trackRef.current.getBoundingClientRect()
               const x = clamp(e.clientX - rect.left, 0, rect.width)
