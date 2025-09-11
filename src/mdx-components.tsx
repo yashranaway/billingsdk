@@ -3,10 +3,11 @@ import BannerDemoThree from '@/components/banner-demo-three';
 import BannerDemoTwo from '@/components/banner-demo-two';
 import BannerDestructiveDemo from '@/components/banner-destructive-demo';
 import BannerGradientDemo from '@/components/banner-gradient-demo';
-import { BillingSummaryCardDemo } from '@/components/billing-summary-card-demo';
+import BillingSummaryCardDemo from '@/components/billing-summary-card-demo';
 import { CancelSubscriptionCardDemo } from '@/components/cancel-subscription-card-demo';
 import { CancelSubscriptionCardTwoDemo } from '@/components/cancel-subscription-card-two-demo';
 import { CancelSubscriptionDialogDemo } from '@/components/cancel-subscription-dialog-demo';
+import { CouponDemo } from '@/components/coupon-demo';
 import CustomUsageMeterCircleDemo from '@/components/custom-usage-meter-circle-demo';
 import CustomUsageMeterLinearDemo from '@/components/custom-usage-meter-linear-demo';
 import InvoiceHistoryDemo from '@/components/invoice-history-demo';
@@ -23,7 +24,6 @@ import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import { PricingTableTwoMinimalDemo } from '@/components/pricing-table-two-minimal-demo';
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
-import { CouponDemo } from '@/components/coupon-demo';
 import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
 import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
 import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
@@ -71,5 +71,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
 		PaymentMethodManagerDemo,
 		PaymentSuccessDialogDemo,
 		ProrationPreviewDemo,
-    CouponDemo
+		CouponDemo,
 	};
+}
