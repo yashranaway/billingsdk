@@ -1,0 +1,59 @@
+---
+title: Usage-based Pricing
+description: Interactive usage-based pricing with a ruler slider and animated price.
+---
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents registryName="usage-based-pricing">
+      <UsageBasedPricingDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+    <include cwd lang='tsx' meta='title="src/components/usage-based-pricing-demo.tsx"'>src/components/usage-based-pricing-demo.tsx</include>
+  </Tab>
+</Tabs>
+
+## Installation
+
+<Tabs items={['shadcn', 'billingSDK']} defaultValue="shadcn" className="bg-transparent border-none">
+  <Tab value="shadcn" className="border-none bg-transparent p-0 mt-3">
+    <Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="installation-tabs">
+      <Tab value="npx">
+        ```bash
+        npx shadcn@latest add @billingsdk/usage-based-pricing
+        ```
+      </Tab>
+      <Tab value="pnpm">
+        ```bash
+        pnpm dlx shadcn@latest add @billingsdk/usage-based-pricing
+        ```
+      </Tab>
+      <Tab value="yarn">
+        ```bash
+        yarn dlx shadcn@latest add @billingsdk/usage-based-pricing
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab value="billingSDK" className="border-none bg-transparent p-0 mt-3">
+    <Tabs items={['npx', 'pnpm', 'yarn']} defaultValue="npx" groupId="billingsdk-cli-tabs">
+      <Tab value="npx">
+        ```bash
+        npx @billingsdk/cli add usage-based-pricing
+        ```
+      </Tab>
+      <Tab value="pnpm">
+        ```bash
+        pnpm dlx @billingsdk/cli add usage-based-pricing
+        ```
+      </Tab>
+      <Tab value="yarn">
+        ```bash
+        yarn dlx @billingsdk/cli add usage-based-pricing
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+</Tabs>
