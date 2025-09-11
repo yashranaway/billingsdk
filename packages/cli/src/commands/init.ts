@@ -7,28 +7,44 @@ export const initCommand = new Command()
   .name("init")
   .description("Initialize a new billing project")
   .summary("Set up billing components and framework integration")
-  .action(async () => {
+  .option("--framework <framework>", "Framework to use (nextjs|express|fastify|react)")
+  .option("--provider <provider>", "Payment provider (dodopayments)")
+  .action(async (opts: { framework?: string; provider?: string }) => {
     try {
       intro("Welcome to Billing SDK Setup!");
 
       const detectedFramework = detectFramework();
-      const framework = await select({
-        message: "Which framework you are using? (Adding more frameworks soon)",
-        options: [
-          { value: "nextjs", label: detectedFramework === "nextjs" ? "Next.js (detected)" : "Next.js", hint: "React framework with App Router" },
-          { value: "express", label: detectedFramework === "express" ? "Express.js (detected)" : "Express.js", hint: "Node.js web framework" },
-          { value: "fastify", label: detectedFramework === "fastify" ? "Fastify (detected)" : "Fastify", hint: "High-performance Node.js framework" },
-          { value: "react", label: detectedFramework === "react" ? "React.js (detected)" : "React.js", hint: "Client-side React app template" }
-        ],
-        initialValue: detectedFramework ?? undefined  // cursor will already be on detected framework
-      });
+      let framework: string | symbol;
+      if (opts.framework) {
+        framework = opts.framework as any;
+      } else {
+        framework = await select({
+          message: "Which framework you are using? (Adding more frameworks soon)",
+          options: [
+            { value: "nextjs", label: detectedFramework === "nextjs" ? "Next.js (detected)" : "Next.js", hint: "React framework with App Router" },
+            { value: "express", label: detectedFramework === "express" ? "Express.js (detected)" : "Express.js", hint: "Node.js web framework" },
+            { value: "fastify", label: detectedFramework === "fastify" ? "Fastify (detected)" : "Fastify", hint: "High-performance Node.js framework" },
+            { value: "react", label: detectedFramework === "react" ? "React.js (detected)" : "React.js", hint: "Client-side React app template" }
+          ],
+          initialValue: detectedFramework ?? undefined
+        });
+      }
+      if (typeof framework !== 'string' || !["nextjs","express","fastify","react"].includes(framework)) {
+        cancel("Invalid or missing framework. Use --framework nextjs|express|fastify|react");
+        process.exit(1);
+      }
 
-      const providerChoice = await select({
-        message: "Which payment provider would you like to use? (Adding more providers soon)",
-        options: [
-          { value: "dodopayments", label: "Dodo Payments" },
-        ],
-      });
+      let providerChoice: string | symbol;
+      if (opts.provider) {
+        providerChoice = opts.provider as any;
+      } else {
+        providerChoice = await select({
+          message: "Which payment provider would you like to use? (Adding more providers soon)",
+          options: [
+            { value: "dodopayments", label: "Dodo Payments" },
+          ],
+        });
+      }
 
       if (isCancel(providerChoice)) {
         cancel("Setup cancelled.");
