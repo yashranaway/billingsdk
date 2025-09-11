@@ -31,6 +31,7 @@
 		"components/usage-meter/usage-meter-linear",
 		"---Banner---",
 		"components/banner/index",
+    "components/coupon/index",
 		"---Payment Processing---",
 		"components/payment-success-dialog/index",
 		"components/payment-method-selector/index",
