@@ -12,6 +12,9 @@ export function UsageBasedPricingDemo() {
         min={4000}
         max={25001}
         snapTo={100}
+        currency="$"
+        basePrice={39.99}
+        includedCredits={4000}
         value={credits}
         onChange={setCredits}
         onChangeEnd={(v) => console.log("Committed:", v)}

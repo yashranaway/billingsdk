@@ -1,6 +1,6 @@
 ---
 title: Usage-based Pricing
-description: Interactive usage-based pricing with a ruler slider and animated price.
+description: Interactive usage-based pricing with a ruler slider, 100-step grid, clickable 1,000-credit markers, and smooth animations.
 ---
 
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
@@ -57,3 +57,58 @@ description: Interactive usage-based pricing with a ruler slider and animated pr
     </Tabs>
   </Tab>
 </Tabs>
+
+## Usage
+
+```tsx
+import { useState } from "react";
+import { UsageBasedPricing } from "@/components/billingsdk/usage-based-pricing";
+
+export default function Page() {
+  const [value, setValue] = useState(4000);
+  return (
+    <UsageBasedPricing
+      className="max-w-5xl mx-auto"
+      min={4000}
+      max={25001}
+      value={value}
+      onChange={setValue}
+      snapTo={100}
+      title="Pay-as-you-use pricing"
+      subtitle="Start with a flat monthly rate that includes 4,000 credits."
+    />
+  );
+}
+```
+
+## Features
+
+- Smooth, lag-free slider with animated tick heights and precise pointer tracking.
+- 100-credit live increments (configurable via `snapTo`).
+- Clickable 1,000-credit dots that animate to the target instead of teleporting.
+- Start/end labels centered beneath the first and last dots.
+- Keyboard accessible: Arrow keys move by base step (default 100), Shift+Arrow moves faster, Home/End jump to edges.
+- Price model example included: base price plus $10 per 1,000 credits above the included amount.
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `min` | `number` | `4000` | Minimum credits. |
+| `max` | `number` | `25001` | Maximum credits. |
+| `value` | `number` | — | Controlled value (credits). |
+| `defaultValue` | `number` | `4000` | Uncontrolled initial credits. |
+| `onChange` | `(value: number) => void` | — | Called on value change during drag/animation. |
+| `onChangeEnd` | `(value: number) => void` | — | Called when interaction completes. |
+| `step` | `number` | `1` | Fine step (used for keyboard when `snapTo` not provided). |
+| `snapTo` | `number` | `100` | Live quantization step for drag/animation and release (e.g., 100). |
+| `currency` | `string` | `"$"` | Currency symbol. |
+| `basePrice` | `number` | `39.99` | Base price covering included credits. |
+| `includedCredits` | `number` | `4000` | Credits included in base price. |
+| `unitPricePerCredit` | `number` | `0.01` | Unit price (not used in the $10/1000 example model). |
+| `title` | `string` | `"Pay-as-you-use pricing"` | Heading text. |
+| `subtitle` | `string` | `"Start with a flat monthly rate that includes 4,000 credits."` | Subheading text. |
+
+## Credits
+
+- Created by [SarthakWade](https://x.com/Sarthak_Wade).
