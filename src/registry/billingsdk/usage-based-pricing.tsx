@@ -95,6 +95,15 @@ export function UsageBasedPricing({
     setPriceText((v as number).toFixed(2))
   })
 
+  // keep visual position in sync with external value changes (controlled)
+  useEffect(() => {
+    // avoid interrupting during user interactions
+    if (isPointerDownRef.current) return
+    if (animRef.current) return
+    const pctFromValue = ((value - min) / (max - min)) * 100
+    setPosPct(clamp(pctFromValue, 0, 100))
+  }, [value, min, max])
+
   const pct = posPct
   // unified tick count used everywhere
   const tickCount = useMemo(() => Math.max(80, Math.floor((trackWidth || 1) / 6)), [trackWidth])
@@ -194,14 +203,13 @@ export function UsageBasedPricing({
     commitValue(next, true)
   }
 
-  const startLabel = `${formatNumber(min)} credits`
-  const endLabel = `${formatNumber(max)} credits`
-
   // Positions for labels centered under first and last 1000-multiple dots
   const firstThousand = useMemo(() => Math.ceil(min / 1000) * 1000, [min])
   const lastThousand = useMemo(() => Math.floor(max / 1000) * 1000, [max])
   const firstLeftPct = useMemo(() => `${((firstThousand - min) / (max - min)) * 100}%`, [firstThousand, min, max])
   const lastLeftPct = useMemo(() => `${((lastThousand - min) / (max - min)) * 100}%`, [lastThousand, min, max])
+  const startLabel = `${formatNumber(firstThousand)} credits`
+  const endLabel = `${formatNumber(lastThousand)} credits`
 
   // Bubble position (clamped in px within track)
   const bubbleLeftPx = useMemo(() => {
