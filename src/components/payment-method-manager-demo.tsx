@@ -10,8 +10,9 @@ const initialMethods: PaymentMethod[] = [
     id: "pm1",
     type: "credit",
     last4: "1234",
-    expiry: "12/25",
+    expiry: "10/25",
     isDefault: true,
+    brand: "Visa",
   },
   {
     id: "pm2",
@@ -20,6 +21,7 @@ const initialMethods: PaymentMethod[] = [
     expiry: undefined,
     isDefault: false,
     routing: "123456789",
+    bankName: "Chase",
   },
   {
     id: "pm3",
@@ -27,6 +29,7 @@ const initialMethods: PaymentMethod[] = [
     last4: "4321",
     expiry: "11/27",
     isDefault: false,
+    brand: "Mastercard",
   },
 ];
 

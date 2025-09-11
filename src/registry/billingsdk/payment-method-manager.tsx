@@ -1,7 +1,8 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -34,7 +35,9 @@ import {
   Star,
   Plus,
   AlertCircle,
-  Loader2
+  Loader2,
+  Clock,
+  XCircle
 } from "lucide-react";
 
 export interface PaymentMethod {
@@ -79,6 +82,27 @@ function PaymentMethodCard({
   const [editOpen, setEditOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
 
+  // Helpers: expiry parsing and status
+  const expiryStatus = useMemo(() => {
+    if (method.type !== "credit" || !method.expiry) return { state: "valid" as const, monthsRemaining: Infinity };
+    // Expected format MM/YY
+    const match = method.expiry.match(/^(\d{2})\/(\d{2})$/);
+    if (!match) return { state: "valid" as const, monthsRemaining: Infinity };
+    const mm = parseInt(match[1], 10);
+    const yy = parseInt(match[2], 10);
+    if (mm < 1 || mm > 12) return { state: "valid" as const, monthsRemaining: Infinity };
+    // Convert YY to 20YY (naive but sufficient for UI warning)
+    const year = 2000 + yy;
+    // Set to last day of month 23:59:59
+    const expiryDate = new Date(year, mm, 0, 23, 59, 59, 999);
+    const now = new Date();
+    const diffMs = expiryDate.getTime() - now.getTime();
+    const diffMonths = diffMs / (1000 * 60 * 60 * 24 * 30);
+    if (diffMs < 0) return { state: "expired" as const, monthsRemaining: -Math.ceil(Math.abs(diffMonths)) };
+    if (diffMonths <= 2) return { state: "expiring" as const, monthsRemaining: Math.ceil(diffMonths) };
+    return { state: "valid" as const, monthsRemaining: Math.ceil(diffMonths) };
+  }, [method.type, method.expiry]);
+
   const handleEdit = () => {
     onEdit(method);
     setEditOpen(true);
@@ -98,36 +122,67 @@ function PaymentMethodCard({
   };
 
   return (
-    <Card className="hover:shadow-md transition-all duration-200 border-border group">
-      <CardHeader className="flex flex-row items-center space-x-3 pb-3">
-        <div className="flex items-center space-x-2">
+    <motion.div
+      layout
+      initial={false}
+      animate={method.isDefault ? { scale: 1.01, boxShadow: "0 0 0 2px hsl(var(--primary))" } : { scale: 1, boxShadow: "0 0 0 0px transparent" }}
+      transition={{ type: "spring", stiffness: 340, damping: 26 }}
+      className="rounded-xl"
+    >
+    <Card
+      className="transition-colors duration-200 border-border group rounded-xl hover:bg-muted/40"
+      role="group"
+      aria-labelledby={`pm-title-${method.id}`}
+    >
+      <CardHeader className="flex flex-row items-center gap-3 pb-3">
+        <div className="flex items-center gap-3">
           {method.type === "credit" ? (
-            <CreditCard className="h-5 w-5 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-background border shadow-sm">
+              <CreditCard className="h-4 w-4 text-muted-foreground" />
+            </div>
           ) : (
-            <Banknote className="h-5 w-5 text-muted-foreground" />
+            <div className="p-2 rounded-lg bg-background border shadow-sm">
+              <Banknote className="h-4 w-4 text-muted-foreground" />
+            </div>
           )}
           <div>
-            <p className="text-sm font-medium leading-none">
+            <p id={`pm-title-${method.id}`} className="text-sm font-medium leading-none">
               {method.type === "credit" ? "Credit Card" : "ACH Account"}
             </p>
-            {method.brand && (
-              <p className="text-xs text-muted-foreground mt-1">
-                {method.brand}
-              </p>
-            )}
-            {method.bankName && (
-              <p className="text-xs text-muted-foreground mt-1">
-                {method.bankName}
-              </p>
+            {(method.brand || method.bankName) && (
+              <div className="mt-1 inline-flex items-center gap-2">
+                <div className="h-5 w-5 rounded-full bg-muted flex items-center justify-center text-[10px] font-semibold text-muted-foreground uppercase">
+                  {(method.brand || method.bankName || "").slice(0,2)}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {method.brand || method.bankName}
+                </p>
+              </div>
             )}
           </div>
         </div>
-        {method.isDefault && (
-          <Badge variant="secondary" className="ml-auto gap-1">
-            <CheckCircle2 className="h-3 w-3" />
-            Default
-          </Badge>
-        )}
+        <div className="ml-auto flex items-center gap-2">
+          {method.type === "credit" && method.expiry && expiryStatus.state !== "valid" && (
+            <Badge
+              variant={expiryStatus.state === "expired" ? "destructive" : "secondary"}
+              className="gap-1"
+              aria-label={expiryStatus.state === "expired" ? "Card expired" : `Card expiring soon`}
+            >
+              {expiryStatus.state === "expired" ? (
+                <XCircle className="h-3 w-3" />
+              ) : (
+                <Clock className="h-3 w-3" />
+              )}
+              {expiryStatus.state === "expired" ? "Expired" : "Expiring"}
+            </Badge>
+          )}
+          {method.isDefault && (
+            <Badge variant="secondary" className="gap-1 px-2.5 py-1 shadow-sm text-[11px] md:text-sm" aria-label="Default payment method">
+              <CheckCircle2 className="h-3 w-3" />
+              Default
+            </Badge>
+          )}
+        </div>
       </CardHeader>
 
       <CardContent className="space-y-2 pb-3">
@@ -151,19 +206,20 @@ function PaymentMethodCard({
 
       <Separator />
 
-      <CardFooter className="flex justify-between items-center pt-3">
+      <CardFooter className="flex justify-between items-center pt-3 bg-muted/20 rounded-b-xl px-4 py-3 border-t">
         <div className="flex gap-1">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   onClick={handleEdit}
-                  className="gap-1 h-8 px-2"
+                  className="gap-1 h-8 w-8 p-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   aria-label={`Edit ${method.type === "credit" ? "credit card" : "ACH account"} ending in ${method.last4}`}
                 >
-                  <Pencil className="h-3 w-3" />
+                  <span className="sr-only">Edit</span>
+                  <Pencil className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Edit payment method</TooltipContent>
@@ -174,13 +230,14 @@ function PaymentMethodCard({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="destructive"
+                  variant="ghost"
                   size="sm"
                   onClick={handleRemove}
-                  className="gap-1 h-8 px-2"
+                  className="gap-1 h-8 w-8 p-0 focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2 text-destructive hover:text-destructive hover:bg-destructive/10"
                   aria-label={`Remove ${method.type === "credit" ? "credit card" : "ACH account"} ending in ${method.last4}`}
                 >
-                  <Trash2 className="h-3 w-3" />
+                  <span className="sr-only">Remove</span>
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Remove payment method</TooltipContent>
@@ -196,11 +253,11 @@ function PaymentMethodCard({
                   variant="default"
                   size="sm"
                   onClick={handleSetDefault}
-                  className="gap-1 h-8 px-3"
+                  className="gap-2 h-8 px-3 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                   aria-label={`Set as default payment method`}
                 >
-                  <Star className="h-3 w-3" />
-                  Set Default
+                  <Star className="h-4 w-4" />
+                  <span className="text-xs font-medium">Set Default</span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Set as default payment method</TooltipContent>
@@ -238,10 +295,20 @@ function PaymentMethodCard({
               You will be redirected to the payment gateway to update your payment details securely.
               No sensitive payment information is handled directly in this interface.
             </p>
+            {method.type === "credit" && method.expiry && (
+              <div className="flex items-center gap-2 text-xs">
+                {expiryStatus.state === "expired" ? (
+                  <XCircle className="h-4 w-4 text-destructive" aria-hidden="true" />
+                ) : expiryStatus.state === "expiring" ? (
+                  <Clock className="h-4 w-4 text-amber-500" aria-hidden="true" />
+                ) : null}
+                <span className="text-muted-foreground">Expiry: {method.expiry}</span>
+              </div>
+            )}
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-center gap-3 pt-2">
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                 Cancel
               </Button>
             </DialogClose>
@@ -249,7 +316,7 @@ function PaymentMethodCard({
               type="button"
               variant="default"
               onClick={handleRedirectToEdit}
-              className="gap-2"
+              className="gap-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <Loader2 className="h-4 w-4 animate-spin" />
               Redirect to Gateway
@@ -292,9 +359,9 @@ function PaymentMethodCard({
               </p>
             )}
           </div>
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-center gap-3 pt-2">
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                 Cancel
               </Button>
             </DialogClose>
@@ -305,6 +372,7 @@ function PaymentMethodCard({
                 onRemove(method.id);
                 setRemoveOpen(false);
               }}
+              className="focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2"
             >
               Remove
             </Button>
@@ -312,6 +380,7 @@ function PaymentMethodCard({
         </DialogContent>
       </Dialog>
     </Card>
+    </motion.div>
   );
 }
 
@@ -322,15 +391,15 @@ interface EmptyStateProps {
 
 function EmptyState({ onAdd }: EmptyStateProps) {
   return (
-    <Card className="col-span-full text-center p-8 border-border shadow-sm border-dashed">
-      <CardContent className="space-y-4">
+    <Card className="col-span-full text-center p-10 border-border shadow-sm border-dashed rounded-xl">
+      <CardContent className="space-y-5">
         <div className="flex justify-center">
-          <div className="rounded-full bg-muted p-3">
+          <div className="rounded-xl bg-gradient-to-b from-muted/70 to-muted p-4 border">
             <CreditCard className="h-8 w-8 text-muted-foreground" />
           </div>
         </div>
         <div>
-          <h3 className="text-lg font-medium">No payment methods yet</h3>
+          <h3 className="text-lg font-semibold">No payment methods yet</h3>
           <p className="text-sm text-muted-foreground mt-1">
             Add your first payment method to get started with secure payments.
           </p>
@@ -374,20 +443,34 @@ function AddPaymentMethodDialog({
         </DialogHeader>
         <div className="py-4 space-y-4">
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-              <CreditCard className="h-5 w-5 text-muted-foreground" />
+            <button
+              type="button"
+              onClick={handleRedirect}
+              className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors text-left"
+              aria-label="Add credit card via secure gateway"
+            >
+              <div className="p-2 rounded-lg bg-background border shadow-sm">
+                <CreditCard className="h-5 w-5 text-muted-foreground" />
+              </div>
               <div>
                 <p className="text-sm font-medium">Credit Card</p>
                 <p className="text-xs text-muted-foreground">Visa, Mastercard, etc.</p>
               </div>
-            </div>
-            <div className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-              <Banknote className="h-5 w-5 text-muted-foreground" />
+            </button>
+            <button
+              type="button"
+              onClick={handleRedirect}
+              className="flex items-center gap-3 p-3 border rounded-lg hover:bg-muted/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors text-left"
+              aria-label="Add ACH account via secure gateway"
+            >
+              <div className="p-2 rounded-lg bg-background border shadow-sm">
+                <Banknote className="h-5 w-5 text-muted-foreground" />
+              </div>
               <div>
                 <p className="text-sm font-medium">ACH Account</p>
                 <p className="text-xs text-muted-foreground">Bank transfer</p>
               </div>
-            </div>
+            </button>
           </div>
           <p className="text-sm text-muted-foreground">
             You will be redirected to our secure payment gateway to add your payment details.
@@ -396,7 +479,7 @@ function AddPaymentMethodDialog({
         </div>
         <div className="flex justify-end gap-2">
           <DialogClose asChild>
-            <Button type="button" variant="outline">
+            <Button type="button" variant="outline" className="focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
               Cancel
             </Button>
           </DialogClose>
@@ -404,7 +487,7 @@ function AddPaymentMethodDialog({
             type="button"
             variant="default"
             onClick={handleRedirect}
-            className="gap-2"
+            className="gap-2 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <Loader2 className="h-4 w-4 animate-spin" />
             Continue to Gateway
@@ -524,7 +607,7 @@ export function PaymentMethodManager({
             {paymentMethods.length === 0 ? (
               <EmptyState onAdd={() => setAddOpen(true)} />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
                 {paymentMethods.map((method) => (
                   <PaymentMethodCard
                     key={method.id}
