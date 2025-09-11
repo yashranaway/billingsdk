@@ -1,7 +1,11 @@
 'use client';
 
-import BillingSettings2Demo from '@/registry/billingsdk/demo/billing-settings-2-demo';
+import { BillingSettings2 } from './billingsdk/billing-settings-2';
 
 export default function Demo() {
-	return <BillingSettings2Demo />;
+	return (
+		<div className="p-6">
+			<BillingSettings2 />
+		</div>
+	);
 }
