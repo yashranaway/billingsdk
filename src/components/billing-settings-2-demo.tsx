@@ -1,6 +1,6 @@
 'use client';
 
-import { BillingSettings2 } from './billingsdk/billing-settings-2';
+import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 
 export default function Demo() {
 	return (
