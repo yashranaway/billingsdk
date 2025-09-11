@@ -108,14 +108,13 @@ export default function Page() {
 | `onChange` | `(value: number) => void` | — | Called on value change during drag/animation. |
 | `onChangeEnd` | `(value: number) => void` | — | Called when interaction completes. |
 | `step` | `number` | `1` | Fine step (used for keyboard when `snapTo` not provided). |
-| `snapTo` | `number` | `100` | Live quantization step for drag/animation and release (e.g., 100). |
+| `snapTo` | `number` | — | Live quantization step. If omitted, drag uses 100; release snaps to `snapTo`, else to `step` (>1), else to 100. |
 | `currency` | `string` | `"$"` | Currency symbol. |
 | `basePrice` | `number` | `39.99` | Base price covering included credits. |
 | `includedCredits` | `number` | `4000` | Credits included in base price. |
 | `unitPricePerCredit` | `number` | `0.01` | Unit price (not used in the $10/1000 example model). |
 | `title` | `string` | `"Pay as you use pricing"` | Heading text. |
 | `subtitle` | `string` | `"Start with a flat monthly rate that includes 4,000 credits."` | Subheading text. |
-
 ## Credits
 
 - Created by [SarthakWade](https://x.com/Sarthak_Wade).
