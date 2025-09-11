@@ -1,18 +1,17 @@
-// @ts-nocheck
 import { FastifyInstance } from 'fastify'
 import { getDodoPaymentsClient } from '../../lib/dodopayments'
 
-export default async function paymentsRoutes(fastify: FastifyInstance) {
+export default async function subscriptionsRoutes(fastify: FastifyInstance) {
   fastify.get('/', async (request, reply) => {
     try {
-      const { payment_id } = request.query as Record<string, any>
-      if (!payment_id || typeof payment_id !== 'string') {
-        return reply.status(400).send({ error: 'payment_id is required' })
+      const { subscription_id } = request.query as Record<string, any>
+      if (!subscription_id || typeof subscription_id !== 'string') {
+        return reply.status(400).send({ error: 'subscription_id is required' })
       }
-      const payment = await getDodoPaymentsClient().payments.retrieve(payment_id)
-      return reply.send(payment)
+      const subscription = await getDodoPaymentsClient().subscriptions.retrieve(subscription_id)
+      return reply.send(subscription)
     } catch (error) {
-      request.log.error({ err: error }, 'Error fetching payment')
+      request.log.error({ err: error }, 'Error fetching subscription')
       return reply.status(500).send({ error: 'Internal server error' })
     }
   })
@@ -25,10 +24,10 @@ export default async function paymentsRoutes(fastify: FastifyInstance) {
       if (typeof limit === 'string') params.limit = parseInt(limit)
       if (typeof starting_after === 'string') params.starting_after = starting_after
 
-      const payments = await getDodoPaymentsClient().payments.list(params)
-      return reply.send(payments)
+      const subscriptions = await getDodoPaymentsClient().subscriptions.list(params)
+      return reply.send(subscriptions)
     } catch (error) {
-      request.log.error({ err: error }, 'Error fetching payments list')
+      request.log.error({ err: error }, 'Error fetching subscriptions list')
       return reply.status(500).send({ error: 'Internal server error' })
     }
   })
