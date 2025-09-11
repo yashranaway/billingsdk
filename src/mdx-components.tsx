@@ -23,54 +23,48 @@ import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import { PricingTableTwoMinimalDemo } from '@/components/pricing-table-two-minimal-demo';
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
-import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
-import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
-import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
-import UsageMeterCircleDemo from '@/components/usage-meter-circle-demo';
-import UsageMeterLinearDemo from '@/components/usage-meter-linear-demo';
-import UsageTableDemo from '@/components/usage-table-demo';
-import BillingSettings2Demo from '@components/billing-settings-2-demo';
-import * as TabsComponents from 'fumadocs-ui/components/tabs';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import type { MDXComponents } from 'mdx/types';
+import { CouponDemo } from '@/components/coupon-demo';
+import { BillingSummaryCardDemo } from '@/components/billing-summary-card-demo';
+import { BillingSettings2Demo } from '@components/billing-settings-2-demo';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
-	return {
-		...defaultMdxComponents,
-		...components,
-		...TabsComponents,
-		PreviewComponents,
-		PricingTableOneDemo,
-		PricingTableOneMinimalDemo,
-		PricingTableTwoDemo,
-		PricingTableTwoMinimalDemo,
-		PricingTableThreeDemo,
-		PricingTableFourDemo,
-		PricingTableFiveDemo,
-		PricingTableFiveDemoMinimal,
-		CancelSubscriptionCardDemo,
-		CancelSubscriptionCardTwoDemo,
-		CancelSubscriptionDialogDemo,
-		SubscriptionManagementDemo,
-		UpdatePlanDialogDemo,
-		UpdatePlanCardDemo,
-		UsageMeterLinearDemo,
-		CustomUsageMeterCircleDemo,
-		UsageMeterCircleDemo,
-		CustomUsageMeterLinearDemo,
-		BannerDemo,
-		BannerDemoTwo,
-		BannerDemoThree,
-		BannerGradientDemo,
-		BannerDestructiveDemo,
-		InvoiceHistoryDemo,
-		UsageTableDemo,
-		BillingSettings2Demo,
-		PaymentMethodSelectorDemo,
-		PaymentMethodManagerDemo,
-		PaymentSuccessDialogDemo,
-		ProrationPreviewDemo,
-		CouponDemo,
-	};
+  return {
+    ...defaultMdxComponents,
+    ...components,
+    ...TabsComponents,
+    PreviewComponents,
+    PricingTableOneDemo,
+    PricingTableOneMinimalDemo,
+    PricingTableTwoDemo,
+    PricingTableTwoMinimalDemo,
+    PricingTableThreeDemo,
+    PricingTableFourDemo,
+    PricingTableFiveDemo,
+    PricingTableFiveDemoMinimal,
+    CancelSubscriptionCardDemo,
+    CancelSubscriptionCardTwoDemo,
+    CancelSubscriptionDialogDemo,
+    SubscriptionManagementDemo,
+    UpdatePlanDialogDemo,
+    UpdatePlanCardDemo,
+    UsageMeterLinearDemo,
+    CustomUsageMeterCircleDemo,
+    UsageMeterCircleDemo,
+    CustomUsageMeterLinearDemo,
+    BannerDemo,
+    BannerDemoTwo,
+    BannerDemoThree,
+    BannerGradientDemo,
+    BannerDestructiveDemo,
+    InvoiceHistoryDemo,
+    UsageTableDemo,
+    PaymentMethodSelectorDemo,
+    PaymentMethodManagerDemo,
+    PaymentSuccessDialogDemo,
+    ProrationPreviewDemo,
+    CouponDemo,
+	  BillingSummaryCardDemo,
+    BillingSettings2Demo
+  };
 }
