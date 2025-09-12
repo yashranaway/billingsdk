@@ -79,7 +79,7 @@ export function BillingSettings2({
 		{
 			id: "fullName",
 			name: "fullName",
-			value: "",
+			defaultValue: "",
 			placeholder: "John Doe",
 			onChange: () => {},
 			label: "Full Name",
@@ -88,7 +88,7 @@ export function BillingSettings2({
 		{
 			id: "billingEmail",
 			name: "billingEmail",
-			value: "",
+			defaultValue: "",
 			placeholder: "user@example.com",
 			onChange: () => {},
 			label: "Billing Email",
@@ -98,7 +98,7 @@ export function BillingSettings2({
 		{
 			id: "taxId",
 			name: "taxId",
-			value: "",
+			defaultValue: "",
 			placeholder: "EU123456789",
 			onChange: () => {},
 			label: "Tax ID (Optional)",
