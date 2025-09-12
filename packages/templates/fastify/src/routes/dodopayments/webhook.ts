@@ -4,7 +4,14 @@ import { FastifyInstance } from 'fastify'
 import { Webhook } from 'standardwebhooks'
 
 export default async function webhookRoutes(fastify: FastifyInstance) {
-  const webhook = new Webhook(process.env.DODO_PAYMENTS_WEBHOOK_KEY!)
+  const webhookKey = process.env.DODO_PAYMENTS_WEBHOOK_KEY
+  if (!webhookKey || webhookKey.trim().length === 0) {
+    throw new Error('DODO_PAYMENTS_WEBHOOK_KEY environment variable is required')
+    // Alternatively, log and exit if preferred for your runtime:
+    // fastify.log.error('DODO_PAYMENTS_WEBHOOK_KEY environment variable is required')
+    // process.exit(1)
+  }
+  const webhook = new Webhook(webhookKey)
 
   fastify.post('/', {
     // Note: To get the raw body reliably, register `fastify-raw-body` in your Fastify app:
