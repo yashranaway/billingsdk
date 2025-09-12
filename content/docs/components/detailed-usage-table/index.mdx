@@ -1,10 +1,7 @@
 ---
 title: Detailed Usage Table
+description: The Detailed Usage Table component provides a comprehensive breakdown of resource consumption with columns for resource name, used amount, limit, and percentage utilization. The percentage field is now optional and will be automatically calculated if not provided.
 ---
-
-import { DetailedUsageTableDemo } from '@/registry/billingsdk/demo/detailed-usage-table-demo';
-
-The Detailed Usage Table component provides a comprehensive breakdown of resource consumption with columns for resource name, used amount, limit, and percentage utilization. The percentage field is now optional and will be automatically calculated if not provided.
 
 <Tabs items={["Preview", "Code"]} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
@@ -17,9 +14,9 @@ The Detailed Usage Table component provides a comprehensive breakdown of resourc
 	<include
 		cwd
 		lang="tsx"
-		meta='title="src/registry/billingsdk/demo/detailed-usage-table-demo.tsx"'
+		meta='title="src/components/detailed-usage-table-demo.tsx"'
 	>
-		src/registry/billingsdk/demo/detailed-usage-table-demo.tsx
+		src/components/detailed-usage-table-demo.tsx
 	</include>
 </Tab>
 
@@ -27,7 +24,9 @@ The Detailed Usage Table component provides a comprehensive breakdown of resourc
 
 ```tsx
 import { DetailedUsageTable } from '@/components/billingsdk/detailed-usage-table';
+```
 
+```tsx
 <DetailedUsageTable
 	title="Resource Usage"
 	description="Detailed breakdown of your resource consumption"
@@ -95,18 +94,6 @@ import { DetailedUsageTable } from '@/components/billingsdk/detailed-usage-table
 />
 ```
 
-<div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-	<div className="flex items-center justify-between">
-		<div>
-			<span className="text-sm text-gray-500 dark:text-gray-400">
-				Created by{' '}
-				<a
-					href="https://github.com/sapatmohit"
-					className="text-blue-600 hover:underline dark:text-blue-400"
-				>
-					Mohit Sapat
-				</a>
-			</span>
-		</div>
-	</div>
-</div>
+### Credits
+
+- Created by [@sapatmohit](https://github.com/sapatmohit)
