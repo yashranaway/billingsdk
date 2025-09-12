@@ -143,13 +143,16 @@ export function BillingSettings2({
 							<Input
 								id={field.id}
 								name={field.name}
-								value={field.value}
+								{...(field.value !== undefined
+									? { value: field.value }
+									: { defaultValue: field.defaultValue })}
 								placeholder={field.placeholder}
 								onChange={(e) => field.onChange(e.target.value)}
 								type={field.type || "text"}
+								aria-describedby={field.helperText ? `${field.id}-help` : undefined}
 							/>
 							{field.helperText && (
-								<p className="text-xs text-muted-foreground">
+								<p id={`${field.id}-help`} className="text-xs text-muted-foreground">
 									{field.helperText}
 								</p>
 							)}
