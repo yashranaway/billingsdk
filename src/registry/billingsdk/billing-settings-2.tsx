@@ -26,12 +26,13 @@ export interface FeatureToggle {
 export interface InputField {
 	id: string;
 	name: string;
-	value: string;
+	value?: string;
+	defaultValue?: string;
 	placeholder: string;
 	onChange: (value: string) => void;
 	label: string;
 	helperText?: string;
-	type?: string;
+	type?: 'text' | 'email' | 'tel' | 'url' | 'number';
 }
 
 export interface BillingSettings2Props {
