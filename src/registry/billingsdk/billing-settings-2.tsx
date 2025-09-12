@@ -158,7 +158,7 @@ export function BillingSettings2({
 
 					<div className="space-y-2">
 						<Label id="currency-label">Currency</Label>
-						<Select defaultValue={defaultCurrency} onValueChange={onCurrencyChange}>
+						<Select value={defaultCurrency} onValueChange={onCurrencyChange}>
 							<SelectTrigger aria-labelledby="currency-label">
 								<SelectValue placeholder="Select currency" />
 							</SelectTrigger>
