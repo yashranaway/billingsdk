@@ -9,24 +9,34 @@ const initialMethods: PaymentMethod[] = [
   {
     id: "pm1",
     type: "credit",
-    last4: "1234",
-    expiry: "12/25",
+    brand: "Visa",
+    last4: "7830",
+    expiry: "06/26",
     isDefault: true,
   },
   {
     id: "pm2",
-    type: "ach",
-    last4: "5678",
-    expiry: undefined,
+    type: "credit",
+    brand: "Visa",
+    last4: "5775",
+    expiry: "08/25", // expired example (relative to current date)
     isDefault: false,
-    routing: "123456789",
   },
   {
     id: "pm3",
     type: "credit",
-    last4: "4321",
-    expiry: "11/27",
+    brand: "Mastercard",
+    last4: "1075",
+    expiry: "10/25", // expiring soon
     isDefault: false,
+  },
+  {
+    id: "pm4",
+    type: "ach",
+    last4: "3321",
+    isDefault: false,
+    routing: "021000021",
+    bankName: "ICICI Bank",
   },
 ];
 
