@@ -14,15 +14,122 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 
-export interface BillingSettings2Props {
-	className?: string;
+// Define types for our props
+export interface FeatureToggle {
+	id: string;
+	label: string;
+	description: string;
+	enabled: boolean;
+	onToggle: (enabled: boolean) => void;
 }
 
-export function BillingSettings2({ className }: BillingSettings2Props) {
+export interface InputField {
+	id: string;
+	name: string;
+	value: string;
+	placeholder: string;
+	onChange: (value: string) => void;
+	label: string;
+	helperText?: string;
+	type?: string;
+}
+
+export interface BillingSettings2Props {
+	className?: string;
+	title?: string;
+	features?: FeatureToggle[];
+	inputFields?: InputField[];
+	onSave?: () => void;
+	onCancel?: () => void;
+	saveButtonText?: string;
+	cancelButtonText?: string;
+	currencyOptions?: { value: string; label: string }[];
+	defaultCurrency?: string;
+	onCurrencyChange?: (value: string) => void;
+}
+
+export function BillingSettings2({
+	className,
+	title = "Billing Settings",
+	features = [
+		{
+			id: "auto-renewal",
+			label: "Auto-Renewal",
+			description: "Automatically renew your subscription",
+			enabled: true,
+			onToggle: () => {},
+		},
+		{
+			id: "invoice-emails",
+			label: "Invoice Emails",
+			description: "Receive emails when invoices are generated",
+			enabled: true,
+			onToggle: () => {},
+		},
+		{
+			id: "promotional-emails",
+			label: "Promotional Emails",
+			description: "Receive occasional updates about new features and offers",
+			enabled: true,
+			onToggle: () => {},
+		},
+	],
+	inputFields = [
+		{
+			id: "fullName",
+			name: "fullName",
+			value: "",
+			placeholder: "John Doe",
+			onChange: () => {},
+			label: "Full Name",
+			type: "text",
+		},
+		{
+			id: "billingEmail",
+			name: "billingEmail",
+			value: "",
+			placeholder: "user@example.com",
+			onChange: () => {},
+			label: "Billing Email",
+			helperText: "Invoices will be sent to this email address",
+			type: "email",
+		},
+		{
+			id: "taxId",
+			name: "taxId",
+			value: "",
+			placeholder: "EU123456789",
+			onChange: () => {},
+			label: "Tax ID (Optional)",
+			helperText: "For VAT or other tax purposes",
+			type: "text",
+		},
+	],
+	onSave = () => {},
+	onCancel = () => {},
+	saveButtonText = "Save Changes",
+	cancelButtonText = "Cancel",
+	currencyOptions = [
+		{ value: "usd", label: "USD - US Dollar" },
+		{ value: "inr", label: "INR - Indian Rupees" },
+		{ value: "eur", label: "EUR - Euro" },
+		{ value: "gbp", label: "GBP - British Pound" },
+		{ value: "jpy", label: "JPY - Japanese Yen" },
+		{ value: "aud", label: "AUD - Australian Dollar" },
+		{ value: "cad", label: "CAD - Canadian Dollar" },
+		{ value: "cny", label: "CNY - Chinese Yuan" },
+		{ value: "sgd", label: "SGD - Singapore Dollar" },
+		{ value: "chf", label: "CHF - Swiss Franc" },
+		{ value: "zar", label: "ZAR - South African Rand" },
+		{ value: "aed", label: "AED - UAE Dirham" },
+	],
+	defaultCurrency = "usd",
+	onCurrencyChange = () => {},
+}: BillingSettings2Props) {
 	return (
 		<Card className={cn('mx-auto max-w-5xl', className)}>
 			<CardHeader>
-				<CardTitle className="text-lg">Billing Settings</CardTitle>
+				<CardTitle className="text-lg">{title}</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-6">
 				<p className="text-sm text-muted-foreground">
@@ -30,89 +137,70 @@ export function BillingSettings2({ className }: BillingSettings2Props) {
 				</p>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					<div className="space-y-2">
-						<Label htmlFor="fullName">Full Name</Label>
-						<Input id="fullName" placeholder="John Doe" autoComplete="name" />
-					</div>
-					<div className="space-y-2">
-						<Label htmlFor="billingEmail">Billing Email</Label>
-						<Input
-							id="billingEmail"
-							type="email"
-							autoComplete="email"
-							placeholder="user@example.com"
-						/>
-						<p className="text-xs text-muted-foreground">
-							Invoices will be sent to this email address
-						</p>
-					</div>
+					{inputFields.map((field) => (
+						<div key={field.id} className="space-y-2">
+							<Label htmlFor={field.id}>{field.label}</Label>
+							<Input
+								id={field.id}
+								name={field.name}
+								value={field.value}
+								placeholder={field.placeholder}
+								onChange={(e) => field.onChange(e.target.value)}
+								type={field.type || "text"}
+							/>
+							{field.helperText && (
+								<p className="text-xs text-muted-foreground">
+									{field.helperText}
+								</p>
+							)}
+						</div>
+					))}
 
 					<div className="space-y-2">
 						<Label id="currency-label">Currency</Label>
-						<Select defaultValue="usd">
+						<Select defaultValue={defaultCurrency} onValueChange={onCurrencyChange}>
 							<SelectTrigger aria-labelledby="currency-label">
 								<SelectValue placeholder="Select currency" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="usd">USD - US Dollar</SelectItem>
-								<SelectItem value="inr">INR - Indian Rupees</SelectItem>
-								<SelectItem value="eur">EUR - Euro</SelectItem>
-								<SelectItem value="gbp">GBP - British Pound</SelectItem>
-								<SelectItem value="jpy">JPY - Japanese Yen</SelectItem>
-								<SelectItem value="aud">AUD - Australian Dollar</SelectItem>
-								<SelectItem value="cad">CAD - Canadian Dollar</SelectItem>
-								<SelectItem value="cny">CNY - Chinese Yuan</SelectItem>
-								<SelectItem value="sgd">SGD - Singapore Dollar</SelectItem>
-								<SelectItem value="chf">CHF - Swiss Franc</SelectItem>
-								<SelectItem value="zar">ZAR - South African Rand</SelectItem>
-								<SelectItem value="aed">AED - UAE Dirham</SelectItem>
+								{currencyOptions.map((option) => (
+									<SelectItem key={option.value} value={option.value}>
+										{option.label}
+									</SelectItem>
+								))}
 							</SelectContent>
 						</Select>
-					</div>
-					<div className="space-y-2">
-						<Label htmlFor="taxId">Tax ID (Optional)</Label>
-						<Input id="taxId" placeholder="EU123456789" />
-						<p className="text-xs text-muted-foreground">
-							For VAT or other tax purposes
-						</p>
 					</div>
 				</div>
 
 				<div className="space-y-4">
-					<div className="flex items-center justify-between rounded-lg border p-4">
-						<div>
-							<div className="font-medium">Auto-Renewal</div>
-							<div className="text-sm text-muted-foreground">
-								Automatically renew your subscription
+					{features.map((feature) => (
+						<div 
+							key={feature.id} 
+							className="flex items-center justify-between rounded-lg border p-4"
+						>
+							<div>
+								<div className="font-medium">{feature.label}</div>
+								<div className="text-sm text-muted-foreground">
+									{feature.description}
+								</div>
 							</div>
+							<Switch 
+								aria-label={feature.label}
+								checked={feature.enabled}
+								onCheckedChange={feature.onToggle}
+							/>
 						</div>
-						<Switch aria-label="Auto-Renewal" />
-					</div>
-
-					<div className="flex items-center justify-between rounded-lg border p-4">
-						<div>
-							<div className="font-medium">Invoice Emails</div>
-							<div className="text-sm text-muted-foreground">
-								Receive emails when invoices are generated
-							</div>
-						</div>
-						<Switch aria-label="Invoice Emails" />
-					</div>
-
-					<div className="flex items-center justify-between rounded-lg border p-4">
-						<div>
-							<div className="font-medium">Promotional Emails</div>
-							<div className="text-sm text-muted-foreground">
-								Receive occasional updates about new features and offers
-							</div>
-						</div>
-						<Switch aria-label="Promotional Emails" />
-					</div>
+					))}
 				</div>
 
 				<div className="flex items-center justify-end gap-3 pt-2">
-					<Button variant="outline">Cancel</Button>
-					<Button>Save Changes</Button>
+					<Button variant="outline" onClick={onCancel}>
+						{cancelButtonText}
+					</Button>
+					<Button onClick={onSave}>
+						{saveButtonText}
+					</Button>
 				</div>
 			</CardContent>
 		</Card>
