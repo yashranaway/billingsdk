@@ -23,7 +23,11 @@ export interface PricingTableSixProps {
   onPlanSelect: (planId: string) => void
 }
 
+const gradientFrom = ["from-chart-1/70","from-chart-2/70","from-chart-3/70"];
 
+const getDiscountPercent=(plan: PlanProps) => {
+  return Math.min(100, Math.max(0, Math.round((1 - plan.yearlyPrice / (plan.monthlyPrice * 12)) * 100)));
+}
 
 export function PricingTableSix({  plans, onPlanSelect}: PricingTableSixProps) {
   const [isYearly, setIsYearly] = useState(false)
@@ -91,8 +95,8 @@ export function PricingTableSix({  plans, onPlanSelect}: PricingTableSixProps) {
           {plans.map((plan,index) => (
             <div
               key={plan.id}
-              className={`relative rounded-3xl p-6 border border-primary-foreground transition-all duration-300 hover:transform hover:-translate-y-1 
-                hover:scale-[1.01] shadow-xl  bg-gradient-to-b from-chart-${index + 1}/70 from-0% via-primary-foreground/10 via-40% to-primary-foreground to-100%`}
+              className={`relative rounded-3xl p-6 border border-primary-foreground transition-all duration-300 hover:-translate-y-1 
+                hover:scale-[1.01] shadow-xl  bg-gradient-to-b ${gradientFrom[index]} from-[0%] via-primary-foreground/10 via-[40%] to-primary-foreground to-[100%]`}
             >
               {/* Most Popular Badge */}
               {plan.isFeatured && (
@@ -107,7 +111,7 @@ export function PricingTableSix({  plans, onPlanSelect}: PricingTableSixProps) {
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xl font-bold text-primary">{plan.title}</h3>
-                  {isYearly && plan.monthlyPrice > 0 && (
+                  {isYearly && plan.monthlyPrice > 0 && plan.yearlyPrice < plan.monthlyPrice * 12 && (
                   <motion.div className=""
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -115,7 +119,7 @@ export function PricingTableSix({  plans, onPlanSelect}: PricingTableSixProps) {
                     transition={{ duration: 0.3 }}
                   >
                     <span className="inline-block bg-primary-foreground text-primary text-xs px-2 py-1 rounded-full shadow-sm shadow-muted-foreground/40 whitespace-nowrap">
-                      Save {Math.round((1 - plan.yearlyPrice / (plan.monthlyPrice * 12)) * 100)}%
+                    Save {getDiscountPercent(plan)}%
                     </span>
                   </motion.div>
                 )}
