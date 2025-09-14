@@ -36,7 +36,7 @@ import { PricingTableFiveDemo } from '@/components/pricing-table-five-demo';
 import { PricingTableFiveDemoMinimal } from '@/components/pricing-table-five-minimal-demo';
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
 import { CouponDemo } from '@/components/coupon-demo';
-import { BillingSummaryCardDemo } from '@/components/billing-summary-card';
+import { BillingSummaryCardDemo } from '@/components/billing-summary-card-demo';
 import BillingSettings2Demo from '@/components/billing-settings-2-demo';
 import { PricingTableSixDemo } from '@/components/pricing-table-six-demo';
 
