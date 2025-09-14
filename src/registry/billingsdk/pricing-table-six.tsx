@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -38,9 +36,9 @@ export function PricingTableSix({  plans, onPlanSelect}: PricingTableSixProps) {
         {/* Header */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16">
           <div>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-tight tracking-tight text-primary">
+            <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-tight tracking-tight text-primary">
             Tailored plans for<span className="italic font-light">every stage</span>
-            </h1>
+            </h2>
           </div>
 
           <div className="lg:pt-4">
@@ -165,7 +163,7 @@ export function PricingTableSix({  plans, onPlanSelect}: PricingTableSixProps) {
                     border border-primary-foreground
                     ${!plan.isFeatured ? "bg-foreground/80 text-primary-foreground hover:bg-foreground/70" : ""}
                   `}
-                  aria-label={`Start ${plan.title} plan${plan.monthlyPrice === 0 ? " — free" : ""}`}
+                  aria-label={`Start ${plan.title} plan${(isYearly ? plan.yearlyPrice : plan.monthlyPrice) === 0 ? " — free" : ""}`}
                   onClick={() => onPlanSelect(plan.id)}
                 >
                   {plan.isCustom ? "Contact team" : "Get started"}

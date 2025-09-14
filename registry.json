@@ -289,16 +289,11 @@
             "dependencies": [
                 "lucide-react",
                 "class-variance-authority",
-                "motion"
+                "framer-motion"
             ],
             "registryDependencies": [
                 "button",
                 "card",
-                "badge",
-                "switch",
-                "radio-group",
-                "label",
-                "separator",
                 "utils"
             ]
         },
