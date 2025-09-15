@@ -555,7 +555,7 @@
                 "target": "components/billingsdk/payment-details.tsx"
               },
               {
-                "path": "src/components/payment-details-demo.tsx",
+                "path": "src/registry/billingsdk/demo/payment-details-demo.tsx",
                 "type": "registry:component",
                 "target": "components/payment-details-demo.tsx"
               }
