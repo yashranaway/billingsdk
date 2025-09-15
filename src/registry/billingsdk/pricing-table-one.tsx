@@ -13,12 +13,12 @@ import { Separator } from "@/components/ui/separator";
 import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 
-const sectionVariants = cva("py-32", {
+const sectionVariants = cva("py-8 sm:py-12 md:py-16 lg:py-20 xl:py-32", {
   variants: {
     size: {
-      small: "py-6 md:py-12",
-      medium: "py-10 md:py-20",
-      large: "py-16 md:py-32",
+      small: "py-4 sm:py-6 md:py-8 lg:py-12",
+      medium: "py-6 sm:py-8 md:py-10 lg:py-16 xl:py-20",
+      large: "py-8 sm:py-12 md:py-16 lg:py-20 xl:py-32",
     },
     theme: {
       minimal: "",
@@ -34,9 +34,9 @@ const sectionVariants = cva("py-32", {
 const titleVariants = cva("text-pretty text-left font-bold", {
   variants: {
     size: {
-      small: "text-3xl lg:text-4xl",
-      medium: "text-4xl lg:text-5xl",
-      large: "text-4xl lg:text-6xl",
+      small: "text-xl sm:text-2xl md:text-3xl lg:text-4xl",
+      medium: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+      large: "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl",
     },
     theme: {
       minimal: "",
@@ -52,9 +52,9 @@ const titleVariants = cva("text-pretty text-left font-bold", {
 const descriptionVariants = cva("text-muted-foreground max-w-3xl", {
   variants: {
     size: {
-      small: "text-base lg:text-lg",
-      medium: "text-lg lg:text-xl",
-      large: "lg:text-xl",
+      small: "text-sm sm:text-base md:text-lg",
+      medium: "text-base sm:text-lg md:text-xl",
+      large: "text-sm sm:text-base md:text-lg lg:text-xl",
     },
     theme: {
       minimal: "text-left",
@@ -72,9 +72,9 @@ const cardVariants = cva(
   {
     variants: {
       size: {
-        small: "p-4",
-        medium: "p-5",
-        large: "p-6",
+        small: "p-3 sm:p-4",
+        medium: "p-4 sm:p-5",
+        large: "p-4 sm:p-5 md:p-6",
       },
       theme: {
         minimal: "",
@@ -108,13 +108,13 @@ const cardVariants = cva(
 const priceTextVariants = cva("font-medium", {
   variants: {
     size: {
-      small: "text-3xl",
-      medium: "text-4xl",
-      large: "text-4xl",
+      small: "text-2xl sm:text-3xl",
+      medium: "text-3xl sm:text-4xl",
+      large: "text-3xl sm:text-4xl md:text-5xl",
     },
     theme: {
       minimal: "",
-      classic: "text-5xl font-extrabold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+      classic: "text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
     },
   },
   defaultVariants: {
@@ -237,17 +237,17 @@ export function PricingTableOne({
         </>
       )}
       
-      <div className={cn("container relative", "p-0 md:p-[1rem]")}>
-        <div className="mx-auto flex max-w-7xl flex-col gap-6">
-          <div className={cn("flex flex-col gap-4", theme === "classic" && "text-center")}>
+      <div className={cn("container relative", "px-4 sm:px-6 md:px-8")}>
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:gap-6">
+          <div className={cn("flex flex-col gap-3 sm:gap-4", theme === "classic" && "text-center")}>
             <h2 className={cn(titleVariants({ size, theme }))}>
               {title || "Pricing"}
             </h2>
           </div>
 
           <div className={cn(
-            "flex flex-col justify-between gap-5 md:gap-10",
-            theme === "classic" ? "md:flex-col md:items-center" : "md:flex-row"
+            "flex flex-col justify-between gap-4 sm:gap-5 md:gap-8 lg:gap-10",
+            theme === "classic" ? "md:flex-col md:items-center" : "lg:flex-row"
           )}>
             <p className={cn(descriptionVariants({ size, theme }))}>
               {description || "Transparent pricing with no hidden fees. Upgrade or downgrade anytime."}
@@ -268,7 +268,7 @@ export function PricingTableOne({
                   />
                   <Label
                     htmlFor={`${uniqueId}-monthly`}
-                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-2 md:px-7 font-semibold transition-all hover:text-foreground"
+                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center px-3 sm:px-4 md:px-7 font-semibold transition-all hover:text-foreground text-sm sm:text-base"
                   >
                     Monthly
                   </Label>
@@ -281,11 +281,11 @@ export function PricingTableOne({
                   />
                   <Label
                     htmlFor={`${uniqueId}-annually`}
-                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-2 md:px-7 font-semibold transition-all hover:text-foreground"
+                    className="text-muted-foreground peer-data-[state=checked]:text-primary flex h-full cursor-pointer items-center justify-center gap-1 px-3 sm:px-4 md:px-7 font-semibold transition-all hover:text-foreground text-sm sm:text-base"
                   >
                     Yearly
                     {yearlyPriceDiscount > 0 && (
-                      <span className="ml-1 rounded bg-primary/10 px-2 py-0.5 text-xs text-primary border border-primary/20 font-medium">
+                      <span className="ml-1 rounded bg-primary/10 px-1.5 sm:px-2 py-0.5 text-xs text-primary border border-primary/20 font-medium">
                         Save {yearlyPriceDiscount}%
                       </span>
                     )}
@@ -295,7 +295,7 @@ export function PricingTableOne({
             </div>
           </div>
 
-          <div className="flex w-full flex-col items-stretch gap-6 md:flex-row md:items-stretch">
+          <div className="flex w-full flex-col items-stretch gap-4 sm:gap-6 lg:flex-row lg:items-stretch">
             {plans.map((plan, index) => (
               <motion.div
                 key={plan.id}
@@ -376,22 +376,23 @@ export function PricingTableOne({
                 </AnimatePresence>
 
                 <Separator className={cn(
-                  "my-6",
+                  "my-4 sm:my-6",
                   theme === "classic" && "bg-gradient-to-r from-transparent via-border to-transparent"
                 )} />
                 
-                <div className="flex h-full flex-col justify-between gap-10">
-                  <ul className="text-muted-foreground space-y-4">
+                <div className="flex h-full flex-col justify-between gap-6 sm:gap-8 md:gap-10">
+                  <ul className="text-muted-foreground space-y-3 sm:space-y-4">
                     {plan.features.map((feature, featureIndex) => (
                       <motion.li 
                         key={featureIndex} 
-                        className="flex gap-3"
+                        className="flex gap-2 sm:gap-3"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
                       >
                         <Check className={cn(featureIconVariants({ size, theme }))} />
                         <span className={cn(
+                          "text-sm sm:text-base",
                           theme === "classic" && "text-foreground/90"
                         )}>
                           {feature.name}

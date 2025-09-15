@@ -1,17 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
 import { Upload } from "lucide-react";
 import { usePlayground } from "./playground-context";
 import { componentRegistry } from "./component-registry";
 import { PlaygroundLogo } from "./playground-logo";
+import { useState } from "react";
 
-import Link from "next/link";
-
-export function PlaygroundHeader({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
+export function PlaygroundSidebar() {
   const { state, setSelectedComponent, updateCode, updateStyles } = usePlayground();
   const [selectedCategory] = useState<string>("all");
 
@@ -34,12 +32,11 @@ export function PlaygroundHeader({ onToggleSidebar }: { onToggleSidebar?: () => 
   };
 
   const handleImportComponent = () => {
-    // Create a file input element
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.tsx,.ts,.jsx,.js,.css';
     input.multiple = false;
-    
+
     input.onchange = (event) => {
       const file = (event.target as HTMLInputElement).files?.[0];
       if (file) {
@@ -47,65 +44,70 @@ export function PlaygroundHeader({ onToggleSidebar }: { onToggleSidebar?: () => 
         reader.onload = (e) => {
           const content = e.target?.result as string;
           if (content) {
-            // Determine file type based on extension
             const extension = file.name.split('.').pop()?.toLowerCase();
-            
             if (extension === 'css') {
-              // Import as styles
               updateStyles(content);
-              console.log(`Imported CSS file: ${file.name}`);
             } else if (['tsx', 'ts', 'jsx', 'js'].includes(extension || '')) {
-              // Import as component code
               updateCode(content);
-              console.log(`Imported component file: ${file.name}`);
             } else {
-              console.warn(`Unsupported file type: ${extension}`);
               alert(`Unsupported file type: ${extension}. Please select a .tsx, .ts, .jsx, .js, or .css file.`);
             }
           }
         };
-        reader.onerror = () => {
-          console.error('Error reading file');
-          alert('Error reading file. Please try again.');
-        };
         reader.readAsText(file);
       }
     };
-    
-    // Trigger file selection
+
     input.click();
   };
 
   return (
-    <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex items-center justify-between gap-2 px-4 py-3">
-        {/* Left: Sidebar toggle + Logo (tight gap) */}
-        <div className="flex items-center gap-2">
-          {onToggleSidebar && (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={onToggleSidebar}
-              className="h-8 px-2"
-              aria-label="Toggle sidebar"
-            >
-              {/* Use an icon from lucide via unicode to avoid another import here */}
-              <span className="i-lucide-panel-left not-italic">≡</span>
-            </Button>
-          )}
-          <Link href="/">
-            <PlaygroundLogo />
-          </Link>
+    <aside className="flex flex-col w-56 sm:w-60 md:w-64 flex-shrink-0 border-r border-border bg-background h-full min-h-0">
+      <div className="px-4 py-4 border-b border-border">
+        <Link href="/" className="inline-flex">
+          <PlaygroundLogo />
+        </Link>
+      </div>
+
+      <div className="p-4 space-y-3 overflow-y-auto min-h-0">
+        <div>
+          <div className="text-xs font-semibold text-muted-foreground mb-1">Component</div>
+          <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a component">
+                {state.selectedComponent?.name || "Select a component"}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent className="max-h-96 overflow-y-auto">
+              {categories.map(category => (
+                <div key={category.id}>
+                  <div className="px-3 py-2 text-xs font-semibold text-foreground bg-muted/50 border-b border-border">
+                    {category.label}
+                  </div>
+                  {filteredComponents
+                    .filter(comp => comp.category === category.id || category.id === "all")
+                    .map(component => (
+                      <SelectItem 
+                        key={component.id} 
+                        value={component.id}
+                        className="px-3 py-2"
+                      >
+                        <span className="font-medium text-sm">{component.name}</span>
+                      </SelectItem>
+                    ))}
+                </div>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Right: Import */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Button onClick={handleImportComponent} variant="outline" size="sm">
+        <div className="pt-2">
+          <Button onClick={handleImportComponent} variant="outline" size="sm" className="w-full">
             <Upload className="h-4 w-4 mr-2" />
-            <span className="text-sm">IMPORT</span>
+            IMPORT
           </Button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }

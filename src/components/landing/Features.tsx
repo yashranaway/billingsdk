@@ -65,29 +65,33 @@ const features = [
 
 export default function Features() {
   return (
-    <div className="flex flex-col my-24 mt-32 items-center justify-center max-w-7xl mx-auto">
-      <h2 className="text-3xl sm:text-3xl font-display md:text-4xl font-medium text-primary animate-in fade-in slide-in-from-bottom-4 duration-1000">
+    <div className="flex flex-col my-12 sm:my-16 md:my-20 lg:my-24 xl:my-32 items-center justify-center max-w-7xl mx-auto px-4 sm:px-6">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium text-primary animate-in fade-in slide-in-from-bottom-4 duration-1000 text-center">
         Why choose BillingSDK?
       </h2>
-      <p className="text-sm mt-4 text-muted-foreground mb-12 max-w-xl mx-auto tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 text-center">
+      <p className="text-sm sm:text-base md:text-lg mt-3 sm:mt-4 text-muted-foreground mb-8 sm:mb-10 md:mb-12 max-w-xs sm:max-w-lg md:max-w-xl mx-auto tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 text-center">
         Beautiful, customizable billing components that save you development
         time and effort.
       </p>
 
-      <div className="relative rounded-none -pr-2  ">
-        <div className="w-full md:mx-0">
-          <div className="grid grid-cols-1 relative md:grid-rows-2 md:grid-cols-3">
+      <div className="relative w-full">
+        <div className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative">
             {features.map((feature, index) => (
               <div
                 key={feature.id}
                 className={cn(
-                  "justify-center md:min-h-[240px] transform-gpu flex flex-col p-10 2xl:p-12 animate-in fade-in slide-in-from-bottom-6 duration-1000",
-                  // Add right border for all except last column
-                  (index + 1) % 3 !== 0 && "md:border-r-[1.2px]",
-                  // Add bottom border for first row
-                  index < 3 && "md:border-b-[1.2px]",
-                  // Add top border for mobile
-                  index > 0 && "border-t-[1.2px] md:border-t-0"
+                  "justify-center min-h-[200px] sm:min-h-[220px] md:min-h-[240px] lg:min-h-[260px] transform-gpu flex flex-col p-6 sm:p-8 md:p-10 lg:p-12 animate-in fade-in slide-in-from-bottom-6 duration-1000",
+                  // Mobile borders
+                  index > 0 && "border-t-[1.2px] md:border-t-0",
+                  // Desktop borders - right border for all except last column in each row
+                  "md:border-r-[1.2px] lg:border-r-[1.2px]",
+                  // Remove right border for last column in each row
+                  (index + 1) % 2 === 0 && "md:border-r-0 lg:border-r-[1.2px]",
+                  (index + 1) % 3 === 0 && "lg:border-r-0",
+                  // Bottom borders for rows except last
+                  index < 2 && "md:border-b-[1.2px] lg:border-b-0",
+                  index < 3 && "lg:border-b-[1.2px]"
                 )}
                 style={{
                   animationDelay: `${500 + index * 150}ms`,
@@ -95,18 +99,18 @@ export default function Features() {
               >
                 <div className="mt-2">
                   <div className="max-w-full">
-                    <div className="flex gap-3 ">
+                    <div className="flex gap-3">
                       <p
-                        className="max-w-lg text-xl font-normal tracking-tighter md:text-2xl"
+                        className="max-w-lg text-lg sm:text-xl md:text-2xl font-normal tracking-tighter"
                         dangerouslySetInnerHTML={{
                           __html: feature.title,
                         }}
                       />
                     </div>
                   </div>
-                                     <p className="mt-2 text-sm text-left text-muted-foreground">
-                     {feature.description}
-                   </p>
+                  <p className="mt-2 sm:mt-3 text-sm sm:text-base text-left text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             ))}

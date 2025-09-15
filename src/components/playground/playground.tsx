@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { PlaygroundHeader } from "./playground-header";
+import { PlaygroundSidebar } from "./playground-sidebar";
 import { CodePanel } from "./code-panel";
 import { PreviewPanel } from "./preview-panel";
 import { PlaygroundProvider, usePlayground } from "./playground-context";
@@ -16,14 +17,36 @@ import { cn } from "@/lib/utils";
 function PlaygroundContent() {
   const [showCodePanel, setShowCodePanel] = useState(true);
   const [showPreviewPanel, setShowPreviewPanel] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const searchParams = useSearchParams();
   const { setSelectedComponent } = usePlayground();
 
-  const toggleCodePanel = () => setShowCodePanel(!showCodePanel);
-  const togglePreviewPanel = () => setShowPreviewPanel(!showPreviewPanel);
+  const toggleCodePanel = () => {
+    if (isMobile) {
+      setShowCodePanel(true);
+      setShowPreviewPanel(false);
+    } else {
+      setShowCodePanel((v) => !v);
+    }
+  };
+  const togglePreviewPanel = () => {
+    if (isMobile) {
+      setShowPreviewPanel(true);
+      setShowCodePanel(false);
+    } else {
+      setShowPreviewPanel((v) => !v);
+    }
+  };
 
   // Handle component parameter from URL for direct-deep linking from docs
   useEffect(() => {
+    // viewport listener for mobile detection
+    const mq = window.matchMedia("(max-width: 767px)");
+    const updateIsMobile = () => setIsMobile(mq.matches);
+    updateIsMobile();
+    mq.addEventListener?.("change", updateIsMobile);
+
     const param = searchParams.get('component');
     const trySelect = async (raw: string) => {
       const componentParam = decodeURIComponent(raw).trim();
@@ -114,63 +137,93 @@ function PlaygroundContent() {
         // ignore parsing failures
       }
     }
+    return () => {
+      mq.removeEventListener?.("change", updateIsMobile);
+    };
   }, [searchParams, setSelectedComponent]);
 
   return (
-      <div className="flex flex-col bg-background text-foreground h-screen">
-        {/* Header */}
-        <PlaygroundHeader />
-        
-        {/* Panel Controls */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={toggleCodePanel}
-              className={cn(
-                "text-muted-foreground hover:text-foreground",
-                showCodePanel && "text-foreground bg-accent"
-              )}
-            >
-              <PanelLeft className="h-4 w-4 mr-1" />
-              Code
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={togglePreviewPanel}
-              className={cn(
-                "text-muted-foreground hover:text-foreground",
-                showPreviewPanel && "text-foreground bg-accent"
-              )}
-            >
-              <PanelRight className="h-4 w-4 mr-1" />
-              Preview
-            </Button>
+      <div className="flex bg-background text-foreground h-screen">
+        {/* Sidebar - desktop */}
+        {sidebarOpen && (
+          <div className="hidden md:block">
+            <PlaygroundSidebar />
           </div>
-        </div>
-        
-        {/* Main Content - Responsive Split */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Left Panel - CODE */}
-          {showCodePanel && (
-            <div className={cn(
-              "border-r border-border",
-              showPreviewPanel ? "w-1/2" : "w-full"
-            )}>
-              <CodePanel />
-            </div>
-          )}
+        )}
 
-          {/* Right Panel - PREVIEW */}
-          {showPreviewPanel && (
-            <div className={cn(
-              showCodePanel ? "w-1/2" : "w-full"
-            )}>
-              <PreviewPanel />
+        {/* Sidebar - mobile overlay */}
+        {sidebarOpen && (
+          <div className="md:hidden fixed inset-0 z-50">
+            <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
+            <div className="absolute left-0 top-0 h-full">
+              <PlaygroundSidebar />
             </div>
-          )}
+          </div>
+        )}
+
+        {/* Main Area */}
+        <div className="flex-1 min-w-0 flex flex-col">
+          {/* Header */}
+          <PlaygroundHeader onToggleSidebar={() => setSidebarOpen((v) => !v)} />
+
+          {/* Panel Controls */}
+          <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-muted/50">
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={toggleCodePanel}
+                className={cn(
+                  "text-muted-foreground hover:text-foreground",
+                  showCodePanel && "text-foreground bg-accent"
+                )}
+              >
+                <PanelLeft className="h-4 w-4 mr-1" />
+                Code
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={togglePreviewPanel}
+                className={cn(
+                  "text-muted-foreground hover:text-foreground",
+                  showPreviewPanel && "text-foreground bg-accent"
+                )}
+              >
+                <PanelRight className="h-4 w-4 mr-1" />
+                Preview
+              </Button>
+            </div>
+          </div>
+          
+          {/* Main Content - Mobile: single panel; Desktop: side-by-side */}
+          <div className="flex-1 min-h-0 flex overflow-hidden">
+            {isMobile ? (
+              <div className="w-full min-h-0 overflow-hidden">
+                {showCodePanel ? <CodePanel /> : null}
+                {showPreviewPanel ? <PreviewPanel /> : null}
+              </div>
+            ) : (
+              <>
+                {showCodePanel && (
+                  <div className={cn(
+                    "w-1/2 min-w-[280px] border-r border-border min-h-0 overflow-hidden",
+                    !showPreviewPanel && "w-full"
+                  )}>
+                    <CodePanel />
+                  </div>
+                )}
+                {showPreviewPanel && (
+                  <div className={cn(
+                    "w-1/2 min-w-[280px] min-h-0 overflow-hidden",
+                    !showCodePanel && "w-full"
+                  )}>
+                    <PreviewPanel />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
   );
