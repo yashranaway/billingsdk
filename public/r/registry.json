@@ -28,6 +28,7 @@
                 "@billingsdk/pricing-table-three",
                 "@billingsdk/pricing-table-four",
                 "@billingsdk/pricing-table-five",
+                "@billingsdk/pricing-table-six",
                 "@billingsdk/cancel-subscription-dialog",
                 "@billingsdk/cancel-subscription-card",
                 "@billingsdk/update-plan-dialog",
@@ -240,6 +241,44 @@
                     "path": "src/registry/billingsdk/demo/pricing-table-five-demo.tsx",
                     "type": "registry:component",
                     "target": "components/pricing-table-five-demo.tsx"
+                },
+                {
+                    "path": "src/registry/lib/billingsdk-config.ts",
+                    "type": "registry:lib",
+                    "target": "lib/billingsdk-config.ts"
+                }
+            ],
+            "dependencies": [
+                "lucide-react",
+                "class-variance-authority",
+                "motion"
+            ],
+            "registryDependencies": [
+                "button",
+                "card",
+                "badge",
+                "switch",
+                "radio-group",
+                "label",
+                "separator",
+                "utils"
+            ]
+        },
+        {
+            "name": "pricing-table-six",
+            "type": "registry:block",
+            "title": "Pricing Table Six",
+            "description": "A modern pricing table component with contact us plan",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/pricing-table-six.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/pricing-table-six.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/pricing-table-six-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/pricing-table-six-demo.tsx"
                 },
                 {
                     "path": "src/registry/lib/billingsdk-config.ts",
