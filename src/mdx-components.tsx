@@ -34,6 +34,7 @@ import { PaymentMethodManagerDemo } from '@/components/payment-method-manager-de
 import { PaymentSuccessDialogDemo } from '@/components/payment-success-dialog-demo';
 import { PricingTableFiveDemo } from '@/components/pricing-table-five-demo';
 import { PricingTableFiveDemoMinimal } from '@/components/pricing-table-five-minimal-demo';
+import { PaymentDetailsDemo } from '@/components/payment-details-demo';
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
 import { CouponDemo } from '@/components/coupon-demo';
 import { BillingSummaryCardDemo } from '@/components/billing-summary-card-demo';
@@ -79,6 +80,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PaymentMethodSelectorDemo,
     PaymentMethodManagerDemo,
     PaymentSuccessDialogDemo,
+    PaymentDetailsDemo,
     ProrationPreviewDemo,
     CouponDemo,
     BillingSummaryCardDemo,
