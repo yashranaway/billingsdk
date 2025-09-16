@@ -18,7 +18,6 @@ export const initCommand = new Command()
           { value: "nextjs", label: detectedFramework === "nextjs" ? "Next.js (detected)" : "Next.js", hint: "React framework with App Router" },
           { value: "express", label: detectedFramework === "express" ? "Express.js (detected)" : "Express.js", hint: "Node.js web framework" },
           { value: "react", label: detectedFramework === "react" ? "React.js (detected)" : "React.js", hint: "Client-side React app template" },
-          { value: "fastify", label: detectedFramework === "fastify" ? "Fastify.js (detected)" : "Fastify.js", hint: "Fast and low overhead web framework" },
           { value: "hono", label: detectedFramework === "hono" ? "Hono.js (detected)" : "Hono.js", hint: "Lightweight web framework for edge runtimes" }
         ],
         initialValue: detectedFramework ?? undefined  // cursor will already be on detected framework
@@ -41,7 +40,7 @@ export const initCommand = new Command()
       const s = spinner();
       s.start("Setting up your billing project...");
       try {
-        await addFiles(framework as "nextjs" | "express" | "react" | "fastify" | "hono", provider);
+        await addFiles(framework as "nextjs" | "express" | "react", provider);
         s.stop("Setup completed successfully!");
       } catch (error) {
         s.stop("Setup failed!");
