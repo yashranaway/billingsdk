@@ -24,12 +24,26 @@ export const initCommand = new Command()
         initialValue: detectedFramework ?? undefined  // cursor will already be on detected framework
       });
 
+      if (isCancel(framework)) {
+        cancel("Setup cancelled.");
+        process.exit(0);
+      }
+
+      const frameworkValue = framework as "nextjs" | "express" | "react" | "fastify" | "hono";
+
+      const providerOptions =
+        frameworkValue === "express" || frameworkValue === "hono"
+          ? [
+              { value: "dodopayments", label: "Dodo Payments" },
+              { value: "stripe", label: "Stripe payments" },
+            ]
+          : [
+              { value: "dodopayments", label: "Dodo Payments" },
+            ];
+
       const providerChoice = await select({
         message: "Which payment provider would you like to use? (Adding more providers soon)",
-        options: [
-          { value: "dodopayments", label: "Dodo Payments" },
-          {value: "stripe", label: "Stripe payments"}
-        ],
+        options: providerOptions,
       });
 
       if (isCancel(providerChoice)) {
@@ -41,7 +55,7 @@ export const initCommand = new Command()
       const s = spinner();
       s.start("Setting up your billing project...");
       try {
-        await addFiles(framework as "nextjs" | "express" | "react" | "fastify" | "hono", provider);
+        await addFiles(frameworkValue, provider);
         s.stop("Setup completed successfully!");
       } catch (error) {
         s.stop("Setup failed!");
