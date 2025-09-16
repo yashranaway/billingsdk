@@ -703,6 +703,34 @@
             ]
         },
         {
+            "name": "billing-settings-2",
+            "type": "registry:block",
+            "title": "Billing Settings 2",
+            "description": "A comprehensive billing settings component with tabs for general, payment methods, invoices, and usage limits",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/billing-settings-2.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/billing-settings-2.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/billing-settings-2-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/billing-settings-2-demo.tsx"
+                }
+            ],
+            "dependencies": [],
+            "registryDependencies": [
+                "button",
+                "card",
+                "input",
+                "label",
+                "select",
+                "switch",
+                "utils"
+            ]
+        },
+        {
             "name": "proration-preview",
             "type": "registry:block",
             "title": "Proration Preview",
