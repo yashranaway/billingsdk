@@ -784,7 +784,10 @@
                     "type": "registry:component",
                     "target": "components/detailed-usage-table-demo.tsx"
                 }
-            ],
+            ]
+        },
+        {
+            "name": "upcoming-charges",
             "name": "upcoming-charges",
             "type": "registry:block",
             "title": "Upcoming Charges",
