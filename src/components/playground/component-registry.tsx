@@ -4,15 +4,18 @@ import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
 import { PricingTableTwo } from "@/components/billingsdk/pricing-table-two";
 import { PricingTableThree } from "@/components/billingsdk/pricing-table-three";
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card";
+import {CancelSubscriptionCardTwo} from "@/components/billingsdk/cancel-subscription-card-two"
 import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription-dialog";
 import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card";
 import { UpdatePlanDialog } from "@/components/billingsdk/update-plan-dialog";
 import { SubscriptionManagement } from "@/components/billingsdk/subscription-management";
+import { UsageBasedPricing } from "@/components/billingsdk/usage-based-pricing";
 import { UsageMeter } from "@/components/billingsdk/usage-meter";
 import { UsageTable } from "@/components/billingsdk/usage-table";
 import { InvoiceHistory } from "@/components/billingsdk/invoice-history";
 import { PaymentMethodSelector } from "@/components/billingsdk/payment-method-selector";
 import { PricingTableFive } from "@/components/billingsdk/pricing-table-five";
+import { PricingTableSix } from "@/components/billingsdk/pricing-table-six";
 
 export const componentRegistry: ComponentConfig[] = [
   {
@@ -40,6 +43,35 @@ export const componentRegistry: ComponentConfig[] = [
       autoDismiss: 5000,
       onDismiss: () => console.log("Banner dismissed"),
     },
+  },
+  {
+    id: "usage-based-pricing",
+    name: "Usage Based Pricing",
+    description: "Interactive usage pricing slider with ruler ticks and animated price",
+    category: "subscription",
+    component: UsageBasedPricing,
+    imports: ["@/components/billingsdk/usage-based-pricing"],
+    defaultCode: `<UsageBasedPricing
+  min={4000}
+  max={25000}
+  step={250}
+  defaultValue={4000}
+  currency="$"
+  basePrice={39.99}
+  includedCredits={4000}
+  unitPricePerCredit={0.01}
+/>`,
+    defaultProps: {
+      min: 4000,
+      max: 25000,
+      step: 250,
+      defaultValue: 4000,
+      currency: "$",
+      basePrice: 39.99,
+      includedCredits: 4000,
+      unitPricePerCredit: 0.01,
+    },
+  
   },
   {
     id: "pricing-table-one",
@@ -714,6 +746,112 @@ export const componentRegistry: ComponentConfig[] = [
     },
   },
   {
+    id: "pricing-table-six",
+    name: "Pricing Table Six",
+    description: "Modern pricing table with contact us plan",
+    category: "pricing",
+    component: PricingTableSix,
+    imports: ["@/components/billingsdk/pricing-table-six"],
+    defaultCode: `<PricingTableSix
+  plans={[
+        {
+          id: "basic",
+          title: "Starter",
+          description: "Best for individuals and small teams",
+          monthlyPrice: 0,
+          yearlyPrice: 0,
+          features: [
+            "Core tools with modest usage allowances",
+            "Getting-started guides to launch quickly",
+            "Fundamental analytics and reports",
+            "Standard email assistance",
+          ]
+        },
+        {
+          id: "premium",
+          title: "Growth",
+          description: "Built for expanding teams",
+          monthlyPrice: 50,
+          yearlyPrice: 500,
+          isFeatured: true,
+          features: [
+            "Advanced tools with priority updates",
+            "Onboarding guides to ramp fast",
+            "Live chat support access",
+            "Automation to streamline workflows",
+            "Premium tutorials and webinars access",
+          ]
+        },
+        {
+          id: "custom",
+          title: "Enterprise",
+          description: "Tailored for specialized requirements",
+          monthlyPrice: 99,
+          yearlyPrice: 990,
+          isCustom: true,
+          features: [
+            "Unlimited users, projects, and data",
+            "Resources that scale with your needs",
+            "24/7 priority support",
+            "White-label reports, dashboards, and UIs",
+            "Support for custom API integrations",
+            "Works with advanced or proprietary systems",
+          ]
+        },
+      ]}
+  onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+/>`,
+    defaultProps: {
+      plans: [
+        {
+          id: "basic",
+          title: "Starter",
+          description: "Best for individuals and small teams",
+          monthlyPrice: 0,
+          yearlyPrice: 0,
+          features: [
+            "Core tools with modest usage allowances",
+            "Getting-started guides to launch quickly",
+            "Fundamental analytics and reports",
+            "Standard email assistance",
+          ]
+        },
+        {
+          id: "premium",
+          title: "Growth",
+          description: "Built for expanding teams",
+          monthlyPrice: 50,
+          yearlyPrice: 500,
+          isFeatured: true,
+          features: [
+            "Advanced tools with priority updates",
+            "Onboarding guides to ramp fast",
+            "Live chat support access",
+            "Automation to streamline workflows",
+            "Premium tutorials and webinars access",
+          ]
+        },
+        {
+          id: "custom",
+          title: "Enterprise",
+          description: "Tailored for specialized requirements",
+          monthlyPrice: 99,
+          yearlyPrice: 990,
+          isCustom: true,
+          features: [
+            "Unlimited users, projects, and data",
+            "Resources that scale with your needs",
+            "24/7 priority support",
+            "White-label reports, dashboards, and UIs",
+            "Support for custom API integrations",
+            "Works with advanced or proprietary systems",
+          ]
+        },
+      ],
+      onPlanSelect: (planId: string) => console.log('Selected plan:', planId),
+    },
+  },
+  {
     id: "cancel-subscription-card",
     name: "Cancel Subscription Card",
     description: "Elegant subscription cancellation interface with confirmation flow",
@@ -789,6 +927,86 @@ export const componentRegistry: ComponentConfig[] = [
       },
       warningTitle: "What happens when you cancel?",
       warningText: "You'll lose access to all premium features at the end of your current billing period.",
+      keepButtonText: "Keep My Subscription",
+      continueButtonText: "Continue Cancellation",
+      onCancel: (planId: string) => console.log("Subscription cancelled for plan:", planId),
+      onKeepSubscription: (planId: string) => console.log("Subscription kept for plan:", planId),
+    },
+  },
+  {
+    id: "cancel-subscription-card-two",
+    name: "Cancel Subscription Card Two",
+    description: "Elegant Subscription cancellation ui component",
+    category: "subscription",
+    component: CancelSubscriptionCardTwo,
+    imports: ["@/components/billingsdk/cancel-subscription-card-two"],
+    defaultCode: `<CancelSubscriptionCardTwo
+  title="We're sorry to see you go..."
+  description="Before you cancel, we hope you'll consider upgrading to a Pro plan again."
+  plan={{
+    id: "pro",
+    title: "Pro",
+    description: "Best for growing businesses and startups",
+    currency: "$",
+    monthlyPrice: "29",
+    yearlyPrice: "299",
+    buttonText: "Get Started",
+    highlight: true,
+    features: [
+      {
+        name: "Up to 25 users",
+        icon: "check",
+        iconColor: "text-green-500"
+      },
+      {
+        name: "Advanced analytics",
+        icon: "check",
+        iconColor: "text-blue-500"
+      },
+      {
+        name: "Priority support",
+        icon: "check",
+        iconColor: "text-orange-500"
+      }
+    ]
+  }}
+  warningText="You'll lose access to all premium features at the end of your current billing period."
+  keepButtonText="Keep My Subscription"
+  continueButtonText="Continue Cancellation"
+  onCancel={(planId) => console.log("Subscription cancelled for plan:", planId)}
+  onKeepSubscription={(planId) => console.log("Subscription kept for plan:", planId)}
+/>`,
+    defaultProps: {
+      title: "We're sorry to see you go...",
+      description: "Before you cancel, we hope you'll consider upgrading to a Pro plan again.",
+      plan: {
+        id: "pro",
+        title: "Pro",
+        description: "Best for growing businesses",
+        currency: "$",
+        monthlyPrice: "29",
+        yearlyPrice: "299",
+        buttonText: "Get Started",
+        highlight: true,
+        features: [
+          {
+            name: "Up to 25 users",
+            icon: "check",
+            iconColor: "text-green-500"
+          },
+          {
+            name: "Advanced analytics",
+            icon: "check",
+            iconColor: "text-blue-500"
+          },
+          {
+            name: "Priority support",
+            icon: "check",
+            iconColor: "text-orange-500"
+          }
+        ]
+      },
+      supportText:"Need help? Our team is here to assist you.",
       keepButtonText: "Keep My Subscription",
       continueButtonText: "Continue Cancellation",
       onCancel: (planId: string) => console.log("Subscription cancelled for plan:", planId),

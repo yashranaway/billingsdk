@@ -10,11 +10,13 @@
     "@billingsdk/pricing-table-three",
     "@billingsdk/pricing-table-four",
     "@billingsdk/pricing-table-five",
+    "@billingsdk/pricing-table-six",
     "@billingsdk/cancel-subscription-dialog",
     "@billingsdk/cancel-subscription-card",
     "@billingsdk/update-plan-dialog",
     "@billingsdk/update-plan-card",
     "@billingsdk/subscription-management",
+    "@billingsdk/usage-based-pricing",
     "@billingsdk/usage-meter-linear",
     "@billingsdk/usage-meter-circle",
     "@billingsdk/banner",
@@ -22,8 +24,9 @@
     "@billingsdk/usage-table",
     "@billingsdk/payment-method-selector",
     "@billingsdk/payment-method-manager",
-    "@billingsdk/billing-setting",
-    "@billingsdk/proration-preview"
+    "@billingsdk/billing-settings",
+    "@billingsdk/proration-preview",
+    "@billingsdk/coupon"
   ],
   "files": []
 }
