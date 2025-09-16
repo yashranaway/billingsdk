@@ -37,6 +37,8 @@ import { PricingTableFiveDemoMinimal } from '@/components/pricing-table-five-min
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
 import { CouponDemo } from '@/components/coupon-demo';
 import { BillingSummaryCardDemo } from '@/components/billing-summary-card-demo';
+import { PricingTableSixDemo } from '@/components/pricing-table-six-demo';
+import { UsageBasedPricingDemo } from '@/components/usage-based-pricing-demo';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -79,6 +81,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PaymentSuccessDialogDemo,
     ProrationPreviewDemo,
     CouponDemo,
-	 BillingSummaryCardDemo
+    BillingSummaryCardDemo,
+	  PricingTableSixDemo,
+    UsageBasedPricingDemo
   };
 }
