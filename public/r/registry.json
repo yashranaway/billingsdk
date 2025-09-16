@@ -326,7 +326,7 @@
             ],
             "dependencies": [
                 "lucide-react",
-                "motion"
+                "framer-motion"
             ],
             "registryDependencies": [
                 "button",

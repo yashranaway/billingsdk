@@ -971,7 +971,7 @@ export const componentRegistry: ComponentConfig[] = [
             }
         ],
     }
-];}
+]}
   title="Pricing Plans"
   description="Find the right plan for your business"
   onPlanSelect={(planId) => console.log('Selected plan:', planId)}
