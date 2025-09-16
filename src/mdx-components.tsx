@@ -22,22 +22,15 @@ import { PaymentSuccessDialogDemo } from '@/components/payment-success-dialog-de
 import { PreviewComponents } from '@/components/preview/preview-components';
 import { PricingTableFiveDemo } from '@/components/pricing-table-five-demo';
 import { PricingTableFiveDemoMinimal } from '@/components/pricing-table-five-minimal-demo';
-import { PricingTableFourDemo } from '@/components/pricing-table-four-demo';
-import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
-import { PricingTableOneMinimalDemo } from '@/components/pricing-table-one-minimal-demo';
-import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
-import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
-import { PricingTableTwoMinimalDemo } from '@/components/pricing-table-two-minimal-demo';
+import { PaymentDetailsDemo } from '@/components/payment-details-demo';
 import { ProrationPreviewDemo } from '@/components/proration-preview-demo';
-import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
-import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
-import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
-import UsageMeterCircleDemo from '@/components/usage-meter-circle-demo';
-import UsageMeterLinearDemo from '@/components/usage-meter-linear-demo';
+import { CouponDemo } from '@/components/coupon-demo';
+import { BillingSummaryCardDemo } from '@/components/billing-summary-card-demo';
+import { UpcomingChargesDemo } from '@/components/upcoming-charges-demo';
+import { BillingSettings2Demo } from '@/components/billing-settings-2-demo';
+import { PricingTableSixDemo } from '@/components/pricing-table-six-demo';
+import { UsageBasedPricingDemo } from '@/components/usage-based-pricing-demo';
 import UsageTableDemo from '@/components/usage-table-demo';
-import * as TabsComponents from 'fumadocs-ui/components/tabs';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import type { MDXComponents } from 'mdx/types';
 
 // use this function to get MDX components, you will need it for rendering MDX
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -78,9 +71,14 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PaymentMethodSelectorDemo,
     PaymentMethodManagerDemo,
     PaymentSuccessDialogDemo,
+    PaymentDetailsDemo,
     ProrationPreviewDemo,
     CouponDemo,
-    BillingSummaryCardDemo,
-    DetailedUsageTableDemo
+	  BillingSummaryCardDemo,
+    UpcomingChargesDemo,
+	  PricingTableSixDemo,
+	  BillingSettings2Demo,
+    UsageBasedPricingDemo,
+    DetailedUsageTableDemo,
   };
 }
