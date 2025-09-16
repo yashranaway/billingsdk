@@ -7,8 +7,8 @@ export const initCommand = new Command()
   .name("init")
   .description("Initialize a new billing project")
   .summary("Set up billing components and framework integration")
-  .option("--framework <framework>", "Framework to use (nextjs|express|fastify|react)")
-  .option("--provider <provider>", "Payment provider (dodopayments)")
+  .option("--framework <framework>", "Framework to use (nextjs|express|hono|react)")
+  .option("--provider <provider>", "Payment provider (dodopayments|stripe)")
   .action(async (opts: { framework?: string; provider?: string }) => {
     try {
       intro("Welcome to Billing SDK Setup!");
@@ -21,16 +21,16 @@ export const initCommand = new Command()
           options: [
             { value: "nextjs", label: detectedFramework === "nextjs" ? "Next.js (detected)" : "Next.js", hint: "React framework with App Router" },
             { value: "express", label: detectedFramework === "express" ? "Express.js (detected)" : "Express.js", hint: "Node.js web framework" },
-            { value: "fastify", label: detectedFramework === "fastify" ? "Fastify (detected)" : "Fastify", hint: "High-performance Node.js framework" },
-            { value: "react", label: detectedFramework === "react" ? "React.js (detected)" : "React.js", hint: "Client-side React app template" }
+            { value: "react", label: detectedFramework === "react" ? "React.js (detected)" : "React.js", hint: "Client-side React app template" },
+            { value: "hono", label: detectedFramework === "hono" ? "Hono.js (detected)" : "Hono.js", hint: "Lightweight web framework for edge runtimes" }
           ],
           initialValue: detectedFramework ?? undefined
         });
       }
       // Normalize to string and validate
       const frameworkStr = typeof framework === 'string' ? framework : String(framework);
-      if (!["nextjs","express","fastify","react"].includes(frameworkStr)) {
-        cancel("Invalid or missing framework. Use --framework nextjs|express|fastify|react");
+      if (!["nextjs","express","react","hono"].includes(frameworkStr)) {
+        cancel("Invalid or missing framework. Use --framework nextjs|express|hono|react");
         process.exit(1);
       }
 
@@ -40,6 +40,7 @@ export const initCommand = new Command()
           message: "Which payment provider would you like to use? (Adding more providers soon)",
           options: [
             { value: "dodopayments", label: "Dodo Payments" },
+            { value: "stripe", label: "Stripe payments" }
           ],
         });
       }
@@ -48,12 +49,12 @@ export const initCommand = new Command()
         cancel("Setup cancelled.");
         process.exit(0);
       }
-      const provider = providerStr as "dodopayments";
+      const provider = providerStr as "dodopayments" | "stripe";
 
       const s = spinner();
       s.start("Setting up your billing project...");
       try {
-        await addFiles(frameworkStr as "nextjs" | "express" | "react" | "fastify", provider as "dodopayments");
+        await addFiles(frameworkStr as "nextjs" | "express" | "react" | "hono", provider);
         s.stop("Setup completed successfully!");
       } catch (error) {
         s.stop("Setup failed!");

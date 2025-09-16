@@ -4,7 +4,7 @@ import { Result } from "../types/registry.js";
 import { confirm, spinner } from "@clack/prompts";
 import { execSync } from "child_process";
 
-export const addFiles = async (framework: "nextjs" | "express" | "react" | "fastify", provider: "dodopayments") => {
+export const addFiles = async (framework: "nextjs" | "express" | "react" | "hono", provider: "dodopayments" | "stripe") => {
     // Allow overriding registry source for local testing
     const localPathBase = process.env.BILLINGSDK_REGISTRY_PATH;
     const urlBase = process.env.BILLINGSDK_REGISTRY_URL ?? "https://billingsdk.com/tr";
