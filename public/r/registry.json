@@ -39,9 +39,10 @@
                 "@billingsdk/banner",
                 "@billingsdk/invoice-history",
                 "@billingsdk/usage-table",
+                "@billingsdk/payment-details",
+                "@billingsdk/payment-method-manager",
                 "@billingsdk/payment-method-selector",
                 "@billingsdk/payment-method-manager",
-                "@billingsdk/payment-details",
                 "@billingsdk/billing-settings",
                 "@billingsdk/proration-preview",
                 "@billingsdk/coupon"
@@ -290,16 +291,11 @@
             "dependencies": [
                 "lucide-react",
                 "class-variance-authority",
-                "motion"
+                "framer-motion"
             ],
             "registryDependencies": [
                 "button",
                 "card",
-                "badge",
-                "switch",
-                "radio-group",
-                "label",
-                "separator",
                 "utils"
             ]
         },
@@ -629,7 +625,7 @@
                 "target": "components/billingsdk/payment-details.tsx"
               },
               {
-                "path": "src/components/payment-details-demo.tsx",
+                "path": "src/registry/billingsdk/demo/payment-details-demo.tsx",
                 "type": "registry:component",
                 "target": "components/payment-details-demo.tsx"
               }
