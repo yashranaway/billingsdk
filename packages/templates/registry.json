@@ -266,8 +266,7 @@
                 "dodopayments",
                 "standardwebhooks",
                 "zod",
-                "hono",
-                "@types/bun"
+                "hono"
             ]
 }
 
