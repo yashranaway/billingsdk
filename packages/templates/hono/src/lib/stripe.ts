@@ -3,21 +3,16 @@ import Stripe from 'stripe';
 let _stripe: Stripe | null = null;
 export const getStripe = (): Stripe => {
   const key = process.env.STRIPE_SECRET_KEY;
-  if(!key){
+  if (!key) {
     throw new Error("STRIPE_SECRET_KEY is not set")
   }
   if (!_stripe) {
     _stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-      
+
     });
   }
   return _stripe;
 };
-
-
-
-let stripe = getStripe();
-
 
 export type Product = Stripe.Product;
 export type Customer = Stripe.Customer;
@@ -27,6 +22,7 @@ export type PaymentIntent = Stripe.PaymentIntent;
 
 export async function getProducts(): Promise<Product[]> {
   try {
+    const stripe = getStripe();
     const { data } = await stripe.products.list({ limit: 100 });
     return data;
   } catch (error) {
@@ -37,6 +33,7 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function getProduct(product_id: string): Promise<Product> {
   try {
+    const stripe = getStripe();
     return await stripe.products.retrieve(product_id);
   } catch (error) {
     console.error('Error fetching product', error);
@@ -47,8 +44,9 @@ export async function getProduct(product_id: string): Promise<Product> {
 
 export async function getCustomer(customer_id: string): Promise<Customer | Stripe.DeletedCustomer> {
   try {
+    const stripe = getStripe();
     const customer = await stripe.customers.retrieve(customer_id);
-    
+
     if ((customer as Stripe.DeletedCustomer).deleted) {
       return customer as Stripe.DeletedCustomer;
     }
@@ -61,6 +59,7 @@ export async function getCustomer(customer_id: string): Promise<Customer | Strip
 
 export async function createCustomer(params: Stripe.CustomerCreateParams): Promise<Customer> {
   try {
+    const stripe = getStripe();
     return await stripe.customers.create(params);
   } catch (error) {
     console.error('Error creating customer', error);
@@ -70,6 +69,7 @@ export async function createCustomer(params: Stripe.CustomerCreateParams): Promi
 
 export async function updateCustomer(customer_id: string, params: Stripe.CustomerUpdateParams): Promise<Customer> {
   try {
+    const stripe = getStripe();
     return await stripe.customers.update(customer_id, params);
   } catch (error) {
     console.error('Error updating customer', error);
@@ -80,6 +80,7 @@ export async function updateCustomer(customer_id: string, params: Stripe.Custome
 
 export async function getCustomerSubscriptions(customer_id: string): Promise<Subscription[]> {
   try {
+    const stripe = getStripe();
     const { data } = await stripe.subscriptions.list({ customer: customer_id });
     return data;
   } catch (error) {
@@ -91,6 +92,7 @@ export async function getCustomerSubscriptions(customer_id: string): Promise<Sub
 
 export async function getCustomerPayments(customer_id: string): Promise<PaymentIntent[]> {
   try {
+    const stripe = getStripe();
     const { data } = await stripe.paymentIntents.list({ customer: customer_id, limit: 100 });
     return data;
   } catch (error) {
@@ -107,6 +109,7 @@ export async function checkout(opts: {
   cancel_url: string;
 }): Promise<{ checkout_url: string }> {
   try {
+    const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       line_items: [{ price: opts.price_id, quantity: 1 }],

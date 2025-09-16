@@ -7,7 +7,7 @@ import type { Stripe } from 'stripe';
 const stripe = getStripe()
 
 const router = new Hono()
-  .get('/',
+  .get('/:payment_id',
     zValidator('param', z.object({
       payment_id: z.string(),
     }), (result, c) => {

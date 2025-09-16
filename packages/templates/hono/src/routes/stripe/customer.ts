@@ -63,7 +63,7 @@ const router = new Hono()
         return c.json({ error: 'Internal server error' }, 500);
       }
     })
-  .put('/',
+  .put('/:customer_id',
     zValidator('param', z.object({ customer_id: z.string() }), (result, c) => {
       if (!result.success) {
         return c.json({
