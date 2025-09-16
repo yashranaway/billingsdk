@@ -80,6 +80,8 @@ import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 ```tsx
 <BillingSettings2
 	title="Custom Billing Settings"
+	enableValidation
+	currencyRequired
 	inputFields={[
 		{
 			id: "fullName",
@@ -89,6 +91,8 @@ import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 			onChange: (value) => handleInputChange('fullName', value),
 			label: "Full Name",
 			type: "text",
+			required: true,
+			validation: { minLength: 2, maxLength: 50 },
 		},
 		{
 			id: "billingEmail",
@@ -99,6 +103,7 @@ import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 			label: "Billing Email",
 			helperText: "Invoices will be sent to this email address",
 			type: "email",
+			required: true,
 		},
 		{
 			id: "taxId",
@@ -109,6 +114,7 @@ import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 			label: "Tax ID (Optional)",
 			helperText: "For VAT or other tax purposes",
 			type: "text",
+			validation: { pattern: /^[A-Z]{2}\d{8,12}$/ },
 		},
 	]}
 	features={[
@@ -162,6 +168,8 @@ import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 | `currencyOptions` | `{value: string, label: string}[]` | USD and major currencies | Array of currency options |
 | `defaultCurrency` | `string` | `"usd"` | Default selected currency |
 | `onCurrencyChange` | `(value: string) => void` | `() => {}` | Function called when currency is changed |
+| `enableValidation` | `boolean` | `true` | Enables built-in validation and error display |
+| `currencyRequired` | `boolean` | `true` | Requires a currency selection when saving |
 | `className` | `string` | `undefined` | Additional CSS classes to apply |
 
 ### FeatureToggle Object
@@ -186,7 +194,11 @@ import { BillingSettings2 } from '@/components/billingsdk/billing-settings-2';
 | `label` | `string` | Label displayed above the input field |
 | `helperText` | `string` (optional) | Helper text displayed below the input field |
 | `type` | `string` | Type of input field (text, email, etc.) |
+| `required` | `boolean` | Whether the field is required |
+| `validation` | `{ minLength?: number; maxLength?: number; pattern?: RegExp; customValidator?: (value: string) => string \| null }` | Optional validation rules |
+
+> Note: When validation fails, the save button is disabled. It re-enables automatically as users correct invalid fields. Error messages are shown inline beneath each field.
 
 ### Credits
 
-- Created by [@sapatmohit](https://github.com/sapatmohit)
+- Created by [@sapatmohit](https://github.com/sapatmohit) [@tsahil01](https://github.com/tsahil01)
