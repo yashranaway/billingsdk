@@ -104,7 +104,7 @@ export const addFiles = async (
                             message: `File ${relativePath} already exists. Do you want to overwrite it?`,
                         });
                         if (isCancel(overwrite)) {
-                            // skip on cancel
+                            throw new Error("Setup cancelled by user during overwrite prompt");
                         } else if (overwrite === true) {
                             fs.writeFileSync(resolved, file.content);
                         }

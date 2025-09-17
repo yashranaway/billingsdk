@@ -213,6 +213,20 @@ The CLI automatically detects your framework based on your project dependencies 
 node packages/cli/dist/index.js build
 ```
 
+### Local linking workflow (optional)
+
+```bash
+# 1) Run the docs site locally (serves transports at http://localhost:3000/tr)
+npm run dev
+
+# 2) Link the CLI for development
+cd packages/cli && npm run build && npm link
+
+# 3) In another project, run the linked CLI
+#    (this will fetch from http://localhost:3000/tr if you temporarily change
+#     the default base in add-files.ts, or set BILLINGSDK_REGISTRY_BASE to localhost)
+BILLINGSDK_REGISTRY_BASE=http://localhost:3000/tr billingsdk init --framework express --provider dodopayments --yes
+```
 ### Building the CLI
 
 ```bash

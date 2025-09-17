@@ -51,6 +51,10 @@ Thank you for your interest in contributing. This document explains how to set u
 2. Point the CLI to local transports (same repo root):
    - `BILLINGSDK_REGISTRY_BASE=file://$PWD/public/tr \
       node packages/cli/dist/index.js init --framework express --provider dodopayments --yes --cwd /tmp/billingsdk-test`
+   - Alternatively, run the site on localhost and link the CLI:
+     - `npm run dev` (serves `http://localhost:3000/tr`)
+     - `cd packages/cli && npm run build && npm link`
+     - In another project: `BILLINGSDK_REGISTRY_BASE=http://localhost:3000/tr billingsdk init --framework express --provider dodopayments --yes`
 3. Flags supported by `init`:
    - `--framework <nextjs|express|react|fastify|hono>`
    - `--provider <dodopayments|stripe>` (Stripe valid for Express/Hono)
