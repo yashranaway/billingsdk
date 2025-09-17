@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { type Plan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, Circle, Info, Zap } from "lucide-react";
+import { ChevronDown, Circle } from "lucide-react";
 import { BiSupport } from "react-icons/bi";
 
 export interface CancelSubscriptionCardTwoProps {
