@@ -92,14 +92,17 @@ export const initCommand = new Command()
       const s = spinner();
       s.start("Setting up your billing project...");
       try {
+        const pmRaw = typeof opts?.packageManager === "string" ? (" " + opts.packageManager).trim().split(" ")[0] : undefined;
+        const normalizedPackageManager = (pmRaw === "npm" || pmRaw === "pnpm" || pmRaw === "yarn" || pmRaw === "bun") ? pmRaw : undefined;
         await addFiles(frameworkValue, providerValue, {
           registryBase: opts?.registryBase,
           cwd: opts?.cwd,
-          installDeps: opts?.install === false ? false : true,
+          installDeps: opts?.noInstall ? false : true,
+          nonInteractive: Boolean(opts?.nonInteractive),
           forceOverwrite: Boolean(opts?.force),
           dryRun: Boolean(opts?.dryRun),
           verbose: Boolean(opts?.verbose),
-          packageManager: opts?.packageManager
+          packageManager: normalizedPackageManager
         });
         s.stop("Setup completed successfully!");
       } catch (error) {

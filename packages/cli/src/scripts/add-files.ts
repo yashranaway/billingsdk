@@ -13,10 +13,12 @@ type AddFilesOptions = {
     registryBase?: string;
     cwd?: string;
     installDeps?: boolean;
+    nonInteractive?: boolean;
     forceOverwrite?: boolean;
     dryRun?: boolean;
     verbose?: boolean;
-    packageManager?: PackageManager;
+    packageManager?: PackageManager | undefined;
+    onConflict?: "prompt" | "overwrite" | "error";
 };
 
 function resolvePackageManagerRunner(override?: PackageManager): string {
@@ -47,19 +49,54 @@ export const addFiles = async (
     }
 
     let result: Result;
-    if (base.startsWith("file://")) {
-        const filePath = fileURLToPath(url);
+    const u = new URL(url);
+    if (u.protocol === "file:") {
+        const filePath = fileURLToPath(u);
         if (!fs.existsSync(filePath)) {
             throw new Error(`Transport not found at ${filePath}. Did you build templates?`);
         }
         const json = fs.readFileSync(filePath, "utf-8");
         result = JSON.parse(json) as Result;
     } else {
-        const res = await fetch(url);
-        if (!res.ok) {
-            throw new Error(`Failed to fetch transport from ${url} (status ${res.status}).`);
+        const controller = new AbortController();
+        const timeoutMs = 15000;
+        const timeout = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            const res = await fetch(u, { signal: controller.signal } as any);
+            if (!res.ok) {
+                throw new Error(`Failed to fetch transport from ${u.toString()} (status ${res.status}).`);
+            }
+            // enforce max size ~5MB
+            const reader = (res as any).body?.getReader?.();
+            if (reader) {
+                const chunks: Uint8Array[] = [];
+                let total = 0;
+                const MAX = 5 * 1024 * 1024;
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    if (value) {
+                        total += value.byteLength;
+                        if (total > MAX) {
+                            throw new Error("Transport JSON too large");
+                        }
+                        chunks.push(value);
+                    }
+                }
+                const buf = Buffer.concat(chunks);
+                result = JSON.parse(buf.toString("utf-8")) as Result;
+            } else {
+                const text = await (res as any).text();
+                if (text.length > 5 * 1024 * 1024) throw new Error("Transport JSON too large");
+                result = JSON.parse(text) as Result;
+            }
+        } finally {
+            clearTimeout(timeout);
         }
-        result = await res.json() as Result;
+    }
+    // Minimal schema validation
+    if (!result || typeof result !== "object" || !Array.isArray((result as any).files)) {
+        throw new Error("Invalid transport format: missing files array");
     }
 
     const cwd = options.cwd || process.cwd();
@@ -113,8 +150,11 @@ export const addFiles = async (
                     fs.writeFileSync(resolved, file.content);
                     if (options.verbose) console.log(`wrote ${path.relative(cwd, envPath) || ".env"}`);
                 } else {
-                    if (options.forceOverwrite) {
+                    const mode = options.onConflict ?? (options.nonInteractive ? (options.forceOverwrite ? "overwrite" : "error") : "prompt");
+                    if (mode === "overwrite") {
                         fs.writeFileSync(resolved, file.content);
+                    } else if (mode === "error") {
+                        throw new Error(`Conflict: ${relativePath} exists`);
                     } else {
                         const overwrite = await confirm({
                             message: `File ${relativePath} already exists. Do you want to overwrite it?`,
