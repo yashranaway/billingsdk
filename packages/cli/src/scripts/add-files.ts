@@ -1,7 +1,9 @@
 import path from "path";
 import fs from "fs";
-import { Result } from "../types/registry.js";
-import { SupportedFramework, SupportedProvider, transportNameFor } from "../config/matrix.js";
+import { fileURLToPath } from "url";
+import type { Result } from "../types/registry.js";
+import type { SupportedFramework, SupportedProvider } from "../config/matrix.js";
+import { transportNameFor } from "../config/matrix.js";
 import { confirm, spinner, isCancel } from "@clack/prompts";
 import { spawnSync } from "child_process";
 
@@ -46,7 +48,7 @@ export const addFiles = async (
 
     let result: Result;
     if (base.startsWith("file://")) {
-        const filePath = url.replace("file://", "");
+        const filePath = fileURLToPath(url);
         if (!fs.existsSync(filePath)) {
             throw new Error(`Transport not found at ${filePath}. Did you build templates?`);
         }
