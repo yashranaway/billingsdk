@@ -51,6 +51,10 @@ Flags:
 - `--no-install` skip dependency installation
 - `--registry-base <url>` override template base (env: `BILLINGSDK_REGISTRY_BASE`)
 - `--cwd <path>` operate in a different directory
+ - `--force` overwrite files without prompt
+ - `--dry-run` print actions without writing files or installing
+ - `--verbose` show registry URL, placement, and actions
+ - `--package-manager <npm|pnpm|yarn|bun>` choose installer
 
 ### Add Components
 
@@ -206,13 +210,6 @@ The CLI automatically detects your framework based on your project dependencies 
 ### Build transport templates (for local testing)
 
 ```bash
-# generate public/tr/*.json from packages/templates/registry.json
-npx tsx packages/cli/src/commands/build.ts
-```
-
-Or use the CLI command from the repo root:
-
-```bash
 node packages/cli/dist/index.js build
 ```
 
@@ -246,10 +243,11 @@ npx @billingsdk/cli --help
 chmod +x node_modules/.bin/@billingsdk/cli
 ```
 
-**Network issues**
+**Transport not found**
 ```bash
-# Check internet connection
-# CLI downloads templates from @billingsdk/cli.com
+# Build transports locally, then point CLI at file:// registry
+node packages/cli/dist/index.js build
+BILLINGSDK_REGISTRY_BASE=file://$PWD/public/tr node packages/cli/dist/index.js init --framework express --provider dodopayments --yes --cwd /tmp/app
 ```
 
 ### Getting Help

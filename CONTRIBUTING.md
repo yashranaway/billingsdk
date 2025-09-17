@@ -58,6 +58,10 @@ Thank you for your interest in contributing. This document explains how to set u
    - `--no-install` skip dependency installation
    - `--registry-base <url>` override transport base (env: `BILLINGSDK_REGISTRY_BASE`)
    - `--cwd <path>` run against a different directory
+   - `--force` overwrite files without prompt
+   - `--dry-run` print actions without writing files or installing
+   - `--verbose` show registry URL, placement, and actions
+   - `--package-manager <npm|pnpm|yarn|bun>` choose installer
 4. Quick smoke test script idea:
    - `rm -rf /tmp/billingsdk-test && mkdir -p /tmp/billingsdk-test && npm init -y -w /tmp/billingsdk-test`
    - Run the `init` command with `--yes` as above

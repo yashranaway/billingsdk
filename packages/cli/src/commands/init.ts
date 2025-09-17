@@ -14,6 +14,10 @@ export const initCommand = new Command()
   .option("--no-install")
   .option("--registry-base <url>")
   .option("--cwd <path>")
+  .option("--force")
+  .option("--dry-run")
+  .option("--verbose")
+  .option("--package-manager <pm>")
   .action(async (opts: any) => {
     try {
       intro("Welcome to Billing SDK Setup!");
@@ -85,7 +89,11 @@ export const initCommand = new Command()
         await addFiles(frameworkValue, providerValue, {
           registryBase: opts?.registryBase,
           cwd: opts?.cwd,
-          installDeps: opts?.noInstall ? false : true
+          installDeps: opts?.install === false ? false : true,
+          forceOverwrite: Boolean(opts?.force),
+          dryRun: Boolean(opts?.dryRun),
+          verbose: Boolean(opts?.verbose),
+          packageManager: opts?.packageManager
         });
         s.stop("Setup completed successfully!");
       } catch (error) {
