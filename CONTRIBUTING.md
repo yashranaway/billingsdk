@@ -43,6 +43,25 @@ Thank you for your interest in contributing. This document explains how to set u
 4. Consume in another project:
    - `npx shadcn@latest add http://localhost:3000/r/<component>.json`
 
+## CLI Local Development & Testing
+
+1. Build transport templates:
+   - `node packages/cli/dist/index.js build`
+   - Outputs `public/tr/*.json` from `packages/templates/registry.json`
+2. Point the CLI to local transports (same repo root):
+   - `BILLINGSDK_REGISTRY_BASE=file://$PWD/public/tr \
+      node packages/cli/dist/index.js init --framework express --provider dodopayments --yes --cwd /tmp/billingsdk-test`
+3. Flags supported by `init`:
+   - `--framework <nextjs|express|react|fastify|hono>`
+   - `--provider <dodopayments|stripe>` (Stripe valid for Express/Hono)
+   - `--yes` non-interactive
+   - `--no-install` skip dependency installation
+   - `--registry-base <url>` override transport base (env: `BILLINGSDK_REGISTRY_BASE`)
+   - `--cwd <path>` run against a different directory
+4. Quick smoke test script idea:
+   - `rm -rf /tmp/billingsdk-test && mkdir -p /tmp/billingsdk-test && npm init -y -w /tmp/billingsdk-test`
+   - Run the `init` command with `--yes` as above
+
 ## Development Guidelines
 
 - Use Tailwind utilities and existing theme tokens; avoid hard-coded color values.

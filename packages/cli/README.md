@@ -30,6 +30,28 @@ This interactive command will:
 - Install all necessary dependencies
 - Generate configuration files and boilerplate code
 
+### Non-interactive flags
+
+```bash
+# fully non-interactive
+npx @billingsdk/cli init --framework nextjs --provider dodopayments --yes
+
+# point to local built templates
+BILLINGSDK_REGISTRY_BASE=file://$PWD/public/tr \
+  npx @billingsdk/cli init --framework express --provider dodopayments --yes --cwd /tmp/my-app
+
+# skip dependency installation
+npx @billingsdk/cli init --framework hono --provider stripe --yes --no-install
+```
+
+Flags:
+- `--framework <nextjs|express|react|fastify|hono>`
+- `--provider <dodopayments|stripe>` (Stripe valid for Express/Hono)
+- `--yes` skip prompts
+- `--no-install` skip dependency installation
+- `--registry-base <url>` override template base (env: `BILLINGSDK_REGISTRY_BASE`)
+- `--cwd <path>` operate in a different directory
+
 ### Add Components
 
 ```bash
@@ -180,6 +202,19 @@ The CLI automatically detects your framework based on your project dependencies 
 - 🚧 **Additional providers** - Based on community demand
 
 ## Development
+
+### Build transport templates (for local testing)
+
+```bash
+# generate public/tr/*.json from packages/templates/registry.json
+npx tsx packages/cli/src/commands/build.ts
+```
+
+Or use the CLI command from the repo root:
+
+```bash
+node packages/cli/dist/index.js build
+```
 
 ### Building the CLI
 
