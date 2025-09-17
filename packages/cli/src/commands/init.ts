@@ -39,7 +39,12 @@ export const initCommand = new Command()
         providerValue = flagProvider;
       }
 
-      if (nonInteractive && frameworkValue && providerValue) {
+      if (nonInteractive) {
+        // fail fast: require both flags and valid combo
+        if (!frameworkValue || !providerValue) {
+          cancel("Missing required flags in non-interactive mode: --framework and --provider");
+          process.exit(1);
+        }
         if (!isValidCombination(frameworkValue, providerValue)) {
           cancel("Invalid framework/provider combination.");
           process.exit(1);
@@ -55,7 +60,7 @@ export const initCommand = new Command()
                   ? (fw === "nextjs" ? "Next.js (detected)" : fw === "express" ? "Express.js (detected)" : fw === "react" ? "React.js (detected)" : fw === "hono" ? "Hono.js (detected)" : "Fastify.js (detected)")
                   : (fw === "nextjs" ? "Next.js" : fw === "express" ? "Express.js" : fw === "react" ? "React.js" : fw === "hono" ? "Hono.js" : "Fastify.js"),
             })),
-            initialValue: detectedFramework ?? undefined
+            initialValue: frameworkValue ?? detectedFramework ?? undefined
           });
           if (isCancel(framework)) {
             cancel("Setup cancelled.");
@@ -69,6 +74,7 @@ export const initCommand = new Command()
           const providerChoice = await select({
             message: "Which payment provider would you like to use? (Adding more providers soon)",
             options: allowedProviders.map((p) => ({ value: p, label: p === "dodopayments" ? "Dodo Payments" : "Stripe payments" })),
+            initialValue: providerValue ?? undefined
           });
           if (isCancel(providerChoice)) {
             cancel("Setup cancelled.");

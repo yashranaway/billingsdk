@@ -69,11 +69,16 @@ export const addFiles = async (
         console.log(`Placing files under: ${addToPath || "."}`);
     }
 
+    const failures: string[] = [];
     for (const file of result.files) {
-        if (path.isAbsolute(file.target) || file.target.split(path.sep).some((seg) => seg === "..")) {
+        if (path.isAbsolute(file.target) || /(^|[\\/])\.\.([\\/]|$)/.test(file.target)) {
             throw new Error(`Refusing to write outside project: invalid target '${file.target}'`);
         }
-        const combined = path.join(addToPath, file.target);
+        const fileName = path.basename(file.target);
+        const targetSegments = file.target.split(/[\\/]/).filter(Boolean);
+        const combined = fileName.startsWith(".env")
+          ? path.join(...targetSegments)
+          : path.join(addToPath, ...targetSegments);
         const resolved = path.resolve(cwd, combined);
         const resolvedCwd = path.resolve(cwd);
         if (!resolved.startsWith(resolvedCwd + path.sep) && resolved !== resolvedCwd) {
@@ -92,12 +97,21 @@ export const addFiles = async (
             }
 
             fs.mkdirSync(dirPath, { recursive: true });
+            // Symlink escape hardening
+            const realCwd = fs.realpathSync.native(cwd);
+            const realDir = fs.realpathSync.native(dirPath);
+            if (!realDir.startsWith(realCwd + path.sep) && realDir !== realCwd) {
+                throw new Error(`Resolved real path escapes project directory: '${realDir}'`);
+            }
 
             if (fs.existsSync(resolved)) {
-                if (fileName === '.env.example') {
-                    const existingContent = fs.readFileSync(resolved, 'utf8');
-                    const newContent = existingContent + '\n' + file.content + '\n';
-                    fs.writeFileSync(resolved, newContent);
+                if (fileName === ".env.example") {
+                    const envPath = path.resolve(cwd, ".env");
+                    const existingEnv = fs.existsSync(envPath) ? fs.readFileSync(envPath, "utf8") : "";
+                    const merged = existingEnv ? existingEnv + "\n" + file.content + "\n" : file.content + "\n";
+                    fs.writeFileSync(envPath, merged);
+                    fs.writeFileSync(resolved, file.content);
+                    if (options.verbose) console.log(`wrote ${path.relative(cwd, envPath) || ".env"}`);
                 } else {
                     if (options.forceOverwrite) {
                         fs.writeFileSync(resolved, file.content);
@@ -119,8 +133,12 @@ export const addFiles = async (
                 console.log(`wrote ${relativePath}`);
             }
         } catch (error) {
+            failures.push(relativePath);
             console.error(`Failed to add file ${relativePath}:`, error);
         }
+    }
+    if (failures.length) {
+        throw new Error(`Aborting: failed to add ${failures.length} file(s): ${failures.join(", ")}`);
     }
     if (result.dependencies && options.installDeps !== false && !options.dryRun) {
         const s = spinner();
@@ -132,7 +150,7 @@ export const addFiles = async (
         if (options.verbose) {
             console.log(`Installing with: ${cmd} ${args.join(" ")}`);
         }
-        const res = spawnSync(cmd, args, { stdio: "inherit", shell: false });
+        const res = spawnSync(cmd, args, { stdio: "inherit", shell: process.platform === "win32", cwd });
         if (res.error || (typeof res.status === "number" && res.status !== 0)) {
             s.stop("Failed to install dependencies!");
             throw res.error || new Error(`Installer exited with status ${res.status}`);
