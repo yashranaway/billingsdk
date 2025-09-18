@@ -175,10 +175,10 @@
           "target": "lib/dodopayments.ts"
         },
         {
-          "path": "packages/templates/react/hooks/useBilling.ts",
+          "path": "packages/templates/react/hooks/dodopayments/useBilling.ts",
           "content": "Custom React hook for managing DodoPayments billing flows",
           "type": "template",
-          "target": "hooks/useBilling.ts"
+          "target": "hooks/dodopayments/useBilling.ts"
         },
         {
           "path": "packages/templates/react/.env.example",
