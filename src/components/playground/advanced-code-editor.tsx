@@ -140,7 +140,7 @@ export function AdvancedCodeEditor() {
   }
 
   return (
-    <div className="h-full flex flex-col bg-background min-h-0">
+    <div className="h-full flex flex-col bg-background" style={{ height: 'calc(100vh - 120px)' }}>
       {/* File Tabs */}
       <FileTabs
         tabs={tabs}
@@ -188,7 +188,7 @@ export function AdvancedCodeEditor() {
       </div>
 
       {/* Code Content */}
-      <div className="flex-1 min-h-0 overflow-auto">
+      <div className="flex-1 overflow-auto" style={{ height: 'calc(100vh - 200px)' }}>
         <CodeMirrorEditor
           value={isEditing ? editValue : activeTabContent}
           onChange={isEditing ? handleEditorChange : undefined}

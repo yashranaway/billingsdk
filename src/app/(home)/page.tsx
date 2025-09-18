@@ -10,7 +10,7 @@ import { OpenSource } from "@/components/landing/opensource";
 
 const Page = () => {
   return (
-    <main className="w-full relative overflow-hidden">
+    <main className="w-full relative overflow-hidden p-4">
       <Hero />
       <Features />
       <ComponentsSection />

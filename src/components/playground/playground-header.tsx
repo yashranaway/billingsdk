@@ -11,7 +11,7 @@ import { PlaygroundLogo } from "./playground-logo";
 
 import Link from "next/link";
 
-export function PlaygroundHeader({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
+export function PlaygroundHeader() {
   const { state, setSelectedComponent, updateCode, updateStyles } = usePlayground();
   const [selectedCategory] = useState<string>("all");
 
@@ -78,29 +78,50 @@ export function PlaygroundHeader({ onToggleSidebar }: { onToggleSidebar?: () => 
 
   return (
     <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex items-center justify-between gap-2 px-4 py-3">
-        {/* Left: Sidebar toggle + Logo (tight gap) */}
-        <div className="flex items-center gap-2">
-          {onToggleSidebar && (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={onToggleSidebar}
-              className="h-8 px-2"
-              aria-label="Toggle sidebar"
-            >
-              {/* Use an icon from lucide via unicode to avoid another import here */}
-              <span className="i-lucide-panel-left not-italic">≡</span>
-            </Button>
-          )}
+      <div className="flex items-center justify-between px-4 py-3">
+        {/* Left Section - Play Button, Logo, Component Selector */}
+        <div className="flex items-center gap-4">
           <Link href="/">
             <PlaygroundLogo />
           </Link>
+
+          {/* Component Selector */}
+          <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange}>
+            <SelectTrigger className="w-64">
+              <SelectValue placeholder="Select a component">
+                {state.selectedComponent?.name || "Select a component"}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent className="w-64 min-w-64 max-h-96 overflow-y-auto">
+              {categories.map(category => (
+                <div key={category.id}>
+                  <div className="px-3 py-2 text-sm font-semibold text-foreground bg-muted/50 border-b border-border">
+                    {category.label}
+                  </div>
+                  {filteredComponents
+                    .filter(comp => comp.category === category.id || category.id === "all")
+                    .map(component => (
+                      <SelectItem 
+                        key={component.id} 
+                        value={component.id}
+                        className="px-3 py-2"
+                      >
+                        <span className="font-medium text-sm">{component.name}</span>
+                      </SelectItem>
+                    ))}
+                </div>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Right: Import */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Button onClick={handleImportComponent} variant="outline" size="sm">
+        {/* Right Section - Import Button */}
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={handleImportComponent}
+            variant="outline"
+            size="sm"
+          >
             <Upload className="h-4 w-4 mr-2" />
             <span className="text-sm">IMPORT</span>
           </Button>
