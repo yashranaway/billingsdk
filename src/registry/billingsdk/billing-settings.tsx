@@ -83,7 +83,7 @@ interface TabNavigationProps {
 
 function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="flex flex-wrap gap-1 rounded-lg bg-muted p-1">
+    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1 rounded-lg bg-muted p-1">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -91,7 +91,7 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             console.log("[v0] Tab button clicked:", tab.id)
             onTabChange(tab.id)
           }}
-          className={`flex-1 min-w-0 rounded-md px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+          className={`w-full sm:flex-1 rounded-md px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
             activeTab === tab.id
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-background/50"
