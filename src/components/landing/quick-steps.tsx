@@ -6,9 +6,12 @@ import { CodeBlock, CodeBlockCopyButton } from "./code-block";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
-interface WorkingDataItem {
+interface QuickStepsDataItem {
   heading: string;
+  href: string;
+  label: string;
   description: string;
   subPoints: string[];
   codeExample: {
@@ -23,9 +26,11 @@ interface WorkingDataItem {
   };
 }
 
-export const billingWorkingData: WorkingDataItem[] = [
+export const billingQuickStepsData: QuickStepsDataItem[] = [
   {
     heading: "Installation",
+    href: "/docs/quick-start",
+    label: "Follow Installation",
     description:
       "Get started with Billing SDK in seconds. Choose between our CLI tool for complete project setup or add individual components using shadcn. Both methods provide TypeScript-first components with full theme integration.",
     subPoints: [
@@ -45,6 +50,8 @@ export const billingWorkingData: WorkingDataItem[] = [
   },
   {
     heading: "Configure Theming",
+    href: "/docs/theming",
+    label: "Play with Themes",
     description:
       "Customize your billing components with our comprehensive theming system. Choose from pre-built themes like Cyberpunk, Elegant, or Minimal, or create your own using CSS variables for perfect brand integration.",
     subPoints: [
@@ -65,6 +72,8 @@ export const billingWorkingData: WorkingDataItem[] = [
   },
   {
     heading: "Usage",
+    href: "/docs/quick-start#use-in-your-app",
+    label: "Implement Usage",
     description:
       "Start building with production-ready components immediately. Import your chosen component, pass your pricing data, and handle user interactions with simple callback functions. Full TypeScript support included.",
     subPoints: [
@@ -91,7 +100,7 @@ import { plans } from "@/lib/billingsdk-config";
 const CodeExample = ({
   example,
 }: {
-  example: WorkingDataItem["codeExample"];
+  example: QuickStepsDataItem["codeExample"];
 }) => {
   if (example.commands) {
     return (
@@ -183,7 +192,7 @@ export const QuickSteps = () => {
       </motion.h2>
 
       <div className="flex flex-col gap-8 w-full mt-14 max-w-7xl">
-        {billingWorkingData.map((item, index) => (
+        {billingQuickStepsData.map((item, index) => (
           <motion.div
             key={item.heading}
             initial={{
@@ -234,8 +243,11 @@ export const QuickSteps = () => {
                   </div>
                 </div>
               </div>
-              <Button variant={"secondary"} className="mt-4 xl:mt-0">
-                Explore Docs <ArrowRight className="size-4" />
+              <Button asChild variant={"secondary"} className="mt-4 xl:mt-0">
+                <Link href={item.href} className="flex items-center gap-2">
+                  <span>{item.label}</span>
+                  <ArrowRight className="size-4" />
+                </Link>
               </Button>
             </div>
 
