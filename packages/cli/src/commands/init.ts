@@ -97,12 +97,14 @@ export const initCommand = new Command()
         await addFiles(frameworkValue, providerValue, {
           registryBase: opts?.registryBase,
           cwd: opts?.cwd,
-          installDeps: opts?.noInstall ? false : true,
-          nonInteractive: Boolean(opts?.nonInteractive),
+          // Respect Commander negated boolean and our alias, prefer opts.install when present
+          installDeps: (typeof opts?.install === "boolean") ? opts.install !== false : (opts?.noInstall ? false : true),
+          nonInteractive,
           forceOverwrite: Boolean(opts?.force),
           dryRun: Boolean(opts?.dryRun),
           verbose: Boolean(opts?.verbose),
-          packageManager: normalizedPackageManager
+          packageManager: normalizedPackageManager,
+          onConflict: nonInteractive ? (opts?.force ? "overwrite" : "error") : "prompt"
         });
         s.stop("Setup completed successfully!");
       } catch (error) {
