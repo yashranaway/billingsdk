@@ -126,31 +126,31 @@ export function UsageTable({
                             )}
                             {usageHistory.map((item, index) => (
                                 <TableRow key={item.model || index} className="">
-                                    <TableCell className="font-mono text-foreground">
+                                    <TableCell className="text-foreground">
                                         {item.model}
                                     </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatNumber(item.inputWithCache)}
                                     </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatNumber(item.inputWithoutCache)}
                                     </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatNumber(item.cacheRead)}
                                     </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatNumber(item.output)}
                                     </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatNumber(item.totalTokens)}
                                     </TableCell>
                                     {hasApiCost && (
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatCurrency(item.apiCost || 0)}
                                     </TableCell>
                                     )}
                                     {hasCostToYou && (
-                                    <TableCell className="text-right text-foreground font-mono">
+                                    <TableCell className="text-right text-foreground">
                                         {formatCurrency(item.costToYou || 0)}
                                     </TableCell>
                                     )}
@@ -158,31 +158,31 @@ export function UsageTable({
                             ))}
                             {showTotal && totalRow && (
                                 <TableRow className="font-medium bg-muted/50 hover:bg-muted/50">
-                                    <TableCell className="font-mono  font-semibold">
+                                    <TableCell className="font-semibold">
                                         Total
                                     </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatNumber(totalRow.inputWithCache)}
                                     </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatNumber(totalRow.inputWithoutCache)}
                                     </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatNumber(totalRow.cacheRead)}
                                     </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatNumber(totalRow.output)}
                                     </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatNumber(totalRow.totalTokens)}
                                     </TableCell>
                                     {hasApiCost && (
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatCurrency(totalRow.apiCost || 0)}
                                     </TableCell>
                                     )}
                                     {hasCostToYou && (
-                                    <TableCell className="text-right  font-mono font-semibold">
+                                    <TableCell className="text-right font-semibold">
                                         {formatCurrency(totalRow.costToYou || 0)}
                                     </TableCell>
                                     )}
