@@ -817,10 +817,15 @@
                     "type": "registry:component",
                     "target": "components/detailed-usage-table-demo.tsx"
                 }
+            ],
+            "registryDependencies": [
+                "table",
+                "card",
+                "badge",
+                "utils"
             ]
         },
         {
-            "name": "upcoming-charges",
             "name": "upcoming-charges",
             "type": "registry:block",
             "title": "Upcoming Charges",
@@ -842,7 +847,6 @@
             ],
             "registryDependencies": [
                 "card",
-                "table",
                 "badge",
                 "utils"
             ]
