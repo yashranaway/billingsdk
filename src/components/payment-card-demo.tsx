@@ -1,5 +1,5 @@
 'use client';
-import { PaymentCard } from "@/registry/billingsdk/payment-card";
+import { PaymentCard } from "@/components/billingsdk/payment-card";
 
 export function PaymentCardDemo() {
   return <PaymentCard 
