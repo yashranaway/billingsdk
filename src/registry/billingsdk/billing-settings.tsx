@@ -63,14 +63,26 @@ interface SettingItemProps {
 }
 
 function SettingItem({ title, description, checked, onCheckedChange }: SettingItemProps) {
+  const switchId = `switch-${title.toLowerCase().replace(/\s+/g, '-')}`;
+  
   return (
     <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] items-start py-4 gap-3 sm:gap-4 w-full">
       <div className="space-y-1 min-w-0">
-        <h3 className="font-medium text-foreground break-words hyphens-auto">{title}</h3>
-        <p className="text-sm text-muted-foreground break-words hyphens-auto">{description}</p>
+        <h3 id={switchId} className="font-medium text-foreground break-words hyphens-auto">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground break-words hyphens-auto">
+          {description}
+        </p>
       </div>
       <div className="sm:justify-self-end">
-        <Switch checked={checked} onCheckedChange={onCheckedChange} className="flex-shrink-0" />
+        <Switch 
+          id={switchId}
+          checked={checked}
+          onCheckedChange={onCheckedChange}
+          className="flex-shrink-0"
+          aria-labelledby={`${switchId}-label`}
+        />
       </div>
     </div>
   )
