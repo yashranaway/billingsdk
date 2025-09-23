@@ -83,7 +83,11 @@ interface TabNavigationProps {
 
 function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="flex gap-1 rounded-full bg-muted p-1 overflow-x-auto md:overflow-visible whitespace-nowrap md:whitespace-normal md:justify-center md:w-fit md:mx-auto md:px-2 md:py-2">
+    <div
+      className="flex gap-1 rounded-full bg-muted p-1 overflow-x-auto md:overflow-visible whitespace-nowrap md:whitespace-normal md:justify-center md:w-fit md:mx-auto md:px-2 md:py-2 snap-x snap-mandatory hide-scrollbars"
+      role="tablist"
+      aria-label="Billing settings tabs"
+    >
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -91,11 +95,13 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             console.log("[v0] Tab button clicked:", tab.id)
             onTabChange(tab.id)
           }}
-          className={`flex-none rounded-full px-4 py-2 text-sm md:px-6 md:py-3 md:text-base font-medium transition-colors cursor-pointer ${
+          className={`flex-none rounded-full px-4 py-2 text-sm md:px-6 md:py-3 md:text-base font-medium transition-colors cursor-pointer min-w-max snap-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 ${
             activeTab === tab.id
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-background/50"
           }`}
+          role="tab"
+          aria-selected={activeTab === tab.id}
         >
           <span className="truncate">{tab.label}</span>
         </button>
