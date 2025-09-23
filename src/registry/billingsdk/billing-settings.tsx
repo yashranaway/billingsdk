@@ -88,7 +88,6 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
         <button
           key={tab.id}
           onClick={() => {
-            console.log("[v0] Tab button clicked:", tab.id)
             onTabChange(tab.id)
           }}
           className={`w-full sm:flex-1 min-w-0 rounded-md px-1 py-2 sm:px-3 sm:py-2 text-[10px] sm:text-sm leading-tight tracking-tighter font-medium transition-colors cursor-pointer inline-flex items-center justify-center ${
