@@ -83,11 +83,7 @@ interface TabNavigationProps {
 
 function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div
-      className="flex gap-1 rounded-full bg-muted p-1 overflow-x-auto md:overflow-visible whitespace-nowrap md:whitespace-normal md:justify-center md:w-fit md:mx-auto md:px-2 md:py-2 snap-x snap-mandatory hide-scrollbars"
-      role="tablist"
-      aria-label="Billing settings tabs"
-    >
+    <div className="grid grid-cols-4 sm:flex sm:flex-wrap gap-0.5 sm:gap-1 rounded-lg bg-muted p-0.5 sm:p-1">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -95,15 +91,13 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             console.log("[v0] Tab button clicked:", tab.id)
             onTabChange(tab.id)
           }}
-          className={`flex-none rounded-full px-4 py-2 text-sm md:px-6 md:py-3 md:text-base font-medium transition-colors cursor-pointer min-w-max snap-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 ${
+          className={`w-full sm:flex-1 min-w-0 rounded-md px-1 py-2 sm:px-3 sm:py-2 text-[10px] sm:text-sm leading-tight tracking-tighter font-medium transition-colors cursor-pointer inline-flex items-center justify-center ${
             activeTab === tab.id
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-background/50"
           }`}
-          role="tab"
-          aria-selected={activeTab === tab.id}
         >
-          <span className="truncate">{tab.label}</span>
+          {tab.label}
         </button>
       ))}
     </div>
@@ -244,12 +238,12 @@ export function BillingSettings({
   }
 
   return (
-    <Card className={`mx-auto md:min-w-xl max-w-3xl overflow-hidden ${className || ''}`}>
-      <CardHeader className="space-y-4">
+    <Card className={`mx-auto w-full max-w-2xl ${className || ''}`}>
+      <CardHeader className="space-y-4 px-4 sm:px-6">
         <CardTitle className="text-lg sm:text-xl">Billing settings</CardTitle>
         <TabNavigation activeTab={activeTab} onTabChange={onTabChange} />
       </CardHeader>
-      <CardContent className="px-3 sm:px-6 overflow-hidden">
+      <CardContent className="px-4 sm:px-6">
         <div className="w-full">
           {renderTabContent()}
         </div>
