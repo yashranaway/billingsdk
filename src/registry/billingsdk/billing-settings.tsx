@@ -83,7 +83,7 @@ interface TabNavigationProps {
 
 function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-1 rounded-lg bg-muted p-1">
+    <div className="flex gap-1 rounded-full bg-muted p-1 overflow-x-auto md:overflow-visible whitespace-nowrap md:whitespace-normal md:justify-center md:w-fit md:mx-auto md:px-2 md:py-2">
       {tabs.map((tab) => (
         <button
           key={tab.id}
@@ -91,7 +91,7 @@ function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             console.log("[v0] Tab button clicked:", tab.id)
             onTabChange(tab.id)
           }}
-          className={`w-full sm:flex-1 rounded-md px-3 py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+          className={`flex-none rounded-full px-4 py-2 text-sm md:px-6 md:py-3 md:text-base font-medium transition-colors cursor-pointer ${
             activeTab === tab.id
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground hover:bg-background/50"
@@ -238,7 +238,7 @@ export function BillingSettings({
   }
 
   return (
-    <Card className={`mx-auto md:min-w-xl max-w-2xl overflow-hidden ${className || ''}`}>
+    <Card className={`mx-auto md:min-w-xl max-w-3xl overflow-hidden ${className || ''}`}>
       <CardHeader className="space-y-4">
         <CardTitle className="text-lg sm:text-xl">Billing settings</CardTitle>
         <TabNavigation activeTab={activeTab} onTabChange={onTabChange} />
