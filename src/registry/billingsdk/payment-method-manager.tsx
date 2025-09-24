@@ -32,7 +32,6 @@ import {
   CheckCircle2,
   Pencil,
   Trash2,
-  Star,
   Plus,
   AlertCircle,
   Loader2
@@ -180,15 +179,15 @@ function PaymentMethodCard({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={handleRemove}
-                  className="gap-1 h-8 px-3 shadow-sm hover:shadow-md transition-all duration-200"
-                  aria-label={`Remove ${method.type === "credit" ? "credit card" : "ACH account"} ending in ${method.last4}`}
-                >
-                  <Trash2 className="h-3 w-3" />
-                </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRemove}
+                className="gap-1 h-8 px-3 shadow-sm hover:shadow-md transition-all duration-200 text-destructive hover:bg-destructive/10 hover:text-destructive border border-input"
+                aria-label={`Remove ${method.type === "credit" ? "credit card" : "ACH account"} ending in ${method.last4}`}
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
               </TooltipTrigger>
               <TooltipContent>Remove payment method</TooltipContent>
             </Tooltip>
@@ -206,7 +205,6 @@ function PaymentMethodCard({
                   className="gap-1 h-8 px-3 shadow-sm hover:shadow-md transition-all duration-200"
                   aria-label={`Set as default payment method`}
                 >
-                  <Star className="h-3 w-3" />
                   <span className="hidden sm:inline">Set Default</span>
                 </Button>
               </TooltipTrigger>
