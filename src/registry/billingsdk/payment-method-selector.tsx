@@ -189,10 +189,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                 />
               </div>
             </div>
-            <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
-              <div className="p-1 rounded-full bg-primary/10 mt-0.5 flex-shrink-0">
-                <CheckCircle2 className="h-3 w-3 text-primary" />
-              </div>
+            <div className="p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 You'll be redirected to your selected wallet app to complete the payment securely.
               </p>
@@ -220,10 +217,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                 className="mt-1.5 border-border/50 focus:border-primary/50 transition-colors"
               />
             </div>
-            <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
-              <div className="p-1 rounded-full bg-primary/10 mt-0.5 flex-shrink-0">
-                <QrCode className="h-3 w-3 text-primary" />
-              </div>
+            <div className="p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Enter your UPI ID to receive a payment request. Complete the payment in your UPI app.
               </p>
@@ -266,7 +260,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
               <div>
                 <Label htmlFor="income" className="text-xs sm:text-sm font-medium text-foreground">
                   Annual Income 
-                  <Badge variant="secondary" className="ml-2 text-[10px] px-1.5 py-0.5">Optional</Badge>
+                  <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5">Optional</Badge>
                 </Label>
                 <Input
                   id="income"
@@ -278,10 +272,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                 />
               </div>
             </div>
-            <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
-              <div className="p-1 rounded-full bg-primary/10 mt-0.5 flex-shrink-0">
-                <Landmark className="h-3 w-3 text-primary" />
-              </div>
+            <div className="p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 You'll be redirected to complete a quick eligibility check and set up your payment plan.
               </p>
@@ -383,8 +374,8 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                         }}
                         className={`relative w-full p-4 sm:p-5 rounded-lg border transition-all duration-300 group cursor-pointer ${
                           isSelected
-                            ? "bg-gradient-to-r from-muted/50 to-muted/30 border-primary/30 shadow-lg ring-2 ring-primary/20"
-                            : "bg-gradient-to-r from-background to-muted/10 border-border/50 hover:border-primary/30 hover:shadow-md hover:bg-muted/20"
+                            ? "border-primary/30 shadow-lg  hover:shadow-md hover:bg-muted/10"
+                            : "border-border/50 hover:border-primary/30 hover:shadow-md hover:bg-muted/10"
                         }`}
                       >
                         {isSelected && (
@@ -408,7 +399,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                           <motion.div
                             className={`p-2.5 sm:p-3 rounded-lg border shadow-sm transition-all duration-300 ${
                               isSelected 
-                                ? "bg-primary/10 border-primary/20 ring-2 ring-primary/10" 
+                                ? "bg-background border-primary/30" 
                                 : "bg-background border-border/50 group-hover:border-primary/30 group-hover:shadow-md"
                             }`}
                             whileHover={!isSelected ? { rotate: [0, -2, 2, 0], scale: 1.05 } : {}}
@@ -432,10 +423,6 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                               animate={{ scale: 1, rotate: 0 }}
                               transition={{ delay: 0.2, duration: 0.3 }}
                             >
-                              <Badge variant="default" className="gap-1 shadow-sm">
-                                <CheckCircle2 className="h-3 w-3" />
-                                Selected
-                              </Badge>
                             </motion.div>
                           )}
                         </div>
