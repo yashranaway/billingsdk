@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { X, CreditCard, QrCode, Wallet, Landmark, ArrowRight, CheckCircle2 } from "lucide-react"
+import { X, CreditCard, QrCode, Wallet, Landmark, ArrowRight } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
