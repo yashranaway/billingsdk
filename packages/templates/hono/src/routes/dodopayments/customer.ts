@@ -25,7 +25,7 @@ app.get('/', async (c) => {
             return c.json({ error: "customer_id is required" }, 400)
         }
 
-        const costumer = await getDodoPaymentsClient().customers.retrieve(customer_id)
+        await getDodoPaymentsClient().customers.retrieve(customer_id)
     } catch (error) {
         console.error("Error fetching customer", error);
         return c.json({ error: "internal server error" }, 500)
