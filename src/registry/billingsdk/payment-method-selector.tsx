@@ -189,7 +189,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                 />
               </div>
             </div>
-            <div className="p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
+            <div className="p-3 bg-muted/20 rounded-lg border border-border/30">
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 You'll be redirected to your selected wallet app to complete the payment securely.
               </p>
@@ -217,7 +217,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                 className="mt-1.5 border-border/50 focus:border-primary/50 transition-colors"
               />
             </div>
-            <div className="p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
+            <div className="p-3 bg-muted/20 rounded-lg border border-border/30">
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Enter your UPI ID to receive a payment request. Complete the payment in your UPI app.
               </p>
@@ -272,7 +272,7 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
                 />
               </div>
             </div>
-            <div className="p-3 bg-gradient-to-r from-muted/50 to-muted/30 rounded-lg border border-border/50">
+            <div className="p-3 bg-muted/20 rounded-lg border border-border/30">
               <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 You'll be redirected to complete a quick eligibility check and set up your payment plan.
               </p>
@@ -286,217 +286,123 @@ export function PaymentMethodSelector({ className, onProceed }: PaymentMethodSel
   }
 
   return (
-    <motion.div
-      className={`w-full max-w-lg mx-auto ${className || ""}`}
-      initial={{ scale: 0.96, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      <Card className="shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden bg-gradient-to-b from-background to-muted/20">
-        <CardHeader className="px-4 sm:px-6">
-          <motion.div
-            initial={{ y: -8, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-              Payment Methods
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Choose your preferred payment method to continue
-            </p>
-          </motion.div>
-        </CardHeader>
+    <Card className="max-w-lg mx-auto text-left overflow-hidden shadow-lg w-full">
+      <CardHeader className="px-4 sm:px-6 pb-2">
+        <CardTitle className="text-base font-semibold">
+          Payment Methods
+        </CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Choose your preferred payment method to continue
+        </p>
+      </CardHeader>
 
-        <CardContent className="px-4 sm:px-6">
-          <div className="space-y-2 relative">
-            <AnimatePresence>
-              {paymentOptions.map((option, index) => {
-                const isSelected = selectedMethod === option.id
-                const selectedIndex = paymentOptions.findIndex((p) => p.id === selectedMethod)
-                const isAboveSelected = selectedMethod && index < selectedIndex
-                const isBelowSelected = selectedMethod && index > selectedIndex
-                const shouldShow = !selectedMethod || isSelected
+      <CardContent className="px-4 sm:px-6 space-y-3">
+        <AnimatePresence mode="wait">
+          {paymentOptions.map((option) => {
+            const isSelected = selectedMethod === option.id
 
-                return (
-                  <motion.div
-                    key={option.id}
-                    initial={{ x: -15, opacity: 0, scale: 0.97 }}
-                    animate={
-                      shouldShow
-                        ? { x: 0, opacity: 1, scale: 1, y: 0 }
-                        : {
-                            x: 0,
-                            opacity: 0,
-                            scale: 0.97,
-                            y: isAboveSelected ? -40 : isBelowSelected ? 40 : 0,
-                          }
-                    }
-                    exit={{
-                      opacity: 0,
-                      scale: 0.97,
-                      y: isAboveSelected ? -40 : isBelowSelected ? 40 : 0,
-                      transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+            return (
+              <motion.div
+                key={option.id}
+                onClick={() => handleMethodSelect(option.id)}
+                className={`p-4 rounded-lg border transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer ${
+                  isSelected
+                    ? "border-primary bg-gradient-to-br from-muted/60 to-muted/30 shadow-md"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                {isSelected && (
+                  <motion.button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleClose()
                     }}
-                    transition={{
-                      delay: shouldShow ? index * 0.06 : 0,
-                      duration: 0.5,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    }}
-                    className="relative"
-                    style={{
-                      position: shouldShow ? "relative" : "absolute",
-                      width: shouldShow ? "auto" : "100%",
-                      zIndex: isSelected ? 10 : 1,
-                    }}
+                    className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 hover:bg-background border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 z-20"
+                    initial={{ scale: 0, rotate: -45 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: 0.15, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
+                    <X className="w-3 h-3 text-muted-foreground" />
+                  </motion.button>
+                )}
+
+                <div className="flex items-center space-x-4">
+                  <div className={`p-2.5 sm:p-3 rounded-lg border shadow-sm transition-all duration-300 ${
+                    isSelected 
+                      ? "bg-background border-primary/30" 
+                      : "bg-background border-border/50 hover:border-primary/30 hover:shadow-md"
+                  }`}>
+                    {option.icon}
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className={`font-medium transition-colors ${
+                      isSelected ? "text-primary" : "text-foreground hover:text-primary"
+                    }`}>
+                      {option.name}
+                    </h3>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {option.description}
+                    </p>
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {isSelected && (
                     <motion.div
-                      whileHover={
-                        !isSelected
-                          ? {
-                              scale: 1.02,
-                              y: -1,
-                              transition: { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] },
-                            }
-                          : {}
-                      }
-                      whileTap={{ scale: 0.995, transition: { duration: 0.15 } }}
+                      initial={{ opacity: 0, height: 0, y: -10 }}
+                      animate={{ opacity: 1, height: "auto", y: 0 }}
+                      exit={{ opacity: 0, height: 0, y: -10 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="overflow-hidden"
                     >
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => handleMethodSelect(option.id)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            handleMethodSelect(option.id)
-                          }
-                        }}
-                        className={`relative w-full p-4 sm:p-5 rounded-lg border transition-all duration-300 group cursor-pointer ${
-                          isSelected
-                            ? "border-primary/30 shadow-lg  hover:shadow-md hover:bg-muted/10"
-                            : "border-border/50 hover:border-primary/30 hover:shadow-md hover:bg-muted/10"
-                        }`}
-                      >
-                        {isSelected && (
-                          <motion.button
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleClose()
-                            }}
-                            className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 hover:bg-background border border-border/50 shadow-sm hover:shadow-md transition-all duration-200 z-20"
-                            initial={{ scale: 0, rotate: -45 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ delay: 0.15, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <X className="w-3 h-3 text-muted-foreground" />
-                          </motion.button>
-                        )}
-
-                        <div className="flex items-center space-x-4">
-                          <motion.div
-                            className={`p-2.5 sm:p-3 rounded-lg border shadow-sm transition-all duration-300 ${
-                              isSelected 
-                                ? "bg-background border-primary/30" 
-                                : "bg-background border-border/50 group-hover:border-primary/30 group-hover:shadow-md"
-                            }`}
-                            whileHover={!isSelected ? { rotate: [0, -2, 2, 0], scale: 1.05 } : {}}
-                            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                          >
-                            {option.icon}
-                          </motion.div>
-                          <div className="flex-1 text-left">
-                            <h3 className={`font-semibold transition-colors ${
-                              isSelected ? "text-primary" : "text-foreground group-hover:text-primary"
-                            }`}>
-                              {option.name}
-                            </h3>
-                            <p className="text-sm text-muted-foreground group-hover:text-muted-foreground/80 transition-colors">
-                              {option.description}
-                            </p>
-                          </div>
-                          {isSelected && (
-                            <motion.div
-                              initial={{ scale: 0, rotate: -45 }}
-                              animate={{ scale: 1, rotate: 0 }}
-                              transition={{ delay: 0.2, duration: 0.3 }}
-                            >
-                            </motion.div>
-                          )}
-                        </div>
-
-                        <AnimatePresence>
-                          {isSelected && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0, y: -10 }}
-                              animate={{ height: "auto", opacity: 1, y: 0 }}
-                              exit={{ height: 0, opacity: 0, y: -10 }}
-                              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                              className="overflow-hidden"
-                            >
-                              <Separator className="my-4 bg-gradient-to-r from-transparent via-border to-transparent" />
-                              <motion.div
-                                initial={{ y: -8 }}
-                                animate={{ y: 0 }}
-                                transition={{ delay: 0.1, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                              >
-                                {renderForm(option.id)}
-                              </motion.div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                      <div className="mt-4">
+                        {renderForm(option.id)}
                       </div>
                     </motion.div>
-                  </motion.div>
-                )
-              })}
-            </AnimatePresence>
-          </div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )
+          })}
+        </AnimatePresence>
 
-          <AnimatePresence>
-            {!selectedMethod && (
-              <motion.div
-                initial={{ y: 8, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 8, opacity: 0 }}
-                transition={{ delay: 0.4, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              whileHover={{ scale: 1.005 }}
-              whileTap={{ scale: 0.995 }}
-              >
-                <Button
-                className="w-full mt-6"
-                >
-                  <span>Select Payment Method</span>
+        <AnimatePresence>
+          {!selectedMethod && (
+            <motion.div
+              initial={{ y: 8, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 8, opacity: 0 }}
+              transition={{ delay: 0.4, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <Button disabled className="w-full mt-4">
+                <span>Select Payment Method</span>
                 <span>→</span>
-                </Button>
-              </motion.div>
-            )}
-            {selectedMethod && (
-              <motion.div
-                initial={{ y: 8, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 8, opacity: 0 }}
-                transition={{ delay: 0.4, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              whileHover={{ scale: 1.005 }}
-              whileTap={{ scale: 0.995 }}
+              </Button>
+            </motion.div>
+          )}
+          {selectedMethod && (
+            <motion.div
+              initial={{ y: 8, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 8, opacity: 0 }}
+              transition={{ delay: 0.4, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <Button
+                className="w-full mt-4"
+                onClick={() => {
+                  if (onProceed) onProceed(selectedMethod, formData)
+                }}
               >
-                <Button
-                className="w-full mt-6"
-                  onClick={() => {
-                    if (onProceed) onProceed(selectedMethod, formData)
-                  }}
-                >
-                  <span>Proceed with Payment</span>
+                <span>Proceed with Payment</span>
                 <ArrowRight className="w-4 h-4" />
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </CardContent>
-      </Card>
-    </motion.div>
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </CardContent>
+    </Card>
   )
 }
 
