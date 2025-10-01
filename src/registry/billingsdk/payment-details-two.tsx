@@ -11,7 +11,8 @@ import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from 'motion/react'
-import { getAllCountries ,getStatesOfCountry, getCitiesOfState }  from 'country-state-city';
+import {Country, State, City} from 'country-state-city'
+
 
 export interface PaymentFormData {
   nameOnCard?: string
@@ -86,15 +87,12 @@ export function PaymentDetailsTwo({
     },
   })
 
-
-
   useEffect(() => {
     // fetch all countries
     if(countries && countries?.length > 0){
       setDefaultCountries(countries)
     }else{
-      const countryData = getAllCountries()
-      console.log("country data ",countryData)
+      const countryData = Country.getAllCountries()
       setDefaultCountries(countryData)
     }
   }, [])
@@ -104,8 +102,7 @@ export function PaymentDetailsTwo({
       setDefaultStates(states)
     }
     else{
-        const stateData =  getStatesOfCountry(selectedCountry)
-        console.log("state",stateData)
+        const stateData =  State.getStatesOfCountry(selectedCountry)
         setDefaultStates(stateData)
     }
   },[selectedCountry])
@@ -117,8 +114,7 @@ export function PaymentDetailsTwo({
       setDefaultCities(cities)
     }
     else{
-      const cityData = getCitiesOfState(selectedCountry ,selectedState)
-      console.log("city" , cityData)
+      const cityData = City.getCitiesOfState(selectedCountry ,selectedState)
       setDefaultCities(cityData)
     }
    
