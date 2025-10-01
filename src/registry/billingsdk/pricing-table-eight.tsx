@@ -238,7 +238,7 @@ export function PricingTableEight({
         </div>
 
         {/* User Slider */}
-        <div className="mx-auto mt-12 max-w-md">
+        <div className="mx-auto mt-12 max-w-md px-4">
           <div className="relative">
             <Slider value={sliderValue} max={25} min={1} step={1} className="w-full" disabled />
             <div className="mt-2 text-center">
@@ -249,8 +249,7 @@ export function PricingTableEight({
 
         {/* Pricing Cards */}
         <div className="mt-16">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
-            <div></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {plans.map((plan) => (
               <motion.div
                 key={plan.id}
@@ -309,7 +308,7 @@ export function PricingTableEight({
           </div>
 
           {/* Feature Comparison Table */}
-          <div className="overflow-hidden rounded-lg border bg-card">
+          <div className="overflow-x-auto overflow-hidden rounded-lg border bg-card">
             <AnimatePresence mode="wait">
               {features.map((category, categoryIndex) => (
                 <motion.div
@@ -321,7 +320,7 @@ export function PricingTableEight({
                   {categoryIndex > 0 && <div className="border-t" />}
 
                   {/* Category Header */}
-                  <div className="bg-muted/50 px-6 py-4">
+                  <div className="bg-muted/50 px-4 sm:px-6 py-4">
                     <h3 className="text-sm font-semibold text-foreground">{category.category}</h3>
                   </div>
 
@@ -330,19 +329,40 @@ export function PricingTableEight({
                     <div
                       key={feature.name}
                       className={cn(
-                        "grid grid-cols-1 lg:grid-cols-4 gap-4 px-6 py-4",
+                        "px-4 sm:px-6 py-4",
                         featureIndex > 0 && "border-t border-border/50",
                       )}
                     >
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm text-foreground">{feature.name}</span>
-                        {feature.tooltip && <Info className="h-4 w-4 text-muted-foreground" />}
-                      </div>
-                      {plans.map((plan) => (
-                        <div key={plan.id} className="flex items-center justify-center">
-                          {renderFeatureValue(feature[plan.id])}
+                      {/* Mobile Layout */}
+                      <div className="block sm:hidden">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <span className="text-sm text-foreground font-medium">{feature.name}</span>
+                          {feature.tooltip && <Info className="h-4 w-4 text-muted-foreground" />}
                         </div>
-                      ))}
+                        <div className="space-y-2">
+                          {plans.map((plan) => (
+                            <div key={plan.id} className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground">{plan.name}</span>
+                              <div className="flex items-center">
+                                {renderFeatureValue(feature[plan.id])}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Desktop Layout - Match pricing cards grid */}
+                      <div className="hidden sm:grid sm:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))] lg:grid-cols-4 gap-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm text-foreground font-medium">{feature.name}</span>
+                          {feature.tooltip && <Info className="h-4 w-4 text-muted-foreground" />}
+                        </div>
+                        {plans.map((plan) => (
+                          <div key={plan.id} className="flex items-center justify-center">
+                            {renderFeatureValue(feature[plan.id])}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </motion.div>
@@ -351,8 +371,7 @@ export function PricingTableEight({
           </div>
 
           {/* Bottom CTA Buttons */}
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
-            <div></div>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {plans.map((plan) => (
               <Button
                 key={plan.id}
