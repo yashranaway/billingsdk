@@ -352,7 +352,7 @@ export function PricingTableEight({
                       </div>
                       
                       {/* Desktop Layout - Match pricing cards grid */}
-                      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <div className="hidden sm:grid sm:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))] lg:grid-cols-4 gap-4">
                         <div className="flex items-center space-x-2">
                           <span className="text-sm text-foreground font-medium">{feature.name}</span>
                           {feature.tooltip && <Info className="h-4 w-4 text-muted-foreground" />}
