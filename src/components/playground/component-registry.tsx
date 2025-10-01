@@ -19,6 +19,7 @@ import { PricingTableFive } from "@/components/billingsdk/pricing-table-five";
 import { PricingTableSix } from "@/components/billingsdk/pricing-table-six";
 import { PricingTableSeven } from "@/components/billingsdk/pricing-table-seven";
 import { PricingTableEight } from "@/components/billingsdk/pricing-table-eight";
+import { PaymentDetailsTwo } from "../billingsdk/payment-details-two";
 
 export const componentRegistry: ComponentConfig[] = [
   {
@@ -2204,6 +2205,30 @@ export const componentRegistry: ComponentConfig[] = [
   onSelect={(id) => console.log("Selected:", id)}
   onAddNew={() => console.log("Add new method")}
 />`,
+    defaultProps: {
+      methods: [
+        { id: "card_1", type: "card", last4: "4242", brand: "visa", expiry: "12/25" },
+        { id: "card_2", type: "card", last4: "5555", brand: "mastercard", expiry: "06/26" },
+      ],
+      selectedMethod: "card_1",
+      onSelect: (id: string) => console.log("Selected:", id),
+      onAddNew: () => console.log("Add new method"),
+    },
+  },
+  {
+    id: "payment-details-two",
+    name: "Payment Details Two",
+    description: "Payment details form with custom validation",
+    category: "ui",
+    component: PaymentDetailsTwo,
+    imports: ["@/components/billingsdk/payment-details-two"],
+    defaultCode: `<PaymentDetailsTwo
+    onSubmit={handleSubmit}
+    onDiscard={handleDiscard}
+    countries={["India", "United States", "United Kingdom", "Canada", "Australia"]}
+    states={["Bihar", "Karnataka", "Maharashtra"]}
+    cities={["Patna", "Bangalore", "Mumbai"]}
+  />`,
     defaultProps: {
       methods: [
         { id: "card_1", type: "card", last4: "4242", brand: "visa", expiry: "12/25" },
