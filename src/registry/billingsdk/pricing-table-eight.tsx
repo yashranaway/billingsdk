@@ -351,14 +351,14 @@ export function PricingTableEight({
                         </div>
                       </div>
                       
-                      {/* Desktop Layout */}
-                      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div className="flex items-center space-x-2 sm:col-span-2 lg:col-span-1">
+                      {/* Desktop Layout - Match pricing cards grid */}
+                      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="flex items-center space-x-2">
                           <span className="text-sm text-foreground font-medium">{feature.name}</span>
                           {feature.tooltip && <Info className="h-4 w-4 text-muted-foreground" />}
                         </div>
                         {plans.map((plan) => (
-                          <div key={plan.id} className="flex items-center justify-center sm:justify-start lg:justify-center">
+                          <div key={plan.id} className="flex items-center justify-center">
                             {renderFeatureValue(feature[plan.id])}
                           </div>
                         ))}
