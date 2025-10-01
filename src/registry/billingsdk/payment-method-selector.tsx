@@ -306,7 +306,7 @@ export function PaymentMethodSelector({ onProceed }: PaymentMethodSelectorProps)
                 onClick={() => handleMethodSelect(option.id)}
                 className={`p-4 rounded-lg border transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer ${
                   isSelected
-                    ? "border-primary bg-gradient-to-br from-muted/60 to-muted/30 shadow-md"
+                    ? "border-primary shadow-md"
                     : "border-border hover:border-primary/50"
                 }`}
               >
