@@ -183,7 +183,7 @@ function PaymentMethodCard({
                 variant="ghost"
                 size="sm"
                 onClick={handleRemove}
-                className=" h-8 px-3 transition-all duration-200 text-destructive hover:bg-destructive/10 hover:text-destructive border border-input"
+                className="h-8 px-3 transition-all duration-200 text-destructive hover:bg-destructive/10 hover:text-destructive border border-input"
                 aria-label={`Remove ${method.type === "credit" ? "credit card" : "ACH account"} ending in ${method.last4}`}
               >
                 <Trash2 className="h-3 w-3" />
@@ -205,7 +205,7 @@ function PaymentMethodCard({
                   className="gap-1 h-8 px-3 shadow-sm hover:shadow-md transition-all duration-200"
                   aria-label={`Set as default payment method`}
                 >
-                  <span className="sm:inline">Set Default</span>
+                  <span>Set Default</span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Set as default payment method</TooltipContent>
@@ -481,7 +481,7 @@ export function PaymentMethodManager({
     <TooltipProvider>
       <div className={cn("space-y-6", className)}>
         {/* Header Section */}
-        <Card className="">
+        <Card>
           <CardHeader className="px-3 sm:px-5">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
