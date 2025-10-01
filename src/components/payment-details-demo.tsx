@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { PaymentDetails, type PaymentFormData } from '@/components/billingsdk/payment-details'
+import { PaymentDetails, type PaymentFormData } from '@/registry/billingsdk/payment-details'
 
 export function PaymentDetailsDemo() {
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -30,9 +30,6 @@ export function PaymentDetailsDemo() {
         onDiscard={handleDiscard}
         showConfirmation={showConfirmation}
         onConfirmationClose={() => setShowConfirmation(false)}
-        countries={["India", "United States", "United Kingdom", "Canada", "Australia"]}
-        states={["Bihar", "Karnataka", "Maharashtra"]}
-        cities={["Patna", "Bangalore", "Mumbai"]}
       />
     </div>
   )
