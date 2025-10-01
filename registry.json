@@ -732,12 +732,15 @@
                 {
                     "path": "src/utils/card-validation.ts",
                     "type": "registry:component",
-                    "target": "components/billingsdk/card-validation.ts"
-                }
+                   "target": "utils/card-validation.ts"  
+                 }  
+                
             ],
             "dependencies": [
                 "lucide-react",
-                "react-hook-form"
+                "react-hook-form",
+                "motion",
+                "country-state-city"
             ],
             "registryDependencies": [
                 "button",

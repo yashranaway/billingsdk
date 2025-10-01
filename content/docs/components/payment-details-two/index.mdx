@@ -8,7 +8,7 @@ description: A comprehensive payment details form component with card details, b
 
 <Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
   <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
-    <PreviewComponents registryName="payment-details">
+    <PreviewComponents registryName="payment-details-two">
       <PaymentDetailsTwoDemo />
     </PreviewComponents>
   </Tab>
@@ -109,9 +109,6 @@ const handleSubmit = async (_data: PaymentFormData) => {
     <PaymentDetailsTwo
       onSubmit={handleSubmit}
       onDiscard={handleDiscard}
-      countries={["India", "United States", "United Kingdom", "Canada", "Australia"]}
-      states={["Bihar", "Karnataka", "Maharashtra"]}
-      cities={["Patna", "Bangalore", "Mumbai"]}
     />
   )
 }
@@ -127,9 +124,40 @@ The PaymentDetails component accepts the following props:
 | `className` | `string` | ❌ | Additional CSS classes for styling |
 | `onSubmit` | `(data: PaymentFormData) => void \| Promise<void>` | ❌ | Callback when form is submitted |
 | `onDiscard` | `() => void` | ❌ | Callback when discard button is clicked |
-| `countries` | `string[]` | ❌ | List of countries for dropdown |
-| `states` | `string[]` | ❌ | List of states for dropdown |
-| `cities` | `string[]` | ❌ | List of cities for dropdown |
+| `countries` | `{name: string, isoCode: string}[]` | ❌ | List of countries for dropdown |
+| `states` | `{name: string, isoCode: string}[]` | ❌ | List of states for dropdown |
+| `cities` | `{name: string}[]` | ❌ | List of cities for dropdown |
+
+
+
+## Pass custom countries, states and cities
+
+You can provide custom countries, states, and cities by passing them as arrays of objects in the following format:
+```tsx
+<PaymentDetailsTwo
+  onSubmit={handleSubmit}
+  onDiscard={handleDiscard}
+  countries={[
+  { name: "India", isoCode: "IN" },
+  { name: "United States", isoCode: "US" },
+  { name: "United Kingdom", isoCode: "GB" },
+  { name: "Canada", isoCode: "CA" },
+  { name: "Australia", isoCode: "AU" },
+  ]}
+  states={[
+    { name: "Bihar", isoCode: "BR" },
+    { name: "Karnataka", isoCode: "KA" },
+    { name: "Maharashtra", isoCode: "MH" },
+  ]}
+  cities={[
+    { name: "Patna", },
+    { name: "Bangalore",},
+    { name: "Mumbai",},
+  ]}
+/>
+```
+**Important**: If you choose to override with custom data, you must provide all three props (countries, states, and cities) together to ensure the dropdowns work correctly. If not provided, the component will fall back to the default data from country-state-city.
+
 
 
 ## PaymentFormData Interface
@@ -150,6 +178,8 @@ interface PaymentFormData {
   billingAddress?: string;
   pinCode?: string;
   contactNumber?: string;
+  general? : string
+
 }
 ```
 
@@ -191,7 +221,7 @@ The component automatically detects and displays the appropriate card type:
 The component includes comprehensive client-side validation:
 
 ### Field Requirements
-- **Card Number**: Minimum 13 digits, maximum 16 digits
+- **Card Number**: Maximum 16 digits
 - **Expiry Date**: MM/YY format (e.g., 12/25)
 - **CVV**: 3-4 digits depending on card type
 - **PIN Code**: Exactly 6 digits
