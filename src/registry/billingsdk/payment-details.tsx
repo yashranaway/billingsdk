@@ -5,7 +5,7 @@ import { Calendar, Shield, Check, CreditCard } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/contexts/theme-context"
 import { getThemeStyles } from "@/lib/themes"
-import {Country, State, City, ICountry, IState, ICity} from 'country-state-city'
+import {Country, State, City, IState, ICity} from 'country-state-city'
 /**
  * Detects the card type based on the card number
  * @param cardNumber - The card number to analyze
