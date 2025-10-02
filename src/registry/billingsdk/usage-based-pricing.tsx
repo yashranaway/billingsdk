@@ -43,7 +43,6 @@ export function UsageBasedPricing({
   currency = "$",
   basePrice = 39.99,
   includedCredits = 4000,
-  unitPricePerCredit = 0.01,
   title = "Pay as you use pricing",
   subtitle = "Start with a flat monthly rate that includes 4,000 credits.",
 }: UsageBasedPricingProps) {
@@ -108,9 +107,6 @@ export function UsageBasedPricing({
   const pct = posPct
   // unified tick count used everywhere
   const tickCount = useMemo(() => Math.max(80, Math.floor((trackWidth || 1) / 6)), [trackWidth])
-  const currentTickIndex = useMemo(() => {
-    return Math.round((posPct / 100) * (tickCount - 1))
-  }, [posPct, tickCount])
   const currentTickIndexFloat = useMemo(() => (posPct / 100) * (tickCount - 1), [posPct, tickCount])
 
   const commitValue = (v: number, fireEnd = false) => {
@@ -220,14 +216,6 @@ export function UsageBasedPricing({
   const startLabel = `${formatNumber(firstThousand)} credits`
   const endLabel = `${formatNumber(lastThousand)} credits`
 
-  // Bubble position (clamped in px within track)
-  const bubbleLeftPx = useMemo(() => {
-    const pad = 16 // px padding to keep bubble inside
-    const w = trackWidth || 1
-    const x = (posPct / 100) * w
-    return clamp(x, pad, w - pad)
-  }, [posPct, trackWidth])
-
   // Keyboard Accessibility
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     let delta = 0
@@ -260,30 +248,30 @@ export function UsageBasedPricing({
 
   return (
     <div className={cn("w-full text-center", className)}>
-      <div className="space-y-10 max-w-[640px] mx-auto px-4">
-        <div className="space-y-6">
-          <h2 className="tracking-tight text-3xl md:text-5xl">{title}</h2>
+      <div className="space-y-9 sm:space-y-10 max-w-[640px] mx-auto px-4">
+        <div className="space-y-4 sm:space-y-6">
+          <h2 className="tracking-tight text-2xl sm:text-3xl md:text-5xl">{title}</h2>
           <p className="text-sm md:text-base text-muted-foreground">{subtitle}</p>
         </div>
 
         <Card className="mx-auto max-w-md shadow-xl">
-          <CardContent className="py-6">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-2xl border border-border/60 bg-background px-8 py-5 shadow-inner">
-              <span className="text-muted-foreground text-4xl">{currency}</span>
-              <motion.span className="font-semibold leading-none tracking-tight text-5xl md:text-6xl tabular-nums" aria-live="polite" aria-atomic="true">
+          <CardContent className="py-4 sm:py-6">
+            <div className="mx-auto inline-flex items-center gap-1 sm:gap-2 rounded-2xl border border-border/60 bg-background px-4 sm:px-8 py-3 sm:py-5 shadow-inner">
+              <span className="text-muted-foreground text-3xl sm:text-4xl">{currency}</span>
+              <motion.span className="font-semibold leading-none tracking-tight text-4xl sm:text-5xl md:text-6xl tabular-nums" aria-live="polite" aria-atomic="true">
                 {priceText}
               </motion.span>
             </div>
-            <p className="mt-6 text-sm text-muted-foreground max-w-xl mx-auto">
+            <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto px-2 sm:px-0">
               This pricing scales as your automations do. No surprises – just usage. Use the slider to preview your monthly cost. Custom pricing available.
             </p>
           </CardContent>
         </Card>
 
-        <div className="mx-auto w-full mt-8 md:mt-16">
-          <div className="mb-2 relative h-0">
-            <div className="absolute -top-8 md:-top-10" style={{ left: `${pct}%` }}>
-              <div className="-translate-x-1/2 rounded-full border bg-background px-3 py-1 text-xs shadow-sm">
+        <div className="mx-auto w-full mt-6 sm:mt-8 md:mt-16">
+          <div className="mb-4 sm:mb-6 relative h-0">
+            <div className="absolute -top-8 sm:-top-10" style={{ left: `${pct}%` }}>
+              <div className="-translate-x-1/2 rounded-full border bg-background px-2 sm:px-3 py-1 text-xs shadow-sm">
                 {formatNumber(value)}
               </div>
             </div>
@@ -291,7 +279,7 @@ export function UsageBasedPricing({
 
           <div
             ref={trackRef}
-            className="relative h-14 select-none"
+            className="relative h-12 sm:h-14 select-none"
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
@@ -322,10 +310,6 @@ export function UsageBasedPricing({
                 const spread = 2 // influence range (in ticks)
                 const factor = Math.max(0, 1 - distFloat / spread)
                 // extra boost for ticks that align with 1,000-credit multiples
-                const valuePerTick = (max - min) / (tickCount - 1)
-                const approxValue = min + (i / (tickCount - 1)) * (max - min)
-                const nearestThousand = Math.round(approxValue / 1000) * 1000
-                const isThousandTick = Math.abs(approxValue - nearestThousand) <= valuePerTick * 0.5
                 const thousandBoost = 0
                 const height = base + peak * factor + thousandBoost
                 // color bands similar to before
@@ -403,9 +387,9 @@ export function UsageBasedPricing({
 
           </div>
 
-          <div className="mt-2 relative h-5 text-xs text-muted-foreground">
-            <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: firstLeftPct }}>{startLabel}</span>
-            <span className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: lastLeftPct }}>{endLabel}</span>
+          <div className="mt-3 relative h-4 sm:h-5 text-xs text-muted-foreground">
+            <span className="absolute -translate-x-1/2 whitespace-nowrap text-[10px] sm:text-xs" style={{ left: firstLeftPct }}>{startLabel}</span>
+            <span className="absolute -translate-x-1/2 whitespace-nowrap text-[10px] sm:text-xs" style={{ left: lastLeftPct }}>{endLabel}</span>
           </div>
         </div>
       </div>

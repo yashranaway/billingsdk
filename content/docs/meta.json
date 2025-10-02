@@ -14,6 +14,7 @@
     "components/pricing-table/pricing-table-five",
     "components/pricing-table/pricing-table-six",
     "components/pricing-table/pricing-table-seven",
+    "components/pricing-table/pricing-table-eight",
     "---Subscription Management---",
     "components/manage-subscription/index",
     "components/manage-subscription/usage-based-pricing",
@@ -34,6 +35,7 @@
     "components/billing-summary-card/index",
     "components/usage-meter/usage-meter-circle",
     "components/usage-meter/usage-meter-linear",
+    "components/detailed-usage-table/index",
     "components/upcoming-charges/index",
     "---Banner---",
     "components/banner/index",
@@ -43,6 +45,7 @@
 		"components/payment-success-dialog/index",
 		"components/payment-method-selector/index",
 		"components/payment-method-manager/index",
+		"components/payment-card/index",
 		"---Configuration---",
 		"interfaces",
 		"theming"

@@ -14,9 +14,11 @@ import { UsageMeter } from "@/components/billingsdk/usage-meter";
 import { UsageTable } from "@/components/billingsdk/usage-table";
 import { InvoiceHistory } from "@/components/billingsdk/invoice-history";
 import { PaymentMethodSelector } from "@/components/billingsdk/payment-method-selector";
+import { PaymentCard } from "@/components/billingsdk/payment-card";
 import { PricingTableFive } from "@/components/billingsdk/pricing-table-five";
 import { PricingTableSix } from "@/components/billingsdk/pricing-table-six";
 import { PricingTableSeven } from "@/components/billingsdk/pricing-table-seven";
+import { PricingTableEight } from "@/components/billingsdk/pricing-table-eight";
 
 export const componentRegistry: ComponentConfig[] = [
   {
@@ -1095,6 +1097,242 @@ export const componentRegistry: ComponentConfig[] = [
     },
   },
   {
+    id: "pricing-table-eight",
+    name: "Pricing Table Eight",
+    description: "Feature-comparison pricing table with aligned cards and user slider",
+    category: "pricing",
+    component: PricingTableEight,
+    imports: ["@/components/billingsdk/pricing-table-eight"],
+    defaultCode: `<PricingTableEight
+  plans={[
+    {
+      id: "basic",
+      name: "Basic plan",
+      description: "Our most popular plan.",
+      price: 10,
+      users: 5,
+      popular: false,
+    },
+    {
+      id: "business",
+      name: "Business plan",
+      description: "Best for growing teams.",
+      price: 20,
+      users: 15,
+      popular: true,
+    },
+    {
+      id: "enterprise",
+      name: "Enterprise plan",
+      description: "Best for large teams.",
+      price: 40,
+      users: "25+",
+      popular: false,
+    },
+  ]}
+  features={[
+    {
+      category: "Overview",
+      items: [
+        {
+          name: "Basic features",
+          tooltip: true,
+          basic: true,
+          business: true,
+          enterprise: true,
+        },
+        {
+          name: "Users",
+          tooltip: true,
+          basic: "10",
+          business: "20",
+          enterprise: "Unlimited",
+        },
+      ],
+    },
+  ]}
+  title="Choose a plan that's right for you"
+  description="We believe Untitled should be accessible to all companies, no matter the size of your startup."
+  onPlanSelect={(planId) => console.log('Selected plan:', planId)}
+  size="medium"
+  theme="minimal"
+/>`,
+    defaultProps: {
+      plans: [
+        {
+          id: "basic",
+          name: "Basic plan",
+          description: "Our most popular plan.",
+          price: 10,
+          users: 5,
+          popular: false,
+        },
+        {
+          id: "business",
+          name: "Business plan",
+          description: "Best for growing teams.",
+          price: 20,
+          users: 15,
+          popular: true,
+        },
+        {
+          id: "enterprise",
+          name: "Enterprise plan",
+          description: "Best for large teams.",
+          price: 40,
+          users: "25+",
+          popular: false,
+        },
+      ],
+      features: [
+        {
+          category: "Overview",
+          items: [
+            {
+              name: "Basic features",
+              tooltip: true,
+              basic: true,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Users",
+              tooltip: true,
+              basic: "10",
+              business: "20",
+              enterprise: "Unlimited",
+            },
+            {
+              name: "Individual data",
+              tooltip: true,
+              basic: "20GB",
+              business: "40GB",
+              enterprise: "Unlimited",
+            },
+            {
+              name: "Support",
+              tooltip: true,
+              basic: true,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Automated workflows",
+              tooltip: true,
+              basic: false,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "200+ integrations",
+              tooltip: true,
+              basic: false,
+              business: true,
+              enterprise: true,
+            },
+          ],
+        },
+        {
+          category: "Reporting and analytics",
+          items: [
+            {
+              name: "Analytics",
+              tooltip: true,
+              basic: "Basic",
+              business: "Advanced",
+              enterprise: "Advanced",
+            },
+            {
+              name: "Export reports",
+              tooltip: true,
+              basic: true,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Scheduled reports",
+              tooltip: true,
+              basic: true,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "API access",
+              tooltip: true,
+              basic: false,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Advanced reports",
+              tooltip: true,
+              basic: false,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Saved reports",
+              tooltip: true,
+              basic: false,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Customer properties",
+              tooltip: true,
+              basic: false,
+              business: false,
+              enterprise: true,
+            },
+            {
+              name: "Custom fields",
+              tooltip: true,
+              basic: false,
+              business: false,
+              enterprise: true,
+            },
+          ],
+        },
+        {
+          category: "User access",
+          items: [
+            {
+              name: "SSO/SAML authentication",
+              tooltip: true,
+              basic: true,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Advanced permissions",
+              tooltip: true,
+              basic: false,
+              business: true,
+              enterprise: true,
+            },
+            {
+              name: "Audit log",
+              tooltip: true,
+              basic: false,
+              business: false,
+              enterprise: true,
+            },
+            {
+              name: "Data history",
+              tooltip: true,
+              basic: false,
+              business: false,
+              enterprise: true,
+            },
+          ],
+        },
+      ],
+      title: "Choose a plan that's right for you",
+      description: "We believe Untitled should be accessible to all companies, no matter the size of your startup.",
+      onPlanSelect: (planId: string) => console.log('Selected plan:', planId),
+    },
+  },
+  {
     id: "cancel-subscription-card",
     name: "Cancel Subscription Card",
     description: "Elegant subscription cancellation interface with confirmation flow",
@@ -1976,4 +2214,46 @@ export const componentRegistry: ComponentConfig[] = [
       onAddNew: () => console.log("Add new method"),
     },
   },
+  {
+    id: "payment-card",
+    name: "Payment Card",
+    description: "A comprehensive final payment interface for processing transactions with card details.",
+    category: "ui",
+    component: PaymentCard,
+    imports: ["@/components/billingsdk/payment-card"],
+    defaultCode: `<PaymentCard
+   title="Final step, make the payment."
+  description="To finalize your subscription, kindly complete your payment using a valid credit card."
+  price="100"
+  finalText={[
+    { text: "Automated billing & invoices" },
+    { text: "Priority support" },
+    { text: "Exclusive member benefits" },
+  ]}
+  feature="Payment & Invoice"
+  featuredescription="Automated billing and invoicing with detailed transaction records. Professional receipts delivered instantly to your email."
+  feature2="Priority Support"
+  feature2description="Get dedicated customer support with faster response times and direct access to our technical team for any issues."
+  onPay={async ({ cardNumber, expiry, cvc }) => {
+    console.log(\`Payment Processed! \${cardNumber}, exp \${expiry}, cvc \${cvc}\`);
+  }}
+  />`,
+    defaultProps: {
+      title: "Final step, make the payment.",
+      description: "To finalize your subscription, kindly complete your payment using a valid credit card.",
+      price: "100",
+      finalText: [
+        { text: "Automated billing & invoices" },
+        { text: "Priority support" },
+        { text: "Exclusive member benefits" },
+      ],
+      feature: "Payment & Invoice",
+      featuredescription: "Automated billing and invoicing with detailed transaction records. Professional receipts delivered instantly to your email.",
+      feature2: "Priority Support",
+      feature2description: "Get dedicated customer support with faster response times and direct access to our technical team for any issues.",
+      onPay: async ({ cardNumber, expiry, cvc }: { cardNumber: string; expiry: string; cvc: string }) => {
+        console.log(`Payment Processed! ${cardNumber}, exp ${expiry}, cvc ${cvc}`);
+      },
+    },
+  }
 ];
