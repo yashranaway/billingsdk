@@ -2,7 +2,7 @@ import { Command } from "commander";
 import { cancel, intro, isCancel, outro, select, spinner } from "@clack/prompts";
 import { addFiles } from "../scripts/add-files.js";
 import { detectFramework } from "../scripts/detect-framework.js";
-import { SupportedFramework, SupportedProvider, getAllowedProvidersForFramework, isValidCombination, supportedFrameworks } from "../config/matrix.js";
+import { SupportedFramework, SupportedProvider, getAllowedProvidersForFramework, isValidCombination, supportedFrameworks, supportedProviders } from "../config/matrix.js";
 
 export const initCommand = new Command()
   .name("init")
@@ -27,16 +27,29 @@ export const initCommand = new Command()
       let frameworkValue: SupportedFramework | null = null;
       let providerValue: SupportedProvider | null = null;
 
-      const flagFramework = opts?.framework as SupportedFramework | undefined;
-      const flagProvider = opts?.provider as SupportedProvider | undefined;
+      // Normalize flag values to lowercase and trim whitespace for case-insensitive comparison
+      const flagFrameworkRaw = opts?.framework as string | undefined;
+      const flagProviderRaw = opts?.provider as string | undefined;
+      
+      const flagFramework = flagFrameworkRaw ? flagFrameworkRaw.trim().toLowerCase() : undefined;
+      const flagProvider = flagProviderRaw ? flagProviderRaw.trim().toLowerCase() : undefined;
+      
       const nonInteractive = Boolean(opts?.yes);
 
-      if (flagFramework && supportedFrameworks.includes(flagFramework)) {
-        frameworkValue = flagFramework;
+      // Case-insensitive framework validation
+      if (flagFramework) {
+        const matchedFramework = supportedFrameworks.find((fw: SupportedFramework) => fw.toLowerCase() === flagFramework);
+        if (matchedFramework) {
+          frameworkValue = matchedFramework;
+        }
       }
 
-      if (flagProvider === "dodopayments" || flagProvider === "stripe") {
-        providerValue = flagProvider;
+      // Case-insensitive provider validation
+      if (flagProvider) {
+        const matchedProvider = supportedProviders.find((p: SupportedProvider) => p.toLowerCase() === flagProvider);
+        if (matchedProvider) {
+          providerValue = matchedProvider;
+        }
       }
 
       if (nonInteractive) {
