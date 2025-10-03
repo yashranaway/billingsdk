@@ -197,7 +197,7 @@ export function PricingTableEight({
 }: PricingTableEightProps) {
   const [selectedPlan, setSelectedPlan] = useState(plans.find(p => p.popular)?.id || plans[0]?.id || "");
 
-  const [sliderValue, setSliderValue] = useState<number[]>([25])
+  const [sliderValue, setSliderValue] = useState<number[]>([plans.find(p => p.popular)?.users || 0])
 
   const renderFeatureValue = (value: boolean | string | undefined) => {
     if (typeof value === "boolean") {
