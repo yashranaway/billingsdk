@@ -866,6 +866,29 @@
             ]
         },
         {
+            "name": "usage-table",
+            "type": "registry:block",
+            "title": "Usage Table",
+            "description": "A usage table component with resource consumption breakdown",
+            "files": [
+                {
+                    "path": "src/registry/billingsdk/usage-table.tsx",
+                    "type": "registry:component",
+                    "target": "components/billingsdk/usage-table.tsx"
+                },
+                {
+                    "path": "src/registry/billingsdk/demo/usage-table-demo.tsx",
+                    "type": "registry:component",
+                    "target": "components/usage-table-demo.tsx"
+                }
+            ],
+            "registryDependencies": [
+                "table",
+                "card",
+                "utils"
+            ]
+        },
+        {
             "name": "upcoming-charges",
             "type": "registry:block",
             "title": "Upcoming Charges",
