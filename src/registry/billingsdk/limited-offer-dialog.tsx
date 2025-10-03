@@ -36,7 +36,7 @@ export interface LimitedOfferDialogProps {
 
 // Default offer object
 const defaultOffer: Offer = {
-  id: "limited-time-offer",
+  id: "limited-offer-dialog",
   title: "Special Offer",
   description: "Limited time deal",
   discount: "50% OFF",
