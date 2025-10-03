@@ -15,7 +15,7 @@ const sectionVariants = cva("py-32", {
   variants: {
     size: {
       small: "py-6 md:py-12",
-      medium: "py-10 md:py-20", 
+      medium: "py-10 md:py-20",
       large: "py-16 md:py-32",
     },
     theme: {
@@ -90,7 +90,7 @@ const cardVariants = cva(
         className: "border-indigo-600 shadow-lg ring-2 ring-indigo-600",
       },
       {
-        theme: "minimal", 
+        theme: "minimal",
         selected: false,
         className: "hover:border-muted-foreground",
       },
@@ -161,7 +161,7 @@ export interface PricingTableEightPlan {
   name: string;
   description: string;
   price: number;
-  users: number | string;
+  users: number;
   popular?: boolean;
 }
 
@@ -185,7 +185,7 @@ export interface PricingTableEightProps extends VariantProps<typeof sectionVaria
   className?: string;
 }
 
-export function PricingTableEight({ 
+export function PricingTableEight({
   className,
   plans,
   features,
@@ -197,8 +197,7 @@ export function PricingTableEight({
 }: PricingTableEightProps) {
   const [selectedPlan, setSelectedPlan] = useState(plans.find(p => p.popular)?.id || plans[0]?.id || "");
 
-  const currentPlan = plans.find((plan) => plan.id === selectedPlan) || plans[0];
-  const sliderValue = [typeof currentPlan?.users === "string" ? 25 : (currentPlan?.users || 1)];
+  const [sliderValue, setSliderValue] = useState<number[]>([25])
 
   const renderFeatureValue = (value: boolean | string | undefined) => {
     if (typeof value === "boolean") {
@@ -240,9 +239,12 @@ export function PricingTableEight({
         {/* User Slider */}
         <div className="mx-auto mt-12 max-w-md px-4">
           <div className="relative">
-            <Slider value={sliderValue} max={25} min={1} step={1} className="w-full" disabled />
+            <Slider value={sliderValue} onValueChange={(e) => {
+              setSliderValue(e)
+              setSelectedPlan(plans.filter(plan => plan.users >= e[0])[0]?.id || plans.find(plan => plan.popular)?.id!)
+            }} max={25} min={1} step={1} className="w-full" />
             <div className="mt-2 text-center">
-              <span className="text-sm font-medium text-foreground">{currentPlan?.users} users</span>
+              <span className="text-sm font-medium text-foreground">{sliderValue} users</span>
             </div>
           </div>
         </div>
@@ -259,10 +261,10 @@ export function PricingTableEight({
               >
                 <Card
                   className={cn(
-                    cardVariants({ 
-                      size, 
-                      theme, 
-                      selected: selectedPlan === plan.id 
+                    cardVariants({
+                      size,
+                      theme,
+                      selected: selectedPlan === plan.id
                     })
                   )}
                   onClick={() => handlePlanSelect(plan.id)}
@@ -271,7 +273,7 @@ export function PricingTableEight({
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                       <Badge className={cn(
                         "px-4 py-1 text-sm font-medium rounded-md shadow-sm",
-                        theme === "classic" 
+                        theme === "classic"
                           ? "bg-gradient-to-r from-indigo-600 to-indigo-700 text-white border-indigo-600/20"
                           : "bg-indigo-600 hover:bg-indigo-700 text-white"
                       )}>
@@ -285,7 +287,7 @@ export function PricingTableEight({
                     <div className="mt-4">
                       <span className={cn(
                         "text-4xl font-bold",
-                        theme === "classic" 
+                        theme === "classic"
                           ? "bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
                           : "text-foreground"
                       )}>
@@ -309,7 +311,7 @@ export function PricingTableEight({
 
           {/* Feature Comparison Table */}
           <div className="overflow-x-auto overflow-hidden rounded-lg border bg-card">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {features.map((category, categoryIndex) => (
                 <motion.div
                   key={category.category}
@@ -350,7 +352,7 @@ export function PricingTableEight({
                           ))}
                         </div>
                       </div>
-                      
+
                       {/* Desktop Layout - Match pricing cards grid */}
                       <div className="hidden sm:grid sm:grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))] lg:grid-cols-4 gap-4">
                         <div className="flex items-center space-x-2">
