@@ -703,7 +703,8 @@
                 }
             ],
             "dependencies": [
-                "lucide-react"
+              "lucide-react",
+              "country-state-city"
             ],
             "registryDependencies": [
                 "button",
