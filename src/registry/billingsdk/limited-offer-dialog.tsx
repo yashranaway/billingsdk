@@ -132,7 +132,16 @@ export function LimitedOfferDialog({
   }, [isOpen]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (open) {
+          setIsOpen(true);
+        } else {
+          handleDialogClose();
+        }
+      }}
+    >
       <DialogTrigger asChild>
         <Button variant="outline" className={className}>
           {triggerButtonText}
