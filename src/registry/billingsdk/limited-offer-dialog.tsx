@@ -22,7 +22,7 @@ export interface Offer {
 export interface LimitedOfferDialogProps {
   title?: string;
   description?: string;
-  offer: Offer;
+  offer?: Offer;
   triggerButtonText?: string;
   warningTitle?: string;
   warningText?: string;
