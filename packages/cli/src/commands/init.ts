@@ -113,13 +113,6 @@ export const initCommand = new Command()
         const providerIsAllowed = providerValue ? allowedProviders.includes(providerValue) : false;
 
         if (!providerValue || !providerIsAllowed) {
-          if (providerValue && !providerIsAllowed && nonInteractive) {
-            cancel(
-              `Invalid provider for selected framework. Allowed providers: ${allowedProviders.join(", ")}`
-            );
-            process.exit(1);
-          }
-
           const providerChoice = await select({
             message: "Which payment provider would you like to use? (Adding more providers soon)",
             options: allowedProviders.map((p) => ({ 
