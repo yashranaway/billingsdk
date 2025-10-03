@@ -270,10 +270,8 @@
                 "button",
                 "card",
                 "badge",
-                "switch",
                 "radio-group",
                 "label",
-                "separator",
                 "utils"
             ]
         },
