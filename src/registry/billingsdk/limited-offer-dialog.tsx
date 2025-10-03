@@ -5,6 +5,9 @@ import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Circle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/contexts/theme-context";
+import { getThemeStyles } from "@/lib/themes";
 
 // Plan interface for type safety
 export interface Offer {
@@ -62,6 +65,10 @@ export function LimitedOfferDialog({
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  
+  // Theme integration
+  const { currentTheme, previewDarkMode } = useTheme();
+  const themeStyles = getThemeStyles(currentTheme, previewDarkMode);
 
   // Event handlers
   const handleClaimOffer = async () => {
@@ -131,7 +138,7 @@ export function LimitedOfferDialog({
           {triggerButtonText}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-lg p-0 gap-0">
+      <DialogContent className={cn("max-w-[calc(100vw-2rem)] sm:max-w-lg p-0 gap-0", className)} style={themeStyles}>
         <div className="space-y-6 p-6">
           {/* Dialog Title for accessibility */}
           <DialogTitle className="sr-only">
