@@ -40,6 +40,17 @@ const cardVariants = cva("transition-all duration-300", {
   },
 });
 
+/**
+ * Props for `ProrationPreview`.
+ *
+ * Combines visual variants from `prorationPreviewVariants` with
+ * the billing context needed to compute proration math.
+ *
+ * - `currentPlan` and `newPlan` supply pricing and labels
+ * - `billingCycle` controls the target cycle for the new plan
+ * - `daysRemaining` and `effectiveDate` influence credit/charge math
+ * - `onConfirm`/`onCancel` wire user actions
+ */
 export interface ProrationPreviewProps extends VariantProps<typeof prorationPreviewVariants> {
   className?: string;
   currentPlan: CurrentPlan;
@@ -53,6 +64,37 @@ export interface ProrationPreviewProps extends VariantProps<typeof prorationPrev
   cancelText?: string;
 }
 
+/**
+ * ProrationPreview
+ *
+ * Renders a detailed, accessible preview of billing changes when a user switches
+ * subscription plans. It calculates and displays credits for unused time,
+ * prorated charges for the new plan, and the resulting net amount, with clear
+ * visual hierarchy and responsive styles.
+ *
+ * Key UI sections:
+ * - From/To plan summary with upgrade/downgrade badges
+ * - Billing breakdown (credit, prorated charge, net amount)
+ * - Timeline note describing when changes take effect
+ * - Primary/secondary actions to confirm or cancel
+ *
+ * Props accept both monthly and yearly cycles and support custom pricing
+ * scenarios (e.g., enterprise). Visual appearance can be adjusted via
+ * `theme` and `size` variants.
+ *
+ * @param props.className Optional container className override.
+ * @param props.currentPlan Current subscription context including plan and cycle.
+ * @param props.newPlan Target plan the user is moving to.
+ * @param props.billingCycle Billing cycle for the new plan (monthly/yearly).
+ * @param props.daysRemaining Remaining days in the current cycle (defaults to 15).
+ * @param props.effectiveDate When the change takes effect (e.g., "immediately" or "next billing cycle").
+ * @param props.onConfirm Callback invoked when user confirms the change.
+ * @param props.onCancel Callback invoked when user cancels the change.
+ * @param props.confirmText Custom label for the confirm action.
+ * @param props.cancelText Custom label for the cancel action.
+ * @param props.theme Visual theme variant (minimal | classic). Defaults to minimal.
+ * @param props.size Component size (small | medium | large). Defaults to medium.
+ */
 export function ProrationPreview({
   className,
   currentPlan,
