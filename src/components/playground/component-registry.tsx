@@ -2261,7 +2261,7 @@ export const componentRegistry: ComponentConfig[] = [
     id: "limited-offer-dialog",
     name: "Limited Offer Dialog",
     description: "A dialog component for displaying limited-time offers with customizable content and actions",
-    category: "ui",
+    category: "subscription",
     component: LimitedOfferDialog,
     imports: ["@/components/billingsdk/limited-offer-dialog"],
     defaultCode: `<LimitedOfferDialog
