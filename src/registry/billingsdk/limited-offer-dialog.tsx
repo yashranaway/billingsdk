@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Circle } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 // Plan interface for type safety
 export interface Offer {

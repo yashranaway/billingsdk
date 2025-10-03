@@ -2256,5 +2256,81 @@ export const componentRegistry: ComponentConfig[] = [
         console.log(`Payment Processed! ${cardNumber}, exp ${expiry}, cvc ${cvc}`);
       },
     },
+  },
+  {
+    id: "limited-offer-dialog",
+    name: "Limited Offer Dialog",
+    description: "A dialog component for displaying limited-time offers with customizable content and actions",
+    category: "ui",
+    component: LimitedOfferDialog,
+    imports: ["@/components/billingsdk/limited-offer-dialog"],
+    defaultCode: `<LimitedOfferDialog
+  title="🎉 Black Friday Special!"
+  description="Don't miss out on our biggest discount of the year"
+  offer={{
+    id: "black-friday-2024",
+    title: "Black Friday Special",
+    description: "Exclusive deal for early adopters",
+    discount: "75% OFF",
+    features: [
+      { name: "75% off your first year subscription" },
+      { name: "Valid until December 1, 2024" },
+      { name: "First 500 users only" },
+      { name: "Includes premium support" },
+      { name: "Free setup and migration" }
+    ]
+  }}
+  triggerButtonText="View Special Offer"
+  warningTitle="Limited Time Only!"
+  warningText="This exclusive Black Friday deal expires in 48 hours. Secure your discount now before it's gone forever."
+  claimButtonText="🚀 Claim 75% Discount"
+  declineButtonText="Maybe later"
+  onClaimOffer={async (offerId) => {
+    console.log("Claiming offer:", offerId);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    alert("Offer claimed successfully!");
+  }}
+  onDeclineOffer={async (offerId) => {
+    console.log("Declining offer:", offerId);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    alert("Offer declined. You can always come back later!");
+  }}
+  onDialogClose={() => console.log("Dialog closed")}
+  className="w-auto"
+/>`,
+    defaultProps: {
+      title: "🎉 Black Friday Special!",
+      description: "Don't miss out on our biggest discount of the year",
+      offer: {
+        id: "black-friday-2024",
+        title: "Black Friday Special",
+        description: "Exclusive deal for early adopters",
+        discount: "75% OFF",
+        features: [
+          { name: "75% off your first year subscription" },
+          { name: "Valid until December 1, 2024" },
+          { name: "First 500 users only" },
+          { name: "Includes premium support" },
+          { name: "Free setup and migration" }
+        ]
+      },
+      triggerButtonText: "View Special Offer",
+      warningTitle: "Limited Time Only!",
+      warningText: "This exclusive Black Friday deal expires in 48 hours. Secure your discount now before it's gone forever.",
+      claimButtonText: "🚀 Claim 75% Discount",
+      declineButtonText: "Maybe later",
+      onClaimOffer: async (offerId: string) => {
+        console.log("Claiming offer:", offerId);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        alert("Offer claimed successfully!");
+      },
+      onDeclineOffer: async (offerId: string) => {
+        console.log("Declining offer:", offerId);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        alert("Offer declined. You can always come back later!");
+      },
+      onDialogClose: () => console.log("Dialog closed"),
+      className: "w-auto"
+    },
   }
 ];
