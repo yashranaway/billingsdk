@@ -50,8 +50,7 @@
                 "@billingsdk/billing-settings",
                 "@billingsdk/proration-preview",
                 "@billingsdk/proration-preview",
-                "@billingsdk/upcoming-charges",
-                "@billingsdk/coupon"
+                "@billingsdk/upcoming-charges"
             ]
         },
         {
@@ -714,35 +713,6 @@
                 "select",
                 "textarea",
                 "utils"
-            ]
-        },
-        {
-            "name": "coupon",
-            "type": "registry:block",
-            "title": "Coupon Generator",
-            "description": "A coupon code generator component for billing and promotional purposes",
-            "files": [
-                {
-                    "path": "src/registry/billingsdk/coupon.tsx",
-                    "type": "registry:component",
-                    "target": "components/billingsdk/coupon.tsx"
-                },
-                {
-                    "path": "src/registry/billingsdk/demo/coupon-demo.tsx",
-                    "type": "registry:component",
-                    "target": "components/coupon-demo.tsx"
-                }
-            ],
-            "dependencies": [
-                "lucide-react"
-            ],
-            "registryDependencies": [
-                "card",
-                "button",
-                "input",
-                "switch",
-                "label",
-                "select"
             ]
         },
         {

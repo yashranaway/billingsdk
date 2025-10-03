@@ -34,7 +34,6 @@
     "components/upcoming-charges/index",
     "---Banner---",
     "components/banner/index",
-    "components/coupon/index",
 		"---Payment Processing---",
     "components/payment-details/index",
     "components/payment-details-two/index",
