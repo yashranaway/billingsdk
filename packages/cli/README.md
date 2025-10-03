@@ -87,7 +87,9 @@ Initialize a new billing project with complete setup.
 
 **Generated Structures:**
 
-*Next.js (App Router):*
+<details>
+<summary><strong>Next.js (App Router)</strong></summary>
+
 ```
 your-project/
 ├── app/api/(dodopayments)/
@@ -102,7 +104,11 @@ your-project/
 └── .env.example
 ```
 
-*Express.js:*
+</details>
+
+<details>
+<summary><strong>Express.js</strong></summary>
+
 ```
 your-project/
 ├── src/
@@ -120,7 +126,11 @@ your-project/
 └── package.json
 ```
 
-*React (Client-side only):*
+</details>
+
+<details>
+<summary><strong>React (Client-side only)</strong></summary>
+
 ```
 your-project/
 ├── hooks/
@@ -130,7 +140,11 @@ your-project/
 └── .env.example
 ```
 
-*Hono:*
+</details>
+
+<details>
+<summary><strong>Hono</strong></summary>
+
 ```
 your-project/
 ├── src/
@@ -149,6 +163,8 @@ your-project/
 └── package.json
 ```
 
+</details>
+
 ### `@billingsdk/cli add <component>`
 
 Add individual billing components to your existing project.
@@ -159,7 +175,6 @@ npx @billingsdk/cli add pricing-table-one
 npx @billingsdk/cli add subscription-management
 npx @billingsdk/cli add usage-meter-circle
 ```
-
 
 ## Configuration
 
@@ -182,6 +197,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 The CLI installs dependencies based on your selections:
 - Dodo Payments: `dodopayments`, `standardwebhooks`, `zod` (plus framework libs)
 - Stripe (Express/Hono only): `stripe`, `standardwebhooks`, `zod` (plus framework libs)
+
+</details>
 
 ## Supported Frameworks & Providers
 
@@ -208,29 +225,32 @@ The CLI automatically detects your framework based on your project dependencies 
 - ✅ **Stripe** - Supported for Express.js and Hono (Next.js/React coming soon)
 - 🚧 **Additional providers** - Based on community demand
 
-## Development
+## Development / Local Setup / Testing
 
 ### Build transport templates (for local testing)
 
 ```bash
-node packages/cli/dist/index.js build
+cd packages/cli && npm run build
 ```
 
 ### Local linking workflow (optional)
 
 ```bash
-# 1) Run the docs site locally (serves transports at http://localhost:3000/tr)
+# 1) Run the docs site locally (serves transports at `http://localhost:3000/tr`)
+
 npm run dev
+```
 
-# 2) Link the CLI for development
+```bash
+# 2) Build the CLI and link it for development
+
 cd packages/cli && npm run build && npm link
+```
 
+```bash
 # 3) In another project, run the linked CLI
-#    (uses the globally linked "billingsdk" bin; without linking, use `npx @billingsdk/cli`)
-#    (fetches from http://localhost:3000/tr if you set BILLINGSDK_REGISTRY_BASE accordingly)
-BILLINGSDK_REGISTRY_BASE=http://localhost:3000/tr billingsdk init --framework express --provider dodopayments --yes
-# or:
-# BILLINGSDK_REGISTRY_BASE=http://localhost:3000/tr npx @billingsdk/cli init --framework express --provider dodopayments --yes
+
+BILLINGSDK_REGISTRY_BASE=http://localhost:3000/tr npx @billingsdk/cli init --framework express --provider dodopayments --yes
 ```
 ### Building the CLI
 
@@ -293,7 +313,7 @@ The CLI is part of the Billing SDK monorepo. See the main [CONTRIBUTING.md](../C
 
 1. Add component templates to `packages/templates/`
 2. Update the registry configuration
-3. Run `@billingsdk/cli build` to generate new registry files
+3. Run `@billingsdk/cli build` from project root to generate new registry files
 
 ## License
 
