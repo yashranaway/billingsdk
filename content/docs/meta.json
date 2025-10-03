@@ -28,7 +28,6 @@
     "---Billing & Usage Analytics---",
     "components/billing-setting/index",
   		"components/billing-settings-2/index",
-    "components/billing-summary-card/index",
     "components/usage-meter/usage-meter-circle",
     "components/usage-meter/usage-meter-linear",
     "components/detailed-usage-table/index",
