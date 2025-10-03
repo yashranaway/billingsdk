@@ -231,7 +231,12 @@
                 "motion"
             ],
             "registryDependencies": [
+                "button",
+                "label",
+                "radio-group",
+                "badge",
                 "utils"
+
             ]
         },
         {

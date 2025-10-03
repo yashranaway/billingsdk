@@ -231,7 +231,12 @@
                 "motion"
             ],
             "registryDependencies": [
+                "button",
+                "label",
+                "radio-group",
+                "badge",
                 "utils"
+
             ]
         },
         {
@@ -703,8 +708,7 @@
                 }
             ],
             "dependencies": [
-              "lucide-react",
-              "country-state-city"
+                "lucide-react"
             ],
             "registryDependencies": [
                 "button",
@@ -718,23 +722,24 @@
             "name": "payment-details-two",
             "type": "registry:block",
             "title": "Payment Details Two",
-            "description": "A comprehensive payment details form component with card details, billing information, and country selection built with react hook form and custom validation",
+            "description": "A comprehensive payment details form component with card details, billing information, and country selection built using React Hook Form and custom validation",
             "files": [
                 {
-                    "path": "src/registry/billingsdk/payment-details.tsx",
+                    "path": "src/registry/billingsdk/payment-details-two.tsx",
                     "type": "registry:component",
-                    "target": "components/billingsdk/payment-details.tsx"
+                    "target": "components/billingsdk/payment-details-two.tsx"
                 },
                 {
-                    "path": "src/registry/billingsdk/demo/payment-details-demo.tsx",
+                    "path": "src/registry/billingsdk/demo/payment-details-two-demo.tsx",
                     "type": "registry:component",
-                    "target": "components/payment-details-demo.tsx"
+                    "target": "components/payment-details-two-demo.tsx"
                 },
                 {
                     "path": "src/utils/card-validation.ts",
                     "type": "registry:component",
-                    "target": "utils/card-validation.ts"
-                }
+                   "target": "utils/card-validation.ts"  
+                 }  
+                
             ],
             "dependencies": [
                 "lucide-react",
@@ -747,6 +752,8 @@
                 "card",
                 "input",
                 "label",
+                "select",
+                "textarea",
                 "utils"
             ]
         },
