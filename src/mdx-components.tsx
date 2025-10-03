@@ -30,7 +30,6 @@ import CustomUsageMeterLinearDemo from '@/components/custom-usage-meter-linear-d
 import InvoiceHistoryDemo from '@/components/invoice-history-demo';
 import UsageTableDemo from '@/components/usage-table-demo';
 import { PaymentMethodSelectorDemo } from '@/components/payment-method-selector-demo';
-import { PaymentMethodManagerDemo } from '@/components/payment-method-manager-demo';
 import { PaymentSuccessDialogDemo } from '@/components/payment-success-dialog-demo';
 import { PricingTableFiveDemo } from '@/components/pricing-table-five-demo';
 import { PricingTableFiveMinimalDemo } from '@/components/pricing-table-five-minimal-demo';
@@ -84,7 +83,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     InvoiceHistoryDemo,
     UsageTableDemo,
     PaymentMethodSelectorDemo,
-    PaymentMethodManagerDemo,
     PaymentSuccessDialogDemo,
     PaymentDetailsDemo,
     PaymentDetailsTwoDemo,

@@ -39,7 +39,6 @@
     "components/payment-details-two/index",
 		"components/payment-success-dialog/index",
 		"components/payment-method-selector/index",
-		"components/payment-method-manager/index",
 		"components/payment-card/index",
 		"---Configuration---",
 		"interfaces",
