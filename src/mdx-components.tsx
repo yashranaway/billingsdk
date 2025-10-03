@@ -11,6 +11,7 @@ import { PricingTableTwoMinimalDemo } from '@/components/pricing-table-two-minim
 import { PricingTableTwoDemo } from '@/components/pricing-table-two-demo';
 import { PricingTableThreeDemo } from '@/components/pricing-table-three-demo';
 import { PricingTableFourDemo } from '@/components/pricing-table-four-demo';
+import { PricingTableFourMinimalDemo } from '@/components/pricing-table-four-minimal-demo';
 import { SubscriptionManagementDemo } from '@/components/subscription-management-demo';
 import { UpdatePlanDialogDemo } from '@/components/update-plan-dialog-demo';
 import { UpdatePlanCardDemo } from '@/components/update-plan-card-demo';
@@ -64,6 +65,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PricingTableFourDemo,
     PricingTableFiveDemo,
     PricingTableFiveDemoMinimal,
+    PricingTableFourMinimalDemo,
     CancelSubscriptionCardDemo,
     CancelSubscriptionCardTwoDemo,
     CancelSubscriptionDialogDemo,
