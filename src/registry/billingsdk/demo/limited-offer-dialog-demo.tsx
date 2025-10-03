@@ -4,16 +4,14 @@ import { LimitedOfferDialog } from "@/components/billingsdk/limited-offer-dialog
 
 // Sample offer data
 const sampleOffer = {
-  id: "black-friday-2024",
-  title: "Black Friday Special",
-  description: "Exclusive deal for early adopters",
-  discount: "75% OFF",
+  id: "limited-offer-dialog",
+  title: "Special Offer",
+  description: "Limited time deal",
+  discount: "50% OFF",
   features: [
-    { name: "75% off your first year subscription" },
-    { name: "Valid until December 1, 2024" },
-    { name: "First 500 users only" },
-    { name: "Includes premium support" },
-    { name: "Free setup and migration" }
+    { name: "50% off your first month" },
+    { name: "Valid until December 31, 2024" },
+    { name: "First 100 users only" }
   ]
 };
 

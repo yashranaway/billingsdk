@@ -77,26 +77,24 @@ import { LimitedOfferDialog } from "@/components/billingsdk/limited-offer-dialog
 
 ```tsx
 <LimitedOfferDialog
-  title="🎉 Black Friday Special!"
-  description="Don't miss out on our biggest discount of the year"
+  title="🔥 Limited Time Offer!"
+  description="Grab this deal before it's gone"
   offer={{
-    id: "black-friday-2024",
-    title: "Black Friday Special",
-    description: "Exclusive deal for early adopters",
-    discount: "75% OFF",
+    id: "limited-offer-dialog",
+    title: "Special Offer",
+    description: "Limited time deal",
+    discount: "50% OFF",
     features: [
-      { name: "75% off your first year subscription" },
-      { name: "Valid until December 1, 2024" },
-      { name: "First 500 users only" },
-      { name: "Includes premium support" },
-      { name: "Free setup and migration" }
+      { name: "50% off your first month" },
+      { name: "Valid until December 31, 2024" },
+      { name: "First 100 users only" }
     ]
   }}
-  triggerButtonText="View Special Offer"
-  warningTitle="Limited Time Only!"
-  warningText="This exclusive Black Friday deal expires in 48 hours. Secure your discount now before it's gone forever."
-  claimButtonText="🚀 Claim 75% Discount"
-  declineButtonText="Maybe later"
+  triggerButtonText="Open Offer Dialog"
+  warningTitle="Don't miss out!"
+  warningText="This exclusive offer won't last long. Claim it now before it's gone forever."
+  claimButtonText="👉 Claim Offer Now"
+  declineButtonText="No thanks, I'll pay full price"
   onClaimOffer={async (offerId) => {
     // Handle offer claim
     await claimOffer(offerId);
