@@ -37,7 +37,7 @@ export function LimitedOfferDialogDemo() {
   };
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="flex flex-1 flex-col justify-center text-center p-4 mx-auto min-h-[300px]">
       <LimitedOfferDialog
         title="🎉 Black Friday Special!"
         description="Don't miss out on our biggest discount of the year"
