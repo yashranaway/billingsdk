@@ -209,8 +209,6 @@ export function UsageBasedPricing({
   // Positions for labels centered under first and last 1000-multiple dots
   const firstThousand = useMemo(() => Math.ceil(min / 1000) * 1000, [min])
   const lastThousand = useMemo(() => Math.floor(max / 1000) * 1000, [max])
-  const firstLeftPct = useMemo(() => `${((firstThousand - min) / (max - min)) * 100}%`, [firstThousand, min, max])
-  const lastLeftPct = useMemo(() => `${((lastThousand - min) / (max - min)) * 100}%`, [lastThousand, min, max])
   const startLabel = `${formatNumber(firstThousand)} credits`
   const endLabel = `${formatNumber(lastThousand)} credits`
 

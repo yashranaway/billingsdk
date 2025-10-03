@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { Calendar, CreditCard } from "lucide-react"
+import { Calendar } from "lucide-react"
 
 export interface ChargeItem {
   id: string
