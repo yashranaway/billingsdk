@@ -37,14 +37,14 @@ export function LimitedOfferDialogDemo() {
   return (
     <div className="flex flex-1 flex-col justify-center text-center p-4 mx-auto min-h-[300px]">
       <LimitedOfferDialog
-        title="🎉 Black Friday Special!"
-        description="Don't miss out on our biggest discount of the year"
+        title="🔥 Limited Time Offer!"
+        description="Grab this deal before it's gone"
         offer={sampleOffer}
-        triggerButtonText="View Special Offer"
-        warningTitle="Limited Time Only!"
-        warningText="This exclusive Black Friday deal expires in 48 hours. Secure your discount now before it's gone forever."
-        claimButtonText="🚀 Claim 75% Discount"
-        declineButtonText="Maybe later"
+        triggerButtonText="Open Offer Dialog"
+        warningTitle="Don't miss out!"
+        warningText="This exclusive offer won't last long. Claim it now before it's gone forever."
+        claimButtonText="👉 Claim Offer Now"
+        declineButtonText="No thanks, I'll pay full price"
         onClaimOffer={handleClaimOffer}
         onDeclineOffer={handleDeclineOffer}
         onDialogClose={handleDialogClose}
