@@ -3,7 +3,6 @@ import type { MDXComponents } from 'mdx/types';
 import * as TabsComponents from 'fumadocs-ui/components/tabs';
 import { PreviewComponents } from '@/components/preview/preview-components';
 import { CancelSubscriptionCardDemo } from '@/components/cancel-subscription-card-demo';
-import { CancelSubscriptionCardTwoDemo } from '@/components/cancel-subscription-card-two-demo';
 import { CancelSubscriptionDialogDemo } from '@/components/cancel-subscription-dialog-demo';
 import { PricingTableOneDemo } from '@/components/pricing-table-one-demo';
 import { PricingTableOneMinimalDemo } from '@/components/pricing-table-one-minimal-demo';
@@ -67,7 +66,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PricingTableFiveMinimalDemo,
     PricingTableFourMinimalDemo,
     CancelSubscriptionCardDemo,
-    CancelSubscriptionCardTwoDemo,
     CancelSubscriptionDialogDemo,
     SubscriptionManagementDemo,
     UpdatePlanDialogDemo,
