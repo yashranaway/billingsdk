@@ -85,85 +85,6 @@ Initialize a new billing project with complete setup.
 - Automatic dependency installation
 - Template-based file generation
 
-**Generated Structures:**
-
-<details>
-<summary><strong>Next.js (App Router)</strong></summary>
-
-```
-your-project/
-├── app/api/(dodopayments)/
-│   ├── checkout/route.ts
-│   ├── customer/route.ts
-│   ├── products/route.ts
-│   └── webhook/route.ts
-├── hooks/
-│   └── useBilling.ts
-├── lib/
-│   └── dodopayments.ts
-└── .env.example
-```
-
-</details>
-
-<details>
-<summary><strong>Express.js</strong></summary>
-
-```
-your-project/
-├── src/
-│   ├── lib/
-│   │   └── dodopayments.ts
-│   └── routes/
-│       └── dodopayments/
-│           ├── checkout.ts
-│           ├── customer.ts
-│           ├── payments.ts
-│           ├── products.ts
-│           ├── subscriptions.ts
-│           └── webhook.ts
-├── .env.example
-└── package.json
-```
-
-</details>
-
-<details>
-<summary><strong>React (Client-side only)</strong></summary>
-
-```
-your-project/
-├── hooks/
-│   └── useBilling.ts
-├── lib/
-│   └── dodopayments.ts
-└── .env.example
-```
-
-</details>
-
-<details>
-<summary><strong>Hono</strong></summary>
-
-```
-your-project/
-├── src/
-│   ├── lib/
-│   │   └── dodopayments.ts
-│   └── routes/
-│       ├── route.ts
-│       └── dodopayments/
-│           ├── checkout.ts
-│           ├── customer.ts
-│           ├── payments.ts
-│           ├── products.ts
-│           ├── subscriptions.ts
-│           └── webhook.ts
-├── .env.example
-└── package.json
-```
-
-</details>
 
 ### `@billingsdk/cli add <component>`
 
@@ -175,30 +96,6 @@ npx @billingsdk/cli add pricing-table-one
 npx @billingsdk/cli add subscription-management
 npx @billingsdk/cli add usage-meter-circle
 ```
-
-## Configuration
-
-### Environment Variables
-
-After running `init`, configure your environment:
-
-```bash
-# Copy the generated .env.example to .env.local
-cp .env.example .env.local
-
-# Add your Dodo Payments credentials
-DODO_PAYMENTS_API_KEY=your_api_key_here
-DODO_PAYMENTS_WEBHOOK_SECRET=your_webhook_secret_here
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-### Dependencies Installed
-
-The CLI installs dependencies based on your selections:
-- Dodo Payments: `dodopayments`, `standardwebhooks`, `zod` (plus framework libs)
-- Stripe (Express/Hono only): `stripe`, `standardwebhooks`, `zod` (plus framework libs)
-
-</details>
 
 ## Supported Frameworks & Providers
 
@@ -213,6 +110,7 @@ The CLI automatically detects your framework based on your project dependencies 
 - ✅ **React** - Fully supported (hooks and utilities)
   - Detected by: `react` dependency
 - ✅ **Hono** - Fully supported
+- ✅ **Fastify** - Partially supported
 
 **Auto-Detection Process:**
 1. Scans your `package.json` for framework-specific dependencies
