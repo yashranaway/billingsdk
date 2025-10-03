@@ -87,7 +87,7 @@ const cardVariants = cva(
       {
         theme: "minimal",
         selected: true,
-        className: "border-indigo-600 shadow-lg ring-2 ring-indigo-600",
+        className: "border-primary shadow-lg ring-2 ring-primary",
       },
       {
         theme: "minimal",
@@ -130,7 +130,7 @@ const buttonVariants = cva(
       {
         theme: "minimal",
         selected: true,
-        className: "bg-indigo-600 hover:bg-indigo-700 text-white",
+        className: "bg-primary hover:bg-primary/90 text-primary-foreground",
       },
       {
         theme: "minimal",
@@ -140,7 +140,7 @@ const buttonVariants = cva(
       {
         theme: "classic",
         selected: true,
-        className: "bg-gradient-to-r from-indigo-600 to-indigo-700 text-white",
+        className: "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground",
       },
       {
         theme: "classic",
@@ -201,7 +201,7 @@ export function PricingTableEight({
 
   const renderFeatureValue = (value: boolean | string | undefined) => {
     if (typeof value === "boolean") {
-      return value ? <Check className="h-5 w-5 text-indigo-600" /> : <span className="text-muted-foreground">—</span>;
+      return value ? <Check className="h-5 w-5 text-primary" /> : <span className="text-muted-foreground">—</span>;
     }
     if (typeof value === "string") {
       return <span className="text-sm text-foreground">{value}</span>;
@@ -211,6 +211,10 @@ export function PricingTableEight({
 
   const handlePlanSelect = (planId: string) => {
     setSelectedPlan(planId);
+    const selected = plans.find(p => p.id === planId);
+    if (selected && typeof selected.users === "number") {
+      setSliderValue([selected.users]);
+    }
     onPlanSelect?.(planId);
   };
 
@@ -220,8 +224,8 @@ export function PricingTableEight({
       {theme === "classic" && (
         <>
           <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-600/5 rounded-full blur-3xl" />
-          <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-indigo-600/5 rounded-full blur-2xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-primary/5 rounded-full blur-2xl" />
         </>
       )}
 
@@ -242,9 +246,9 @@ export function PricingTableEight({
             <Slider value={sliderValue} onValueChange={(e) => {
               setSliderValue(e)
               setSelectedPlan(plans.filter(plan => plan.users >= e[0])[0]?.id || plans.find(plan => plan.popular)?.id!)
-            }} max={25} min={1} step={1} className="w-full" />
+            }} max={25} min={1} step={1} className="w-full text-primary" />
             <div className="mt-2 text-center">
-              <span className="text-sm font-medium text-foreground">{sliderValue} users</span>
+              <span className="text-sm font-medium text-foreground">{sliderValue[0]} users</span>
             </div>
           </div>
         </div>
@@ -274,8 +278,8 @@ export function PricingTableEight({
                       <Badge className={cn(
                         "px-4 py-1 text-sm font-medium rounded-md shadow-sm",
                         theme === "classic"
-                          ? "bg-gradient-to-r from-indigo-600 to-indigo-700 text-white border-indigo-600/20"
-                          : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                          ? "bg-gradient-to-r from-primary to-primary/90 text-primary-foreground border-primary/20"
+                          : "bg-primary hover:bg-primary/90 text-primary-foreground"
                       )}>
                         Most popular
                       </Badge>
