@@ -21,7 +21,7 @@ const getFrameworkLabel = (fw: SupportedFramework, isDetected: boolean = false) 
 const getProviderLabel = (provider: SupportedProvider) => {
   const providerNames: Record<SupportedProvider, string> = {
     dodopayments: "Dodo Payments",
-    stripe: "Stripe Payments"
+    stripe: "Stripe"
   };
   return providerNames[provider];
 };
