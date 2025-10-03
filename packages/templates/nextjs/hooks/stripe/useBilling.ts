@@ -1,15 +1,6 @@
+import { checkout, createCustomer, getCustomer, getCustomerPayments, getCustomerSubscriptions, getProduct, getProducts, updateCustomer } from "@/lib/stripe";
 import { useState, useCallback } from "react";
 import Stripe from "stripe";
-import {
-  getProducts,
-  getProduct,
-  getCustomer,
-  getCustomerSubscriptions,
-  getCustomerPayments,
-  createCustomer,
-  updateCustomer,
-  checkout,
-} from "@/lib/stripe;
 
 interface UseBillingState {
   loading: boolean;
@@ -25,7 +16,7 @@ export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
     error: null,
   });
 
-  const [products, setProducts] = useState<Stripe.Product[]>([]);
+  const [products, setProducts] = useState<Stripe.Response<Stripe.ApiList<Stripe.Product>> | null>(null);
   const [customer, setCustomer] = useState<Stripe.Customer | null>(null);
 
   const setLoading = useCallback((loading: boolean) => {
@@ -58,7 +49,7 @@ export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
     [setLoading, setError]
   );
 
-  const fetchProducts = useCallback(async (): Promise<Stripe.Product[]> => {
+  const fetchProducts = useCallback(async (): Promise<Stripe.Response<Stripe.ApiList<Stripe.Product>>> => {
     const result = await handleAsyncOperation(
       () => getProducts({ baseUrl: resolvedBaseUrl }),
       "fetch products"
@@ -90,7 +81,7 @@ export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
   );
 
   const fetchCustomerSubscriptions = useCallback(
-    async (customer_id: string): Promise<Stripe.Subscription[]> => {
+    async (customer_id: string): Promise<Stripe.Response<Stripe.ApiList<Stripe.Subscription>>> => {
       return handleAsyncOperation(
         () =>
           getCustomerSubscriptions({ baseUrl: resolvedBaseUrl, customer_id }),
@@ -112,7 +103,7 @@ export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
 
   const createNewCustomer = useCallback(
     async (
-      newCustomer: Stripe.CustomerCreateParams
+      newCustomer: { email: string; name: string; phone_number?: string | null }
     ): Promise<Stripe.Customer> => {
       const result = await handleAsyncOperation(
         () =>
@@ -128,7 +119,7 @@ export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
   const updateExistingCustomer = useCallback(
     async (
       customer_id: string,
-      updatedCustomer: Stripe.CustomerUpdateParams
+      updatedCustomer: { name?: string | null; phone_number?: string | null }
     ): Promise<Stripe.Customer> => {
       const result = await handleAsyncOperation(
         () =>
@@ -147,19 +138,19 @@ export function useBilling({ baseUrl }: { baseUrl?: string } = {}) {
 
   const createCheckout = useCallback(
     async (
-      price_id: string,
-      success_url: string,
-      cancel_url: string,
-      customer_id?: string
-    ) => {
+      productCart: Array<{ name: string; quantity: number; amount: number }>,
+      customer: { email: string; name: string },
+      return_url: string,
+      metadata?: Record<string, string>
+    ): Promise<{ url: string }> => {
       return handleAsyncOperation(
         () =>
           checkout({
             baseUrl: resolvedBaseUrl,
-            price_id,
-            customer_id,
-            success_url,
-            cancel_url,
+            productCart,
+            customer,
+            return_url,
+            metadata,
           }),
         "create checkout"
       );

@@ -10,9 +10,8 @@ export const getStripe = (): Stripe => {
   return _stripe;
 };
 
-type Product = Stripe.Product
 
-export const getProducts = async ({ baseUrl }: { baseUrl?: string }): Promise<Product[]> => {
+export const getProducts = async ({ baseUrl }: { baseUrl?: string }): Promise<Stripe.Response<Stripe.ApiList<Stripe.Product>>> => {
   try {
     const response = await fetch(`${baseUrl}/api/products`)
 
@@ -27,7 +26,7 @@ export const getProducts = async ({ baseUrl }: { baseUrl?: string }): Promise<Pr
   }
 }
 
-export const getProduct = async ({ baseUrl, product_id }: { baseUrl?: string, product_id: string }): Promise<Product> => {
+export const getProduct = async ({ baseUrl, product_id }: { baseUrl?: string, product_id: string }): Promise<Stripe.Product> => {
   try {
     const response = await fetch(`${baseUrl}/api/product?product_id=${product_id}`)
 
@@ -57,7 +56,7 @@ export const getCustomer = async ({ baseUrl, customer_id }: { baseUrl?: string, 
   }
 }
 
-export const getCustomerSubscriptions = async ({ baseUrl, customer_id }: { baseUrl?: string, customer_id: string }): Promise<Stripe.Response<Stripe.ApiList<Stripe.Subscription>>[]> => {
+export const getCustomerSubscriptions = async ({ baseUrl, customer_id }: { baseUrl?: string, customer_id: string }): Promise<Stripe.Response<Stripe.ApiList<Stripe.Subscription>>> => {
   try {
     const response = await fetch(`${baseUrl}/api/customer/subscriptions?customer_id=${customer_id}`)
 
@@ -72,7 +71,7 @@ export const getCustomerSubscriptions = async ({ baseUrl, customer_id }: { baseU
   }
 }
 
-export const getCustomerPayments = async ({ baseUrl, customer_id }: { baseUrl?: string, customer_id: string }): Promise<Stripe.Response<Stripe.ApiList<Stripe.PaymentIntent>>[]> => {
+export const getCustomerPayments = async ({ baseUrl, customer_id }: { baseUrl?: string, customer_id: string }): Promise<Stripe.PaymentIntent[]> => {
   try {
     const response = await fetch(`${baseUrl}/api/customer/payments?customer_id=${customer_id}`)
 
@@ -87,10 +86,13 @@ export const getCustomerPayments = async ({ baseUrl, customer_id }: { baseUrl?: 
   }
 }
 
-export const createCustomer = async ({ baseUrl, customer }: { baseUrl?: string, customer: Stripe.CustomerCreateParams }): Promise<Stripe.Response<Stripe.Customer>> => {
+export const createCustomer = async ({ baseUrl, customer }: { baseUrl?: string, customer: { email: string; name: string; phone_number?: string | null } }): Promise<Stripe.Customer> => {
   try {
     const response = await fetch(`${baseUrl}/api/customer`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(customer),
     })
 
@@ -105,10 +107,13 @@ export const createCustomer = async ({ baseUrl, customer }: { baseUrl?: string, 
   }
 }
 
-export const updateCustomer = async ({ baseUrl, customer_id, customer }: { baseUrl?: string, customer_id: string, customer: Stripe.CustomerUpdateParams }): Promise<Stripe.Response<Stripe.Customer>> => {
+export const updateCustomer = async ({ baseUrl, customer_id, customer }: { baseUrl?: string, customer_id: string, customer: { name?: string | null; phone_number?: string | null } }): Promise<Stripe.Customer> => {
   try {
     const response = await fetch(`${baseUrl}/api/customer?customer_id=${customer_id}`, {
       method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(customer),
     })
 
@@ -123,11 +128,14 @@ export const updateCustomer = async ({ baseUrl, customer_id, customer }: { baseU
   }
 }
 
-export const checkout = async ({ baseUrl, productCart, customer, billing_address, return_url, customMetadata }: { baseUrl?: string, productCart: Array<{ product_id: string; quantity: number; amount?: number }>, customer: Stripe.Customer, billing_address: Stripe.Address, return_url: string, customMetadata?: Record<string, string> }) => {
+export const checkout = async ({ baseUrl, productCart, customer, return_url, metadata }: { baseUrl?: string, productCart: Array<{ name: string; quantity: number; amount: number }>, customer: { email: string; name: string }, return_url: string, metadata?: Record<string, string> }): Promise<{ url: string }> => {
   try {
     const response = await fetch(`${baseUrl}/api/checkout`, {
       method: 'POST',
-      body: JSON.stringify({ productCart, customer, billing_address, return_url, customMetadata }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productCart, customer, return_url, metadata }),
     })
 
     if (!response.ok) {
