@@ -769,6 +769,7 @@
             "registryDependencies": [
                 "button",
                 "card",
+                "dialog",
                 "switch",
                 "badge",
                 "dropdown-menu",
