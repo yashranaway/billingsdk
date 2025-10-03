@@ -110,14 +110,23 @@ export const initCommand = new Command()
         }
 
         const allowedProviders = getAllowedProvidersForFramework(frameworkValue);
-        if (!providerValue) {
+        const providerIsAllowed = providerValue ? allowedProviders.includes(providerValue) : false;
+
+        if (!providerValue || !providerIsAllowed) {
+          if (providerValue && !providerIsAllowed && nonInteractive) {
+            cancel(
+              `Invalid provider for selected framework. Allowed providers: ${allowedProviders.join(", ")}`
+            );
+            process.exit(1);
+          }
+
           const providerChoice = await select({
             message: "Which payment provider would you like to use? (Adding more providers soon)",
             options: allowedProviders.map((p) => ({ 
               value: p, 
               label: getProviderLabel(p)
             })),
-            initialValue: providerValue ?? undefined
+            initialValue: providerIsAllowed ? (providerValue as SupportedProvider) : undefined
           });
           if (isCancel(providerChoice)) {
             cancel("Setup cancelled.");
