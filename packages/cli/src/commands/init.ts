@@ -4,6 +4,36 @@ import { addFiles } from "../scripts/add-files.js";
 import { detectFramework } from "../scripts/detect-framework.js";
 import { SupportedFramework, SupportedProvider, getAllowedProvidersForFramework, isValidCombination, supportedFrameworks, supportedProviders } from "../config/matrix.js";
 
+// Helper function to get framework display name
+const getFrameworkLabel = (fw: SupportedFramework, isDetected: boolean = false) => {
+  const frameworkNames: Record<SupportedFramework, string> = {
+    nextjs: "Next.js",
+    express: "Express.js", 
+    react: "React.js",
+    hono: "Hono.js",
+    fastify: "Fastify.js"
+  };
+  const suffix = isDetected ? " (detected)" : "";
+  return frameworkNames[fw] + suffix;
+};
+
+// Helper function to get provider display name
+const getProviderLabel = (provider: SupportedProvider) => {
+  const providerNames: Record<SupportedProvider, string> = {
+    dodopayments: "Dodo Payments",
+    stripe: "Stripe Payments"
+  };
+  return providerNames[provider];
+};
+
+// Helper function to normalize package manager
+const normalizePackageManager = (pm: string | undefined): "npm" | "pnpm" | "yarn" | "bun" | undefined => {
+  if (!pm) return undefined;
+  const validManagers = ["npm", "pnpm", "yarn", "bun"] as const;
+  const normalized = pm.trim().toLowerCase();
+  return validManagers.includes(normalized as any) ? (normalized as "npm" | "pnpm" | "yarn" | "bun") : undefined;
+};
+
 export const initCommand = new Command()
   .name("init")
   .description("Initialize a new billing project")
@@ -68,10 +98,7 @@ export const initCommand = new Command()
             message: "Which framework you are using? (Adding more frameworks soon)",
             options: supportedFrameworks.map((fw) => ({
               value: fw,
-              label:
-                detectedFramework === fw
-                  ? (fw === "nextjs" ? "Next.js (detected)" : fw === "express" ? "Express.js (detected)" : fw === "react" ? "React.js (detected)" : fw === "hono" ? "Hono.js (detected)" : "Fastify.js (detected)")
-                  : (fw === "nextjs" ? "Next.js" : fw === "express" ? "Express.js" : fw === "react" ? "React.js" : fw === "hono" ? "Hono.js" : "Fastify.js"),
+              label: getFrameworkLabel(fw, detectedFramework === fw)
             })),
             initialValue: frameworkValue ?? detectedFramework ?? undefined
           });
@@ -86,7 +113,10 @@ export const initCommand = new Command()
         if (!providerValue) {
           const providerChoice = await select({
             message: "Which payment provider would you like to use? (Adding more providers soon)",
-            options: allowedProviders.map((p) => ({ value: p, label: p === "dodopayments" ? "Dodo Payments" : "Stripe payments" })),
+            options: allowedProviders.map((p) => ({ 
+              value: p, 
+              label: getProviderLabel(p)
+            })),
             initialValue: providerValue ?? undefined
           });
           if (isCancel(providerChoice)) {
@@ -105,8 +135,7 @@ export const initCommand = new Command()
       const s = spinner();
       s.start("Setting up your billing project...");
       try {
-        const pmRaw = typeof opts?.packageManager === "string" ? (" " + opts.packageManager).trim().split(" ")[0] : undefined;
-        const normalizedPackageManager = (pmRaw === "npm" || pmRaw === "pnpm" || pmRaw === "yarn" || pmRaw === "bun") ? pmRaw : undefined;
+        const normalizedPackageManager = normalizePackageManager(opts?.packageManager);
         await addFiles(frameworkValue, providerValue, {
           registryBase: opts?.registryBase,
           cwd: opts?.cwd,
