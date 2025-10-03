@@ -10,7 +10,7 @@ import { type Plan, type CurrentPlan } from "@/lib/billingsdk-config";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const prorationPreviewVariants = cva("w-full max-w-4xl mx-auto", {
+const prorationPreviewVariants = cva("w-full max-w-3xl mx-auto", {
   variants: {
     theme: {
       minimal: "",
@@ -32,7 +32,7 @@ const cardVariants = cva("transition-all duration-300", {
   variants: {
     theme: {
       minimal: "border border-border bg-card",
-      classic: "border border-border/30 bg-gradient-to-br from-card/80 to-muted/20 backdrop-blur-sm shadow-lg",
+      classic: "border border-border/30 bg-gradient-to-br from-card/80 to-muted/20 backdrop-blur-sm shadow-md",
     },
   },
   defaultVariants: {
@@ -119,47 +119,47 @@ export function ProrationPreview({
       )}
       
       <Card className={cn(cardVariants({ theme }))}>
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-2 text-xl">
+        <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
             <div className="p-2 rounded-lg bg-primary/10 ring-1 ring-primary/20">
-              <Calculator className="h-5 w-5 text-primary" />
+              <Calculator className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
             Plan Change Preview
           </CardTitle>
-          <p className="text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Review the charges and credits for your plan change
           </p>
         </CardHeader>
 
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
           {/* From/To Plans */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 items-center">
             {/* Current Plan */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
               className={cn(
-                "p-4 rounded-lg border",
+                "p-3 sm:p-4 rounded-lg border",
                 theme === "classic" 
                   ? "bg-gradient-to-br from-muted/50 to-background/50 border-border/50"
                   : "bg-muted/50 border-border"
               )}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Badge variant="outline" className="text-xs">Current</Badge>
+                <Badge variant="outline" className="text-[10px] sm:text-xs">Current</Badge>
                 {isDowngrade && (
-                  <Badge variant="secondary" className="text-xs bg-orange-500/10 text-orange-700 border-orange-200">
+                  <Badge variant="secondary" className="text-[10px] sm:text-xs">
                     Downgrading
                   </Badge>
                 )}
               </div>
-              <h3 className="font-semibold text-lg">{currentPlan.plan.title}</h3>
-              <p className="text-sm text-muted-foreground mb-3">
+              <h3 className="font-semibold text-base sm:text-lg">{currentPlan.plan.title}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground mb-3">
                 {isCustomCurrent ? 'Custom' : `${creditCurrency}${currentPrice}/${currentPlan.type}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Clock className="h-3 w-3" />
+                <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                 {daysRemaining} days remaining
               </div>
             </motion.div>
@@ -177,7 +177,7 @@ export function ProrationPreview({
                     : "bg-primary/10 text-primary"
                 )}
               >
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </motion.div>
             </div>
 
@@ -187,26 +187,26 @@ export function ProrationPreview({
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
               className={cn(
-                "p-4 rounded-lg border",
+                "p-3 sm:p-4 rounded-lg border",
                 theme === "classic"
                   ? "bg-gradient-to-br from-primary/5 to-primary/10 border-primary/30"
                   : "bg-primary/5 border-primary/30"
               )}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Badge variant="default" className="text-xs">New Plan</Badge>
+                <Badge variant="default" className="text-[10px] sm:text-xs">New Plan</Badge>
                 {isUpgrade && (
-                  <Badge variant="secondary" className="text-xs bg-green-500/10 text-green-700 border-green-200">
+                  <Badge variant="secondary" className="text-[10px] sm:text-xs">
                     Upgrading
                   </Badge>
                 )}
               </div>
-              <h3 className="font-semibold text-lg">{newPlan.title}</h3>
-              <p className="text-sm text-muted-foreground mb-3">
+              <h3 className="font-semibold text-base sm:text-lg">{newPlan.title}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground mb-3">
                 {isCustomNew ? 'Custom' : `${chargeCurrency}${newPrice}/${billingCycle}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Calendar className="h-3 w-3" />
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                 Effective {effectiveDate}
               </div>
             </motion.div>
@@ -222,26 +222,26 @@ export function ProrationPreview({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.4 }}
             className={cn(
-              "p-4 rounded-lg border",
+              "p-3 sm:p-4 rounded-lg border",
               theme === "classic"
                 ? "bg-gradient-to-br from-muted/30 to-background/30 border-border/50"
                 : "bg-muted/30 border-border"
             )}
           >
-            <h4 className="font-medium mb-4 flex items-center gap-2">
-              <CreditCard className="h-4 w-4" />
+            <h4 className="font-medium mb-3 sm:mb-4 flex items-center gap-2">
+              <CreditCard className="h-4 w-4 sm:h-5 sm:w-5" />
               Billing Breakdown
             </h4>
             
             <div className="space-y-3">
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex justify-between items-center text-xs sm:text-sm">
                 <span className="text-muted-foreground">Credit for unused time</span>
                 <span className="text-green-600 font-medium">
                   {canCompute ? `-${creditCurrency}${Math.abs(creditAmount).toFixed(2)}` : "—"}
                 </span>
               </div>
               
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex justify-between items-center text-xs sm:text-sm">
                 <span className="text-muted-foreground">
                   Prorated charge ({prorationDays} days)
                 </span>
@@ -255,7 +255,7 @@ export function ProrationPreview({
               <div className="flex justify-between items-center font-semibold">
                 <span>{canCompute ? (netAmount >= 0 ? "Amount to charge" : "Credit to account") : "Amount due will be calculated at checkout"}</span>
                 <span className={cn(
-                  "text-lg",
+                  "text-base sm:text-lg",
                   canCompute ? (netAmount >= 0 ? "text-foreground" : "text-green-600") : "text-muted-foreground"
                 )}>
                   {canCompute ? `${netAmount >= 0 ? "+" : ""}${chargeCurrency}${netAmount.toFixed(2)}` : "—"}
@@ -269,9 +269,9 @@ export function ProrationPreview({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.6 }}
-            className="text-center p-3 bg-muted/20 rounded-lg border border-border/50"
+            className="text-center p-3 sm:p-4 bg-muted/20 rounded-lg border border-border/50"
           >
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Your plan will change {effectiveDate}. 
               {isNextCycle ? ' No immediate charge.' : (hasComparablePrices
                 ? (netAmount >= 0
@@ -286,18 +286,18 @@ export function ProrationPreview({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-3 pt-4"
+            className="flex flex-col sm:flex-row gap-3 pt-3 sm:pt-4"
           >
             <Button
               onClick={onConfirm}
               className={cn(
                 "flex-1",
-                theme === "classic" && "bg-gradient-to-r from-primary to-primary/90 hover:shadow-lg active:scale-95 transition-all duration-200"
+                theme === "classic" && "bg-gradient-to-r from-primary to-primary/90 hover:shadow-md active:scale-95 transition-all duration-200"
               )}
               size="lg"
             >
               {confirmText}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
             <Button
               variant="outline"
