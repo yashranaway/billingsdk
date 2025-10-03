@@ -118,14 +118,14 @@ import { LimitedOfferDialog } from "@/components/billingsdk/limited-offer-dialog
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `title` | `string` | ❌ | Main dialog title (default: "🔥 Limited Time Offer!") |
-| `description` | `string` | ❌ | Dialog description text (default: "Grab this deal before it's gone") |
+| `title` | `string` | ✅ | Main dialog title (default: "🔥 Limited Time Offer!") |
+| `description` | `string` | ✅ | Dialog description text (default: "Grab this deal before it's gone") |
 | `offer` | `Offer` | ✅ | Offer object containing offer details |
-| `triggerButtonText` | `string` | ❌ | Text for the trigger button (default: "Open Offer Dialog") |
-| `warningTitle` | `string` | ❌ | Title for warning section (default: "Don't miss out!") |
-| `warningText` | `string` | ❌ | Warning message text (default: "This exclusive offer won't last long. Claim it now before it's gone forever.") |
-| `claimButtonText` | `string` | ❌ | Text for claim offer button (default: "👉 Claim Offer Now") |
-| `declineButtonText` | `string` | ❌ | Text for decline button (default: "No thanks, I'll pay full price") |
+| `triggerButtonText` | `string` | ✅ | Text for the trigger button (default: "Open Offer Dialog") |
+| `warningTitle` | `string` | ✅ | Title for warning section (default: "Don't miss out!") |
+| `warningText` | `string` | ✅ | Warning message text (default: "This exclusive offer won't last long. Claim it now before it's gone forever.") |
+| `claimButtonText` | `string` | ✅ | Text for claim offer button (default: "👉 Claim Offer Now") |
+| `declineButtonText` | `string` | ✅ | Text for decline button (default: "No thanks, I'll pay full price") |
 | `onClaimOffer` | `(offerId: string) => Promise<void> \| void` | ❌ | Callback when offer is claimed |
 | `onDeclineOffer` | `(offerId: string) => Promise<void> \| void` | ❌ | Callback when offer is declined |
 | `onDialogClose` | `() => void` | ❌ | Callback when dialog is closed |
