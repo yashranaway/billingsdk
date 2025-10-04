@@ -50,7 +50,7 @@
                 "@billingsdk/proration-preview",
                 "@billingsdk/upcoming-charges",
                 "@billingsdk/coupon",
-                "@billingsdk/limited-offer-dialog"
+                "@billingsdk/limited-offer-dialog",
                 "@billingsdk/upcoming-charges"
             ]
         },
