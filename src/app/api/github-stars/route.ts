@@ -56,10 +56,9 @@ export async function GET() {
       signal: controller.signal
     });
     
-    // Fetch closed pull requests from GitHub API through Shields.io
-    // Using a custom query to filter for closed PRs specifically
-    const closedPrsUrl = `https://img.shields.io/github/issues-pr-closed/${repo}.json`;
-    const closedPrsResponse = await fetch(closedPrsUrl, { 
+    // Fetch pull requests from Shields.io badge
+    const prUrl = `https://img.shields.io/github/issues-pr/${repo}.json`;
+    const prResponse = await fetch(prUrl, { 
       next: { revalidate: 300 }, // Revalidate every 5 minutes
       signal: controller.signal
     });
@@ -67,8 +66,8 @@ export async function GET() {
     // Clear timeout since fetch completed
     clearTimeout(timeoutId);
     
-    if (!starsResponse.ok || !forksResponse.ok || !closedPrsResponse.ok) {
-      const fallback = { stars: null, pretty: null, forks: null, forksPretty: null, closedPrs: null, closedPrsPretty: null };
+    if (!starsResponse.ok || !forksResponse.ok || !prResponse.ok) {
+      const fallback = { stars: null, pretty: null, forks: null, forksPretty: null, prs: null, prsPretty: null };
       return new Response(JSON.stringify(fallback), {
         status: 200,
         headers: {
@@ -80,20 +79,20 @@ export async function GET() {
     
     const starsData = await starsResponse.json();
     const forksData = await forksResponse.json();
-    const closedPrsData = await closedPrsResponse.json();
+    const prData = await prResponse.json();
     
     // Extract numbers from Shields.io badge data
     const stars = parseShieldsValue(starsData?.message || '0');
     const forks = parseShieldsValue(forksData?.message || '0');
-    const closedPrs = parseShieldsValue(closedPrsData?.message || '0');
+    const prs = parseShieldsValue(prData?.message || '0');
     
     const body = { 
       stars, 
       pretty: formatStars(stars), 
       forks, 
       forksPretty: formatStars(forks),
-      closedPrs,
-      closedPrsPretty: formatStars(closedPrs)
+      prs,
+      prsPretty: formatStars(prs)
     };
     return new Response(JSON.stringify(body), {
       status: 200,
@@ -113,8 +112,8 @@ export async function GET() {
         pretty: null, 
         forks: null, 
         forksPretty: null,
-        closedPrs: null,
-        closedPrsPretty: null,
+        prs: null,
+        prsPretty: null,
         error: 'Request timeout'
       }), {
         status: 408,
@@ -125,7 +124,7 @@ export async function GET() {
       });
     }
     
-    const fallback = { stars: null, pretty: null, forks: null, forksPretty: null, closedPrs: null, closedPrsPretty: null };
+    const fallback = { stars: null, pretty: null, forks: null, forksPretty: null, prs: null, prsPretty: null };
     return new Response(JSON.stringify(fallback), {
       status: 200,
       headers: {

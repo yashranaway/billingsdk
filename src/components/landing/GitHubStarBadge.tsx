@@ -13,13 +13,13 @@ type StarResponse = {
   pretty: string | null;
   forks: number | null;
   forksPretty: string | null;
-  closedPrs: number | null;
-  closedPrsPretty: string | null;
+  prs: number | null;
+  prsPretty: string | null;
 };
 
 export default function GitHubStarBadge() {
   const [display, setDisplay] = useState<{
-    kind: "stars" | "forks" | "closedPrs";
+    kind: "stars" | "forks" | "prs";
     text: string;
   } | null>(null);
   const [metrics, setMetrics] = useState<StarResponse | null>(null);
@@ -96,8 +96,8 @@ export default function GitHubStarBadge() {
           const text = formatApprox(metrics.forks);
           return { kind: "forks", text };
         } else if (prev.kind === "forks") {
-          const text = formatApprox(metrics.closedPrs);
-          return { kind: "closedPrs", text };
+          const text = formatApprox(metrics.prs);
+          return { kind: "prs", text };
         } else {
           const text = formatApprox(metrics.stars);
           return { kind: "stars", text };
