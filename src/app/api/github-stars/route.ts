@@ -6,26 +6,60 @@ function formatStars(count: number): string {
   return String(count);
 }
 
+// Parse formatted number from Shields.io (e.g., "1.2k", "5M", "123")
+function parseShieldsValue(value: string): number {
+  if (!value) return 0;
+  
+  const cleanValue = value.toString().trim();
+  
+  // Handle millions
+  if (cleanValue.endsWith('M') || cleanValue.endsWith('m')) {
+    const num = parseFloat(cleanValue.slice(0, -1));
+    return isNaN(num) ? 0 : Math.round(num * 1000000);
+  }
+  
+  // Handle thousands
+  if (cleanValue.endsWith('K') || cleanValue.endsWith('k')) {
+    const num = parseFloat(cleanValue.slice(0, -1));
+    return isNaN(num) ? 0 : Math.round(num * 1000);
+  }
+  
+  // Handle plain numbers
+  const num = parseInt(cleanValue, 10);
+  return isNaN(num) ? 0 : num;
+}
+
 // Cache for 5 minutes (300 seconds) with shorter stale-while-revalidate
 const CACHE_TTL = 300;
 const STALE_TTL = 3600; // 1 hour
 
 export async function GET() {
   const repo = 'dodopayments/billingsdk';
-  const url = `https://api.github.com/repos/${repo}`;
-  const headers: Record<string, string> = {
-    'Accept': 'application/vnd.github+json',
-    'User-Agent': 'billingsdk-site',
-  };
-
+  
   // Create AbortController with timeout
   const controller = new AbortController();
   const timeout = 5000; // 5 seconds
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
-    const response = await fetch(url, { 
-      headers, 
+    // Fetch stars from Shields.io badge
+    const starsUrl = `https://img.shields.io/github/stars/${repo}.json`;
+    const starsResponse = await fetch(starsUrl, { 
+      next: { revalidate: 300 }, // Revalidate every 5 minutes
+      signal: controller.signal
+    });
+    
+    // Fetch forks from Shields.io badge
+    const forksUrl = `https://img.shields.io/github/forks/${repo}.json`;
+    const forksResponse = await fetch(forksUrl, { 
+      next: { revalidate: 300 }, // Revalidate every 5 minutes
+      signal: controller.signal
+    });
+    
+    // Fetch closed pull requests from GitHub API through Shields.io
+    // Using a custom query to filter for closed PRs specifically
+    const closedPrsUrl = `https://img.shields.io/github/issues-pr-closed/${repo}.json`;
+    const closedPrsResponse = await fetch(closedPrsUrl, { 
       next: { revalidate: 300 }, // Revalidate every 5 minutes
       signal: controller.signal
     });
@@ -33,8 +67,8 @@ export async function GET() {
     // Clear timeout since fetch completed
     clearTimeout(timeoutId);
     
-    if (!response.ok) {
-      const fallback = { stars: null, pretty: null, forks: null, forksPretty: null };
+    if (!starsResponse.ok || !forksResponse.ok || !closedPrsResponse.ok) {
+      const fallback = { stars: null, pretty: null, forks: null, forksPretty: null, closedPrs: null, closedPrsPretty: null };
       return new Response(JSON.stringify(fallback), {
         status: 200,
         headers: {
@@ -44,10 +78,23 @@ export async function GET() {
       });
     }
     
-    const data = await response.json();
-    const stars = Number(data.stargazers_count ?? 0);
-    const forks = Number(data.forks_count ?? 0);
-    const body = { stars, pretty: formatStars(stars), forks, forksPretty: formatStars(forks) };
+    const starsData = await starsResponse.json();
+    const forksData = await forksResponse.json();
+    const closedPrsData = await closedPrsResponse.json();
+    
+    // Extract numbers from Shields.io badge data
+    const stars = parseShieldsValue(starsData?.message || '0');
+    const forks = parseShieldsValue(forksData?.message || '0');
+    const closedPrs = parseShieldsValue(closedPrsData?.message || '0');
+    
+    const body = { 
+      stars, 
+      pretty: formatStars(stars), 
+      forks, 
+      forksPretty: formatStars(forks),
+      closedPrs,
+      closedPrsPretty: formatStars(closedPrs)
+    };
     return new Response(JSON.stringify(body), {
       status: 200,
       headers: {
@@ -66,6 +113,8 @@ export async function GET() {
         pretty: null, 
         forks: null, 
         forksPretty: null,
+        closedPrs: null,
+        closedPrsPretty: null,
         error: 'Request timeout'
       }), {
         status: 408,
@@ -76,7 +125,7 @@ export async function GET() {
       });
     }
     
-    const fallback = { stars: null, pretty: null, forks: null, forksPretty: null };
+    const fallback = { stars: null, pretty: null, forks: null, forksPretty: null, closedPrs: null, closedPrsPretty: null };
     return new Response(JSON.stringify(fallback), {
       status: 200,
       headers: {
