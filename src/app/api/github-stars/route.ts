@@ -44,24 +44,13 @@ export async function GET() {
   try {
     // Fetch stars from Shields.io badge
     const starsUrl = `https://img.shields.io/github/stars/${repo}.json`;
-    const starsResponse = await fetch(starsUrl, { 
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-      signal: controller.signal
-    });
-    
-    // Fetch forks from Shields.io badge
     const forksUrl = `https://img.shields.io/github/forks/${repo}.json`;
-    const forksResponse = await fetch(forksUrl, { 
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-      signal: controller.signal
-    });
-    
-    // Fetch pull requests from Shields.io badge
-    const prUrl = `https://img.shields.io/github/issues-pr/${repo}.json`;
-    const prResponse = await fetch(prUrl, { 
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-      signal: controller.signal
-    });
+    const prUrl    = `https://img.shields.io/github/issues-pr/${repo}.json`;
+    const [starsResponse, forksResponse, prResponse] = await Promise.all([
+      fetch(starsUrl, { next: { revalidate: 300 }, signal: controller.signal }),
+      fetch(forksUrl, { next: { revalidate: 300 }, signal: controller.signal }),
+      fetch(prUrl,    { next: { revalidate: 300 }, signal: controller.signal }),
+    ]);
     
     // Clear timeout since fetch completed
     clearTimeout(timeoutId);
