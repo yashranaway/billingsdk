@@ -25,13 +25,15 @@ export function BillingSettings2Demo() {
 		}));
 	};
 
-	// Wrapper functions for the component's enhanced handlers
+	// Handler wrappers
 	const createInputChangeHandler = (field: string) => (value: string) => {
 		handleInputChange(field, value);
 	};
 
 	const createCurrencyChangeHandler = (setCurrency: (value: string) => void) => (value: string) => {
+		console.log('Currency changed to:', value);
 		setCurrency(value);
+		// Add: updatePricing(value), savePreference(value), etc.
 	};
 
 	const handleFeatureToggle = (feature: string, enabled: boolean) => {
@@ -42,7 +44,7 @@ export function BillingSettings2Demo() {
 	};
 
 	const handleSave = () => {
-		// Validation is handled by the component, so if we reach here, validation passed
+		// Validation passed if we reach here
 		alert('Settings saved successfully!');
 		console.log('Input values:', inputValues);
 		console.log('Feature toggles:', featureToggles);
@@ -126,11 +128,10 @@ export function BillingSettings2Demo() {
 						onToggle: (enabled) => handleFeatureToggle('promotionalEmails', enabled),
 					},
 				]}
-				currencyOptions={[
-					{ value: "usd", label: "USD - US Dollar" },
-					{ value: "eur", label: "EUR - Euro" },
-					{ value: "gbp", label: "GBP - British Pound" },
-				]}
+				// CURRENCY: Shows all 180+ currencies by default
+				// currencies={['USD', 'EUR', 'GBP']} // Specific currencies
+				// currencyOptions={[{value: 'btc', label: 'Bitcoin'}]} // Custom
+				
 				defaultCurrency={selectedCurrency}
 				onCurrencyChange={createCurrencyChangeHandler(setSelectedCurrency)}
 				onSave={handleSave}
@@ -138,6 +139,14 @@ export function BillingSettings2Demo() {
 				saveButtonText="Save Preferences"
 				cancelButtonText="Discard Changes"
 			/>
+			
+			{/* 
+			USAGE EXAMPLES:
+			- Specific: currencies={['USD', 'EUR']}
+			- Custom: currencyOptions={[{value: 'btc', label: 'Bitcoin'}]}
+			- All: (no currency props) = 180+ currencies
+			- Handler: onCurrencyChange={(c) => updatePricing(c)}
+			*/}
 		</div>
 	);
 }

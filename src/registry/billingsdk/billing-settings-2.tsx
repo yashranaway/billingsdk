@@ -13,7 +13,8 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import currencyCodes from 'currency-codes';
 
 // Define types for our props
 export interface FeatureToggle {
@@ -57,7 +58,8 @@ export interface BillingSettings2Props {
 	onCancel?: () => void;
 	saveButtonText?: string;
 	cancelButtonText?: string;
-	currencyOptions?: { value: string; label: string }[];
+	currencies?: string[]; // Array of currency codes to show (e.g., ['USD', 'EUR', 'GBP'])
+	currencyOptions?: { value: string; label: string }[]; // Override for custom currency options
 	defaultCurrency?: string;
 	onCurrencyChange?: (value: string) => void;
 	enableValidation?: boolean;
@@ -174,27 +176,51 @@ export function BillingSettings2({
 	onCancel = () => {},
 	saveButtonText = "Save Changes",
 	cancelButtonText = "Cancel",
-	currencyOptions = [
-		{ value: "usd", label: "USD - US Dollar" },
-		{ value: "inr", label: "INR - Indian Rupees" },
-		{ value: "eur", label: "EUR - Euro" },
-		{ value: "gbp", label: "GBP - British Pound" },
-		{ value: "jpy", label: "JPY - Japanese Yen" },
-		{ value: "aud", label: "AUD - Australian Dollar" },
-		{ value: "cad", label: "CAD - Canadian Dollar" },
-		{ value: "cny", label: "CNY - Chinese Yuan" },
-		{ value: "sgd", label: "SGD - Singapore Dollar" },
-		{ value: "chf", label: "CHF - Swiss Franc" },
-		{ value: "zar", label: "ZAR - South African Rand" },
-		{ value: "aed", label: "AED - UAE Dirham" },
-	],
-	defaultCurrency = "usd",
+	currencies, // Array of specific currency codes to show
+	currencyOptions, // Custom currency options override
+	defaultCurrency = "USD",
 	onCurrencyChange = () => {},
 	enableValidation = true,
 	currencyRequired = true,
 }: BillingSettings2Props) {
 	const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 	const [currencyError, setCurrencyError] = useState<string | null>(null);
+
+	// Generate currency options from currency-codes package
+	const generatedCurrencyOptions = useMemo(() => {
+		// If custom currencyOptions are provided, use them
+		if (currencyOptions) {
+			return currencyOptions;
+		}
+
+		// Get all currency data
+		const allCurrencies = currencyCodes.data;
+		
+		// If specific currencies are requested, filter to those
+		if (currencies && currencies.length > 0) {
+			return currencies
+				.map(code => {
+					const currency = allCurrencies.find(c => c.code === code.toUpperCase());
+					return currency ? {
+						value: currency.code.toLowerCase(),
+						label: `${currency.code} - ${currency.currency}`
+					} : null;
+				})
+				.filter(Boolean) as { value: string; label: string }[];
+		}
+
+		// Return all currencies if no specific ones requested
+		return allCurrencies
+			.filter(currency => currency.code && currency.currency) // Filter out invalid entries
+			.map(currency => ({
+				value: currency.code.toLowerCase(),
+				label: `${currency.code} - ${currency.currency}`
+			}))
+			.sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically
+	}, [currencies, currencyOptions]);
+
+	// Normalize the defaultCurrency to lowercase to match generated options
+	const normalizedDefaultCurrency = defaultCurrency?.toLowerCase();
 
 	// Validate all fields
 	const validateAllFields = (): boolean => {
@@ -213,7 +239,7 @@ export function BillingSettings2({
 		});
 
 		// Validate currency if required
-		if (currencyRequired && !defaultCurrency) {
+		if (currencyRequired && !normalizedDefaultCurrency) {
 			setCurrencyError("Please select a currency");
 			hasCurrencyError = true;
 		} else {
@@ -305,22 +331,34 @@ export function BillingSettings2({
 						);
 					})}
 
-					<div className="space-y-2">
+					<div className="space-y-2 min-w-0">
 						<Label id="currency-label">
 							Currency
 							{currencyRequired && <span className="text-red-500 ml-1">*</span>}
 						</Label>
-						<Select value={defaultCurrency} onValueChange={(value) => handleCurrencyChange(value, onCurrencyChange)}>
+						<Select value={normalizedDefaultCurrency} onValueChange={(value) => handleCurrencyChange(value, onCurrencyChange)}>
 							<SelectTrigger
 								aria-labelledby="currency-label"
-								className={currencyError ? "border-red-500 focus:border-red-500" : ""}
+								className={cn(
+									"w-[280px] flex-shrink-0",
+									currencyError ? "border-red-500 focus:border-red-500" : ""
+								)}
 							>
-								<SelectValue placeholder="Select currency" />
+								<SelectValue 
+									placeholder="Select currency"
+									className="truncate overflow-hidden text-ellipsis whitespace-nowrap"
+								/>
 							</SelectTrigger>
-							<SelectContent>
-								{currencyOptions.map((option) => (
-									<SelectItem key={option.value} value={option.value}>
-										{option.label}
+							<SelectContent className="max-h-[200px] w-[280px]">
+								{generatedCurrencyOptions.map((option) => (
+									<SelectItem 
+										key={option.value} 
+										value={option.value}
+										className="w-full"
+									>
+										<span className="truncate block w-full" title={option.label}>
+											{option.label}
+										</span>
 									</SelectItem>
 								))}
 							</SelectContent>
