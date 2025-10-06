@@ -11,7 +11,7 @@ import { QuickSteps } from "@/components/landing/quick-steps";
 
 const Page = () => {
   return (
-    <main className="w-full max-w-7xl mx-auto relative overflow-hidden p-4">
+    <main className="w-full container mx-auto relative overflow-hidden p-4">
       <Hero />
       <Features />
       <ComponentsSection />

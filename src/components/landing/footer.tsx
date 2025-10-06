@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { HeroSvg2 } from "./svgs/hero-svg-2";
-import { GodRays } from "@paper-design/shaders-react";
 import { Badge } from "../ui/badge";
 import { motion } from "framer-motion";
 import { CornerDownLeft } from "lucide-react";
@@ -15,23 +14,6 @@ export function Footer() {
       <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" />
       <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" />
 
-      <GodRays
-        style={{ height: "125%", width: "125%", position: "absolute" }}
-        colorBack="#1467ff"
-        colorBloom="#001d4d"
-        bloom={0.79}
-        intensity={0.49}
-        density={0.25}
-        spotty={0.63}
-        midSize={0.13}
-        midIntensity={0.56}
-        offsetX={0.6}
-        offsetY={-0.05}
-        scale={1.88}
-        rotation={36}
-        speed={2.49}
-        colors={["#ffffff6e", "#f5f5f5"]}
-      />
       <div className="absolute right-40 xl:flex hidden top-30 items-center justify-center size-32 border-2 border-white/30 p-4 rounded-4xl bg-accent/10 backdrop-blur-xs">
         <LogoMark className="size-32" />
       </div>

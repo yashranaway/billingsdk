@@ -10,7 +10,6 @@ import { Circle, CornerDownLeft } from "lucide-react";
 import { HeroSvg } from "./svgs/hero-svg";
 import { CodeBlock, CodeBlockCopyButton } from "./code-block";
 import { HeroSvg2 } from "./svgs/hero-svg-2";
-import { GrainGradient } from "@paper-design/shaders-react";
 import { useRouter } from "next/navigation";
 const Hero = () => {
   const feature = {
@@ -51,26 +50,16 @@ const Hero = () => {
   }, [router]);
 
   return (
-    <div className="rounded-4xl border border-muted/80 min-h-[45rem] pt-30 max-h-fit overflow-hidden relative">
-      <GrainGradient
-        style={{ height: "125%", width: "125%", position: "absolute" }}
-        colorBack="#000a0f"
-        softness={0.7}
-        className="opacity-90"
-        intensity={0.15}
-        noise={0.13}
-        shape="wave"
-        offsetX={-0.04}
-        offsetY={0.02}
-        scale={1}
-        rotation={0}
-        speed={1.02}
-        colors={["#1467ff", "#7498d8"]}
+    <div className="rounded-4xl border border-muted min-h-[45rem] pt-30 max-h-fit overflow-hidden relative">
+      {/* Background Image */}
+      <Image
+        src="/landing/FractalMaze.jpg"
+        alt="Moon background"
+        width={1920}
+        height={1080}
+        className="absolute inset-0 w-full h-full opacity-40 blur-[1px] md:blur-[2px] object-cover"
       />
-
       {/* Content */}
-      <HeroSvg className="absolute size-100 md:size-200 blur-[5rem] md:blur-[7rem] -bottom-60 md:-top-80 -right-40 md:-right-120" />
-      <HeroSvg2 className="absolute text-[#1264FF] size-100 scale-y-[-1] md:size-200 blur-[5rem] md:blur-[4rem] -top-80 md:-bottom-80 -right-40 md:-left-30" />
       <motion.div
         className="relative z-10 px-6"
         initial="hidden"
@@ -79,25 +68,6 @@ const Hero = () => {
         <div className="max-w-7xl mx-auto w-full">
           {/* Main Hero Section */}
           <div className="text-center mb-8 space-y-4 sm:mb-12 md:mb-16 relative">
-            {/* <Badge variant={"secondary"} className="text-sm px-3 py-1">
-              Product Hunt : 4th Product of day
-            </Badge> */}
-
-            <div className="flex justify-center items-center w-full">
-              <Link
-                className="w-fit"
-                href="https://www.producthunt.com/products/dodo-payments?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_source=badge-billing&#0045;sdk&#0045;2"
-                target="_blank"
-              >
-                <Image
-                  src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=1011707&theme=dark&period=daily&t=1757072846066"
-                  alt="Billing&#0032;SDK - Open&#0032;source&#0032;billing&#0032;UI&#0032;components | Product Hunt"
-                  style={{ width: "250px", height: "48px" }}
-                  width="250"
-                  height="48"
-                />
-              </Link>
-            </div>
             <motion.h1
               className="text-5xl text-balance max-w-xl mx-auto md:text-6xl lg:text-7xl font-semibold font-display text-white mb-3 leading-10 xl:leading-16 relative"
               variants={{
@@ -126,7 +96,6 @@ const Hero = () => {
 
                 {/* Inner container like button */}
                 <div className="relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10">
-                  <Circle className="fill-primary text-primary size-3" />
                   <div className="text-white text-lg whitespace-nowrap">
                     Fully Open Source
                   </div>
@@ -188,7 +157,7 @@ const Hero = () => {
               transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
             >
               <Button
-                className="w-full sm:w-52 h-12 text-primary-foreground  before:from-primary-foreground/20 after:from-primary-foreground/10 relative isolate inline-flex items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay hover:cursor-pointer"
+                className="gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transition-all duration-300"
                 asChild
               >
                 <Link className="flex group items-center gap-2" href="/docs">
@@ -200,7 +169,7 @@ const Hero = () => {
               </Button>
               <Button
                 variant="secondary"
-                className="bg-secondary w-full sm:w-52 h-12 text-secondary-foreground ring-accent hover:ring-2  relative isolate inline-flex items-center justify-center overflow-hidden rounded-md px-3 text-left text-sm font-medium ring-1 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-b before:opacity-80 before:transition-opacity before:duration-300 before:ease-[cubic-bezier(0.4,0.36,0,1)] after:pointer-events-none after:absolute after:inset-0 after:-z-10 after:rounded-md after:bg-gradient-to-b after:to-transparent after:mix-blend-overlay hover:cursor-pointer"
+                className="gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transition-all duration-300"
               >
                 <Link
                   className="flex group items-center gap-2"
@@ -213,24 +182,6 @@ const Hero = () => {
                 </Link>
               </Button>
             </motion.div>
-
-            <div className="flex justify-center items-center w-full">
-              <a
-                className="w-fit"
-                href="https://www.producthunt.com/products/dodo-payments?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_source=badge-billing&#0045;sdk&#0045;2"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=1011707&theme=light&period=daily&t=1757072846066"
-                  alt="Billing&#0032;SDK - Open&#0032;source&#0032;billing&#0032;UI&#0032;components | Product Hunt"
-                  style={{ width: "250px", height: "54px" }}
-                  width="250"
-                  height="54"
-                />
-              </a>
-            </div>
           </div>
 
           {/* Demo Section */}
@@ -278,7 +229,6 @@ const Hero = () => {
 
                     {/* Inner container */}
                     <div className="relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10">
-                      <Circle className="fill-primary text-primary size-3" />
                       <div className=" text-white text-sm whitespace-nowrap">
                         Easy to Use Components
                       </div>
@@ -321,7 +271,7 @@ const Hero = () => {
               </div>
 
               <CodeBlock
-                className="border-none h-full rounded-b-none"
+                className="border-none h-full rounded-b-none bg-black/70 backdrop-blur-lg"
                 code={feature.code}
                 language="jsx"
               >
