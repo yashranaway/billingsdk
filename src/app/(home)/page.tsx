@@ -8,6 +8,8 @@ import Features from "@/components/landing/Features";
 import { OpenSource } from "@/components/landing/opensource";
 import { Faq } from "@/components/landing/faq";
 import { QuickSteps } from "@/components/landing/quick-steps";
+import { Footer } from "@/components/landing/footer";
+import { QuickIntegration } from "@/components/landing/quick-integrations";
 
 const Page = () => {
   return (
@@ -15,10 +17,11 @@ const Page = () => {
       <Hero />
       <Features />
       <ComponentsSection />
-      <QuickSteps />
+      {/* <QuickSteps /> */}
+      <QuickIntegration />
       <Faq />
       <OpenSource />
-      <Footer2 />
+      <Footer />
     </main>
   );
 };
