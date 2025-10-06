@@ -69,7 +69,7 @@ export default function Features() {
     <div className="flex relative flex-col my-24 mt-32 items-center justify-center max-w-7xl mx-auto">
       <ShineButton
         Icon={Crown}
-        className="shadow-xl shadow-white/20"
+        className="shadow-xl shadow-white/5"
         label="Features"
       />
       <h2 className="text-3xl mt-4 sm:text-3xl font-display md:text-5xl font-medium text-primary animate-in fade-in slide-in-from-bottom-4 duration-1000">

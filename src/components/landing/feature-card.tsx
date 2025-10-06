@@ -14,7 +14,7 @@ export const FeatureCard = ({
     <div
       className={cn(
         // base classes first
-        "border h-[23rem] group max-h-fit group p-1.5 bg-muted/50 col-span-1 lg:col-span-3 rounded-xl w-full",
+        "border h-[23rem] group max-h-fit group p-1 bg-muted/50 col-span-1 lg:col-span-3 rounded-xl w-full",
         // conditional overrides appended AFTER the base so they take precedence
         (index === 1 || index === 5) && "lg:col-span-4"
       )}

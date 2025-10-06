@@ -154,7 +154,7 @@ export function ComponentsSection() {
   };
 
   return (
-    <div className=" relative overflow-hidden w-full max-w-7xl mx-auto">
+    <div className=" relative overflow-hidden w-full mx-auto">
       <Tabs
         value={active}
         onValueChange={handleComponentClick}
@@ -162,10 +162,10 @@ export function ComponentsSection() {
       >
         <div className="flex gap-8 xl:flex-row flex-col w-full items-start">
           {/* Left Side - Title, Description & Tab List */}
-          <div className="flex flex-col w-full xl:w-100 items-start flex-shrink-0">
+          <div className="flex flex-col w-full xl:w-80 items-start flex-shrink-0">
             <ShineButton
               Icon={Blocks}
-              className="shadow-xl w-fit shadow-white/20"
+              className="shadow-xl w-fit shadow-white/5"
               label="Components"
             />
             <div className="text-left">
@@ -254,7 +254,7 @@ export function ComponentsSection() {
           </div>
 
           {/* Right Side - Tab Content */}
-          <div className="flex-1 w-full xl:w-2/3">
+          <div className="flex-1 w-full xl:w-auto">
             <ComponentsShowcase
               active={active}
               isHovered={isHovered}
