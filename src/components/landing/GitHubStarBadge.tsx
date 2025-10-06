@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FiStar } from "react-icons/fi";
 import { GoRepoForked } from "react-icons/go";
+import { FaCodePullRequest } from "react-icons/fa6";
 import { motion, AnimatePresence } from "motion/react";
 
 type StarResponse = {
@@ -12,11 +13,13 @@ type StarResponse = {
   pretty: string | null;
   forks: number | null;
   forksPretty: string | null;
+  prs: number | null;
+  prsPretty: string | null;
 };
 
 export default function GitHubStarBadge() {
   const [display, setDisplay] = useState<{
-    kind: "stars" | "forks";
+    kind: "stars" | "forks" | "prs";
     text: string;
   } | null>(null);
   const [metrics, setMetrics] = useState<StarResponse | null>(null);
@@ -92,6 +95,9 @@ export default function GitHubStarBadge() {
         if (prev.kind === "stars") {
           const text = formatApprox(metrics.forks);
           return { kind: "forks", text };
+        } else if (prev.kind === "forks") {
+          const text = formatApprox(metrics.prs);
+          return { kind: "prs", text };
         } else {
           const text = formatApprox(metrics.stars);
           return { kind: "stars", text };
@@ -153,8 +159,10 @@ export default function GitHubStarBadge() {
             >
               {display.kind === "stars" ? (
                 <FiStar className="h-3.5 w-3.5" />
-              ) : (
+              ) : display.kind === "forks" ? (
                 <GoRepoForked className="h-3.5 w-3.5" />
+              ) : (
+                <FaCodePullRequest className="h-3.5 w-3.5" />
               )}
             </motion.span>
           )}
