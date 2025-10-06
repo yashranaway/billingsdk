@@ -53,7 +53,7 @@ const NavBar = () => {
           className={cn(
             `flex items-center w-full justify-between px-2 md:px-4 py-3 transition-all duration-300 ${
               isScrolled &&
-              "bg-accent/30 backdrop-blur-md inset-shadow-sm inset-shadow-white/20 rounded-2xl px-4"
+              "bg-accent/30 backdrop-blur-lg inset-shadow-sm inset-shadow-white/20 rounded-2xl px-4"
             }`
           )}
         >

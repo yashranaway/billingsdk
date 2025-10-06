@@ -34,12 +34,6 @@ export function FeatureIllustration({ label }: { label: string }) {
     case "customizable":
       return (
         <div className="flex bg-muted/20 flex-col h-full items-center justify-center gap-0 w-full">
-          {/* <Badge
-            variant={"secondary"}
-            className="h-9 text-sm px-4 translate-y-4"
-          >
-            10x Faster
-          </Badge> */}
           <CustomisedUI className="size-48 " />
         </div>
       );

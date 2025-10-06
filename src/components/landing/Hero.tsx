@@ -6,11 +6,10 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
-import { Circle, CornerDownLeft } from "lucide-react";
-import { HeroSvg } from "./svgs/hero-svg";
+import { CornerDownLeft } from "lucide-react";
 import { CodeBlock, CodeBlockCopyButton } from "./code-block";
-import { HeroSvg2 } from "./svgs/hero-svg-2";
 import { useRouter } from "next/navigation";
+
 const Hero = () => {
   const feature = {
     title: "Plan Upgrades in Seconds",
@@ -77,7 +76,6 @@ const Hero = () => {
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
               Launch Billing UIs at <span>warp speed</span>
-              {/* Fully Open Source annotation inside h1 */}
               <motion.div
                 className="hidden lg:flex absolute rotate-12 top-[100px] -right-[145px] rounded-full p-px 
              text-xs font-semibold leading-6 h-12 text-white group"
@@ -95,7 +93,7 @@ const Hero = () => {
                 ></span>
 
                 {/* Inner container like button */}
-                <div className="relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10">
+               <div className="relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10 hidden">
                   <div className="text-white text-lg whitespace-nowrap">
                     Fully Open Source
                   </div>
@@ -228,7 +226,7 @@ const Hero = () => {
                     ></span>
 
                     {/* Inner container */}
-                    <div className="relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10">
+                    <div className="relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10 hidden">
                       <div className=" text-white text-sm whitespace-nowrap">
                         Easy to Use Components
                       </div>
