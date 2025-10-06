@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { features } from "./Features";
 import { FeatureIllustration } from "./feature-illustration";
-import { HeroSvg2 } from "./svgs/hero-svg-2";
+import Image from "next/image";
 
 export const FeatureCard = ({
   item,
@@ -19,9 +19,15 @@ export const FeatureCard = ({
         (index === 1 || index === 5) && "lg:col-span-4"
       )}
     >
-      <div className="border h-full flex flex-col bg-background/80 rounded-lg">
-        <div className="relative overflow-hidden rounded-lg h-full w-full">
-          <HeroSvg2 className="absolute size-10 scale-y-[-1] group-hover:opacity-20 opacity-0 transition-all duration-700 ease-in-out md:size-150 blur-[1rem] md:blur-[2rem] -top-80 left-1/2 -translate-x-1/2" />
+      <div className="border h-full flex flex-col bg-background/80 rounded-lg relative overflow-hidden group">
+        <Image
+          src="/landing/gradient2.png"
+          alt="Gradient background"
+          fill
+          className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-20 object-cover blur-md transition-opacity duration-500 ease-out"
+        />
+        <div className="relative overflow-hidden rounded-lg h-full w-full z-10">
+         
           <FeatureIllustration label={item.label} />
         </div>
         <div className="p-4 min-h-[35%] max-h-fit">

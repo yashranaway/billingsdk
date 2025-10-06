@@ -9,9 +9,6 @@ import { CodeBlockTabs, CodeBlockTabsList, CodeBlockTabsTrigger, CodeBlockTab } 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { HeroSvg2 } from "./svgs/hero-svg-2";
-import { HeroBackground } from "./Hero-old";
-import { HeroSvg } from "./svgs/hero-svg";
 import Image from "next/image";
 
 interface QuickIntegrationDataItem {
@@ -117,7 +114,7 @@ const CodeExample = ({
                 >
                     {example.title}
                 </Badge>
-                <CodeBlockTabs defaultValue="npm" className="w-full p-2">
+                <CodeBlockTabs defaultValue="npm" className="w-full p-2 bg-black/20 backdrop-blur-lg">
                     <CodeBlockTabsList className="w-full">
                         <CodeBlockTabsTrigger value="npm">npm</CodeBlockTabsTrigger>
                         <CodeBlockTabsTrigger value="pnpm">pnpm</CodeBlockTabsTrigger>
@@ -125,21 +122,21 @@ const CodeExample = ({
                     </CodeBlockTabsList>
 
                     <CodeBlockTab value="npm" className="w-full p-2">
-                        <CodeBlock className="md:max-w-md max-w-full"
+                        <CodeBlock className="md:max-w-md max-w-full bg-black/20 backdrop-blur-lg"
                             code={example.commands.npm}
                             language={example.language}>
                         </CodeBlock>
                     </CodeBlockTab>
 
                     <CodeBlockTab value="pnpm" className="w-full p-2">
-                        <CodeBlock className="md:max-w-md max-w-full"
+                        <CodeBlock className="md:max-w-md max-w-full bg-black/20 backdrop-blur-lg"
                             code={example.commands.pnpm}
                             language={example.language}>
                         </CodeBlock>
                     </CodeBlockTab>
 
                     <CodeBlockTab value="bun" className="w-full p-2">
-                        <CodeBlock className="md:max-w-md max-w-full"
+                        <CodeBlock className="md:max-w-md max-w-full bg-black/20 backdrop-blur-lg"
                             code={example.commands.bun}
                             language={example.language}>
                         </CodeBlock>
@@ -158,7 +155,7 @@ const CodeExample = ({
                 {example.title}
             </Badge>
             <CodeBlock
-                className="md:max-w-md max-w-full"
+                className="md:max-w-md max-w-full bg-black/50 backdrop-blur-lg"
                 showLineNumbers
                 code={example.code!}
                 language={example.language}
