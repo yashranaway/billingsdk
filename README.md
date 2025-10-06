@@ -39,6 +39,7 @@ Modern, type-safe billing and subscription management components for React, buil
 - [Documentation](#documentation)
 - [Contributing](#contributing)
 - [Contributors](#contributors)
+- [Star History](#star-history)
 - [License](#license)
 
 ## Overview
@@ -55,7 +56,6 @@ Billing SDK provides production-ready UI building blocks for pricing, usage, and
 
 ## Components
 
-- **Payment Method Manager**: Manage credit cards and ACH accounts for billing. [Docs](https://billingsdk.com/docs/components/payment-method-manager)
 - **Pricing Tables**: Multiple variants for different use cases
 - **Subscription Management**: Manage plans, status, and details
 - **Usage Meters**: Linear and circular quota indicators
@@ -164,6 +164,10 @@ Thanks to all our amazing contributors for their support and code!
 <a href="https://github.com/dodopayments/billingsdk/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=dodopayments/billingsdk" />
 </a>
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=dodopayments/billingsdk&type=Date)](https://star-history.com/#dodopayments/billingsdk&Date)
 
 ## License
 

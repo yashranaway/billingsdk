@@ -1,8 +1,8 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import {  Card,  CardContent,  CardDescription,  CardHeader,  CardTitle} from "@/components/ui/card"
-import {  Table,  TableBody,  TableCell,  TableCaption,  TableHead,  TableHeader,  TableRow} from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableCaption, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export interface UsageItem {
     model: string
@@ -61,124 +61,86 @@ export function UsageTable({
     const hasCostToYou = usageHistory.some(item => item.costToYou)
 
     return (
-        <Card className={cn("w-full gap-1 py-3 md:py-6", className)}>
-            <CardHeader className="space-y-2 pb-2 md:pb-4 px-3 md:px-6">
-                {title && (
-                <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg font-medium text-foreground flex items-center gap-2">
-                        {title}
-                    </CardTitle>
-                </div>
-                )}
-                {description && (
-                    <CardDescription className="text-sm font-light text-muted-foreground leading-relaxed">
-                        {description}
-                    </CardDescription>
-                )}
+        <Card className={cn("w-full", className)}>
+            <CardHeader>
+                {title && <CardTitle>{title}</CardTitle>}
+                {description && <CardDescription>{description}</CardDescription>}
             </CardHeader>
-            <CardContent className="px-3 md:px-6">
-                <div className="overflow-x-auto border rounded-lg">
+            <CardContent>
+                <div className="rounded-md border overflow-x-auto">
                     <Table>
                         <TableCaption className="sr-only">Model usage summary with token counts and costs</TableCaption>
                         <TableHeader>
-                            <TableRow className="border-muted-foreground/30 bg-muted/50 hover:bg-muted/50">
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-left whitespace-pre-wrap">MODEL</TableHead>
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    INPUT (W/ CACHE WRITE)
+                            <TableRow>
+                                <TableHead className="w-[140px]">Model</TableHead>
+                                <TableHead className="text-right">
+                                    <span className="hidden sm:inline">Input (w/ Cache)</span>
+                                    <span className="sm:hidden">w/ Cache</span>
                                 </TableHead>
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    INPUT (W/O CACHE WRITE)
+                                <TableHead className="text-right">
+                                    <span className="hidden sm:inline">Input (w/o Cache)</span>
+                                    <span className="sm:hidden">w/o Cache</span>
                                 </TableHead>
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    CACHE READ
+                                <TableHead className="text-right">
+                                    <span className="hidden sm:inline">Cache Read</span>
+                                    <span className="sm:hidden">Cache</span>
                                 </TableHead>
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    OUTPUT
-                                </TableHead>
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    TOTAL TOKENS
+                                <TableHead className="text-right">Output</TableHead>
+                                <TableHead className="text-right">
+                                    <span className="hidden sm:inline">Total Tokens</span>
+                                    <span className="sm:hidden">Total</span>
                                 </TableHead>
                                 {hasApiCost && (
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    API COST
-                                </TableHead>
+                                    <TableHead className="text-right">
+                                        <span className="hidden sm:inline">API Cost</span>
+                                        <span className="sm:hidden">API</span>
+                                    </TableHead>
                                 )}
                                 {hasCostToYou && (
-                                <TableHead className="text-muted-foreground text-xs font-semibold text-right whitespace-pre-wrap">
-                                    COST TO YOU
-                                </TableHead>
+                                    <TableHead className="text-right">
+                                        <span className="hidden sm:inline">Cost to You</span>
+                                        <span className="sm:hidden">Cost</span>
+                                    </TableHead>
                                 )}
                             </TableRow>
                         </TableHeader>
-                        <TableBody className="overflow-auto">
+                        <TableBody>
                             {usageHistory.length === 0 && (
-                                <TableRow className="border-muted-foreground/10">
-                                    <TableCell colSpan={8} className="h-24 text-center text-muted-foreground pl-6 pr-6">
+                                <TableRow>
+                                    <TableCell colSpan={8} className="h-24 text-center text-muted-foreground">
                                         No usage data available
                                     </TableCell>
                                 </TableRow>
                             )}
                             {usageHistory.map((item, index) => (
-                                <TableRow key={item.model || index} className="">
-                                    <TableCell className="font-mono text-foreground">
-                                        {item.model}
-                                    </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item.inputWithCache)}
-                                    </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item.inputWithoutCache)}
-                                    </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item.cacheRead)}
-                                    </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item.output)}
-                                    </TableCell>
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatNumber(item.totalTokens)}
-                                    </TableCell>
+                                <TableRow key={item.model || index}>
+                                    <TableCell className="font-medium">{item.model}</TableCell>
+                                    <TableCell className="text-right">{formatNumber(item.inputWithCache)}</TableCell>
+                                    <TableCell className="text-right">{formatNumber(item.inputWithoutCache)}</TableCell>
+                                    <TableCell className="text-right">{formatNumber(item.cacheRead)}</TableCell>
+                                    <TableCell className="text-right">{formatNumber(item.output)}</TableCell>
+                                    <TableCell className="text-right">{formatNumber(item.totalTokens)}</TableCell>
                                     {hasApiCost && (
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item.apiCost || 0)}
-                                    </TableCell>
+                                        <TableCell className="text-right">{formatCurrency(item.apiCost || 0)}</TableCell>
                                     )}
                                     {hasCostToYou && (
-                                    <TableCell className="text-right text-foreground font-mono">
-                                        {formatCurrency(item.costToYou || 0)}
-                                    </TableCell>
+                                        <TableCell className="text-right">{formatCurrency(item.costToYou || 0)}</TableCell>
                                     )}
                                 </TableRow>
                             ))}
                             {showTotal && totalRow && (
-                                <TableRow className="font-medium bg-muted/50 hover:bg-muted/50">
-                                    <TableCell className="font-mono  font-semibold">
-                                        Total
-                                    </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow.inputWithCache)}
-                                    </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow.inputWithoutCache)}
-                                    </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow.cacheRead)}
-                                    </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow.output)}
-                                    </TableCell>
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatNumber(totalRow.totalTokens)}
-                                    </TableCell>
+                                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                                    <TableCell className="font-semibold">Total</TableCell>
+                                    <TableCell className="text-right font-semibold">{formatNumber(totalRow.inputWithCache)}</TableCell>
+                                    <TableCell className="text-right font-semibold">{formatNumber(totalRow.inputWithoutCache)}</TableCell>
+                                    <TableCell className="text-right font-semibold">{formatNumber(totalRow.cacheRead)}</TableCell>
+                                    <TableCell className="text-right font-semibold">{formatNumber(totalRow.output)}</TableCell>
+                                    <TableCell className="text-right font-semibold">{formatNumber(totalRow.totalTokens)}</TableCell>
                                     {hasApiCost && (
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatCurrency(totalRow.apiCost || 0)}
-                                    </TableCell>
+                                        <TableCell className="text-right font-semibold">{formatCurrency(totalRow.apiCost || 0)}</TableCell>
                                     )}
                                     {hasCostToYou && (
-                                    <TableCell className="text-right  font-mono font-semibold">
-                                        {formatCurrency(totalRow.costToYou || 0)}
-                                    </TableCell>
+                                        <TableCell className="text-right font-semibold">{formatCurrency(totalRow.costToYou || 0)}</TableCell>
                                     )}
                                 </TableRow>
                             )}

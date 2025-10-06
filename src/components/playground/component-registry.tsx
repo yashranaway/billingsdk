@@ -4,7 +4,6 @@ import { PricingTableOne } from "@/components/billingsdk/pricing-table-one";
 import { PricingTableTwo } from "@/components/billingsdk/pricing-table-two";
 import { PricingTableThree } from "@/components/billingsdk/pricing-table-three";
 import { CancelSubscriptionCard } from "@/components/billingsdk/cancel-subscription-card";
-import {CancelSubscriptionCardTwo} from "@/components/billingsdk/cancel-subscription-card-two"
 import { CancelSubscriptionDialog } from "@/components/billingsdk/cancel-subscription-dialog";
 import { UpdatePlanCard } from "@/components/billingsdk/update-plan-card";
 import { UpdatePlanDialog } from "@/components/billingsdk/update-plan-dialog";
@@ -14,9 +13,11 @@ import { UsageMeter } from "@/components/billingsdk/usage-meter";
 import { UsageTable } from "@/components/billingsdk/usage-table";
 import { InvoiceHistory } from "@/components/billingsdk/invoice-history";
 import { PaymentMethodSelector } from "@/components/billingsdk/payment-method-selector";
+import { PaymentCard } from "@/components/billingsdk/payment-card";
 import { PricingTableFive } from "@/components/billingsdk/pricing-table-five";
 import { PricingTableSix } from "@/components/billingsdk/pricing-table-six";
 import { PricingTableSeven } from "@/components/billingsdk/pricing-table-seven";
+import { PaymentDetailsTwo } from "../billingsdk/payment-details-two";
 
 export const componentRegistry: ComponentConfig[] = [
   {
@@ -1177,86 +1178,6 @@ export const componentRegistry: ComponentConfig[] = [
     },
   },
   {
-    id: "cancel-subscription-card-two",
-    name: "Cancel Subscription Card Two",
-    description: "Elegant Subscription cancellation ui component",
-    category: "subscription",
-    component: CancelSubscriptionCardTwo,
-    imports: ["@/components/billingsdk/cancel-subscription-card-two"],
-    defaultCode: `<CancelSubscriptionCardTwo
-  title="We're sorry to see you go..."
-  description="Before you cancel, we hope you'll consider upgrading to a Pro plan again."
-  plan={{
-    id: "pro",
-    title: "Pro",
-    description: "Best for growing businesses and startups",
-    currency: "$",
-    monthlyPrice: "29",
-    yearlyPrice: "299",
-    buttonText: "Get Started",
-    highlight: true,
-    features: [
-      {
-        name: "Up to 25 users",
-        icon: "check",
-        iconColor: "text-green-500"
-      },
-      {
-        name: "Advanced analytics",
-        icon: "check",
-        iconColor: "text-blue-500"
-      },
-      {
-        name: "Priority support",
-        icon: "check",
-        iconColor: "text-orange-500"
-      }
-    ]
-  }}
-  warningText="You'll lose access to all premium features at the end of your current billing period."
-  keepButtonText="Keep My Subscription"
-  continueButtonText="Continue Cancellation"
-  onCancel={(planId) => console.log("Subscription cancelled for plan:", planId)}
-  onKeepSubscription={(planId) => console.log("Subscription kept for plan:", planId)}
-/>`,
-    defaultProps: {
-      title: "We're sorry to see you go...",
-      description: "Before you cancel, we hope you'll consider upgrading to a Pro plan again.",
-      plan: {
-        id: "pro",
-        title: "Pro",
-        description: "Best for growing businesses",
-        currency: "$",
-        monthlyPrice: "29",
-        yearlyPrice: "299",
-        buttonText: "Get Started",
-        highlight: true,
-        features: [
-          {
-            name: "Up to 25 users",
-            icon: "check",
-            iconColor: "text-green-500"
-          },
-          {
-            name: "Advanced analytics",
-            icon: "check",
-            iconColor: "text-blue-500"
-          },
-          {
-            name: "Priority support",
-            icon: "check",
-            iconColor: "text-orange-500"
-          }
-        ]
-      },
-      supportText:"Need help? Our team is here to assist you.",
-      keepButtonText: "Keep My Subscription",
-      continueButtonText: "Continue Cancellation",
-      onCancel: (planId: string) => console.log("Subscription cancelled for plan:", planId),
-      onKeepSubscription: (planId: string) => console.log("Subscription kept for plan:", planId),
-    },
-  },
-  {
     id: "cancel-subscription-dialog",
     name: "Cancel Subscription Dialog",
     description: "Modal dialog for subscription cancellation",
@@ -1976,4 +1897,69 @@ export const componentRegistry: ComponentConfig[] = [
       onAddNew: () => console.log("Add new method"),
     },
   },
+  {
+    id: "payment-details-two",
+    name: "Payment Details Two",
+    description: "Payment details form with custom validation",
+    category: "ui",
+    component: PaymentDetailsTwo,
+    imports: ["@/components/billingsdk/payment-details-two"],
+    defaultCode: `<PaymentDetailsTwo
+    onSubmit={handleSubmit}
+    onDiscard={handleDiscard}
+  />`,
+    defaultProps: {
+      onSubmit: async (data: any) => {
+        return await new Promise((resolve) => {
+          setTimeout(() => {
+            console.log("Handle Submit Function", data)
+            resolve('The promise is resolved')
+          }, 3000)
+        })
+      },
+      onDiscard: () => console.log("The Discard Function"),
+    },
+  },
+  {
+    id: "payment-card",
+    name: "Payment Card",
+    description: "A comprehensive final payment interface for processing transactions with card details.",
+    category: "ui",
+    component: PaymentCard,
+    imports: ["@/components/billingsdk/payment-card"],
+    defaultCode: `<PaymentCard
+   title="Final step, make the payment."
+  description="To finalize your subscription, kindly complete your payment using a valid credit card."
+  price="100"
+  finalText={[
+    { text: "Automated billing & invoices" },
+    { text: "Priority support" },
+    { text: "Exclusive member benefits" },
+  ]}
+  feature="Payment & Invoice"
+  featuredescription="Automated billing and invoicing with detailed transaction records. Professional receipts delivered instantly to your email."
+  feature2="Priority Support"
+  feature2description="Get dedicated customer support with faster response times and direct access to our technical team for any issues."
+  onPay={async ({ cardNumber, expiry, cvc }) => {
+    console.log(\`Payment Processed! \${cardNumber}, exp \${expiry}, cvc \${cvc}\`);
+  }}
+  />`,
+    defaultProps: {
+      title: "Final step, make the payment.",
+      description: "To finalize your subscription, kindly complete your payment using a valid credit card.",
+      price: "100",
+      finalText: [
+        { text: "Automated billing & invoices" },
+        { text: "Priority support" },
+        { text: "Exclusive member benefits" },
+      ],
+      feature: "Payment & Invoice",
+      featuredescription: "Automated billing and invoicing with detailed transaction records. Professional receipts delivered instantly to your email.",
+      feature2: "Priority Support",
+      feature2description: "Get dedicated customer support with faster response times and direct access to our technical team for any issues.",
+      onPay: async ({ cardNumber, expiry, cvc }: { cardNumber: string; expiry: string; cvc: string }) => {
+        console.log(`Payment Processed! ${cardNumber}, exp ${expiry}, cvc ${cvc}`);
+      },
+    },
+  }
 ];
