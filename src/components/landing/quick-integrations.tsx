@@ -226,7 +226,7 @@ export function QuickIntegration() {
                                     src="/landing/gradient2.png"
                                     alt="Moon background"
                                     fill
-                                    className="absolute top-0 left-0 w-full h-full opacity-20 object-cover blur-sm" 
+                                    className="absolute top-0 left-0 w-full h-full opacity-20 object-cover blur" 
                                 />
                                 <div className="flex flex-col gap-4">
                                     <div className="flex items-center gap-3">
@@ -264,7 +264,7 @@ export function QuickIntegration() {
                             </Button>
                         </div>
 
-                        <div className="w-full xl:w-1/2 transition-all duration-500 xl:aspect-[3/2] px-6 py-10 xl:py-0 bg-muted/20 relative rounded-xl overflow-x-scroll md:overflow-auto border border-muted/80">
+                        <div className="hidden md:block w-full xl:w-1/2 transition-all duration-500 xl:aspect-[3/2] px-6 py-10 xl:py-0 bg-muted/20 relative rounded-xl overflow-x-scroll md:overflow-auto border border-muted/80">
                             <div className="max-w-full md:max-w-1/2 mx-auto h-full flex items-center md:justify-center">
                                 <CodeExample example={item.codeExample} />
                             </div>

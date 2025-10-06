@@ -7,12 +7,20 @@ import { motion } from "framer-motion";
 import { CornerDownLeft } from "lucide-react";
 import { LogoMark } from "./svgs/logo-mark";
 import { FaGithub } from "react-icons/fa";
+import Image from "next/image";
 
 export function Footer() {
   return (
     <footer className="w-full h-[20rem] border rounded-2xl overflow-hidden relative">
-      <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" />
-      <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" />
+      {/* <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" />
+      <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" /> */}
+      <Image
+        src="/landing/FractalMaze.jpg"
+        alt="Moon background"
+        width={1920}
+        height={1080}
+        className="absolute inset-0 w-full h-full opacity-40 blur-[1px] md:blur-[2px] object-cover rotate-180"
+      />
 
       <div className="absolute right-40 xl:flex hidden top-30 items-center justify-center size-32 border-2 border-white/30 p-4 rounded-4xl bg-accent/10 backdrop-blur-xs">
         <LogoMark className="size-32" />
