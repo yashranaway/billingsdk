@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { HeroSvg2 } from "./svgs/hero-svg-2";
 import { Badge } from "../ui/badge";
 import { motion } from "framer-motion";
 import { CornerDownLeft } from "lucide-react";
@@ -12,8 +11,6 @@ import Image from "next/image";
 export function Footer() {
   return (
     <footer className="w-full h-[20rem] border rounded-2xl overflow-hidden relative">
-      {/* <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" />
-      <HeroSvg2 className="absolute size-100 md:size-200 blur-[5rem] md:blur-[4rem] -bottom-40 md:-bottom-80 -right-40 md:-left-30" /> */}
       <Image
         src="/landing/FractalMaze.jpg"
         alt="Moon background"
