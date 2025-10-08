@@ -256,8 +256,6 @@ export function ComponentsSection() {
           {/* Right Side - Tab Content */}
           <div className="flex-1 w-full xl:w-auto">
             <ComponentsShowcase
-              active={active}
-              isHovered={isHovered}
               setIsHovered={setIsHovered}
             />
           </div>
@@ -267,7 +265,7 @@ export function ComponentsSection() {
   );
 }
 
-function ComponentsShowcase({ active, isHovered, setIsHovered }: any) {
+function ComponentsShowcase({ setIsHovered }: any) {
   return (
     <div id="components-showcase" className="w-full">
       <div

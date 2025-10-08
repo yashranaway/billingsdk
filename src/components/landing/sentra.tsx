@@ -1,18 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Badge } from "../ui/badge";
 import { motion } from "framer-motion";
-import { CornerDownLeft, Crown } from "lucide-react";
-import { LogoMark } from "./svgs/logo-mark";
+import { CornerDownLeft } from "lucide-react";
 import Image from "next/image";
 import { ShineButton } from "./shine-button";
-import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
