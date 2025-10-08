@@ -7,7 +7,7 @@ import { Footer } from "./footer";
 
 export function Footer2() {
   return (
-    <footer className="bg-muted/80 rounded-3xl border border-input p-2 w-full">
+    <footer className="bg-muted/10 rounded-3xl border border-input p-2 w-full">
       <Footer />
       <div className="pt-12 pb-2 md:pb-12 px-4">
         <div className="max-w-6xl mx-auto">

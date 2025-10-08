@@ -11,13 +11,13 @@ export const ShineButton = ({
   className?: string;
   containerClassName?: string;
   label: string;
-  Icon: LucideIcon;
+  Icon?: LucideIcon;
 }) => {
   return (
     <motion.div
       className={cn(
+        "flex relative top-0 left-0 rounded-full p-px text-xs font-semibold leading-6 h-9 text-white group",
         className,
-        "flex relative top-0 left-0 rounded-full p-px text-xs font-semibold leading-6 h-9 text-white group"
       )}
       variants={{
         hidden: { opacity: 0, y: -20 },
@@ -34,11 +34,11 @@ export const ShineButton = ({
       {/* Inner container like button */}
       <div
         className={cn(
+          "relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10",
           containerClassName,
-          "relative flex items-center gap-2 z-10 rounded-full py-0.5 px-4 ring-1 ring-white/10"
         )}
       >
-        <Icon className="text-primary size-3" />
+        {Icon && <Icon className="text-primary size-3" />}
         <div className="text-white text-sm font-normal whitespace-nowrap">
           {label}
         </div>
