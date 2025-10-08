@@ -6,8 +6,9 @@ import { ComponentsSection } from "@/components/landing/components";
 import Features from "@/components/landing/Features";
 import { OpenSource } from "@/components/landing/opensource";
 import { Faq } from "@/components/landing/faq";
-import { Footer } from "@/components/landing/footer";
 import { QuickIntegration } from "@/components/landing/quick-integrations";
+import { Footer2 } from "@/components/landing/footer2";
+import { Sentra } from "@/components/landing/sentra";
 
 const Page = () => {
   return (
@@ -16,9 +17,10 @@ const Page = () => {
       <Features />
       <ComponentsSection />
       <QuickIntegration />
+      <Sentra />
       <Faq />
       <OpenSource />
-      <Footer />
+      <Footer2 />
     </main>
   );
 };
