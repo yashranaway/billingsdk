@@ -17,7 +17,6 @@ import { PaymentCard } from "@/components/billingsdk/payment-card";
 import { PricingTableFive } from "@/components/billingsdk/pricing-table-five";
 import { PricingTableSix } from "@/components/billingsdk/pricing-table-six";
 import { PricingTableSeven } from "@/components/billingsdk/pricing-table-seven";
-import { PricingTableEight } from "@/components/billingsdk/pricing-table-eight";
 import { LimitedOfferDialog } from "@/components/billingsdk/limited-offer-dialog";
 import { PaymentDetailsTwo } from "../billingsdk/payment-details-two";
 
