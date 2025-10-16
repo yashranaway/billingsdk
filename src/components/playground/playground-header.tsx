@@ -1,33 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { Upload } from "lucide-react";
 import { usePlayground } from "./playground-context";
-import { componentRegistry } from "./component-registry";
+import { discoverComponents } from "./auto-discovery";
 import { PlaygroundLogo } from "./playground-logo";
+import type { ComponentConfig } from "./types";
 
 import Link from "next/link";
 
 export function PlaygroundHeader() {
   const { state, setSelectedComponent, updateCode, updateStyles } = usePlayground();
   const [selectedCategory] = useState<string>("all");
+  const [components, setComponents] = useState<ComponentConfig[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Auto-discover components on mount
+  useEffect(() => {
+    async function loadComponents() {
+      setIsLoading(true);
+      const discovered = await discoverComponents();
+      setComponents(discovered);
+      setIsLoading(false);
+    }
+    loadComponents();
+  }, []);
 
   const categories = [
     { id: "pricing", label: "Pricing Tables" },
     { id: "subscription", label: "Subscription" },
+    { id: "payment", label: "Payment" },
     { id: "usage", label: "Usage & Billing" },
     { id: "ui", label: "UI Components" },
   ];
 
   const filteredComponents = selectedCategory === "all" 
-    ? componentRegistry 
-    : componentRegistry.filter(comp => comp.category === selectedCategory);
+    ? components 
+    : components.filter(comp => comp.category === selectedCategory);
 
   const handleComponentChange = (componentId: string) => {
-    const component = componentRegistry.find(comp => comp.id === componentId);
+    const component = components.find(comp => comp.id === componentId);
     if (component) {
       setSelectedComponent(component);
     }
@@ -86,10 +101,10 @@ export function PlaygroundHeader() {
           </Link>
 
           {/* Component Selector */}
-          <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange}>
+          <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange} disabled={isLoading}>
             <SelectTrigger className="w-64">
-              <SelectValue placeholder="Select a component">
-                {state.selectedComponent?.name || "Select a component"}
+              <SelectValue placeholder={isLoading ? "Loading components..." : "Select a component"}>
+                {state.selectedComponent?.name || (isLoading ? "Loading..." : "Select a component")}
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="w-64 min-w-64 max-h-96 overflow-y-auto">
