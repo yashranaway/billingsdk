@@ -71,7 +71,15 @@ function categorizeComponent(name: string): string {
 }
 
 /**
+ * Escapes special regex characters to prevent injection
+ */
+function regexEscape(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
  * Extracts usage code snippet from component metadata
+ * Limits input size and uses safe regex patterns to prevent ReDoS
  */
 function extractUsageSnippet(metadata: any, componentName: string): string {
   const pascalName = toPascalCase(componentName);
@@ -83,15 +91,31 @@ function extractUsageSnippet(metadata: any, componentName: string): string {
   
   if (demoFile?.content) {
     try {
-      // Extract the JSX from the demo component - look for the component usage
-      const componentPattern = new RegExp(`<${pascalName}[^>]*(?:>|\\/>)[\\s\\S]*?(?:<\\/${pascalName}>|(?=\\n\\s*\\)))`, 'i');
-      const match = demoFile.content.match(componentPattern);
+      // Limit input size to prevent ReDoS attacks (50KB max)
+      const MAX_CONTENT_SIZE = 50 * 1024; // 50KB
+      const safeContent = demoFile.content.slice(0, MAX_CONTENT_SIZE);
+      
+      // Escape pascalName to prevent regex injection
+      const escapedName = regexEscape(pascalName);
+      
+      // Extract the JSX from the demo component - use bounded quantifiers
+      // Match opening tag, attributes (max 500 chars), and closing tag (max 2000 chars content)
+      const componentPattern = new RegExp(
+        `<${escapedName}[^>]{0,500}(?:>|\\/>)(?:[^<]{0,2000}|(?:<(?!\\/${escapedName}>)[^>]{0,100}>){0,50})*?(?:<\\/${escapedName}>|(?=\\n\\s*\\)))`,
+        'i'
+      );
+      const match = safeContent.match(componentPattern);
       if (match) {
         return match[0].trim();
       }
       
-      // Fallback: try to find any component tag
-      const anyComponentMatch = demoFile.content.match(/<[A-Z][a-zA-Z]*[^>]*(?:>|\/>)[\s\S]*?(?:<\/[A-Z][a-zA-Z]*>|(?=\n\s*\)))/i);
+      // Fallback: try to find any component tag with bounded quantifiers
+      // Match any PascalCase component with limited nesting
+      const anyComponentPattern = new RegExp(
+        '<[A-Z][a-zA-Z]{0,50}[^>]{0,500}(?:>|\\\\/>) (?:[^<]{0,2000}|(?:<(?!\\\\/[A-Z])[^>]{0,100}>){0,50})*?(?:<\\\\/[A-Z][a-zA-Z]{0,50}>|(?=\\\\n\\\\s*\\\\)))',
+        'i'
+      );
+      const anyComponentMatch = safeContent.match(anyComponentPattern);
       if (anyComponentMatch) {
         return anyComponentMatch[0].trim();
       }
