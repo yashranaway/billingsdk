@@ -254,10 +254,8 @@ export async function discoverComponent(componentName: string): Promise<Componen
     
     const metadata = await fetchComponentMetadata(normalizedName);
     if (!metadata) {
-      console.warn(`No metadata found for ${normalizedName}`);
-      return null;
+      console.warn(`No metadata found for ${normalizedName} — proceeding with defaults`);
     }
-
     const Component = await importComponent(normalizedName);
     if (!Component) {
       console.warn(`Component ${normalizedName} could not be imported`);
@@ -266,12 +264,12 @@ export async function discoverComponent(componentName: string): Promise<Componen
 
     const config: ComponentConfig = {
       id: normalizedName,
-      name: metadata.title || toPascalCase(normalizedName),
-      description: metadata.description || `${toPascalCase(normalizedName)} component`,
+      name: metadata?.title || toPascalCase(normalizedName),
+      description: metadata?.description || `${toPascalCase(normalizedName)} component`,
       category: categorizeComponent(normalizedName),
       component: Component,
       imports: [`@/components/billingsdk/${normalizedName}`],
-      defaultCode: extractUsageSnippet(metadata, normalizedName),
+      defaultCode: extractUsageSnippet(metadata ?? {}, normalizedName),
       defaultProps: {},
     };
 
