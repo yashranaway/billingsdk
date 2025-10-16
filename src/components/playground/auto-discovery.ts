@@ -112,7 +112,7 @@ function extractUsageSnippet(metadata: any, componentName: string): string {
       // Fallback: try to find any component tag with bounded quantifiers
       // Match any PascalCase component with limited nesting
       const anyComponentPattern = new RegExp(
-        '<[A-Z][a-zA-Z]{0,50}[^>]{0,500}(?:>|\\\\/>) (?:[^<]{0,2000}|(?:<(?!\\\\/[A-Z])[^>]{0,100}>){0,50})*?(?:<\\\\/[A-Z][a-zA-Z]{0,50}>|(?=\\\\n\\\\s*\\\\)))',
+        '<[A-Z][a-zA-Z]{0,50}[^>]{0,500}(?:>|\\/>)(?:[^<]{0,2000}|(?:<(?!\\/[A-Z])[^>]{0,100}>){0,50})*?(?:<\\/[A-Z][a-zA-Z]{0,50}>|(?=\\n\\s*\\)))',
         'i'
       );
       const anyComponentMatch = safeContent.match(anyComponentPattern);
