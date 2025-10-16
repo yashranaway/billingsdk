@@ -196,18 +196,37 @@ export async function discoverComponents(): Promise<ComponentConfig[]> {
 }
 
 /**
+ * Normalizes component names to kebab-case
+ * Handles PascalCase, camelCase, spaces, and special characters
+ */
+function normalizeComponentName(name: string): string {
+  return name
+    // Insert hyphens between lower→upper transitions (decamelize)
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    // Insert hyphens between letter→number transitions
+    .replace(/([a-zA-Z])([0-9])/g, '$1-$2')
+    // Lowercase everything
+    .toLowerCase()
+    // Replace whitespace with hyphens
+    .replace(/\s+/g, '-')
+    // Remove non a-z0-9- characters
+    .replace(/[^a-z0-9-]/g, '')
+    // Collapse multiple hyphens
+    .replace(/-+/g, '-')
+    // Trim leading/trailing hyphens
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
  * Discovers a single component by name
  * Handles various component name formats (kebab-case, PascalCase, etc.)
  */
 export async function discoverComponent(componentName: string): Promise<ComponentConfig | null> {
   try {
     // Normalize component name to kebab-case
-    const normalizedName = componentName
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '');
+    const normalizedName = normalizeComponentName(componentName);
     
-    console.log(`Discovering component: ${normalizedName}`);
+    console.log(`Discovering component: ${componentName} → ${normalizedName}`);
     
     const metadata = await fetchComponentMetadata(normalizedName);
     if (!metadata) {
@@ -238,6 +257,42 @@ export async function discoverComponent(componentName: string): Promise<Componen
     console.error(`Failed to discover component ${componentName}:`, error);
     return null;
   }
+}
+
+/**
+ * Lightweight component list entry (no actual component imported)
+ */
+export interface ComponentListItem {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+}
+
+/**
+ * Gets a lightweight list of all components (no imports)
+ * Use this for initial loading to avoid bloating the bundle
+ */
+export async function getComponentList(): Promise<ComponentListItem[]> {
+  const manifest = await fetchRegistryManifest();
+  if (!manifest) {
+    console.warn('Failed to fetch registry manifest');
+    return [];
+  }
+
+  const componentItems = manifest.items.filter(item => 
+    item.type === 'registry:block' && 
+    item.name !== 'index' && 
+    item.name !== 'all' &&
+    item.name !== 'hello-world'
+  );
+
+  return componentItems.map(item => ({
+    id: item.name,
+    name: item.title,
+    description: item.description,
+    category: categorizeComponent(item.name),
+  }));
 }
 
 /**

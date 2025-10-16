@@ -6,27 +6,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 import { Upload } from "lucide-react";
 import { usePlayground } from "./playground-context";
-import { discoverComponents } from "./auto-discovery";
+import { getComponentList, discoverComponent, type ComponentListItem } from "./auto-discovery";
 import { PlaygroundLogo } from "./playground-logo";
-import type { ComponentConfig } from "./types";
 
 import Link from "next/link";
 
 export function PlaygroundHeader() {
   const { state, setSelectedComponent, updateCode, updateStyles } = usePlayground();
   const [selectedCategory] = useState<string>("all");
-  const [components, setComponents] = useState<ComponentConfig[]>([]);
+  const [componentList, setComponentList] = useState<ComponentListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingComponent, setIsLoadingComponent] = useState(false);
 
-  // Auto-discover components on mount
+  // Load lightweight component list on mount (no actual imports)
   useEffect(() => {
-    async function loadComponents() {
+    async function loadComponentList() {
       setIsLoading(true);
-      const discovered = await discoverComponents();
-      setComponents(discovered);
+      const list = await getComponentList();
+      setComponentList(list);
       setIsLoading(false);
     }
-    loadComponents();
+    loadComponentList();
   }, []);
 
   const categories = [
@@ -38,13 +38,23 @@ export function PlaygroundHeader() {
   ];
 
   const filteredComponents = selectedCategory === "all" 
-    ? components 
-    : components.filter(comp => comp.category === selectedCategory);
+    ? componentList 
+    : componentList.filter(comp => comp.category === selectedCategory);
 
-  const handleComponentChange = (componentId: string) => {
-    const component = components.find(comp => comp.id === componentId);
-    if (component) {
-      setSelectedComponent(component);
+  const handleComponentChange = async (componentId: string) => {
+    // Lazy load the full component on selection
+    setIsLoadingComponent(true);
+    try {
+      const fullComponent = await discoverComponent(componentId);
+      if (fullComponent) {
+        setSelectedComponent(fullComponent);
+      } else {
+        console.error(`Failed to load component: ${componentId}`);
+      }
+    } catch (error) {
+      console.error(`Error loading component ${componentId}:`, error);
+    } finally {
+      setIsLoadingComponent(false);
     }
   };
 
@@ -101,10 +111,16 @@ export function PlaygroundHeader() {
           </Link>
 
           {/* Component Selector */}
-          <Select value={state.selectedComponent?.id || ""} onValueChange={handleComponentChange} disabled={isLoading}>
+          <Select 
+            value={state.selectedComponent?.id || ""} 
+            onValueChange={handleComponentChange} 
+            disabled={isLoading || isLoadingComponent}
+          >
             <SelectTrigger className="w-64">
               <SelectValue placeholder={isLoading ? "Loading components..." : "Select a component"}>
-                {state.selectedComponent?.name || (isLoading ? "Loading..." : "Select a component")}
+                {isLoadingComponent 
+                  ? "Loading component..." 
+                  : state.selectedComponent?.name || (isLoading ? "Loading..." : "Select a component")}
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="w-64 min-w-64 max-h-96 overflow-y-auto">
