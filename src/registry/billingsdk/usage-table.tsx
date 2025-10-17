@@ -57,9 +57,8 @@ export function UsageTable({
     const formatCurrency = (amount: number) => {
         return `$${amount.toFixed(2)}`
     }
-    const hasApiCost = usageHistory.some(item => item.apiCost)
-    const hasCostToYou = usageHistory.some(item => item.costToYou)
-
+    const hasApiCost = usageHistory.some(item => item.apiCost !== undefined && item.apiCost !== null)
+    const hasCostToYou = usageHistory.some(item => item.costToYou !== undefined && item.costToYou !== null)
 
     const exportColumns = [
         { key: 'model', label: 'Model' },
@@ -97,12 +96,11 @@ export function UsageTable({
 
                 if (key === 'model') {
                     formattedValue = item.model;
-                } else if (key.includes('Cost')) {
-                    // Apply currency formatting
-                    formattedValue = formatCurrency(value as number || 0);
-                } else {
-                    // Apply number formatting for tokens
-                    formattedValue = formatNumber(value as number || 0);
+                } else if (key === 'apiCost' || key === 'costToYou') {
+                   // Apply currency formatting
+                   formattedValue = formatCurrency(Number(value ?? 0));
+                  } else {
+                    formattedValue = formatNumber(Number(value ?? 0));  // Apply number formatting for tokens
                 }
 
                 // Escape double quotes and wrap in quotes for robust CSV
@@ -124,20 +122,23 @@ export function UsageTable({
 
             allRows.push(getCsvRow(totalItem));
         }
-
-        // 6. Combine all content and trigger download
-        const csvContent = [headerRow, ...allRows].join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        // 6. Combine all content and trigger download (BOM + CRLF for Excel)
+        const csvContent = [headerRow, ...allRows].join('\r\n');
+        const blob = new Blob(["\uFEFF", csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         
         const link = document.createElement('a');
         link.setAttribute('href', url);
         link.setAttribute('download', 'usage_summary.csv');
-        
+
         document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
+        try {
+          link.click();
+        } finally {
+          document.body.removeChild(link);
+          // Slight delay ensures some browsers finish navigation before revoking
+          setTimeout(() => URL.revokeObjectURL(url), 0);
+        }
     }, [usageHistory, totalRow, showTotal, hasApiCost, hasCostToYou, formatNumber, formatCurrency]); 
     // --- END CSV EXPORT LOGIC ---
     // Calculate total row if showTotal is true
