@@ -100,8 +100,10 @@ export const addFiles = async (
     }
 
     const cwd = options.cwd || process.cwd();
-    let srcExists = fs.existsSync(path.join(cwd, "src"));
-    const addToPath = srcExists ? "src" : "";
+    // Always use src/ structure for frameworks that expect it
+    const frameworksUsingSrc = ['nestjs', 'express', 'fastify', 'hono'];
+    const shouldUseSrc = frameworksUsingSrc.includes(framework);
+    const addToPath = shouldUseSrc ? "src" : "";
     if (options.verbose) {
         console.log(`Placing files under: ${addToPath || "."}`);
     }
@@ -113,7 +115,9 @@ export const addFiles = async (
         }
         const fileName = path.basename(file.target);
         const targetSegments = file.target.split(/[\\/]/).filter(Boolean);
-        const combined = fileName.startsWith(".env")
+        // Keep root-level config files at the root
+        const isRootLevelConfig = fileName.startsWith(".env") || fileName === "tsconfig.json" || fileName === "package.json";
+        const combined = isRootLevelConfig
           ? path.join(...targetSegments)
           : path.join(addToPath, ...targetSegments);
         const resolved = path.resolve(cwd, combined);
