@@ -17,6 +17,7 @@ export function PlaygroundHeader() {
   const [componentList, setComponentList] = useState<ComponentListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingComponent, setIsLoadingComponent] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   // Load lightweight component list on mount (no actual imports)
   useEffect(() => {
@@ -39,21 +40,31 @@ export function PlaygroundHeader() {
 
   const filteredComponents = selectedCategory === "all" 
     ? componentList 
-    : componentList.filter(comp => comp.category === selectedCategory);
+    : componentList.filter((comp: ComponentListItem) => comp.category === selectedCategory);
 
   const handleComponentChange = async (componentId: string) => {
-    // Lazy load the full component on selection
     setIsLoadingComponent(true);
+    setLoadError(null);
+    
+    console.log(`[PlaygroundHeader] Loading component: ${componentId}`);
+    
     try {
       const fullComponent = await discoverComponent(componentId);
       if (fullComponent) {
+        console.log(`[PlaygroundHeader] Component loaded successfully:`, componentId);
         setSelectedComponent(fullComponent);
+        setLoadError(null);
+        setIsLoadingComponent(false);
       } else {
-        console.error(`Failed to load component: ${componentId}`);
+        const errorMsg = `Failed to load component: ${componentId}`;
+        console.error(`[PlaygroundHeader] ${errorMsg}`);
+        setLoadError(errorMsg);
+        setIsLoadingComponent(false);
       }
     } catch (error) {
-      console.error(`Error loading component ${componentId}:`, error);
-    } finally {
+      const errorMsg = `Error loading component ${componentId}: ${error}`;
+      console.error(`[PlaygroundHeader]`, errorMsg, error);
+      setLoadError(errorMsg);
       setIsLoadingComponent(false);
     }
   };
@@ -118,9 +129,11 @@ export function PlaygroundHeader() {
           >
             <SelectTrigger className="w-64">
               <SelectValue placeholder={isLoading ? "Loading components..." : "Select a component"}>
-                {isLoadingComponent 
-                  ? "Loading component..." 
-                  : state.selectedComponent?.name || (isLoading ? "Loading..." : "Select a component")}
+                {loadError 
+                  ? "Error loading component" 
+                  : isLoadingComponent 
+                    ? "Loading component..." 
+                    : state.selectedComponent?.name || (isLoading ? "Loading..." : "Select a component")}
               </SelectValue>
             </SelectTrigger>
             <SelectContent className="w-64 min-w-64 max-h-96 overflow-y-auto">
@@ -130,8 +143,8 @@ export function PlaygroundHeader() {
                     {category.label}
                   </div>
                   {filteredComponents
-                    .filter(comp => comp.category === category.id || category.id === "all")
-                    .map(component => (
+                    .filter((comp: ComponentListItem) => comp.category === category.id || category.id === "all")
+                    .map((component: ComponentListItem) => (
                       <SelectItem 
                         key={component.id} 
                         value={component.id}

@@ -1,8 +1,3 @@
-/**
- * Auto-discovery utility for playground components
- * Automatically discovers and loads components from the public registry
- */
-
 import type { ComponentConfig } from "./types";
 
 interface RegistryItem {
@@ -21,9 +16,6 @@ interface RegistryManifest {
   items: RegistryItem[];
 }
 
-/**
- * Fetches the registry manifest from the public directory
- */
 async function fetchRegistryManifest(): Promise<RegistryManifest | null> {
   try {
     const response = await fetch('/r/registry.json');
@@ -35,9 +27,6 @@ async function fetchRegistryManifest(): Promise<RegistryManifest | null> {
   }
 }
 
-/**
- * Fetches individual component metadata from the registry
- */
 async function fetchComponentMetadata(componentName: string): Promise<any> {
   try {
     const response = await fetch(`/r/${componentName}.json`);
@@ -49,9 +38,6 @@ async function fetchComponentMetadata(componentName: string): Promise<any> {
   }
 }
 
-/**
- * Converts a kebab-case component name to PascalCase
- */
 function toPascalCase(str: string): string {
   return str
     .split('-')
@@ -59,9 +45,6 @@ function toPascalCase(str: string): string {
     .join('');
 }
 
-/**
- * Categorizes components based on their name
- */
 function categorizeComponent(name: string): string {
   if (name.includes('pricing-table')) return 'pricing';
   if (name.includes('subscription') || name.includes('plan') || name.includes('cancel') || name.includes('update')) return 'subscription';
@@ -70,36 +53,21 @@ function categorizeComponent(name: string): string {
   return 'ui';
 }
 
-/**
- * Escapes special regex characters to prevent injection
- */
 function regexEscape(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-/**
- * Extracts usage code snippet from component metadata
- * Limits input size and uses safe regex patterns to prevent ReDoS
- */
 function extractUsageSnippet(metadata: any, componentName: string): string {
   const pascalName = toPascalCase(componentName);
-  
-  // Try to find demo file content
   const demoFile = metadata?.files?.find((f: any) => 
     f.path?.includes('demo') && f.content
   );
   
   if (demoFile?.content) {
     try {
-      // Limit input size to prevent ReDoS attacks (50KB max)
-      const MAX_CONTENT_SIZE = 50 * 1024; // 50KB
+      const MAX_CONTENT_SIZE = 50 * 1024;
       const safeContent = demoFile.content.slice(0, MAX_CONTENT_SIZE);
-      
-      // Escape pascalName to prevent regex injection
       const escapedName = regexEscape(pascalName);
-      
-      // Extract the JSX from the demo component - use bounded quantifiers
-      // Match opening tag, attributes (max 500 chars), and closing tag (max 2000 chars content)
       const componentPattern = new RegExp(
         `<${escapedName}[^>]{0,500}(?:>|\\/>)(?:[^<]{0,2000}|(?:<(?!\\/${escapedName}>)[^>]{0,100}>){0,50})*?(?:<\\/${escapedName}>|(?=\\n\\s*\\)))`,
         'i'
@@ -108,9 +76,6 @@ function extractUsageSnippet(metadata: any, componentName: string): string {
       if (match) {
         return match[0].trim();
       }
-      
-      // Fallback: try to find any component tag with bounded quantifiers
-      // Match any PascalCase component with limited nesting
       const anyComponentPattern = new RegExp(
         '<[A-Z][a-zA-Z]{0,50}[^>]{0,500}(?:>|\\/>)(?:[^<]{0,2000}|(?:<(?!\\/[A-Z])[^>]{0,100}>){0,50})*?(?:<\\/[A-Z][a-zA-Z]{0,50}>|(?=\\n\\s*\\)))',
         'i'
@@ -123,36 +88,43 @@ function extractUsageSnippet(metadata: any, componentName: string): string {
       console.warn(`Failed to extract snippet for ${componentName}:`, error);
     }
   }
-  
-  // Fallback to basic usage
   return `<${pascalName} />`;
 }
 
-/**
- * Dynamically imports a component from the billingsdk directory
- */
 async function importComponent(componentName: string): Promise<any> {
+  const pascalName = toPascalCase(componentName);
   try {
+    console.log(`[Import] Attempting: @/components/billingsdk/${componentName}`);
     const module = await import(`@/components/billingsdk/${componentName}`);
-    const pascalName = toPascalCase(componentName);
-    
-    // Try multiple export patterns
     const component = module[pascalName] || module.default || module[componentName];
     
-    if (!component) {
-      console.warn(`Component ${componentName} (${pascalName}) not found in module exports:`, Object.keys(module));
+    if (component) {
+      console.log(`[Import] ✓ Success from /components/billingsdk/${componentName}`);
+      return component;
     }
     
-    return component;
+    console.warn(`[Import] Module loaded but component not found. Exports:`, Object.keys(module));
   } catch (error) {
-    console.error(`Failed to import component ${componentName}:`, error);
-    return null;
+    console.warn(`[Import] Failed from /components/billingsdk:`, error);
   }
+  try {
+    console.log(`[Import] Attempting: @/registry/billingsdk/${componentName}`);
+    const module = await import(`@/registry/billingsdk/${componentName}`);
+    const component = module[pascalName] || module.default || module[componentName];
+    
+    if (component) {
+      console.log(`[Import] ✓ Success from /registry/billingsdk/${componentName}`);
+      return component;
+    }
+    
+    console.warn(`[Import] Module loaded but component not found. Exports:`, Object.keys(module));
+  } catch (error) {
+    console.warn(`[Import] Failed from /registry/billingsdk:`, error);
+  }
+  console.error(`[Import] ✗ All import strategies failed for ${componentName} (${pascalName})`);
+  return null;
 }
 
-/**
- * Discovers all available components from the registry
- */
 export async function discoverComponents(): Promise<ComponentConfig[]> {
   const manifest = await fetchRegistryManifest();
   if (!manifest) {
@@ -161,8 +133,6 @@ export async function discoverComponents(): Promise<ComponentConfig[]> {
   }
 
   const components: ComponentConfig[] = [];
-  
-  // Filter out non-component items (like 'index', 'all', 'hello-world')
   const componentItems = manifest.items.filter(item => 
     item.type === 'registry:block' && 
     item.name !== 'index' && 
@@ -171,15 +141,10 @@ export async function discoverComponents(): Promise<ComponentConfig[]> {
   );
 
   console.log(`Discovering ${componentItems.length} components...`);
-
-  // Process each component in parallel for better performance
   const results = await Promise.allSettled(
     componentItems.map(async (item) => {
       try {
-        // Fetch detailed metadata
         const metadata = await fetchComponentMetadata(item.name);
-        
-        // Dynamically import the component
         const Component = await importComponent(item.name);
         
         if (!Component) {
@@ -205,8 +170,6 @@ export async function discoverComponents(): Promise<ComponentConfig[]> {
       }
     })
   );
-
-  // Filter out failed imports and null results
   results.forEach((result, index) => {
     if (result.status === 'fulfilled' && result.value) {
       components.push(result.value);
@@ -214,44 +177,25 @@ export async function discoverComponents(): Promise<ComponentConfig[]> {
       console.error(`Component ${componentItems[index].name} failed:`, result.reason);
     }
   });
-
   console.log(`Successfully discovered ${components.length} components`);
   return components;
 }
 
-/**
- * Normalizes component names to kebab-case
- * Handles PascalCase, camelCase, spaces, and special characters
- */
 function normalizeComponentName(name: string): string {
   return name
-    // Insert hyphens between lower→upper transitions (decamelize)
     .replace(/([a-z])([A-Z])/g, '$1-$2')
-    // Insert hyphens between letter→number transitions
     .replace(/([a-zA-Z])([0-9])/g, '$1-$2')
-    // Lowercase everything
     .toLowerCase()
-    // Replace whitespace with hyphens
     .replace(/\s+/g, '-')
-    // Remove non a-z0-9- characters
     .replace(/[^a-z0-9-]/g, '')
-    // Collapse multiple hyphens
     .replace(/-+/g, '-')
-    // Trim leading/trailing hyphens
     .replace(/^-+|-+$/g, '');
 }
 
-/**
- * Discovers a single component by name
- * Handles various component name formats (kebab-case, PascalCase, etc.)
- */
 export async function discoverComponent(componentName: string): Promise<ComponentConfig | null> {
   try {
-    // Normalize component name to kebab-case
     const normalizedName = normalizeComponentName(componentName);
-    
     console.log(`Discovering component: ${componentName} → ${normalizedName}`);
-    
     const metadata = await fetchComponentMetadata(normalizedName);
     if (!metadata) {
       console.warn(`No metadata found for ${normalizedName} — proceeding with defaults`);
@@ -261,7 +205,6 @@ export async function discoverComponent(componentName: string): Promise<Componen
       console.warn(`Component ${normalizedName} could not be imported`);
       return null;
     }
-
     const config: ComponentConfig = {
       id: normalizedName,
       name: metadata?.title || toPascalCase(normalizedName),
@@ -272,7 +215,6 @@ export async function discoverComponent(componentName: string): Promise<Componen
       defaultCode: extractUsageSnippet(metadata ?? {}, normalizedName),
       defaultProps: {},
     };
-
     console.log(`Successfully discovered component: ${normalizedName}`);
     return config;
   } catch (error) {
@@ -281,9 +223,6 @@ export async function discoverComponent(componentName: string): Promise<Componen
   }
 }
 
-/**
- * Lightweight component list entry (no actual component imported)
- */
 export interface ComponentListItem {
   id: string;
   name: string;
@@ -291,10 +230,6 @@ export interface ComponentListItem {
   category: string;
 }
 
-/**
- * Gets a lightweight list of all components (no imports)
- * Use this for initial loading to avoid bloating the bundle
- */
 export async function getComponentList(): Promise<ComponentListItem[]> {
   const manifest = await fetchRegistryManifest();
   if (!manifest) {
@@ -317,9 +252,6 @@ export async function getComponentList(): Promise<ComponentListItem[]> {
   }));
 }
 
-/**
- * Gets all component names from the registry
- */
 export async function getComponentNames(): Promise<string[]> {
   const manifest = await fetchRegistryManifest();
   if (!manifest) return [];
