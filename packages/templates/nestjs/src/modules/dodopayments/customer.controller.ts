@@ -14,10 +14,13 @@ const customerUpdateSchema = z.object({
   phone_number: z.string().optional().nullable(),
 });
 
+type CustomerCreateRequest = z.infer<typeof customerCreateSchema>;
+type CustomerUpdateRequest = z.infer<typeof customerUpdateSchema>;
+
 @Controller('dodopayments/customer')
 export class CustomerController {
   @Get()
-  async getCustomer(@Query('customer_id') customer_id?: string) {
+  async getCustomer(@Query('customer_id') customer_id?: string): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
@@ -35,7 +38,7 @@ export class CustomerController {
   }
 
   @Post()
-  async createCustomer(@Body() body: any) {
+  async createCustomer(@Body() body: CustomerCreateRequest): Promise<any> {
     try {
       const validationResult = customerCreateSchema.safeParse(body);
       if (!validationResult.success) {
@@ -63,7 +66,7 @@ export class CustomerController {
   }
 
   @Put()
-  async updateCustomer(@Query('customer_id') customer_id: string, @Body() body: any) {
+  async updateCustomer(@Query('customer_id') customer_id: string, @Body() body: CustomerUpdateRequest): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
@@ -95,7 +98,7 @@ export class CustomerController {
   }
 
   @Get('subscriptions')
-  async getCustomerSubscriptions(@Query('customer_id') customer_id?: string) {
+  async getCustomerSubscriptions(@Query('customer_id') customer_id?: string): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
@@ -115,7 +118,7 @@ export class CustomerController {
   }
 
   @Get('payments')
-  async getCustomerPayments(@Query('customer_id') customer_id?: string) {
+  async getCustomerPayments(@Query('customer_id') customer_id?: string): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);

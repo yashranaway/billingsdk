@@ -8,7 +8,7 @@ export class WebhookController {
   private webhook = new Webhook(process.env.DODO_PAYMENTS_WEBHOOK_KEY!);
 
   @Post()
-  async handleWebhook(@Req() req: Request, @Res() res: Response) {
+  async handleWebhook(@Req() req: Request, @Res() res: Response): Promise<any> {
     try {
       const rawBody = req.body;
       const webhookHeaders = {

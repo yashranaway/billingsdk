@@ -37,10 +37,12 @@ const checkoutSessionSchema = z.object({
   customMetadata: z.record(z.string(), z.string()).optional(),
 });
 
+type CheckoutSessionRequest = z.infer<typeof checkoutSessionSchema>;
+
 @Controller('dodopayments/checkout')
 export class CheckoutController {
   @Post()
-  async createCheckoutSession(@Body() body: any) {
+  async createCheckoutSession(@Body() body: CheckoutSessionRequest): Promise<any> {
     try {
       const validationResult = checkoutSessionSchema.safeParse(body);
       if (!validationResult.success) {

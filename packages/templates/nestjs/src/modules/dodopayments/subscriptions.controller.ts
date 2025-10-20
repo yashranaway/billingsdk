@@ -4,7 +4,7 @@ import { getDodoPaymentsClient } from '../../lib/dodopayments';
 @Controller('dodopayments/subscriptions')
 export class SubscriptionsController {
   @Get()
-  async getSubscription(@Query('subscription_id') subscription_id?: string) {
+  async getSubscription(@Query('subscription_id') subscription_id?: string): Promise<any> {
     try {
       if (!subscription_id) {
         throw new HttpException('subscription_id is required', HttpStatus.BAD_REQUEST);
@@ -26,7 +26,7 @@ export class SubscriptionsController {
     @Query('customer_id') customer_id?: string,
     @Query('limit') limit?: string,
     @Query('starting_after') starting_after?: string,
-  ) {
+  ): Promise<any> {
     try {
       const params: any = {};
       if (customer_id) {

@@ -7,7 +7,7 @@ export class ProductsController {
   async getProducts(
     @Query('limit') limit?: string,
     @Query('starting_after') starting_after?: string,
-  ) {
+  ): Promise<any> {
     try {
       const params: any = {};
       if (limit) {
@@ -26,7 +26,7 @@ export class ProductsController {
   }
 
   @Get('product')
-  async getProduct(@Query('product_id') product_id?: string) {
+  async getProduct(@Query('product_id') product_id?: string): Promise<any> {
     try {
       if (!product_id) {
         throw new HttpException('product_id is required', HttpStatus.BAD_REQUEST);
