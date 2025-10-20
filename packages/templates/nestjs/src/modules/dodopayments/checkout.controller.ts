@@ -39,7 +39,7 @@ const checkoutSessionSchema = z.object({
 
 type CheckoutSessionRequest = z.infer<typeof checkoutSessionSchema>;
 
-@Controller('dodopayments/checkout')
+@Controller('checkout')
 export class CheckoutController {
   @Post()
   async createCheckoutSession(@Body() body: CheckoutSessionRequest): Promise<any> {

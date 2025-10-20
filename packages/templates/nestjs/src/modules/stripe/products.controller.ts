@@ -2,7 +2,7 @@ import { Controller, Get, Query, HttpException, HttpStatus } from '@nestjs/commo
 import { getStripe } from '../../lib/stripe';
 import type Stripe from 'stripe';
 
-@Controller('stripe/products')
+@Controller('products')
 export class ProductsController {
   private stripe = getStripe();
 

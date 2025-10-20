@@ -1,7 +1,7 @@
 import { Controller, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { getDodoPaymentsClient } from '../../lib/dodopayments';
 
-@Controller('dodopayments/products')
+@Controller('products')
 export class ProductsController {
   @Get()
   async getProducts(

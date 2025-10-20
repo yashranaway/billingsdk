@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import { getStripe } from '../../lib/stripe';
 
-@Controller('stripe/webhook')
+@Controller('webhook')
 export class WebhookController {
   private stripe = getStripe();
 

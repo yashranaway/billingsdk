@@ -17,7 +17,7 @@ const customerUpdateSchema = z.object({
 type CustomerCreateRequest = z.infer<typeof customerCreateSchema>;
 type CustomerUpdateRequest = z.infer<typeof customerUpdateSchema>;
 
-@Controller('dodopayments/customer')
+@Controller('customer')
 export class CustomerController {
   @Get()
   async getCustomer(@Query('customer_id') customer_id?: string): Promise<any> {

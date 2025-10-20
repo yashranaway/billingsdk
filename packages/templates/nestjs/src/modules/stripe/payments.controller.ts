@@ -1,7 +1,7 @@
 import { Controller, Get, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { getStripe } from '../../lib/stripe';
 
-@Controller('stripe/payments')
+@Controller('payments')
 export class PaymentsController {
   private stripe = getStripe();
 

@@ -18,7 +18,7 @@ const customerUpdateSchema = z.object({
 type CustomerCreateRequest = z.infer<typeof customerCreateSchema>;
 type CustomerUpdateRequest = z.infer<typeof customerUpdateSchema>;
 
-@Controller('stripe/customer')
+@Controller('customer')
 export class CustomerController {
   private stripe = getStripe();
 

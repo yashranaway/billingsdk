@@ -31,7 +31,7 @@ const checkoutSessionSchema = z.object({
 
 type CheckoutSessionRequest = z.infer<typeof checkoutSessionSchema>;
 
-@Controller('stripe/checkout')
+@Controller('checkout')
 export class CheckoutController {
   private stripe = getStripe();
 

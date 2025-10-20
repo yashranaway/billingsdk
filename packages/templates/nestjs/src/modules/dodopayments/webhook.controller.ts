@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Webhook } from "standardwebhooks";
 import { getDodoPaymentsClient } from '../../lib/dodopayments';
 
-@Controller('dodopayments/webhook')
+@Controller('webhook')
 export class WebhookController {
   private webhook = new Webhook(process.env.DODO_PAYMENTS_WEBHOOK_KEY!);
 
