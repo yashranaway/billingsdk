@@ -16,6 +16,13 @@ interface RegistryManifest {
   items: RegistryItem[];
 }
 
+function isValidRegistryBlock(item: RegistryItem): boolean {
+  return item.type === 'registry:block' && 
+    item.name !== 'index' && 
+    item.name !== 'all' &&
+    item.name !== 'hello-world';
+}
+
 async function fetchRegistryManifest(): Promise<RegistryManifest | null> {
   try {
     const response = await fetch('/r/registry.json');
@@ -133,12 +140,7 @@ export async function discoverComponents(): Promise<ComponentConfig[]> {
   }
 
   const components: ComponentConfig[] = [];
-  const componentItems = manifest.items.filter(item => 
-    item.type === 'registry:block' && 
-    item.name !== 'index' && 
-    item.name !== 'all' &&
-    item.name !== 'hello-world'
-  );
+  const componentItems = manifest.items.filter(isValidRegistryBlock);
 
   console.log(`Discovering ${componentItems.length} components...`);
   const results = await Promise.allSettled(
@@ -237,12 +239,7 @@ export async function getComponentList(): Promise<ComponentListItem[]> {
     return [];
   }
 
-  const componentItems = manifest.items.filter(item => 
-    item.type === 'registry:block' && 
-    item.name !== 'index' && 
-    item.name !== 'all' &&
-    item.name !== 'hello-world'
-  );
+  const componentItems = manifest.items.filter(isValidRegistryBlock);
 
   return componentItems.map(item => ({
     id: item.name,
@@ -257,11 +254,6 @@ export async function getComponentNames(): Promise<string[]> {
   if (!manifest) return [];
 
   return manifest.items
-    .filter(item => 
-      item.type === 'registry:block' && 
-      item.name !== 'index' && 
-      item.name !== 'all' &&
-      item.name !== 'hello-world'
-    )
+    .filter(isValidRegistryBlock)
     .map(item => item.name);
 }
