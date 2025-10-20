@@ -29,12 +29,14 @@ const checkoutSessionSchema = z.object({
   metadata: z.record(z.string(), z.string()).optional(),
 });
 
+type CheckoutSessionRequest = z.infer<typeof checkoutSessionSchema>;
+
 @Controller('stripe/checkout')
 export class CheckoutController {
   private stripe = getStripe();
 
   @Post()
-  async createCheckoutSession(@Body() body: any) {
+  async createCheckoutSession(@Body() body: CheckoutSessionRequest): Promise<any> {
     try {
       const validationResult = checkoutSessionSchema.safeParse(body);
       if (!validationResult.success) {

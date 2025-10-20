@@ -8,7 +8,7 @@ export class WebhookController {
   private stripe = getStripe();
 
   @Post()
-  async handleWebhook(@Req() req: Request, @Res() res: Response) {
+  async handleWebhook(@Req() req: Request, @Res() res: Response): Promise<any> {
     const sig = req.headers['stripe-signature'] as string | undefined;
     if (!sig) {
       return res.status(400).json({ error: 'Missing Stripe signature' });
