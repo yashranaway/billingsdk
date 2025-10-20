@@ -1,0 +1,47 @@
+---
+title: Pricing Table Eight
+description: A pricing table component adapted from the fourth design.
+---
+
+## Preview
+
+<Tabs items={['Preview', 'Code']} className="bg-transparent border-none">
+  <Tab value="Preview" className="border-none bg-transparent p-0 mt-3">
+    <PreviewComponents>
+      <PricingTableEightDemo />
+    </PreviewComponents>
+  </Tab>
+
+  <Tab value="Code" className="mt-3">
+    <include cwd lang="tsx" meta='title="src/components/pricing-table-eight-demo.tsx"'>src/components/pricing-table-eight-demo.tsx</include>
+  </Tab>
+
+</Tabs>
+
+## Installation
+
+This component was created locally and is not available via the CLI.
+
+## Usage
+
+```tsx
+import { PricingTableEight } from "@/components/billingsdk/pricing-table-eight";
+
+// ... define your plans data ...
+
+<PricingTableEight
+  plans={plans}
+  title="Choose Your Perfect Plan"
+  theme="classic"
+  description="Transform your project with our comprehensive pricing options designed for every need."
+  subtitle="Simple Pricing"
+  onPlanSelect={(planId: string) => console.log('Selected plan:', planId)}
+  size="medium"
+  className="w-full"
+  showBillingToggle={true}
+  billingToggleLabels={{
+    monthly: "Monthly",
+    yearly: "Yearly",
+  }}
+/>
+```
