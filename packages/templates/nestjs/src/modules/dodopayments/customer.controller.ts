@@ -109,7 +109,7 @@ export class CustomerController {
   @Get('subscriptions')
   async getCustomerSubscriptions(
     @Query('customer_id') customer_id?: string,
-    @Query('page') page?: string,
+    @Query('starting_after') starting_after?: string,
     @Query('limit') limit?: string
   ): Promise<any> {
     try {
@@ -118,12 +118,7 @@ export class CustomerController {
       }
 
       // Parse and validate pagination parameters
-      const pageNum = page ? parseInt(page, 10) : 1;
       const limitNum = limit ? parseInt(limit, 10) : 20;
-
-      if (isNaN(pageNum) || pageNum < 1) {
-        throw new HttpException('page must be a positive integer', HttpStatus.BAD_REQUEST);
-      }
 
       if (isNaN(limitNum) || limitNum < 1) {
         throw new HttpException('limit must be a positive integer', HttpStatus.BAD_REQUEST);
@@ -133,12 +128,15 @@ export class CustomerController {
         throw new HttpException('limit cannot exceed 100', HttpStatus.BAD_REQUEST);
       }
 
-      const offset = (pageNum - 1) * limitNum;
-
-      const subscriptions = await getDodoPaymentsClient().subscriptions.list({
+      const params: any = {
         customer_id: customer_id,
-        offset: offset,
-      } as any);
+        limit: limitNum,
+      };
+      if (starting_after) {
+        params.starting_after = starting_after;
+      }
+
+      const subscriptions = await getDodoPaymentsClient().subscriptions.list(params);
       return subscriptions;
     } catch (error) {
       console.error('Error fetching customer subscriptions:', error);
@@ -152,7 +150,7 @@ export class CustomerController {
   @Get('payments')
   async getCustomerPayments(
     @Query('customer_id') customer_id?: string,
-    @Query('page') page?: string,
+    @Query('starting_after') starting_after?: string,
     @Query('limit') limit?: string
   ): Promise<any> {
     try {
@@ -161,12 +159,7 @@ export class CustomerController {
       }
 
       // Parse and validate pagination parameters
-      const pageNum = page ? parseInt(page, 10) : 1;
       const limitNum = limit ? parseInt(limit, 10) : 20;
-
-      if (isNaN(pageNum) || pageNum < 1) {
-        throw new HttpException('page must be a positive integer', HttpStatus.BAD_REQUEST);
-      }
 
       if (isNaN(limitNum) || limitNum < 1) {
         throw new HttpException('limit must be a positive integer', HttpStatus.BAD_REQUEST);
@@ -176,12 +169,15 @@ export class CustomerController {
         throw new HttpException('limit cannot exceed 100', HttpStatus.BAD_REQUEST);
       }
 
-      const offset = (pageNum - 1) * limitNum;
-
-      const payments = await getDodoPaymentsClient().payments.list({
+      const params: any = {
         customer_id: customer_id,
-        offset: offset,
-      } as any);
+        limit: limitNum,
+      };
+      if (starting_after) {
+        params.starting_after = starting_after;
+      }
+
+      const payments = await getDodoPaymentsClient().payments.list(params);
       return payments;
     } catch (error) {
       console.error('Error fetching customer payments:', error);
