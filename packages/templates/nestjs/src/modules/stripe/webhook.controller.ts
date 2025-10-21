@@ -6,19 +6,31 @@ import { getStripe } from '../../lib/stripe';
 @Controller('webhook')
 export class WebhookController {
   private stripe = getStripe();
+  private webhookSecret: string;
+
+  constructor() {
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable');
+    }
+    this.webhookSecret = webhookSecret;
+  }
 
   @Post()
   async handleWebhook(@Req() req: Request, @Res() res: Response): Promise<any> {
+    // Get raw body for signature verification
+    const rawBody: Buffer | string = (req as any).rawBody || req.body;
+
     const sig = req.headers['stripe-signature'] as string | undefined;
     if (!sig) {
       return res.status(400).json({ error: 'Missing Stripe signature' });
     }
 
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+    const webhookSecret = this.webhookSecret;
     let event: Stripe.Event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+      event = this.stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
     } catch (err) {
       console.error('Webhook signature verification failed:', err);
       return res.status(400).json({ error: 'Webhook verification failed' });

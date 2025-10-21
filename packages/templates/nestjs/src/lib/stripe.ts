@@ -15,10 +15,6 @@ export const getStripe = (): Stripe => {
 };
 
 
-
-let stripe = getStripe();
-
-
 export type Product = Stripe.Product;
 export type Customer = Stripe.Customer;
 export type Subscription = Stripe.Subscription;
@@ -27,7 +23,7 @@ export type PaymentIntent = Stripe.PaymentIntent;
 
 export async function getProducts(): Promise<Product[]> {
   try {
-    const { data } = await stripe.products.list({ limit: 100 });
+    const { data } = await getStripe().products.list({ limit: 100 });
     return data;
   } catch (error) {
     console.error('Error fetching products', error);
@@ -37,7 +33,7 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function getProduct(product_id: string): Promise<Product> {
   try {
-    return await stripe.products.retrieve(product_id);
+    return await getStripe().products.retrieve(product_id);
   } catch (error) {
     console.error('Error fetching product', error);
     throw new Error('Failed to fetch product');
@@ -47,7 +43,7 @@ export async function getProduct(product_id: string): Promise<Product> {
 
 export async function getCustomer(customer_id: string): Promise<Customer | Stripe.DeletedCustomer> {
   try {
-    const customer = await stripe.customers.retrieve(customer_id);
+    const customer = await getStripe().customers.retrieve(customer_id);
     
     if ((customer as Stripe.DeletedCustomer).deleted) {
       return customer as Stripe.DeletedCustomer;
@@ -61,7 +57,7 @@ export async function getCustomer(customer_id: string): Promise<Customer | Strip
 
 export async function createCustomer(params: Stripe.CustomerCreateParams): Promise<Customer> {
   try {
-    return await stripe.customers.create(params);
+    return await getStripe().customers.create(params);
   } catch (error) {
     console.error('Error creating customer', error);
     throw new Error('Failed to create customer');
@@ -70,7 +66,7 @@ export async function createCustomer(params: Stripe.CustomerCreateParams): Promi
 
 export async function updateCustomer(customer_id: string, params: Stripe.CustomerUpdateParams): Promise<Customer> {
   try {
-    return await stripe.customers.update(customer_id, params);
+    return await getStripe().customers.update(customer_id, params);
   } catch (error) {
     console.error('Error updating customer', error);
     throw new Error('Failed to update customer');
@@ -80,7 +76,7 @@ export async function updateCustomer(customer_id: string, params: Stripe.Custome
 
 export async function getCustomerSubscriptions(customer_id: string): Promise<Subscription[]> {
   try {
-    const { data } = await stripe.subscriptions.list({ customer: customer_id });
+    const { data } = await getStripe().subscriptions.list({ customer: customer_id });
     return data;
   } catch (error) {
     console.error('Error fetching subscriptions', error);
@@ -91,7 +87,7 @@ export async function getCustomerSubscriptions(customer_id: string): Promise<Sub
 
 export async function getCustomerPayments(customer_id: string): Promise<PaymentIntent[]> {
   try {
-    const { data } = await stripe.paymentIntents.list({ customer: customer_id, limit: 100 });
+    const { data } = await getStripe().paymentIntents.list({ customer: customer_id, limit: 100 });
     return data;
   } catch (error) {
     console.error('Error fetching payments', error);
@@ -105,16 +101,26 @@ export async function checkout(opts: {
   customer_id?: string;
   success_url: string;
   cancel_url: string;
+  mode?: 'payment' | 'subscription' | 'setup';
 }): Promise<{ checkout_url: string }> {
   try {
-    const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
+      mode: opts.mode ?? 'subscription',
       line_items: [{ price: opts.price_id, quantity: 1 }],
-      customer: opts.customer_id ?? '',
       success_url: opts.success_url,
       cancel_url: opts.cancel_url,
-    });
-    return { checkout_url: session.url! };
+    };
+
+    if (opts.customer_id) {
+      sessionParams.customer = opts.customer_id;
+    }
+
+    const session = await getStripe().checkout.sessions.create(sessionParams);
+
+    if (!session.url) {
+      throw new Error('Checkout session created but URL is missing');
+    }
+    return { checkout_url: session.url };
   } catch (error) {
     console.error('Error creating checkout session', error);
     throw new Error('Failed to create checkout session');

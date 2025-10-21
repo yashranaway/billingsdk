@@ -111,18 +111,33 @@ export class CustomerController {
   }
 
   @Get('subscriptions')
-  async getCustomerSubscriptions(@Query('customer_id') customer_id?: string): Promise<any> {
+  async getCustomerSubscriptions(
+    @Query('customer_id') customer_id?: string,
+    @Query('limit') limit?: string,
+    @Query('starting_after') starting_after?: string
+  ): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
       }
 
+      // Parse and validate limit
+      const limitNum = limit ? parseInt(limit, 10) : 100;
+      if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
+        throw new HttpException('limit must be a number between 1 and 100', HttpStatus.BAD_REQUEST);
+      }
+
       const subscriptions = await this.stripe.subscriptions.list({
         customer: customer_id,
-        limit: 100,
+        limit: limitNum,
+        starting_after: starting_after,
       });
 
-      return subscriptions.data;
+      return {
+        data: subscriptions.data,
+        has_more: subscriptions.has_more,
+        ...(subscriptions.data.length > 0 && { last_id: subscriptions.data[subscriptions.data.length - 1].id }),
+      };
     } catch (error) {
       console.error('Error fetching customer subscriptions:', error);
       if (error instanceof HttpException) {
@@ -133,18 +148,33 @@ export class CustomerController {
   }
 
   @Get('payments')
-  async getCustomerPayments(@Query('customer_id') customer_id?: string): Promise<any> {
+  async getCustomerPayments(
+    @Query('customer_id') customer_id?: string,
+    @Query('limit') limit?: string,
+    @Query('starting_after') starting_after?: string
+  ): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
       }
 
+      // Parse and validate limit
+      const limitNum = limit ? parseInt(limit, 10) : 100;
+      if (isNaN(limitNum) || limitNum < 1 || limitNum > 100) {
+        throw new HttpException('limit must be a number between 1 and 100', HttpStatus.BAD_REQUEST);
+      }
+
       const paymentIntents = await this.stripe.paymentIntents.list({
         customer: customer_id,
-        limit: 100,
+        limit: limitNum,
+        starting_after: starting_after,
       });
 
-      return paymentIntents.data;
+      return {
+        data: paymentIntents.data,
+        has_more: paymentIntents.has_more,
+        ...(paymentIntents.data.length > 0 && { last_id: paymentIntents.data[paymentIntents.data.length - 1].id }),
+      };
     } catch (error) {
       console.error('Error fetching customer payments:', error);
       if (error instanceof HttpException) {

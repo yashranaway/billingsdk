@@ -32,17 +32,17 @@ export class PaymentsController {
     try {
       const params: any = {};
       if (customer_id) {
-        params.customer_id = customer_id;
+        params.customer = customer_id;
       }
       if (limit) {
-        params.limit = parseInt(limit);
+        params.limit = parseInt(limit, 10);
       }
       if (starting_after) {
         params.starting_after = starting_after;
       }
 
       const payments = await this.stripe.paymentIntents.list(params);
-      return payments;
+      return payments.data;
     } catch (error) {
       console.error('Error fetching payments list:', error);
       throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);

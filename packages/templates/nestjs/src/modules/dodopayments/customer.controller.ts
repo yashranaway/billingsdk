@@ -54,7 +54,11 @@ export class CustomerController {
         );
       }
 
-      const customer = await getDodoPaymentsClient().customers.create(validationResult.data as any);
+      const customer = await getDodoPaymentsClient().customers.create({
+        email: validationResult.data.email,
+        name: validationResult.data.name,
+        phone_number: validationResult.data.phone_number,
+      });
       return customer;
     } catch (error) {
       console.error('Error creating customer:', error);
@@ -86,7 +90,12 @@ export class CustomerController {
         );
       }
 
-      const customer = await getDodoPaymentsClient().customers.update(customer_id, validationResult.data as any);
+      const updateData: Partial<{ email: string; name: string; phone_number: string | null }> = {};
+      if (validationResult.data.email !== undefined) updateData.email = validationResult.data.email;
+      if (validationResult.data.name !== undefined) updateData.name = validationResult.data.name;
+      if (validationResult.data.phone_number !== undefined) updateData.phone_number = validationResult.data.phone_number;
+
+      const customer = await getDodoPaymentsClient().customers.update(customer_id, updateData);
       return customer;
     } catch (error) {
       console.error('Error updating customer:', error);
@@ -98,15 +107,38 @@ export class CustomerController {
   }
 
   @Get('subscriptions')
-  async getCustomerSubscriptions(@Query('customer_id') customer_id?: string): Promise<any> {
+  async getCustomerSubscriptions(
+    @Query('customer_id') customer_id?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string
+  ): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
       }
 
+      // Parse and validate pagination parameters
+      const pageNum = page ? parseInt(page, 10) : 1;
+      const limitNum = limit ? parseInt(limit, 10) : 20;
+
+      if (isNaN(pageNum) || pageNum < 1) {
+        throw new HttpException('page must be a positive integer', HttpStatus.BAD_REQUEST);
+      }
+
+      if (isNaN(limitNum) || limitNum < 1) {
+        throw new HttpException('limit must be a positive integer', HttpStatus.BAD_REQUEST);
+      }
+
+      if (limitNum > 100) {
+        throw new HttpException('limit cannot exceed 100', HttpStatus.BAD_REQUEST);
+      }
+
+      const offset = (pageNum - 1) * limitNum;
+
       const subscriptions = await getDodoPaymentsClient().subscriptions.list({
-        customer_id: customer_id
-      });
+        customer_id: customer_id,
+        offset: offset,
+      } as any);
       return subscriptions;
     } catch (error) {
       console.error('Error fetching customer subscriptions:', error);
@@ -118,15 +150,38 @@ export class CustomerController {
   }
 
   @Get('payments')
-  async getCustomerPayments(@Query('customer_id') customer_id?: string): Promise<any> {
+  async getCustomerPayments(
+    @Query('customer_id') customer_id?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string
+  ): Promise<any> {
     try {
       if (!customer_id) {
         throw new HttpException('customer_id is required', HttpStatus.BAD_REQUEST);
       }
 
+      // Parse and validate pagination parameters
+      const pageNum = page ? parseInt(page, 10) : 1;
+      const limitNum = limit ? parseInt(limit, 10) : 20;
+
+      if (isNaN(pageNum) || pageNum < 1) {
+        throw new HttpException('page must be a positive integer', HttpStatus.BAD_REQUEST);
+      }
+
+      if (isNaN(limitNum) || limitNum < 1) {
+        throw new HttpException('limit must be a positive integer', HttpStatus.BAD_REQUEST);
+      }
+
+      if (limitNum > 100) {
+        throw new HttpException('limit cannot exceed 100', HttpStatus.BAD_REQUEST);
+      }
+
+      const offset = (pageNum - 1) * limitNum;
+
       const payments = await getDodoPaymentsClient().payments.list({
-        customer_id: customer_id
-      });
+        customer_id: customer_id,
+        offset: offset,
+      } as any);
       return payments;
     } catch (error) {
       console.error('Error fetching customer payments:', error);
