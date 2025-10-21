@@ -38,7 +38,7 @@ const titleVariants = cva("font-bold mb-4 text-foreground", {
     },
     theme: {
       minimal: "",
-      classic: "bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent",
+      classic: "bg-black-1000",
     },
   },
   defaultVariants: {
@@ -409,22 +409,6 @@ export function PricingTableEight({
                     </AnimatePresence>
                   </div>
 
-                  {/* CTA Button */}
-                  <div className="mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button
-                      onClick={() => handlePlanSelect(plan.id)}
-                      className={cn(
-                        buttonVariants({ theme }),
-                        !plan.highlight && theme === "minimal" && "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
-                      )}
-                      variant={plan.highlight ? "default" : "secondary"}
-                    >
-                      {plan.buttonText}
-                      {theme === "classic" && plan.highlight && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
-                      )}
-                    </Button>
-                  </div>
 
                   {/* Features */}
                   <div className="flex-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -447,6 +431,22 @@ export function PricingTableEight({
                         </motion.li>
                       ))}
                     </ul>
+                  </div>
+                  {/* CTA Button */}
+                  <div className="mt-6 ">
+                    <Button
+                      onClick={() => handlePlanSelect(plan.id)}
+                      className={cn(
+                        buttonVariants({ theme }),
+                        !plan.highlight && theme === "minimal" && "bg-secondary hover:bg-secondary/80 text-secondary-foreground"
+                      )}
+                      variant={plan.highlight ? "default" : "secondary"}
+                    >
+                      {plan.buttonText}
+                      {theme === "classic" && plan.highlight && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
+                      )}
+                    </Button>
                   </div>
                 </div>
               </div>
