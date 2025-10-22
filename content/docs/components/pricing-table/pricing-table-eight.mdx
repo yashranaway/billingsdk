@@ -13,21 +13,95 @@ description: A pricing table component adapted from the fourth design.
   </Tab>
 
   <Tab value="Code" className="mt-3">
-    <include cwd lang="tsx" meta='title="src/components/pricing-table-eight-demo.tsx"'>src/components/pricing-table-eight-demo.tsx</include>
+    <include cwd lang="tsx" meta='title="src/registry/billingsdk/demo/pricing-table-eight-demo.tsx"'>src/registry/billingsdk/demo/pricing-table-eight-demo.tsx</include>
   </Tab>
 
 </Tabs>
 
 ## Installation
 
-This component was created locally and is not available via the CLI.
+<Tabs items={['shadcn', 'billingSDK']} defaultValue="shadcn" className="bg-transparent border-none">
+  <Tab value="shadcn" className="border-none bg-transparent p-0 mt-3">
+    <Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="installation-tabs">
+      <Tab value="npx">
+        ```bash
+        npx shadcn@latest add @billingsdk/pricing-table-eight
+        ```
+      </Tab>
+      <Tab value="pnpm">
+        ```bash
+        pnpm dlx shadcn@latest add @billingsdk/pricing-table-eight
+        ```
+      </Tab>
+      <Tab value="yarn">
+        ```bash
+        yarn dlx shadcn@latest add @billingsdk/pricing-table-eight
+        ```
+      </Tab>
+      <Tab value="bun">
+        ```bash
+        bunx shadcn@latest add @billingsdk/pricing-table-eight
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab value="billingSDK" className="border-none bg-transparent p-0 mt-3">
+    <Tabs items={['npx', 'pnpm', 'yarn', 'bun']} defaultValue="npx" groupId="billingsdk-cli-tabs">
+      <Tab value="npx">
+        ```bash
+        npx @billingsdk/cli add pricing-table-eight
+        ```
+      </Tab>
+      <Tab value="pnpm">
+        ```bash
+        pnpm dlx @billingsdk/cli add pricing-table-eight
+        ```
+      </Tab>
+      <Tab value="yarn">
+        ```bash
+        yarn dlx @billingsdk/cli add pricing-table-eight
+        ```
+      </Tab>
+      <Tab value="bun">
+        ```bash
+        bunx @billingsdk/cli add pricing-table-eight
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+</Tabs>
 
 ## Usage
 
 ```tsx
 import { PricingTableEight } from "@/components/billingsdk/pricing-table-eight";
 
-// ... define your plans data ...
+const plans = [
+  {
+    id: "starter",
+    name: "Started plan",
+    description: "Do you want to test the features?",
+    price: 10,
+    popular: false,
+    users: 5,
+  },
+  {
+    id: "pro",
+    name: "Pro plan",
+    description: "Are you planning for production?",
+    price: 20,
+    popular: true,
+    users: 15,
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise plan",
+    description: "Do you want to scale?",
+    price: 40,
+    popular: false,
+    users: 25,
+  },
+];
 
 <PricingTableEight
   plans={plans}

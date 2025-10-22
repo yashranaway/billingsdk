@@ -328,7 +328,7 @@ export function PricingTableEight({
               {/* Popular badge */}
               {plan.badge && (
                 <Badge className={cn(
-                  "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20",
+                  "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100",
                   theme === "classic" 
                     ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg"
                     : "bg-primary text-primary-foreground"
@@ -367,7 +367,7 @@ export function PricingTableEight({
                   </div>
 
                   {/* Price */}
-                  <div className="mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="mb-6 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={isAnnually ? "year" : "month"}
@@ -411,7 +411,7 @@ export function PricingTableEight({
 
 
                   {/* Features */}
-                  <div className="flex-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="flex-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <ul className="space-y-3">
                       {plan.features.map((feature, featureIndex) => (
                         <motion.li 
