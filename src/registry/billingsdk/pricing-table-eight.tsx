@@ -38,7 +38,7 @@ const titleVariants = cva("font-bold mb-4 text-foreground", {
     },
     theme: {
       minimal: "",
-      classic: "bg-black-1000",
+      classic: "",
     },
   },
   defaultVariants: {
