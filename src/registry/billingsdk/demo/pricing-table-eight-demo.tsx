@@ -6,7 +6,7 @@ import { plans } from "@/lib/billingsdk-config"
 
 export function PricingTableEightDemo() {
   const modifiedPlans = plans.map(plan => {
-    if (plan.id === 'starter') {
+    if (plan.id === 'started') {
       return { ...plan, description: 'Where Do I Just Start Testing?' };
     }
     if (plan.id === 'pro') {
