@@ -990,7 +990,7 @@
             ],
             "dependencies": [
                 "lucide-react",
-                "framer-motion"
+                "motion"
             ],
             "registryDependencies": [
                 "button",
