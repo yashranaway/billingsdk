@@ -4,7 +4,7 @@ import { BillingScreen } from "@/components/billingsdk/billing-screen"
 
 export function BillingScreenDemo() {
   return (
-    <div className="flex flex-1 flex-col justify-center text-center p-4 mx-auto min-h-[300px]">
+    <div className="p-6">
       <BillingScreen
         planName="Premium Plan"
         planPrice="$20/mo"
@@ -21,7 +21,6 @@ export function BillingScreenDemo() {
         onCancelPlan={() => console.log("Cancel Plan clicked")}
         onBuyCredits={() => console.log("Buy Credits clicked")}
         onEnableAutoRecharge={() => console.log("Enable Auto-recharge clicked")}
-        className="w-auto"
       />
     </div>
   )
