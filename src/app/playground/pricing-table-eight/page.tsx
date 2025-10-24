@@ -1,5 +1,5 @@
 
-import { PricingTableEightDemo } from "@/components/pricing-table-eight-demo";
+import { PricingTableEightDemo } from "@/registry/billingsdk/demo/pricing-table-eight-demo";
 
 export default function Page() {
   return (
