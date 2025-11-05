@@ -57,6 +57,7 @@ export default function GitHubStarBadge() {
       try {
         const res = await fetch("/api/github-stars", {
           cache: "no-store",
+          signal: controller.signal,
         });
         if (!res.ok) {
           return;
