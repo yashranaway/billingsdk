@@ -306,7 +306,7 @@ export function PricingTableEight({
           )}
         </div>
 
-        <div className={cn(
+        <div role="region" aria-label="Pricing plans" className={cn(
           "grid gap-6",
           plans.length === 1 && "grid-cols-1 max-w-md mx-auto",
           plans.length === 2 && "grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto",
@@ -327,7 +327,7 @@ export function PricingTableEight({
             >
               {/* Popular badge */}
               {plan.badge && (
-                <Badge className={cn(
+                <Badge aria-label={plan.badge} className={cn(
                   "absolute -top-3 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100",
                   theme === "classic" 
                     ? "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-primary/20 shadow-lg"
@@ -375,7 +375,11 @@ export function PricingTableEight({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                      >
+                        aria-label={
+                        isAnnually
+                          ? `${plan.yearlyPrice} dollars per year${calculateDiscount(plan.monthlyPrice, plan.yearlyPrice) > 0 ? ` (${calculateDiscount(plan.monthlyPrice, plan.yearlyPrice)}% off)` : ''}`
+                          : `${plan.monthlyPrice} dollars per month`
+                      }                      >
                         {isAnnually ? (
                           <div className="flex items-baseline gap-1">
                             <span className={cn(priceTextVariants({ size, theme }))}>
@@ -435,6 +439,7 @@ export function PricingTableEight({
                   {/* CTA Button */}
                   <div className="mt-6 ">
                     <Button
+                      aria-label="Select Plan"
                       onClick={() => handlePlanSelect(plan.id)}
                       className={cn(
                         buttonVariants({ theme }),

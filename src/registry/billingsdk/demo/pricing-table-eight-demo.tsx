@@ -1,26 +1,24 @@
-
 "use client"
 
 import { PricingTableEight } from "@/components/billingsdk/pricing-table-eight"
-import { plans } from "@/lib/billingsdk-config"
+import { plans as basePlans} from "@/lib/billingsdk-config"
 
+const plans = basePlans.map(plan => {
+  if (plan.id === 'starter') {
+    return { ...plan, description: 'Do you just want to start testing?' };
+  }
+  if (plan.id === 'pro') {
+    return { ...plan, description: 'Do you want to unlock full production features?' };
+  }
+  if (plan.id === 'enterprise') {
+    return { ...plan, description: 'Do you want dedicated security and scale?' };
+  }
+  return plan;
+});
 export function PricingTableEightDemo() {
-  const modifiedPlans = plans.map(plan => {
-    if (plan.id === 'started') {
-      return { ...plan, description: 'Where Do I Just Start Testing?' };
-    }
-    if (plan.id === 'pro') {
-      return { ...plan, description: 'How Do I Unlock Full Production Features?' };
-    }
-    if (plan.id === 'enterprise') {
-      return { ...plan, description: 'What Are My Options for Dedicated Security & Scale?' };
-    }
-    return plan;
-  });
-
   return (
     <PricingTableEight
-      plans={modifiedPlans}
+      plans={plans}
       title="Choose Your Perfect Plan"
       theme="classic"
       description="Transform your project with our comprehensive pricing options designed for every need."
