@@ -24,8 +24,15 @@
   <img src="https://img.shields.io/github/license/dodopayments/billingsdk" alt="License" />
 </p>
 
-
 Modern, type-safe billing and subscription management components for React, built with TypeScript and Tailwind CSS. Designed to work seamlessly alongside shadcn/ui.
+
+> BillingSDK is part of the [Vercel OSS Program](https://vercel.com/oss).
+
+<p align="left">
+  <a href="https://vercel.com/oss">
+    <img alt="Vercel OSS Program" src="https://vercel.com/oss/program-badge.svg" />
+  </a>
+</p>
 
 ## Table of Contents
 
