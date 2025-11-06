@@ -109,3 +109,39 @@ export function PricingTableEightDemo() {
   )
 }
 ```
+
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `plans` | `Plan[]` | Array of pricing plans (see [Plan interface](/docs/interfaces#plan-interface)) |
+| `title` | `string` | Main title for the pricing section |
+| `description` | `string` | Subtitle description |
+| `subtitle` | `string` | Optional small subtitle above title |
+| `onPlanSelect` | `(planId: string) => void` | Callback when a plan is selected |
+| `showBillingToggle` | `boolean` | Show monthly/yearly billing toggle (default: true) |
+| `billingToggleLabels` | `{ monthly: string; yearly: string }` | Custom labels for billing toggle |
+| `size` | `"small" \| "medium" \| "large"` | Component size variant |
+| `theme` | `"minimal" \| "classic"` | Theme variant of the pricing table |
+| `className` | `string` | Additional CSS classes |
+
+## Features
+
+- **Hover-to-Reveal Design**: Prices and features elegantly reveal on hover for a clean, minimal initial state
+- **Mobile-Optimized**: Shows full content by default on mobile, hover-reveal only on desktop
+- **Dual Theme Support**: Choose between minimal and classic themes with distinct visual styles
+- **Billing Toggle**: Monthly/yearly pricing with automatic discount calculation
+- **Plan Highlights**: Mark popular plans with badges and special styling
+- **Smooth Animations**: Framer Motion animations for price transitions and feature list reveals
+- **Responsive Layout**: Adapts seamlessly from mobile to large screens
+- **Accessibility**: Comprehensive ARIA labels for screen readers
+- **Plan Icons**: Automatic or custom icons for different plan types
+
+## Theming
+
+The pricing table component is styled using the `shadcn/ui` library. You can customize the colors and fonts by overriding the CSS variables. You can also get the theme from the [Theming](/docs/theming) page.
+
+## Example
+
+<include cwd lang="tsx" meta='title="src/registry/billingsdk/demo/pricing-table-eight-demo.tsx"'>src/registry/billingsdk/demo/pricing-table-eight-demo.tsx</include>
