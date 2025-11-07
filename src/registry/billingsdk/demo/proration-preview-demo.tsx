@@ -117,8 +117,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={15}
                 effectiveDate="immediately"
                 theme="minimal"
-                onConfirm={() => console.log("Upgrade confirmed")}
-                onCancel={() => console.log("Upgrade cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -148,8 +148,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={20}
                 effectiveDate="immediately"
                 theme="minimal"
-                onConfirm={() => console.log("Downgrade confirmed")}
-                onCancel={() => console.log("Downgrade cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -171,8 +171,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={10}
                 effectiveDate="immediately"
                 theme="minimal"
-                onConfirm={() => console.log("Cycle change confirmed")}
-                onCancel={() => console.log("Cycle change cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -192,8 +192,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={120}
                 effectiveDate="immediately"
                 theme="classic"
-                onConfirm={() => console.log("Cycle change confirmed")}
-                onCancel={() => console.log("Cycle change cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -215,8 +215,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={25}
                 effectiveDate="next billing cycle"
                 theme="minimal"
-                onConfirm={() => console.log("Next cycle change confirmed")}
-                onCancel={() => console.log("Next cycle change cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -236,8 +236,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={12}
                 effectiveDate="next billing cycle"
                 theme="classic"
-                onConfirm={() => console.log("Custom plan confirmed")}
-                onCancel={() => console.log("Custom plan cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
