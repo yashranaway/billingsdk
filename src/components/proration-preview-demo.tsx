@@ -94,12 +94,14 @@ export function ProrationPreviewDemo() {
     <div className="space-y-8">
 
       <Tabs defaultValue="upgrade" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="upgrade">Upgrade</TabsTrigger>
-          <TabsTrigger value="downgrade">Downgrade</TabsTrigger>
-          <TabsTrigger value="cycle-change">Cycle Change</TabsTrigger>
-          <TabsTrigger value="next-cycle">Next Cycle</TabsTrigger>
-        </TabsList>
+        <div className="overflow-hidden">
+          <TabsList className="flex w-full overflow-x-auto gap-1 p-1 rounded-lg" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <TabsTrigger value="upgrade" className="text-sm px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap flex-shrink-0">Upgrade</TabsTrigger>
+            <TabsTrigger value="downgrade" className="text-sm px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap flex-shrink-0">Downgrade</TabsTrigger>
+            <TabsTrigger value="cycle-change" className="text-sm px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap flex-shrink-0">Cycle Change</TabsTrigger>
+            <TabsTrigger value="next-cycle" className="text-sm px-4 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground whitespace-nowrap flex-shrink-0">Next Cycle</TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="upgrade" className="space-y-6">
           <Card>
@@ -117,8 +119,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={15}
                 effectiveDate="immediately"
                 theme="minimal"
-                onConfirm={() => console.log("Upgrade confirmed")}
-                onCancel={() => console.log("Upgrade cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -148,8 +150,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={20}
                 effectiveDate="immediately"
                 theme="minimal"
-                onConfirm={() => console.log("Downgrade confirmed")}
-                onCancel={() => console.log("Downgrade cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -171,8 +173,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={10}
                 effectiveDate="immediately"
                 theme="minimal"
-                onConfirm={() => console.log("Cycle change confirmed")}
-                onCancel={() => console.log("Cycle change cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -192,8 +194,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={120}
                 effectiveDate="immediately"
                 theme="classic"
-                onConfirm={() => console.log("Cycle change confirmed")}
-                onCancel={() => console.log("Cycle change cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -215,8 +217,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={25}
                 effectiveDate="next billing cycle"
                 theme="minimal"
-                onConfirm={() => console.log("Next cycle change confirmed")}
-                onCancel={() => console.log("Next cycle change cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
@@ -236,8 +238,8 @@ export function ProrationPreviewDemo() {
                 daysRemaining={12}
                 effectiveDate="next billing cycle"
                 theme="classic"
-                onConfirm={() => console.log("Custom plan confirmed")}
-                onCancel={() => console.log("Custom plan cancelled")}
+                onConfirm={() => {}}
+                onCancel={() => {}}
               />
             </CardContent>
           </Card>
