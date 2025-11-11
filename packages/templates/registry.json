@@ -520,7 +520,9 @@
         "@nestjs/platform-express",
         "reflect-metadata",
         "rxjs",
-        "@types/express",
+        "@types/express"
+      ],
+      "devDependencies": [
         "@nestjs/cli",
         "typescript",
         "ts-node"
@@ -600,7 +602,9 @@
         "@nestjs/platform-express",
         "reflect-metadata",
         "rxjs",
-        "@types/express",
+        "@types/express"
+      ],
+      "devDependencies": [
         "@nestjs/cli",
         "typescript",
         "ts-node"
