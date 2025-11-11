@@ -40,6 +40,9 @@ export function PreviewComponents({ className, children, registryName }: Preview
   const openInBolt = async () => {
     try {
       const res = await fetch(registryUrl)
+      if (!res.ok) {
+        throw new Error(`Failed to fetch: ${res.status}`);
+      }
       const text = await res.text()
       const MAX_EMBED = 1400
       if (text.length <= MAX_EMBED) {
