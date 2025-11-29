@@ -201,13 +201,17 @@ export const initCommand = new Command()
             : "prompt",
         });
         s.stop("Setup completed successfully!");
-      } catch {
+      } catch (error) {
         s.stop("Setup failed!");
+        console.error("\nError details:");
+        console.error(error);
         process.exit(1);
       }
 
       outro("Your billing project is ready! Happy coding! 🎉");
-    } catch {
+    } catch (error) {
+      console.error("\nUnexpected error during setup:");
+      console.error(error);
       process.exit(1);
     }
   });
