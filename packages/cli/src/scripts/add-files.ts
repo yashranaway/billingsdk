@@ -46,7 +46,7 @@ export const addFiles = async (
   const base =
     options.registryBase ||
     process.env.BILLINGSDK_REGISTRY_BASE ||
-    `file://${path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../public/tr")}`;
+    "https://billingsdk.com/tr";
   const name = transportNameFor(framework, provider);
   const url = `${base.replace(/\/$/, "")}/${name}.json`;
 
